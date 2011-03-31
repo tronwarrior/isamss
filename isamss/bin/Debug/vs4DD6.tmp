@@ -1,0 +1,434 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+isamss
+</name>
+</assembly>
+<members>
+<member name="M:isamss.SupplierForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.SupplierForm">
+	<summary>
+SupplierForm
+</summary>
+</member><member name="M:isamss.CRRForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.CRRForm">
+	<summary>
+CRRForm
+</summary>
+</member><member name="M:isamss.Application.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="M:isamss.Application.Main">
+	<summary>
+Application Entry Point.
+</summary>
+</member><member name="T:isamss.Application">
+	<summary>
+Application
+</summary>
+</member><member name="M:isamss.CustomerForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.CustomerForm">
+	<summary>
+CustomerForm
+</summary>
+</member><member name="M:isamss.SiteForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.SiteForm">
+	<summary>
+SiteForm
+</summary>
+</member><member name="M:isamss.MainWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.MainWindow">
+	<summary>
+MainWindow
+</summary>
+</member><member name="M:isamss.LogonForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.LogonForm">
+	<summary>
+LogonForm
+</summary>
+</member><member name="M:isamss.RegisterUserForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.RegisterUserForm">
+	<summary>
+RegisterUserForm
+</summary>
+</member><member name="M:isamss.NewContractForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.NewContractForm">
+	<summary>
+NewContractForm
+</summary>
+</member><member name="P:isamss.My.MyWpfExtension.Application">
+	<summary>
+ Returns the application object for the running application
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Computer">
+	<summary>
+ Returns information about the host computer.
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.User">
+	<summary>
+ Returns information for the current user.  If you wish to run the application with the current 
+ Windows user credentials, call My.User.InitializeWithWindowsUser().
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Log">
+	<summary>
+ Returns the application log. The listeners can be configured by the application's configuration file.
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Windows">
+	<summary>
+ Returns the collection of Windows defined in the project.
+ </summary>
+</member><member name="T:isamss.My.MyWpfExtension">
+	<summary>
+ Module used to define the properties that are available in the My Namespace for WPF
+ </summary>
+	<remarks></remarks>
+</member><member name="T:isamss.ISAMSSds.usersDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.crrsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.contractsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.activity_classesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.activitiesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.observationsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.observation_cmmi_proc_areasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.cmmi_process_areasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.suppliersDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.customersDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.customer_interactionsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.carsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.ciosDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.lodsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.dmasDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.dmarsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.sitesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.usersRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.crrsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.contractsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.activity_classesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.activitiesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.observationsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.observation_cmmi_proc_areasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.cmmi_process_areasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.suppliersRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.customersRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.customer_interactionsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.carsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.ciosRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.lodsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.dmasRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.dmarsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.sitesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.usersRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.crrsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.contractsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.activity_classesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.activitiesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.observationsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.observation_cmmi_proc_areasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.cmmi_process_areasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.suppliersRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.customersRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.customer_interactionsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.carsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.ciosRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.lodsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.dmasRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.dmarsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.sitesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.usersTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.crrsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.contractsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.activity_classesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.activitiesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.observationsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.observation_cmmi_proc_areasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.cmmi_process_areasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.suppliersTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.customersTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.customer_interactionsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.carsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.ciosTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.lodsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.dmasTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.dmarsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.sitesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateUpdatedRows(isamss.ISAMSSds,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateInsertedRows(isamss.ISAMSSds,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateDeletedRows(isamss.ISAMSSds,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateAll(isamss.ISAMSSds)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="P:isamss.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:isamss.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:isamss.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

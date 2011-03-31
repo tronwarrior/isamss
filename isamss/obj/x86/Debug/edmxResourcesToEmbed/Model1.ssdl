@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ISAMSSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+  <EntityContainer Name="ISAMSSModelStoreContainer">
+    <EntitySet Name="users" EntityType="ISAMSSModel.Store.users" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="lname" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="middle_initial" Type="nvarchar" MaxLength="3" />
+    <Property Name="fname" Type="nvarchar" Nullable="false" MaxLength="64" />
+    <Property Name="logonid" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="site_id" Type="int" Nullable="false" />
+    <Property Name="metadata" Type="nvarchar(max)" />
+  </EntityType>
+</Schema>

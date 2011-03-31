@@ -1,0 +1,187 @@
+﻿<Window x:Class="MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:MyNamespace="clr-namespace:isamss"
+    Title="Interactive Software Acquisition Management Surveillance System" Name="mainwindow" mc:Ignorable="d" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" Height="591" Width="1048" ResizeMode="CanMinimize" Icon="/isamss;component/13.ico" xmlns:my="http://schemas.microsoft.com/wpf/2008/toolkit">
+    <Grid Background="#FFE8EAF5" Height="549" Width="1024">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="527*" />
+            <ColumnDefinition Width="527*" />
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Quickview" Height="437" HorizontalAlignment="Left" Margin="14,101,0,0" Name="grp_quickview" VerticalAlignment="Top" Width="362"></GroupBox>
+        <GroupBox Header="User Information" Height="84" HorizontalAlignment="Left" Margin="14,12,0,0" Name="group_userinfo" VerticalAlignment="Top" Width="362">
+            <Grid>
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="49,23,0,0" Name="txt_username" VerticalAlignment="Top" Width="130" IsEnabled="False" Text="Tony Brewer" AcceptsReturn="True" />
+                <Label Content="Name" Height="23" HorizontalAlignment="Left" Margin="6,22,0,0" Name="lbl_username" VerticalAlignment="Top" Width="46" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="242,22,0,0" Name="txt_userid" VerticalAlignment="Top" Width="102" IsEnabled="False" IsReadOnly="False" />
+                <Label Content="User ID" Height="23" HorizontalAlignment="Left" Name="lbl_userid" VerticalAlignment="Top" Width="51" Margin="191,22,0,0" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Details" Height="527" HorizontalAlignment="Left" Margin="382,11,0,0" Name="group_activities" VerticalAlignment="Top" Width="633" Grid.ColumnSpan="2">
+            <Grid Height="508">
+                <TabControl Height="484" HorizontalAlignment="Left" Margin="9,13,0,0" Name="tab_useractivities" VerticalAlignment="Top" Width="598">
+                    <TabItem Header="CR&amp;R" Name="tabitem_crr" IsEnabled="True">
+                        <Grid Height="428" Name="Grid1" Width="576">
+                            <GroupBox Height="139" HorizontalAlignment="Left" Margin="10,5,0,0" Name="GroupBox1" VerticalAlignment="Top" Width="560" Header="Contract Information">
+                                <Grid Height="121">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="102*" />
+                                        <ColumnDefinition Width="446*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Content="Contract #" Height="23" HorizontalAlignment="Left" Margin="7,8,0,0" Name="Label1" VerticalAlignment="Top" />
+                                    <TextBlock Height="18" HorizontalAlignment="Left" Margin="69,12,0,0" Name="txtContractNumber" Text="" VerticalAlignment="Top" Width="189" Background="#FFE8EAF5" Grid.ColumnSpan="2" />
+                                    <Label Content="Program" HorizontalAlignment="Left" Margin="7,35,0,63" Name="Label2" Width="54" />
+                                    <TextBlock Height="18" HorizontalAlignment="Right" Margin="0,38,290,0" Name="txtProgramName" Text="" VerticalAlignment="Top" Width="189" Background="#FFE8EAF5" Grid.ColumnSpan="2" />
+                                    <Label Content="Customer" Height="23" HorizontalAlignment="Left" Margin="7,63,0,0" Name="Label3" VerticalAlignment="Top" Width="61" />
+                                    <TextBlock Height="18" HorizontalAlignment="Right" Margin="0,65,289,0" Name="txtCustomer" Text="" VerticalAlignment="Top" Width="190" Background="#FFE8EAF5" Grid.ColumnSpan="2" />
+                                    <Label Content="Supplier" Height="23" HorizontalAlignment="Left" Margin="171,6,0,0" Name="Label4" VerticalAlignment="Top" Width="50" Grid.Column="1" />
+                                    <TextBlock Height="18" HorizontalAlignment="Right" Margin="0,12,7,0" Name="txtSupplier" Text="" VerticalAlignment="Top" Width="212" Background="#FFE8EAF5" Grid.Column="1" />
+                                    <Button Content="Edit" Height="23" HorizontalAlignment="Right" Margin="0,92,7,0" Name="btnEdit" VerticalAlignment="Top" Width="61" IsEnabled="False" Grid.Column="1" />
+                                    <Label Content="Site(s)" Height="23" HorizontalAlignment="Left" Margin="171,34,0,0" Name="Label5" VerticalAlignment="Top" Grid.Column="1" />
+                                    <ListView ItemsSource="{Binding}" Grid.Column="1" Height="43" HorizontalAlignment="Left" Margin="227,41,0,0" Name="lstvwContractSites" VerticalAlignment="Top" Width="212" Background="#FFE8EAF5" BorderThickness="0" SelectionMode="Single">
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="False">
+                                                <GridView.ColumnHeaderContainerStyle>
+                                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </Style>
+                                                </GridView.ColumnHeaderContainerStyle>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=SiteName}"></GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Contract Receipt &amp; Review" Height="209" HorizontalAlignment="Left" Margin="10,146,0,0" Name="GroupBox2" VerticalAlignment="Top" Width="560"></GroupBox>
+                            <Grid Margin="16,163,12,83">
+                                <ListView ItemsSource="{Binding}" Height="137" HorizontalAlignment="Left" Margin="6,8,0,0" Name="lstvwCRRs" VerticalAlignment="Top" Width="535" Background="#FFE8EAF5" BorderThickness="0" SelectionMode="Single">
+                                    <ListView.View>
+                                        <GridView AllowsColumnReorder="False">
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=DateReviewed, StringFormat=d}" Header="Date Reviewed" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=CostCriticality}" Header="Cost Criticality" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=ScheduleCriticality}" Header="Schedule Criticality" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=TechnicalCriticality}" Header="Technical Criticality" />
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=UserName}" Header="Prepared by" />
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                <Button Content="New" Height="23" HorizontalAlignment="Left" Margin="480,153,0,0" Name="btnNewCRR" VerticalAlignment="Top" Width="61" IsEnabled="False" />
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Customer Interaction" Name="tabitem_customerinteraction">
+                        <Grid Height="454" Name="Grid3" Width="585">
+                            <GroupBox Header="LOD/MOA/MOU" Height="204" HorizontalAlignment="Left" Margin="6,11,0,0" Name="GroupBox5" VerticalAlignment="Top" Width="573">
+                                <Grid>
+                                    <ListView Height="134" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="10,10,0,0" Name="lstvwLods" SelectionMode="Single" VerticalAlignment="Top" Width="537">
+                                        <ListView.ContextMenu>
+                                            <ContextMenu Name="lodContextMenu">
+                                                <MenuItem Header="_Delete LOD" Name="MenuItemDeleteLod">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/isamss;component/Images/delete.png" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </ListView.ContextMenu>
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="False">
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=EffectiveDate, StringFormat=d}" Header="Effective Date" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=IsDelegator}" Header="Delegator?" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Attachment.OriginalFilename}" Header="Attachment" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Attachment.OriginalComputername}" Header="Uploaded From" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=User.FullName}" Header="Uploaded By" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Button Content="New" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="10,153,0,0" Name="btnNewLod" VerticalAlignment="Top" Width="75" />
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Header="Interaction Journal" Height="219" HorizontalAlignment="Left" Margin="6,229,0,0" Name="GroupBox6" VerticalAlignment="Top" Width="573">
+                                <Grid>
+                                    <ListView Height="155" HorizontalAlignment="Left" Margin="10,6,0,0" Name="lstvwCustomerJournal" VerticalAlignment="Top" Width="537" />
+                                    <Button Content="New" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="10,170,0,0" Name="Button1" VerticalAlignment="Top" Width="75" />
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Surveillance" IsEnabled="True" Name="tabitem_surveillance">
+                        <Grid Height="453" Name="gridContractSurveillance" Width="578" Visibility="Visible">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="226*" />
+                                <ColumnDefinition Width="347*" />
+                            </Grid.ColumnDefinitions>
+                            <GroupBox Grid.ColumnSpan="2" Header="PSSP" Height="160" HorizontalAlignment="Left" Margin="21,17,0,0" Name="GroupBox3" VerticalAlignment="Top" Width="542">
+                                <Grid>
+                                    <ListView ItemsSource="{Binding}" Height="98" HorizontalAlignment="Left" Margin="7,8,0,0" Name="lstvwPSSPs" VerticalAlignment="Top" Width="516" SelectionMode="Single">
+                                        <ListView.ContextMenu>
+                                            <ContextMenu Name="psspContextMenu">
+                                                <MenuItem Header="_Delete PSSP" Name="MenuItemDeletePssp">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/isamss;component/Images/delete.png" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </ListView.ContextMenu>
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="False">
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Attachment.OriginalFilename}" Header="File Name" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=User.FullName}" Header="Uploaded By" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=CreatedAt}" Header="Date/Time Uploaded" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Button Content="New" Height="23" HorizontalAlignment="Left" Margin="7,112,0,0" Name="btnNewPSSP" VerticalAlignment="Top" Width="75" />
+                                </Grid>
+                            </GroupBox>
+                            <GroupBox Grid.ColumnSpan="2" Header="Surveillance Activities" Height="264" HorizontalAlignment="Left" Margin="23,183,0,0" Name="GroupBox4" VerticalAlignment="Top" Width="540">
+                                <Grid>
+                                    <ListView ItemsSource="{Binding}" Height="203" HorizontalAlignment="Left" Margin="6,6,0,0" Name="lstvwSurveillanceAll" VerticalAlignment="Top" Width="516" SelectionMode="Single" Visibility="Visible">
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="False">
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ActivityClassTitle}" Header="Activity Type" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ActivityDate, StringFormat=d}" Header="Activity Date" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=EntryDate}" Header="Entry Date" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ObservationsCount}" Header="# of Observations" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Button Content="New" Height="23" HorizontalAlignment="Left" Margin="6,215,0,0" Name="btnNewSurvActivity" VerticalAlignment="Top" Width="75" />
+                                </Grid>
+                            </GroupBox>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="CAR" Name="tabitem_car" />
+                    <TabItem Header="CIO" Name="tabitem_cio" />
+                </TabControl>
+            </Grid>
+        </GroupBox>
+        <Grid Margin="20,119,136,16">
+            <Button Content="Filter Contracts" Height="23" HorizontalAlignment="Left" Margin="7,9,0,0" Name="btnFilterContracts" VerticalAlignment="Top" Width="110" TabIndex="0" />
+            <MyNamespace:TTreeView Margin="7,0,8,15" x:Name="ttvContractsQuickview" Height="361" VerticalAlignment="Bottom">
+                <MyNamespace:TTreeView.ContextMenu>
+                    <ContextMenu Name="cmQuickview" >
+                        <MenuItem Header="_New Contract" Name="MenuItemNewContract">
+                            <MenuItem.Icon>
+                                <Image Source="/isamss;component/Images/new.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Refresh" Name="MenuItemRefresh">
+                            <MenuItem.Icon>
+                                <Image Source="/isamss;component/Images/page_refresh.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="_Filter Contracts" Name="MenuItemFilterContracts">
+                            <MenuItem.Icon>
+                                <Image Source="/isamss;component/Images/database_gear.png" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </ContextMenu>
+                </MyNamespace:TTreeView.ContextMenu>
+                <TreeViewItem>
+                </TreeViewItem>
+            </MyNamespace:TTreeView>
+            <Button Content="Refresh Quickview" Height="23" HorizontalAlignment="Left" Margin="123,9,0,0" Name="btnRefresh" TabIndex="0" VerticalAlignment="Top" Width="110" />
+            <Button Content="New Contract" Height="23" HorizontalAlignment="Left" Margin="238,9,0,0" Name="btnNewContract" TabIndex="0" VerticalAlignment="Top" Width="110" />
+        </Grid>
+    </Grid>
+</Window>

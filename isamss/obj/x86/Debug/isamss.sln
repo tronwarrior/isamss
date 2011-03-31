@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "isamss", "isamss.exe", "{4B4AB570-961C-44F8-A6A9-4193FDE25AB6}"
+	ProjectSection(DebuggerProjectSystem) = preProject
+		PortSupplier = 00000000-0000-0000-0000-000000000000
+		Executable = C:\Documents and Settings\DC13516\My Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.exe
+		RemoteMachine = HXFBURG09W120
+		StartingDirectory = C:\Documents and Settings\DC13516\My Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug
+		Environment = Default
+		LaunchingEngine = 00000000-0000-0000-0000-000000000000
+		LaunchSQLEngine = No
+		AttachLaunchAction = No
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B4AB570-961C-44F8-A6A9-4193FDE25AB6}.Debug|x86.ActiveCfg = Debug|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

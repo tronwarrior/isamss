@@ -1,0 +1,550 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ISAMSSModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2006/04/edm/ssdl">
+  <EntityContainer Name="ISAMSSModelStoreContainer">
+    <EntitySet Name="activities" EntityType="ISAMSSModel.Store.activities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="activity_classes" EntityType="ISAMSSModel.Store.activity_classes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="cars" EntityType="ISAMSSModel.Store.cars" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="cios" EntityType="ISAMSSModel.Store.cios" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="cmmi_process_areas" EntityType="ISAMSSModel.Store.cmmi_process_areas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="contracts" EntityType="ISAMSSModel.Store.contracts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="crrs" EntityType="ISAMSSModel.Store.crrs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="customer_interactions" EntityType="ISAMSSModel.Store.customer_interactions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="customers" EntityType="ISAMSSModel.Store.customers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="dmar_attachments" EntityType="ISAMSSModel.Store.dmar_attachments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="dmars" EntityType="ISAMSSModel.Store.dmars" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="dmas" EntityType="ISAMSSModel.Store.dmas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lods" EntityType="ISAMSSModel.Store.lods" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="observation_cmmi_proc_areas" EntityType="ISAMSSModel.Store.observation_cmmi_proc_areas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="observations" EntityType="ISAMSSModel.Store.observations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sites" EntityType="ISAMSSModel.Store.sites" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="suppliers" EntityType="ISAMSSModel.Store.suppliers" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="users" EntityType="ISAMSSModel.Store.users" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_activities_activity_classes" Association="ISAMSSModel.Store.FK_activities_activity_classes">
+      <End Role="activity_classes" EntitySet="activity_classes" />
+      <End Role="activities" EntitySet="activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_activities_contracts" Association="ISAMSSModel.Store.FK_activities_contracts">
+      <End Role="contracts" EntitySet="contracts" />
+      <End Role="activities" EntitySet="activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cars_observations" Association="ISAMSSModel.Store.FK_cars_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="cars" EntitySet="cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cios_observations" Association="ISAMSSModel.Store.FK_cios_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="cios" EntitySet="cios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_contracts_customers" Association="ISAMSSModel.Store.FK_contracts_customers">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="contracts" EntitySet="contracts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_contracts_suppliers" Association="ISAMSSModel.Store.FK_contracts_suppliers">
+      <End Role="suppliers" EntitySet="suppliers" />
+      <End Role="contracts" EntitySet="contracts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_crrs_contracts" Association="ISAMSSModel.Store.FK_crrs_contracts">
+      <End Role="contracts" EntitySet="contracts" />
+      <End Role="crrs" EntitySet="crrs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_crrs_users" Association="ISAMSSModel.Store.FK_crrs_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="crrs" EntitySet="crrs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_customer_interaction_customers" Association="ISAMSSModel.Store.FK_customer_interaction_customers">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="customer_interactions" EntitySet="customer_interactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_customer_interactions_users" Association="ISAMSSModel.Store.FK_customer_interactions_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="customer_interactions" EntitySet="customer_interactions" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmar_attachments_dmars" Association="ISAMSSModel.Store.FK_dmar_attachments_dmars">
+      <End Role="dmars" EntitySet="dmars" />
+      <End Role="dmar_attachments" EntitySet="dmar_attachments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmars_dmas" Association="ISAMSSModel.Store.FK_dmars_dmas">
+      <End Role="dmas" EntitySet="dmas" />
+      <End Role="dmars" EntitySet="dmars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmars_observations" Association="ISAMSSModel.Store.FK_dmars_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="dmars" EntitySet="dmars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmas_users" Association="ISAMSSModel.Store.FK_dmas_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="dmas" EntitySet="dmas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lods_contracts" Association="ISAMSSModel.Store.FK_lods_contracts">
+      <End Role="contracts" EntitySet="contracts" />
+      <End Role="lods" EntitySet="lods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lods_users" Association="ISAMSSModel.Store.FK_lods_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="lods" EntitySet="lods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_observation_cmmi_proc_areas_cmmi_process_areas" Association="ISAMSSModel.Store.FK_observation_cmmi_proc_areas_cmmi_process_areas">
+      <End Role="cmmi_process_areas" EntitySet="cmmi_process_areas" />
+      <End Role="observation_cmmi_proc_areas" EntitySet="observation_cmmi_proc_areas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_observation_cmmi_proc_areas_observations" Association="ISAMSSModel.Store.FK_observation_cmmi_proc_areas_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="observation_cmmi_proc_areas" EntitySet="observation_cmmi_proc_areas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_observations_activities" Association="ISAMSSModel.Store.FK_observations_activities">
+      <End Role="activities" EntitySet="activities" />
+      <End Role="observations" EntitySet="observations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sites_suppliers" Association="ISAMSSModel.Store.FK_sites_suppliers">
+      <End Role="suppliers" EntitySet="suppliers" />
+      <End Role="sites" EntitySet="sites" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_activities" Association="ISAMSSModel.Store.FK_user_activities">
+      <End Role="users" EntitySet="users" />
+      <End Role="activities" EntitySet="activities" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="activities">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="entry_date" Type="datetime" Nullable="false" />
+    <Property Name="activity_date" Type="datetime" Nullable="false" />
+    <Property Name="activity_classes_id" Type="int" Nullable="false" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="activity_classes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="cars">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="car_record_num" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="submit_date" Type="datetime" Nullable="false" />
+    <Property Name="close_date" Type="datetime" />
+    <Property Name="observation_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cios">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="cio_record_num" Type="nvarchar" Nullable="false" MaxLength="256" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="submit_date" Type="datetime" Nullable="false" />
+    <Property Name="close_date" Type="datetime" />
+    <Property Name="observation_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cmmi_process_areas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="acronym" Type="nvarchar" Nullable="false" MaxLength="5" />
+    <Property Name="title" Type="nvarchar" Nullable="false" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="contracts">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="contract_num" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="subcontract" Type="bit" Nullable="false" />
+    <Property Name="supplier_id" Type="int" Nullable="false" />
+    <Property Name="customer_id" Type="int" />
+    <Property Name="program_name" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="crrs">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="date_reviewed" Type="datetime" Nullable="false" />
+    <Property Name="cost_criticality" Type="nvarchar" Nullable="false" MaxLength="1" />
+    <Property Name="cost_criticality_rationale" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="schedule_criticality" Type="nvarchar" Nullable="false" MaxLength="1" />
+    <Property Name="schedule_criticality_rationale" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="technical_criticality" Type="nvarchar" Nullable="false" MaxLength="1" />
+    <Property Name="technical_criticality_rationale" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="customer_interactions">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="date_of_interaction" Type="datetime" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="customer_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="customers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="description" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="dmar_attachments">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="attachment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="dmar_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dmars">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="analysis_date" Type="datetime" Nullable="false" />
+    <Property Name="period_covered_from" Type="datetime" Nullable="false" />
+    <Property Name="period_covered_to" Type="datetime" Nullable="false" />
+    <Property Name="analysis_activities" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="analysis_results" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="conclusions" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="dmas_id" Type="int" Nullable="false" />
+    <Property Name="observation_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="dmas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="data_measure" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="purpose" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="base_data_measure" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="thresholds_indicators" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="course_of_action" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="reporting" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="data_measure_source" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="repository" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="reporting_attachment" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="related_data_measures" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="user_id" Type="int" />
+  </EntityType>
+  <EntityType Name="lods">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="effective_date" Type="datetime" Nullable="false" />
+    <Property Name="delegating" Type="bit" Nullable="false" />
+    <Property Name="attachment" Type="nvarchar(max)" />
+    <Property Name="contract_id" Type="int" Nullable="false" />
+    <Property Name="user_id" Type="int" />
+  </EntityType>
+  <EntityType Name="observation_cmmi_proc_areas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="cmmi_process_areas_id" Type="int" />
+    <Property Name="observation_id" Type="int" />
+  </EntityType>
+  <EntityType Name="observations">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="noncompliance_weakness" Type="bit" Nullable="false" />
+    <Property Name="activity_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sites">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="site_name" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="location" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="supplier_id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="suppliers">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="description" Type="nvarchar" Nullable="false" MaxLength="255" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'ISAMSS.dbo.system_requirements' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="users">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="lname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="fname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="logonid" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_activities_activity_classes">
+    <End Role="activity_classes" Type="ISAMSSModel.Store.activity_classes" Multiplicity="1" />
+    <End Role="activities" Type="ISAMSSModel.Store.activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="activity_classes">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="activities">
+        <PropertyRef Name="activity_classes_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_activities_contracts">
+    <End Role="contracts" Type="ISAMSSModel.Store.contracts" Multiplicity="1" />
+    <End Role="activities" Type="ISAMSSModel.Store.activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="contracts">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="activities">
+        <PropertyRef Name="contract_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cars_observations">
+    <End Role="observations" Type="ISAMSSModel.Store.observations" Multiplicity="1" />
+    <End Role="cars" Type="ISAMSSModel.Store.cars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="observations">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cars">
+        <PropertyRef Name="observation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cios_observations">
+    <End Role="observations" Type="ISAMSSModel.Store.observations" Multiplicity="1" />
+    <End Role="cios" Type="ISAMSSModel.Store.cios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="observations">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cios">
+        <PropertyRef Name="observation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_contracts_customers">
+    <End Role="customers" Type="ISAMSSModel.Store.customers" Multiplicity="0..1" />
+    <End Role="contracts" Type="ISAMSSModel.Store.contracts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="contracts">
+        <PropertyRef Name="customer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_contracts_suppliers">
+    <End Role="suppliers" Type="ISAMSSModel.Store.suppliers" Multiplicity="1" />
+    <End Role="contracts" Type="ISAMSSModel.Store.contracts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="suppliers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="contracts">
+        <PropertyRef Name="supplier_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_crrs_contracts">
+    <End Role="contracts" Type="ISAMSSModel.Store.contracts" Multiplicity="1" />
+    <End Role="crrs" Type="ISAMSSModel.Store.crrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="contracts">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="crrs">
+        <PropertyRef Name="contract_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_crrs_users">
+    <End Role="users" Type="ISAMSSModel.Store.users" Multiplicity="1" />
+    <End Role="crrs" Type="ISAMSSModel.Store.crrs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="crrs">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_customer_interaction_customers">
+    <End Role="customers" Type="ISAMSSModel.Store.customers" Multiplicity="1" />
+    <End Role="customer_interactions" Type="ISAMSSModel.Store.customer_interactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="customers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="customer_interactions">
+        <PropertyRef Name="customer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_customer_interactions_users">
+    <End Role="users" Type="ISAMSSModel.Store.users" Multiplicity="1" />
+    <End Role="customer_interactions" Type="ISAMSSModel.Store.customer_interactions" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="customer_interactions">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dmar_attachments_dmars">
+    <End Role="dmars" Type="ISAMSSModel.Store.dmars" Multiplicity="1" />
+    <End Role="dmar_attachments" Type="ISAMSSModel.Store.dmar_attachments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dmars">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="dmar_attachments">
+        <PropertyRef Name="dmar_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dmars_dmas">
+    <End Role="dmas" Type="ISAMSSModel.Store.dmas" Multiplicity="1" />
+    <End Role="dmars" Type="ISAMSSModel.Store.dmars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dmas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="dmars">
+        <PropertyRef Name="dmas_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dmars_observations">
+    <End Role="observations" Type="ISAMSSModel.Store.observations" Multiplicity="1" />
+    <End Role="dmars" Type="ISAMSSModel.Store.dmars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="observations">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="dmars">
+        <PropertyRef Name="observation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dmas_users">
+    <End Role="users" Type="ISAMSSModel.Store.users" Multiplicity="0..1" />
+    <End Role="dmas" Type="ISAMSSModel.Store.dmas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="dmas">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_lods_contracts">
+    <End Role="contracts" Type="ISAMSSModel.Store.contracts" Multiplicity="1" />
+    <End Role="lods" Type="ISAMSSModel.Store.lods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="contracts">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="lods">
+        <PropertyRef Name="contract_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_lods_users">
+    <End Role="users" Type="ISAMSSModel.Store.users" Multiplicity="0..1" />
+    <End Role="lods" Type="ISAMSSModel.Store.lods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="lods">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_observation_cmmi_proc_areas_cmmi_process_areas">
+    <End Role="cmmi_process_areas" Type="ISAMSSModel.Store.cmmi_process_areas" Multiplicity="0..1" />
+    <End Role="observation_cmmi_proc_areas" Type="ISAMSSModel.Store.observation_cmmi_proc_areas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cmmi_process_areas">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="observation_cmmi_proc_areas">
+        <PropertyRef Name="cmmi_process_areas_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_observation_cmmi_proc_areas_observations">
+    <End Role="observations" Type="ISAMSSModel.Store.observations" Multiplicity="0..1" />
+    <End Role="observation_cmmi_proc_areas" Type="ISAMSSModel.Store.observation_cmmi_proc_areas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="observations">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="observation_cmmi_proc_areas">
+        <PropertyRef Name="observation_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_observations_activities">
+    <End Role="activities" Type="ISAMSSModel.Store.activities" Multiplicity="1" />
+    <End Role="observations" Type="ISAMSSModel.Store.observations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="activities">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="observations">
+        <PropertyRef Name="activity_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_sites_suppliers">
+    <End Role="suppliers" Type="ISAMSSModel.Store.suppliers" Multiplicity="1" />
+    <End Role="sites" Type="ISAMSSModel.Store.sites" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="suppliers">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="sites">
+        <PropertyRef Name="supplier_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_user_activities">
+    <End Role="users" Type="ISAMSSModel.Store.users" Multiplicity="1" />
+    <End Role="activities" Type="ISAMSSModel.Store.activities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="users">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="activities">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

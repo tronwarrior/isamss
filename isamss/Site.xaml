@@ -1,0 +1,13 @@
+﻿<Window x:Class="SiteForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Site" Height="236" Width="300" Icon="/isamss;component/Images/add.png">
+    <Grid>
+        <Label Content="Site Name" Height="28" HorizontalAlignment="Left" Margin="14,28,0,0" Name="Label1" VerticalAlignment="Top" Width="65" />
+        <Label Content="Address" Height="28" HorizontalAlignment="Left" Margin="14,62,0,0" Name="Label2" VerticalAlignment="Top" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="85,28,0,0" Name="txtSiteName" VerticalAlignment="Top" Width="171" />
+        <TextBox Height="70" HorizontalAlignment="Left" Margin="85,64,0,0" Name="txtSiteLocation" VerticalAlignment="Top" Width="171" MaxLines="4" AcceptsReturn="True" />
+        <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="12,154,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" />
+        <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="93,154,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" />
+    </Grid>
+</Window>

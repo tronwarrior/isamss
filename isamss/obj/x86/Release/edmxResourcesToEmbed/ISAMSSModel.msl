@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="urn:schemas-microsoft-com:windows:storage:mapping:CS">
+  <EntityContainerMapping StorageEntityContainer="ISAMSSModelStoreContainer" CdmEntityContainer="ISAMSSEntities">
+    <EntitySetMapping Name="activities">
+      <EntityTypeMapping TypeName="ISAMSSModel.activity">
+        <MappingFragment StoreEntitySet="activities">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="entry_date" ColumnName="entry_date" />
+          <ScalarProperty Name="activity_date" ColumnName="activity_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="activity_class">
+      <EntityTypeMapping TypeName="ISAMSSModel.activity_class">
+        <MappingFragment StoreEntitySet="activity_classes">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cars">
+      <EntityTypeMapping TypeName="ISAMSSModel.car">
+        <MappingFragment StoreEntitySet="cars">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="car_record_num" ColumnName="car_record_num" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="submit_date" ColumnName="submit_date" />
+          <ScalarProperty Name="close_date" ColumnName="close_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cios">
+      <EntityTypeMapping TypeName="ISAMSSModel.cio">
+        <MappingFragment StoreEntitySet="cios">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="cio_record_num" ColumnName="cio_record_num" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="submit_date" ColumnName="submit_date" />
+          <ScalarProperty Name="close_date" ColumnName="close_date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="cmmi_process_area">
+      <EntityTypeMapping TypeName="ISAMSSModel.cmmi_process_area">
+        <MappingFragment StoreEntitySet="cmmi_process_areas">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="acronym" ColumnName="acronym" />
+          <ScalarProperty Name="title" ColumnName="title" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="contracts">
+      <EntityTypeMapping TypeName="ISAMSSModel.contract">
+        <MappingFragment StoreEntitySet="contracts">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="contract_num" ColumnName="contract_num" />
+          <ScalarProperty Name="subcontract" ColumnName="subcontract" />
+          <ScalarProperty Name="program_name" ColumnName="program_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="crrs">
+      <EntityTypeMapping TypeName="ISAMSSModel.crr">
+        <MappingFragment StoreEntitySet="crrs">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="date_reviewed" ColumnName="date_reviewed" />
+          <ScalarProperty Name="cost_criticality" ColumnName="cost_criticality" />
+          <ScalarProperty Name="cost_criticality_rationale" ColumnName="cost_criticality_rationale" />
+          <ScalarProperty Name="schedule_criticality" ColumnName="schedule_criticality" />
+          <ScalarProperty Name="schedule_criticality_rationale" ColumnName="schedule_criticality_rationale" />
+          <ScalarProperty Name="technical_criticality" ColumnName="technical_criticality" />
+          <ScalarProperty Name="technical_criticality_rationale" ColumnName="technical_criticality_rationale" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="customer_interaction">
+      <EntityTypeMapping TypeName="ISAMSSModel.customer_interaction">
+        <MappingFragment StoreEntitySet="customer_interactions">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="date_of_interaction" ColumnName="date_of_interaction" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="customers">
+      <EntityTypeMapping TypeName="ISAMSSModel.customer">
+        <MappingFragment StoreEntitySet="customers">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dmar_attachment">
+      <EntityTypeMapping TypeName="ISAMSSModel.dmar_attachment">
+        <MappingFragment StoreEntitySet="dmar_attachments">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="attachment" ColumnName="attachment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dmars">
+      <EntityTypeMapping TypeName="ISAMSSModel.dmar">
+        <MappingFragment StoreEntitySet="dmars">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="analysis_date" ColumnName="analysis_date" />
+          <ScalarProperty Name="period_covered_from" ColumnName="period_covered_from" />
+          <ScalarProperty Name="period_covered_to" ColumnName="period_covered_to" />
+          <ScalarProperty Name="analysis_activities" ColumnName="analysis_activities" />
+          <ScalarProperty Name="analysis_results" ColumnName="analysis_results" />
+          <ScalarProperty Name="conclusions" ColumnName="conclusions" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="dmas1">
+      <EntityTypeMapping TypeName="ISAMSSModel.dmas">
+        <MappingFragment StoreEntitySet="dmas">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="data_measure" ColumnName="data_measure" />
+          <ScalarProperty Name="purpose" ColumnName="purpose" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="base_data_measure" ColumnName="base_data_measure" />
+          <ScalarProperty Name="thresholds_indicators" ColumnName="thresholds_indicators" />
+          <ScalarProperty Name="course_of_action" ColumnName="course_of_action" />
+          <ScalarProperty Name="reporting" ColumnName="reporting" />
+          <ScalarProperty Name="data_measure_source" ColumnName="data_measure_source" />
+          <ScalarProperty Name="repository" ColumnName="repository" />
+          <ScalarProperty Name="reporting_attachment" ColumnName="reporting_attachment" />
+          <ScalarProperty Name="related_data_measures" ColumnName="related_data_measures" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="lods">
+      <EntityTypeMapping TypeName="ISAMSSModel.lod">
+        <MappingFragment StoreEntitySet="lods">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="effective_date" ColumnName="effective_date" />
+          <ScalarProperty Name="delegating" ColumnName="delegating" />
+          <ScalarProperty Name="attachment" ColumnName="attachment" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="observation_cmmi_proc_area">
+      <EntityTypeMapping TypeName="ISAMSSModel.observation_cmmi_proc_area">
+        <MappingFragment StoreEntitySet="observation_cmmi_proc_areas">
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="observations">
+      <EntityTypeMapping TypeName="ISAMSSModel.observation">
+        <MappingFragment StoreEntitySet="observations">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="noncompliance_weakness" ColumnName="noncompliance_weakness" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sites">
+      <EntityTypeMapping TypeName="ISAMSSModel.site">
+        <MappingFragment StoreEntitySet="sites">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="site_name" ColumnName="site_name" />
+          <ScalarProperty Name="location" ColumnName="location" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="suppliers">
+      <EntityTypeMapping TypeName="ISAMSSModel.supplier">
+        <MappingFragment StoreEntitySet="suppliers">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="users">
+      <EntityTypeMapping TypeName="ISAMSSModel.user">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="lname" ColumnName="lname" />
+          <ScalarProperty Name="fname" ColumnName="fname" />
+          <ScalarProperty Name="logonid" ColumnName="logonid" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FK_activities_activity_classes" TypeName="ISAMSSModel.FK_activities_activity_classes" StoreEntitySet="activities">
+      <EndProperty Name="activity_classes">
+        <ScalarProperty Name="id" ColumnName="activity_classes_id" />
+      </EndProperty>
+      <EndProperty Name="activities">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_activities_contracts" TypeName="ISAMSSModel.FK_activities_contracts" StoreEntitySet="activities">
+      <EndProperty Name="contracts">
+        <ScalarProperty Name="id" ColumnName="contract_id" />
+      </EndProperty>
+      <EndProperty Name="activities">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_observations_activities" TypeName="ISAMSSModel.FK_observations_activities" StoreEntitySet="observations">
+      <EndProperty Name="activities">
+        <ScalarProperty Name="id" ColumnName="activity_id" />
+      </EndProperty>
+      <EndProperty Name="observations">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_user_activities" TypeName="ISAMSSModel.FK_user_activities" StoreEntitySet="activities">
+      <EndProperty Name="users">
+        <ScalarProperty Name="id" ColumnName="user_id" />
+      </EndProperty>
+      <EndProperty Name="activities">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_cars_observations" TypeName="ISAMSSModel.FK_cars_observations" StoreEntitySet="cars">
+      <EndProperty Name="observations">
+        <ScalarProperty Name="id" ColumnName="observation_id" />
+      </EndProperty>
+      <EndProperty Name="cars">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_cios_observations" TypeName="ISAMSSModel.FK_cios_observations" StoreEntitySet="cios">
+      <EndProperty Name="observations">
+        <ScalarProperty Name="id" ColumnName="observation_id" />
+      </EndProperty>
+      <EndProperty Name="cios">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_observation_cmmi_proc_areas_cmmi_process_areas" TypeName="ISAMSSModel.FK_observation_cmmi_proc_areas_cmmi_process_areas" StoreEntitySet="observation_cmmi_proc_areas">
+      <EndProperty Name="cmmi_process_areas">
+        <ScalarProperty Name="id" ColumnName="cmmi_process_areas_id" />
+      </EndProperty>
+      <EndProperty Name="observation_cmmi_proc_areas">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+      <Condition ColumnName="cmmi_process_areas_id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_contracts_customers" TypeName="ISAMSSModel.FK_contracts_customers" StoreEntitySet="contracts">
+      <EndProperty Name="customers">
+        <ScalarProperty Name="id" ColumnName="customer_id" />
+      </EndProperty>
+      <EndProperty Name="contracts">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+      <Condition ColumnName="customer_id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_contracts_suppliers" TypeName="ISAMSSModel.FK_contracts_suppliers" StoreEntitySet="contracts">
+      <EndProperty Name="suppliers">
+        <ScalarProperty Name="id" ColumnName="supplier_id" />
+      </EndProperty>
+      <EndProperty Name="contracts">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_crrs_contracts" TypeName="ISAMSSModel.FK_crrs_contracts" StoreEntitySet="crrs">
+      <EndProperty Name="contracts">
+        <ScalarProperty Name="id" ColumnName="contract_id" />
+      </EndProperty>
+      <EndProperty Name="crrs">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_lods_contracts" TypeName="ISAMSSModel.FK_lods_contracts" StoreEntitySet="lods">
+      <EndProperty Name="contracts">
+        <ScalarProperty Name="id" ColumnName="contract_id" />
+      </EndProperty>
+      <EndProperty Name="lods">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_crrs_users" TypeName="ISAMSSModel.FK_crrs_users" StoreEntitySet="crrs">
+      <EndProperty Name="users">
+        <ScalarProperty Name="id" ColumnName="user_id" />
+      </EndProperty>
+      <EndProperty Name="crrs">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_customer_interaction_customers" TypeName="ISAMSSModel.FK_customer_interaction_customers" StoreEntitySet="customer_interactions">
+      <EndProperty Name="customers">
+        <ScalarProperty Name="id" ColumnName="customer_id" />
+      </EndProperty>
+      <EndProperty Name="customer_interactions">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_customer_interactions_users" TypeName="ISAMSSModel.FK_customer_interactions_users" StoreEntitySet="customer_interactions">
+      <EndProperty Name="users">
+        <ScalarProperty Name="id" ColumnName="user_id" />
+      </EndProperty>
+      <EndProperty Name="customer_interactions">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_dmar_attachments_dmars" TypeName="ISAMSSModel.FK_dmar_attachments_dmars" StoreEntitySet="dmar_attachments">
+      <EndProperty Name="dmars">
+        <ScalarProperty Name="id" ColumnName="dmar_id" />
+      </EndProperty>
+      <EndProperty Name="dmar_attachments">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_dmars_dmas" TypeName="ISAMSSModel.FK_dmars_dmas" StoreEntitySet="dmars">
+      <EndProperty Name="dmas">
+        <ScalarProperty Name="id" ColumnName="dmas_id" />
+      </EndProperty>
+      <EndProperty Name="dmars">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_dmars_observations" TypeName="ISAMSSModel.FK_dmars_observations" StoreEntitySet="dmars">
+      <EndProperty Name="observations">
+        <ScalarProperty Name="id" ColumnName="observation_id" />
+      </EndProperty>
+      <EndProperty Name="dmars">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_dmas_users" TypeName="ISAMSSModel.FK_dmas_users" StoreEntitySet="dmas">
+      <EndProperty Name="users">
+        <ScalarProperty Name="id" ColumnName="user_id" />
+      </EndProperty>
+      <EndProperty Name="dmas">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+      <Condition ColumnName="user_id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_lods_users" TypeName="ISAMSSModel.FK_lods_users" StoreEntitySet="lods">
+      <EndProperty Name="users">
+        <ScalarProperty Name="id" ColumnName="user_id" />
+      </EndProperty>
+      <EndProperty Name="lods">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+      <Condition ColumnName="user_id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_observation_cmmi_proc_areas_observations" TypeName="ISAMSSModel.FK_observation_cmmi_proc_areas_observations" StoreEntitySet="observation_cmmi_proc_areas">
+      <EndProperty Name="observations">
+        <ScalarProperty Name="id" ColumnName="observation_id" />
+      </EndProperty>
+      <EndProperty Name="observation_cmmi_proc_areas">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+      <Condition ColumnName="observation_id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="FK_sites_suppliers" TypeName="ISAMSSModel.FK_sites_suppliers" StoreEntitySet="sites">
+      <EndProperty Name="suppliers">
+        <ScalarProperty Name="id" ColumnName="supplier_id" />
+      </EndProperty>
+      <EndProperty Name="sites">
+        <ScalarProperty Name="id" ColumnName="id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

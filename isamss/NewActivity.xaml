@@ -1,0 +1,22 @@
+﻿<Window x:Class="NewActivityForm"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="New Activity" Height="373" Width="532" xmlns:my="http://schemas.microsoft.com/wpf/2008/toolkit" Icon="/isamss;component/Images/add.png">
+    <Grid>
+        <my:DatePicker HorizontalAlignment="Left" Margin="20,27,0,0" Name="dtActivityDate" VerticalAlignment="Top" />
+        <Label Content="Activity Date" Height="23" HorizontalAlignment="Left" Margin="20,0,0,0" Name="Label1" VerticalAlignment="Top" Width="73" />
+        <ComboBox ItemsSource="{Binding Path=Title}" Height="23" HorizontalAlignment="Left" Margin="347,27,0,0" Name="cboActivityType" VerticalAlignment="Top" Width="147" />
+        <Label Content="Activity Type" Height="23" HorizontalAlignment="Left" Margin="347,0,0,0" Name="Label2" VerticalAlignment="Top" Width="73" />
+        <ListView ItemsSource="{Binding}" Height="202" HorizontalAlignment="Left" Margin="20,80,0,0" Name="ListView1" VerticalAlignment="Top" Width="474">
+            <ListView.View>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Description}" Header="Description" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Noncompliance}" Header="Noncompliance?" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Path=Weakness}" Header="Weakness?" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Observations" Height="23" HorizontalAlignment="Left" Margin="20,57,0,0" Name="Label3" VerticalAlignment="Top" Width="73" />
+        <Button Content="New" Height="23" HorizontalAlignment="Left" Margin="20,288,0,0" Name="Button1" VerticalAlignment="Top" Width="75" />
+    </Grid>
+</Window>

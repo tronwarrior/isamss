@@ -1,0 +1,1151 @@
+﻿<?xml version="1.0"?>
+<doc>
+<assembly>
+<name>
+isamss
+</name>
+</assembly>
+<members>
+<member name="M:isamss.RegisterUserForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.RegisterUserForm">
+	<summary>
+RegisterUserForm
+</summary>
+</member><member name="M:isamss.MainWindow.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.MainWindow">
+	<summary>
+MainWindow
+</summary>
+</member><member name="M:isamss.NewContractForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.NewContractForm">
+	<summary>
+NewContractForm
+</summary>
+</member><member name="M:isamss.LogonForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.LogonForm">
+	<summary>
+LogonForm
+</summary>
+</member><member name="M:isamss.Application.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="M:isamss.Application.Main">
+	<summary>
+Application Entry Point.
+</summary>
+</member><member name="T:isamss.Application">
+	<summary>
+Application
+</summary>
+</member><member name="T:isamss.ISAMSSds.usersDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.crrsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.usersRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.crrsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.usersRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.crrsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds">
+	<summary>
+Represents a strongly typed in-memory cache of data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.usersTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.crrsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateUpdatedRows(isamss.ISAMSSds,System.Collections.Generic.List{System.Data.DataRow},System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Update rows in top-down order.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateInsertedRows(isamss.ISAMSSds,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Insert rows in top-down order.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateDeletedRows(isamss.ISAMSSds,System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Delete rows in bottom-up order.
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.GetRealUpdatedRows(System.Data.DataRow[],System.Collections.Generic.List{System.Data.DataRow})">
+	<summary>
+Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
+</summary>
+</member><member name="M:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateAll(isamss.ISAMSSds)">
+	<summary>
+Update all changes to the dataset.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.TableAdapterManager.UpdateOrderOption">
+	<summary>
+Update Order Option
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.TableAdapterManager.SelfReferenceComparer">
+	<summary>
+Used to sort self-referenced table's rows
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.TableAdapterManager">
+	<summary>
+TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.#ctor">
+	<summary>
+Initializes a new ISAMSSEntities object using the connection string found in the 'ISAMSSEntities' section of the application configuration file.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.#ctor(System.String)">
+	<summary>
+Initialize a new ISAMSSEntities object.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.#ctor(System.Data.EntityClient.EntityConnection)">
+	<summary>
+Initialize a new ISAMSSEntities object.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.activities">
+	<summary>
+There are no comments for activities in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.activity_class">
+	<summary>
+There are no comments for activity_class in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.cars">
+	<summary>
+There are no comments for cars in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.cios">
+	<summary>
+There are no comments for cios in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.cmmi_process_area">
+	<summary>
+There are no comments for cmmi_process_area in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.contracts">
+	<summary>
+There are no comments for contracts in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.crrs">
+	<summary>
+There are no comments for crrs in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.customer_interaction">
+	<summary>
+There are no comments for customer_interaction in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.customers">
+	<summary>
+There are no comments for customers in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.dmar_attachment">
+	<summary>
+There are no comments for dmar_attachment in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.dmars">
+	<summary>
+There are no comments for dmars in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.dmas1">
+	<summary>
+There are no comments for dmas1 in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.lods">
+	<summary>
+There are no comments for lods in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.observation_cmmi_proc_area">
+	<summary>
+There are no comments for observation_cmmi_proc_area in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.observations">
+	<summary>
+There are no comments for observations in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.sites">
+	<summary>
+There are no comments for sites in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.suppliers">
+	<summary>
+There are no comments for suppliers in the schema.
+</summary>
+</member><member name="P:isamss.ISAMSSEntities.users">
+	<summary>
+There are no comments for users in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddToactivities(isamss.activity)">
+	<summary>
+There are no comments for activities in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddToactivity_class(isamss.activity_class)">
+	<summary>
+There are no comments for activity_class in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTocars(isamss.car)">
+	<summary>
+There are no comments for cars in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTocios(isamss.cio)">
+	<summary>
+There are no comments for cios in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTocmmi_process_area(isamss.cmmi_process_area)">
+	<summary>
+There are no comments for cmmi_process_area in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTocontracts(isamss.contract)">
+	<summary>
+There are no comments for contracts in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTocrrs(isamss.crr)">
+	<summary>
+There are no comments for crrs in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTocustomer_interaction(isamss.customer_interaction)">
+	<summary>
+There are no comments for customer_interaction in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTocustomers(isamss.customer)">
+	<summary>
+There are no comments for customers in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTodmar_attachment(isamss.dmar_attachment)">
+	<summary>
+There are no comments for dmar_attachment in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTodmars(isamss.dmar)">
+	<summary>
+There are no comments for dmars in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTodmas1(isamss.dmas)">
+	<summary>
+There are no comments for dmas1 in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTolods(isamss.lod)">
+	<summary>
+There are no comments for lods in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddToobservation_cmmi_proc_area(isamss.observation_cmmi_proc_area)">
+	<summary>
+There are no comments for observation_cmmi_proc_area in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddToobservations(isamss.observation)">
+	<summary>
+There are no comments for observations in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTosites(isamss.site)">
+	<summary>
+There are no comments for sites in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTosuppliers(isamss.supplier)">
+	<summary>
+There are no comments for suppliers in the schema.
+</summary>
+</member><member name="M:isamss.ISAMSSEntities.AddTousers(isamss.user)">
+	<summary>
+There are no comments for users in the schema.
+</summary>
+</member><member name="T:isamss.ISAMSSEntities">
+	<summary>
+There are no comments for ISAMSSEntities in the schema.
+</summary>
+</member><member name="M:isamss.activity.Createactivity(System.Int32,System.DateTime,System.DateTime)">
+	<summary>
+Create a new activity object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="entry_date">Initial value of entry_date.</param>
+	<param name="activity_date">Initial value of activity_date.</param>
+</member><member name="P:isamss.activity.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.activity.entry_date">
+	<summary>
+There are no comments for property entry_date in the schema.
+</summary>
+</member><member name="P:isamss.activity.activity_date">
+	<summary>
+There are no comments for property activity_date in the schema.
+</summary>
+</member><member name="P:isamss.activity.activity_class">
+	<summary>
+There are no comments for activity_class in the schema.
+</summary>
+</member><member name="P:isamss.activity.activity_classReference">
+	<summary>
+There are no comments for activity_class in the schema.
+</summary>
+</member><member name="P:isamss.activity.contract">
+	<summary>
+There are no comments for contract in the schema.
+</summary>
+</member><member name="P:isamss.activity.contractReference">
+	<summary>
+There are no comments for contract in the schema.
+</summary>
+</member><member name="P:isamss.activity.observations">
+	<summary>
+There are no comments for observations in the schema.
+</summary>
+</member><member name="P:isamss.activity.user">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="P:isamss.activity.userReference">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="T:isamss.activity">
+	<summary>
+There are no comments for ISAMSSModel.activity in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.activity_class.Createactivity_class(System.Int32,System.String)">
+	<summary>
+Create a new activity_class object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="title">Initial value of title.</param>
+</member><member name="P:isamss.activity_class.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.activity_class.title">
+	<summary>
+There are no comments for property title in the schema.
+</summary>
+</member><member name="P:isamss.activity_class.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.activity_class.activities">
+	<summary>
+There are no comments for activities in the schema.
+</summary>
+</member><member name="T:isamss.activity_class">
+	<summary>
+There are no comments for ISAMSSModel.activity_class in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.car.Createcar(System.Int32,System.String,System.String,System.DateTime)">
+	<summary>
+Create a new car object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="car_record_num">Initial value of car_record_num.</param>
+	<param name="description">Initial value of description.</param>
+	<param name="submit_date">Initial value of submit_date.</param>
+</member><member name="P:isamss.car.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.car.car_record_num">
+	<summary>
+There are no comments for property car_record_num in the schema.
+</summary>
+</member><member name="P:isamss.car.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.car.submit_date">
+	<summary>
+There are no comments for property submit_date in the schema.
+</summary>
+</member><member name="P:isamss.car.close_date">
+	<summary>
+There are no comments for property close_date in the schema.
+</summary>
+</member><member name="P:isamss.car.observation">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="P:isamss.car.observationReference">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="T:isamss.car">
+	<summary>
+There are no comments for ISAMSSModel.car in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.cio.Createcio(System.Int32,System.String,System.String,System.DateTime)">
+	<summary>
+Create a new cio object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="cio_record_num">Initial value of cio_record_num.</param>
+	<param name="description">Initial value of description.</param>
+	<param name="submit_date">Initial value of submit_date.</param>
+</member><member name="P:isamss.cio.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.cio.cio_record_num">
+	<summary>
+There are no comments for property cio_record_num in the schema.
+</summary>
+</member><member name="P:isamss.cio.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.cio.submit_date">
+	<summary>
+There are no comments for property submit_date in the schema.
+</summary>
+</member><member name="P:isamss.cio.close_date">
+	<summary>
+There are no comments for property close_date in the schema.
+</summary>
+</member><member name="P:isamss.cio.observation">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="P:isamss.cio.observationReference">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="T:isamss.cio">
+	<summary>
+There are no comments for ISAMSSModel.cio in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.cmmi_process_area.Createcmmi_process_area(System.Int32,System.String,System.String,System.String)">
+	<summary>
+Create a new cmmi_process_area object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="version">Initial value of version.</param>
+	<param name="acronym">Initial value of acronym.</param>
+	<param name="title">Initial value of title.</param>
+</member><member name="P:isamss.cmmi_process_area.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.cmmi_process_area.version">
+	<summary>
+There are no comments for property version in the schema.
+</summary>
+</member><member name="P:isamss.cmmi_process_area.acronym">
+	<summary>
+There are no comments for property acronym in the schema.
+</summary>
+</member><member name="P:isamss.cmmi_process_area.title">
+	<summary>
+There are no comments for property title in the schema.
+</summary>
+</member><member name="P:isamss.cmmi_process_area.observation_cmmi_proc_areas">
+	<summary>
+There are no comments for observation_cmmi_proc_areas in the schema.
+</summary>
+</member><member name="T:isamss.cmmi_process_area">
+	<summary>
+There are no comments for ISAMSSModel.cmmi_process_area in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.contract.Createcontract(System.Int32,System.String,System.Boolean)">
+	<summary>
+Create a new contract object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="contract_num">Initial value of contract_num.</param>
+	<param name="subcontract">Initial value of subcontract.</param>
+</member><member name="P:isamss.contract.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.contract.contract_num">
+	<summary>
+There are no comments for property contract_num in the schema.
+</summary>
+</member><member name="P:isamss.contract.subcontract">
+	<summary>
+There are no comments for property subcontract in the schema.
+</summary>
+</member><member name="P:isamss.contract.program_name">
+	<summary>
+There are no comments for property program_name in the schema.
+</summary>
+</member><member name="P:isamss.contract.activities">
+	<summary>
+There are no comments for activities in the schema.
+</summary>
+</member><member name="P:isamss.contract.customer">
+	<summary>
+There are no comments for customer in the schema.
+</summary>
+</member><member name="P:isamss.contract.customerReference">
+	<summary>
+There are no comments for customer in the schema.
+</summary>
+</member><member name="P:isamss.contract.supplier">
+	<summary>
+There are no comments for supplier in the schema.
+</summary>
+</member><member name="P:isamss.contract.supplierReference">
+	<summary>
+There are no comments for supplier in the schema.
+</summary>
+</member><member name="P:isamss.contract.crrs">
+	<summary>
+There are no comments for crrs in the schema.
+</summary>
+</member><member name="P:isamss.contract.lods">
+	<summary>
+There are no comments for lods in the schema.
+</summary>
+</member><member name="T:isamss.contract">
+	<summary>
+There are no comments for ISAMSSModel.contract in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.crr.Createcrr(System.Int32,System.DateTime,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+Create a new crr object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="date_reviewed">Initial value of date_reviewed.</param>
+	<param name="cost_criticality">Initial value of cost_criticality.</param>
+	<param name="cost_criticality_rationale">Initial value of cost_criticality_rationale.</param>
+	<param name="schedule_criticality">Initial value of schedule_criticality.</param>
+	<param name="schedule_criticality_rationale">Initial value of schedule_criticality_rationale.</param>
+	<param name="technical_criticality">Initial value of technical_criticality.</param>
+	<param name="technical_criticality_rationale">Initial value of technical_criticality_rationale.</param>
+</member><member name="P:isamss.crr.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.crr.date_reviewed">
+	<summary>
+There are no comments for property date_reviewed in the schema.
+</summary>
+</member><member name="P:isamss.crr.cost_criticality">
+	<summary>
+There are no comments for property cost_criticality in the schema.
+</summary>
+</member><member name="P:isamss.crr.cost_criticality_rationale">
+	<summary>
+There are no comments for property cost_criticality_rationale in the schema.
+</summary>
+</member><member name="P:isamss.crr.schedule_criticality">
+	<summary>
+There are no comments for property schedule_criticality in the schema.
+</summary>
+</member><member name="P:isamss.crr.schedule_criticality_rationale">
+	<summary>
+There are no comments for property schedule_criticality_rationale in the schema.
+</summary>
+</member><member name="P:isamss.crr.technical_criticality">
+	<summary>
+There are no comments for property technical_criticality in the schema.
+</summary>
+</member><member name="P:isamss.crr.technical_criticality_rationale">
+	<summary>
+There are no comments for property technical_criticality_rationale in the schema.
+</summary>
+</member><member name="P:isamss.crr.contract">
+	<summary>
+There are no comments for contract in the schema.
+</summary>
+</member><member name="P:isamss.crr.contractReference">
+	<summary>
+There are no comments for contract in the schema.
+</summary>
+</member><member name="P:isamss.crr.user">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="P:isamss.crr.userReference">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="T:isamss.crr">
+	<summary>
+There are no comments for ISAMSSModel.crr in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.customer_interaction.Createcustomer_interaction(System.Int32,System.DateTime,System.String)">
+	<summary>
+Create a new customer_interaction object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="date_of_interaction">Initial value of date_of_interaction.</param>
+	<param name="description">Initial value of description.</param>
+</member><member name="P:isamss.customer_interaction.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.customer_interaction.date_of_interaction">
+	<summary>
+There are no comments for property date_of_interaction in the schema.
+</summary>
+</member><member name="P:isamss.customer_interaction.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.customer_interaction.customer">
+	<summary>
+There are no comments for customer in the schema.
+</summary>
+</member><member name="P:isamss.customer_interaction.customerReference">
+	<summary>
+There are no comments for customer in the schema.
+</summary>
+</member><member name="P:isamss.customer_interaction.user">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="P:isamss.customer_interaction.userReference">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="T:isamss.customer_interaction">
+	<summary>
+There are no comments for ISAMSSModel.customer_interaction in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.customer.Createcustomer(System.Int32,System.String)">
+	<summary>
+Create a new customer object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="title">Initial value of title.</param>
+</member><member name="P:isamss.customer.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.customer.title">
+	<summary>
+There are no comments for property title in the schema.
+</summary>
+</member><member name="P:isamss.customer.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.customer.contracts">
+	<summary>
+There are no comments for contracts in the schema.
+</summary>
+</member><member name="P:isamss.customer.customer_interactions">
+	<summary>
+There are no comments for customer_interactions in the schema.
+</summary>
+</member><member name="T:isamss.customer">
+	<summary>
+There are no comments for ISAMSSModel.customer in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.dmar_attachment.Createdmar_attachment(System.Int32,System.String)">
+	<summary>
+Create a new dmar_attachment object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="attachment">Initial value of attachment.</param>
+</member><member name="P:isamss.dmar_attachment.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.dmar_attachment.attachment">
+	<summary>
+There are no comments for property attachment in the schema.
+</summary>
+</member><member name="P:isamss.dmar_attachment.dmar">
+	<summary>
+There are no comments for dmar in the schema.
+</summary>
+</member><member name="P:isamss.dmar_attachment.dmarReference">
+	<summary>
+There are no comments for dmar in the schema.
+</summary>
+</member><member name="T:isamss.dmar_attachment">
+	<summary>
+There are no comments for ISAMSSModel.dmar_attachment in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.dmar.Createdmar(System.Int32,System.DateTime,System.DateTime,System.DateTime,System.String,System.String,System.String)">
+	<summary>
+Create a new dmar object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="analysis_date">Initial value of analysis_date.</param>
+	<param name="period_covered_from">Initial value of period_covered_from.</param>
+	<param name="period_covered_to">Initial value of period_covered_to.</param>
+	<param name="analysis_activities">Initial value of analysis_activities.</param>
+	<param name="analysis_results">Initial value of analysis_results.</param>
+	<param name="conclusions">Initial value of conclusions.</param>
+</member><member name="P:isamss.dmar.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.dmar.analysis_date">
+	<summary>
+There are no comments for property analysis_date in the schema.
+</summary>
+</member><member name="P:isamss.dmar.period_covered_from">
+	<summary>
+There are no comments for property period_covered_from in the schema.
+</summary>
+</member><member name="P:isamss.dmar.period_covered_to">
+	<summary>
+There are no comments for property period_covered_to in the schema.
+</summary>
+</member><member name="P:isamss.dmar.analysis_activities">
+	<summary>
+There are no comments for property analysis_activities in the schema.
+</summary>
+</member><member name="P:isamss.dmar.analysis_results">
+	<summary>
+There are no comments for property analysis_results in the schema.
+</summary>
+</member><member name="P:isamss.dmar.conclusions">
+	<summary>
+There are no comments for property conclusions in the schema.
+</summary>
+</member><member name="P:isamss.dmar.dmar_attachments">
+	<summary>
+There are no comments for dmar_attachments in the schema.
+</summary>
+</member><member name="P:isamss.dmar.dmas">
+	<summary>
+There are no comments for dmas in the schema.
+</summary>
+</member><member name="P:isamss.dmar.dmasReference">
+	<summary>
+There are no comments for dmas in the schema.
+</summary>
+</member><member name="P:isamss.dmar.observation">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="P:isamss.dmar.observationReference">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="T:isamss.dmar">
+	<summary>
+There are no comments for ISAMSSModel.dmar in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.dmas.Createdmas(System.Int32,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+	<summary>
+Create a new dmas object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="data_measure">Initial value of data_measure.</param>
+	<param name="purpose">Initial value of purpose.</param>
+	<param name="description">Initial value of description.</param>
+	<param name="base_data_measure">Initial value of base_data_measure.</param>
+	<param name="thresholds_indicators">Initial value of thresholds_indicators.</param>
+	<param name="course_of_action">Initial value of course_of_action.</param>
+	<param name="reporting">Initial value of reporting.</param>
+	<param name="data_measure_source">Initial value of data_measure_source.</param>
+	<param name="repository">Initial value of repository.</param>
+	<param name="reporting_attachment">Initial value of reporting_attachment.</param>
+	<param name="related_data_measures">Initial value of related_data_measures.</param>
+</member><member name="P:isamss.dmas.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.dmas.data_measure">
+	<summary>
+There are no comments for property data_measure in the schema.
+</summary>
+</member><member name="P:isamss.dmas.purpose">
+	<summary>
+There are no comments for property purpose in the schema.
+</summary>
+</member><member name="P:isamss.dmas.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.dmas.base_data_measure">
+	<summary>
+There are no comments for property base_data_measure in the schema.
+</summary>
+</member><member name="P:isamss.dmas.thresholds_indicators">
+	<summary>
+There are no comments for property thresholds_indicators in the schema.
+</summary>
+</member><member name="P:isamss.dmas.course_of_action">
+	<summary>
+There are no comments for property course_of_action in the schema.
+</summary>
+</member><member name="P:isamss.dmas.reporting">
+	<summary>
+There are no comments for property reporting in the schema.
+</summary>
+</member><member name="P:isamss.dmas.data_measure_source">
+	<summary>
+There are no comments for property data_measure_source in the schema.
+</summary>
+</member><member name="P:isamss.dmas.repository">
+	<summary>
+There are no comments for property repository in the schema.
+</summary>
+</member><member name="P:isamss.dmas.reporting_attachment">
+	<summary>
+There are no comments for property reporting_attachment in the schema.
+</summary>
+</member><member name="P:isamss.dmas.related_data_measures">
+	<summary>
+There are no comments for property related_data_measures in the schema.
+</summary>
+</member><member name="P:isamss.dmas.dmars">
+	<summary>
+There are no comments for dmars in the schema.
+</summary>
+</member><member name="P:isamss.dmas.user">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="P:isamss.dmas.userReference">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="T:isamss.dmas">
+	<summary>
+There are no comments for ISAMSSModel.dmas in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.lod.Createlod(System.Int32,System.DateTime,System.Boolean)">
+	<summary>
+Create a new lod object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="effective_date">Initial value of effective_date.</param>
+	<param name="delegating">Initial value of delegating.</param>
+</member><member name="P:isamss.lod.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.lod.effective_date">
+	<summary>
+There are no comments for property effective_date in the schema.
+</summary>
+</member><member name="P:isamss.lod.delegating">
+	<summary>
+There are no comments for property delegating in the schema.
+</summary>
+</member><member name="P:isamss.lod.attachment">
+	<summary>
+There are no comments for property attachment in the schema.
+</summary>
+</member><member name="P:isamss.lod.contract">
+	<summary>
+There are no comments for contract in the schema.
+</summary>
+</member><member name="P:isamss.lod.contractReference">
+	<summary>
+There are no comments for contract in the schema.
+</summary>
+</member><member name="P:isamss.lod.user">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="P:isamss.lod.userReference">
+	<summary>
+There are no comments for user in the schema.
+</summary>
+</member><member name="T:isamss.lod">
+	<summary>
+There are no comments for ISAMSSModel.lod in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.observation_cmmi_proc_area.Createobservation_cmmi_proc_area(System.Int32)">
+	<summary>
+Create a new observation_cmmi_proc_area object.
+</summary>
+	<param name="id">Initial value of id.</param>
+</member><member name="P:isamss.observation_cmmi_proc_area.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.observation_cmmi_proc_area.cmmi_process_areas">
+	<summary>
+There are no comments for cmmi_process_areas in the schema.
+</summary>
+</member><member name="P:isamss.observation_cmmi_proc_area.cmmi_process_areasReference">
+	<summary>
+There are no comments for cmmi_process_areas in the schema.
+</summary>
+</member><member name="P:isamss.observation_cmmi_proc_area.observation">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="P:isamss.observation_cmmi_proc_area.observationReference">
+	<summary>
+There are no comments for observation in the schema.
+</summary>
+</member><member name="T:isamss.observation_cmmi_proc_area">
+	<summary>
+There are no comments for ISAMSSModel.observation_cmmi_proc_area in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.observation.Createobservation(System.Int32,System.String,System.Boolean)">
+	<summary>
+Create a new observation object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="description">Initial value of description.</param>
+	<param name="noncompliance_weakness">Initial value of noncompliance_weakness.</param>
+</member><member name="P:isamss.observation.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.observation.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.observation.noncompliance_weakness">
+	<summary>
+There are no comments for property noncompliance_weakness in the schema.
+</summary>
+</member><member name="P:isamss.observation.activity">
+	<summary>
+There are no comments for activity in the schema.
+</summary>
+</member><member name="P:isamss.observation.activityReference">
+	<summary>
+There are no comments for activity in the schema.
+</summary>
+</member><member name="P:isamss.observation.cars">
+	<summary>
+There are no comments for cars in the schema.
+</summary>
+</member><member name="P:isamss.observation.cios">
+	<summary>
+There are no comments for cios in the schema.
+</summary>
+</member><member name="P:isamss.observation.dmars">
+	<summary>
+There are no comments for dmars in the schema.
+</summary>
+</member><member name="P:isamss.observation.observation_cmmi_proc_areas">
+	<summary>
+There are no comments for observation_cmmi_proc_areas in the schema.
+</summary>
+</member><member name="T:isamss.observation">
+	<summary>
+There are no comments for ISAMSSModel.observation in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.site.Createsite(System.Int32,System.String,System.String)">
+	<summary>
+Create a new site object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="site_name">Initial value of site_name.</param>
+	<param name="location">Initial value of location.</param>
+</member><member name="P:isamss.site.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.site.site_name">
+	<summary>
+There are no comments for property site_name in the schema.
+</summary>
+</member><member name="P:isamss.site.location">
+	<summary>
+There are no comments for property location in the schema.
+</summary>
+</member><member name="P:isamss.site.supplier">
+	<summary>
+There are no comments for supplier in the schema.
+</summary>
+</member><member name="P:isamss.site.supplierReference">
+	<summary>
+There are no comments for supplier in the schema.
+</summary>
+</member><member name="T:isamss.site">
+	<summary>
+There are no comments for ISAMSSModel.site in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.supplier.Createsupplier(System.Int32,System.String,System.String)">
+	<summary>
+Create a new supplier object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="title">Initial value of title.</param>
+	<param name="description">Initial value of description.</param>
+</member><member name="P:isamss.supplier.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.supplier.title">
+	<summary>
+There are no comments for property title in the schema.
+</summary>
+</member><member name="P:isamss.supplier.description">
+	<summary>
+There are no comments for property description in the schema.
+</summary>
+</member><member name="P:isamss.supplier.contracts">
+	<summary>
+There are no comments for contracts in the schema.
+</summary>
+</member><member name="P:isamss.supplier.sites">
+	<summary>
+There are no comments for sites in the schema.
+</summary>
+</member><member name="T:isamss.supplier">
+	<summary>
+There are no comments for ISAMSSModel.supplier in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="M:isamss.user.Createuser(System.Int32,System.String,System.String,System.String)">
+	<summary>
+Create a new user object.
+</summary>
+	<param name="id">Initial value of id.</param>
+	<param name="lname">Initial value of lname.</param>
+	<param name="fname">Initial value of fname.</param>
+	<param name="logonid">Initial value of logonid.</param>
+</member><member name="P:isamss.user.id">
+	<summary>
+There are no comments for property id in the schema.
+</summary>
+</member><member name="P:isamss.user.lname">
+	<summary>
+There are no comments for property lname in the schema.
+</summary>
+</member><member name="P:isamss.user.fname">
+	<summary>
+There are no comments for property fname in the schema.
+</summary>
+</member><member name="P:isamss.user.logonid">
+	<summary>
+There are no comments for property logonid in the schema.
+</summary>
+</member><member name="P:isamss.user.activities">
+	<summary>
+There are no comments for activities in the schema.
+</summary>
+</member><member name="P:isamss.user.crrs">
+	<summary>
+There are no comments for crrs in the schema.
+</summary>
+</member><member name="P:isamss.user.customer_interactions">
+	<summary>
+There are no comments for customer_interactions in the schema.
+</summary>
+</member><member name="P:isamss.user.dmas">
+	<summary>
+There are no comments for dmas in the schema.
+</summary>
+</member><member name="P:isamss.user.lods">
+	<summary>
+There are no comments for lods in the schema.
+</summary>
+</member><member name="T:isamss.user">
+	<summary>
+There are no comments for ISAMSSModel.user in the schema.
+</summary>
+	<KeyProperties>
+id
+</KeyProperties>
+</member><member name="P:isamss.My.MyWpfExtension.Application">
+	<summary>
+ Returns the application object for the running application
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Computer">
+	<summary>
+ Returns information about the host computer.
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.User">
+	<summary>
+ Returns information for the current user.  If you wish to run the application with the current 
+ Windows user credentials, call My.User.InitializeWithWindowsUser().
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Log">
+	<summary>
+ Returns the application log. The listeners can be configured by the application's configuration file.
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Windows">
+	<summary>
+ Returns the collection of Windows defined in the project.
+ </summary>
+</member><member name="T:isamss.My.MyWpfExtension">
+	<summary>
+ Module used to define the properties that are available in the My Namespace for WPF
+ </summary>
+	<remarks></remarks>
+</member><member name="P:isamss.My.Resources.Resources.ResourceManager">
+	<summary>
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:isamss.My.Resources.Resources.Culture">
+	<summary>
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:isamss.My.Resources.Resources">
+	<summary>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
+</member>
+</members>
+</doc>

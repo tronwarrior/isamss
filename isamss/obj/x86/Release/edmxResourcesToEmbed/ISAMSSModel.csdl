@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ISAMSSModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2006/04/edm">
+  <EntityContainer Name="ISAMSSEntities">
+    <EntitySet Name="activities" EntityType="ISAMSSModel.activity" />
+    <EntitySet Name="activity_class" EntityType="ISAMSSModel.activity_class" />
+    <EntitySet Name="cars" EntityType="ISAMSSModel.car" />
+    <EntitySet Name="cios" EntityType="ISAMSSModel.cio" />
+    <EntitySet Name="cmmi_process_area" EntityType="ISAMSSModel.cmmi_process_area" />
+    <EntitySet Name="contracts" EntityType="ISAMSSModel.contract" />
+    <EntitySet Name="crrs" EntityType="ISAMSSModel.crr" />
+    <EntitySet Name="customer_interaction" EntityType="ISAMSSModel.customer_interaction" />
+    <EntitySet Name="customers" EntityType="ISAMSSModel.customer" />
+    <EntitySet Name="dmar_attachment" EntityType="ISAMSSModel.dmar_attachment" />
+    <EntitySet Name="dmars" EntityType="ISAMSSModel.dmar" />
+    <EntitySet Name="dmas1" EntityType="ISAMSSModel.dmas" />
+    <EntitySet Name="lods" EntityType="ISAMSSModel.lod" />
+    <EntitySet Name="observation_cmmi_proc_area" EntityType="ISAMSSModel.observation_cmmi_proc_area" />
+    <EntitySet Name="observations" EntityType="ISAMSSModel.observation" />
+    <EntitySet Name="sites" EntityType="ISAMSSModel.site" />
+    <EntitySet Name="suppliers" EntityType="ISAMSSModel.supplier" />
+    <EntitySet Name="users" EntityType="ISAMSSModel.user" />
+    <AssociationSet Name="FK_activities_activity_classes" Association="ISAMSSModel.FK_activities_activity_classes">
+      <End Role="activity_classes" EntitySet="activity_class" />
+      <End Role="activities" EntitySet="activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_activities_contracts" Association="ISAMSSModel.FK_activities_contracts">
+      <End Role="contracts" EntitySet="contracts" />
+      <End Role="activities" EntitySet="activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_observations_activities" Association="ISAMSSModel.FK_observations_activities">
+      <End Role="activities" EntitySet="activities" />
+      <End Role="observations" EntitySet="observations" />
+    </AssociationSet>
+    <AssociationSet Name="FK_user_activities" Association="ISAMSSModel.FK_user_activities">
+      <End Role="users" EntitySet="users" />
+      <End Role="activities" EntitySet="activities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cars_observations" Association="ISAMSSModel.FK_cars_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="cars" EntitySet="cars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cios_observations" Association="ISAMSSModel.FK_cios_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="cios" EntitySet="cios" />
+    </AssociationSet>
+    <AssociationSet Name="FK_observation_cmmi_proc_areas_cmmi_process_areas" Association="ISAMSSModel.FK_observation_cmmi_proc_areas_cmmi_process_areas">
+      <End Role="cmmi_process_areas" EntitySet="cmmi_process_area" />
+      <End Role="observation_cmmi_proc_areas" EntitySet="observation_cmmi_proc_area" />
+    </AssociationSet>
+    <AssociationSet Name="FK_contracts_customers" Association="ISAMSSModel.FK_contracts_customers">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="contracts" EntitySet="contracts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_contracts_suppliers" Association="ISAMSSModel.FK_contracts_suppliers">
+      <End Role="suppliers" EntitySet="suppliers" />
+      <End Role="contracts" EntitySet="contracts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_crrs_contracts" Association="ISAMSSModel.FK_crrs_contracts">
+      <End Role="contracts" EntitySet="contracts" />
+      <End Role="crrs" EntitySet="crrs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lods_contracts" Association="ISAMSSModel.FK_lods_contracts">
+      <End Role="contracts" EntitySet="contracts" />
+      <End Role="lods" EntitySet="lods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_crrs_users" Association="ISAMSSModel.FK_crrs_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="crrs" EntitySet="crrs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_customer_interaction_customers" Association="ISAMSSModel.FK_customer_interaction_customers">
+      <End Role="customers" EntitySet="customers" />
+      <End Role="customer_interactions" EntitySet="customer_interaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_customer_interactions_users" Association="ISAMSSModel.FK_customer_interactions_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="customer_interactions" EntitySet="customer_interaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmar_attachments_dmars" Association="ISAMSSModel.FK_dmar_attachments_dmars">
+      <End Role="dmars" EntitySet="dmars" />
+      <End Role="dmar_attachments" EntitySet="dmar_attachment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmars_dmas" Association="ISAMSSModel.FK_dmars_dmas">
+      <End Role="dmas" EntitySet="dmas1" />
+      <End Role="dmars" EntitySet="dmars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmars_observations" Association="ISAMSSModel.FK_dmars_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="dmars" EntitySet="dmars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dmas_users" Association="ISAMSSModel.FK_dmas_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="dmas" EntitySet="dmas1" />
+    </AssociationSet>
+    <AssociationSet Name="FK_lods_users" Association="ISAMSSModel.FK_lods_users">
+      <End Role="users" EntitySet="users" />
+      <End Role="lods" EntitySet="lods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_observation_cmmi_proc_areas_observations" Association="ISAMSSModel.FK_observation_cmmi_proc_areas_observations">
+      <End Role="observations" EntitySet="observations" />
+      <End Role="observation_cmmi_proc_areas" EntitySet="observation_cmmi_proc_area" />
+    </AssociationSet>
+    <AssociationSet Name="FK_sites_suppliers" Association="ISAMSSModel.FK_sites_suppliers">
+      <End Role="suppliers" EntitySet="suppliers" />
+      <End Role="sites" EntitySet="sites" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="activity">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="entry_date" Type="DateTime" Nullable="false" />
+    <Property Name="activity_date" Type="DateTime" Nullable="false" />
+    <NavigationProperty Name="activity_class" Relationship="ISAMSSModel.FK_activities_activity_classes" FromRole="activities" ToRole="activity_classes" />
+    <NavigationProperty Name="contract" Relationship="ISAMSSModel.FK_activities_contracts" FromRole="activities" ToRole="contracts" />
+    <NavigationProperty Name="observations" Relationship="ISAMSSModel.FK_observations_activities" FromRole="activities" ToRole="observations" />
+    <NavigationProperty Name="user" Relationship="ISAMSSModel.FK_user_activities" FromRole="activities" ToRole="users" />
+  </EntityType>
+  <EntityType Name="activity_class">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="activities" Relationship="ISAMSSModel.FK_activities_activity_classes" FromRole="activity_classes" ToRole="activities" />
+  </EntityType>
+  <EntityType Name="car">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="car_record_num" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="submit_date" Type="DateTime" Nullable="false" />
+    <Property Name="close_date" Type="DateTime" />
+    <NavigationProperty Name="observation" Relationship="ISAMSSModel.FK_cars_observations" FromRole="cars" ToRole="observations" />
+  </EntityType>
+  <EntityType Name="cio">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="cio_record_num" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="submit_date" Type="DateTime" Nullable="false" />
+    <Property Name="close_date" Type="DateTime" />
+    <NavigationProperty Name="observation" Relationship="ISAMSSModel.FK_cios_observations" FromRole="cios" ToRole="observations" />
+  </EntityType>
+  <EntityType Name="cmmi_process_area">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="acronym" Type="String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="false" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="observation_cmmi_proc_areas" Relationship="ISAMSSModel.FK_observation_cmmi_proc_areas_cmmi_process_areas" FromRole="cmmi_process_areas" ToRole="observation_cmmi_proc_areas" />
+  </EntityType>
+  <EntityType Name="contract">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="contract_num" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="subcontract" Type="Boolean" Nullable="false" />
+    <Property Name="program_name" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="activities" Relationship="ISAMSSModel.FK_activities_contracts" FromRole="contracts" ToRole="activities" />
+    <NavigationProperty Name="customer" Relationship="ISAMSSModel.FK_contracts_customers" FromRole="contracts" ToRole="customers" />
+    <NavigationProperty Name="supplier" Relationship="ISAMSSModel.FK_contracts_suppliers" FromRole="contracts" ToRole="suppliers" />
+    <NavigationProperty Name="crrs" Relationship="ISAMSSModel.FK_crrs_contracts" FromRole="contracts" ToRole="crrs" />
+    <NavigationProperty Name="lods" Relationship="ISAMSSModel.FK_lods_contracts" FromRole="contracts" ToRole="lods" />
+  </EntityType>
+  <EntityType Name="crr">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="date_reviewed" Type="DateTime" Nullable="false" />
+    <Property Name="cost_criticality" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
+    <Property Name="cost_criticality_rationale" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="schedule_criticality" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
+    <Property Name="schedule_criticality_rationale" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="technical_criticality" Type="String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="false" />
+    <Property Name="technical_criticality_rationale" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="contract" Relationship="ISAMSSModel.FK_crrs_contracts" FromRole="crrs" ToRole="contracts" />
+    <NavigationProperty Name="user" Relationship="ISAMSSModel.FK_crrs_users" FromRole="crrs" ToRole="users" />
+  </EntityType>
+  <EntityType Name="customer_interaction">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="date_of_interaction" Type="DateTime" Nullable="false" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="customer" Relationship="ISAMSSModel.FK_customer_interaction_customers" FromRole="customer_interactions" ToRole="customers" />
+    <NavigationProperty Name="user" Relationship="ISAMSSModel.FK_customer_interactions_users" FromRole="customer_interactions" ToRole="users" />
+  </EntityType>
+  <EntityType Name="customer">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="contracts" Relationship="ISAMSSModel.FK_contracts_customers" FromRole="customers" ToRole="contracts" />
+    <NavigationProperty Name="customer_interactions" Relationship="ISAMSSModel.FK_customer_interaction_customers" FromRole="customers" ToRole="customer_interactions" />
+  </EntityType>
+  <EntityType Name="dmar_attachment">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="attachment" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="dmar" Relationship="ISAMSSModel.FK_dmar_attachments_dmars" FromRole="dmar_attachments" ToRole="dmars" />
+  </EntityType>
+  <EntityType Name="dmar">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="analysis_date" Type="DateTime" Nullable="false" />
+    <Property Name="period_covered_from" Type="DateTime" Nullable="false" />
+    <Property Name="period_covered_to" Type="DateTime" Nullable="false" />
+    <Property Name="analysis_activities" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="analysis_results" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="conclusions" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="dmar_attachments" Relationship="ISAMSSModel.FK_dmar_attachments_dmars" FromRole="dmars" ToRole="dmar_attachments" />
+    <NavigationProperty Name="dmas" Relationship="ISAMSSModel.FK_dmars_dmas" FromRole="dmars" ToRole="dmas" />
+    <NavigationProperty Name="observation" Relationship="ISAMSSModel.FK_dmars_observations" FromRole="dmars" ToRole="observations" />
+  </EntityType>
+  <EntityType Name="dmas">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="data_measure" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="purpose" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="base_data_measure" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="thresholds_indicators" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="course_of_action" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="reporting" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="data_measure_source" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="repository" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="reporting_attachment" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="related_data_measures" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="dmars" Relationship="ISAMSSModel.FK_dmars_dmas" FromRole="dmas" ToRole="dmars" />
+    <NavigationProperty Name="user" Relationship="ISAMSSModel.FK_dmas_users" FromRole="dmas" ToRole="users" />
+  </EntityType>
+  <EntityType Name="lod">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="effective_date" Type="DateTime" Nullable="false" />
+    <Property Name="delegating" Type="Boolean" Nullable="false" />
+    <Property Name="attachment" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="contract" Relationship="ISAMSSModel.FK_lods_contracts" FromRole="lods" ToRole="contracts" />
+    <NavigationProperty Name="user" Relationship="ISAMSSModel.FK_lods_users" FromRole="lods" ToRole="users" />
+  </EntityType>
+  <EntityType Name="observation_cmmi_proc_area">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="cmmi_process_areas" Relationship="ISAMSSModel.FK_observation_cmmi_proc_areas_cmmi_process_areas" FromRole="observation_cmmi_proc_areas" ToRole="cmmi_process_areas" />
+    <NavigationProperty Name="observation" Relationship="ISAMSSModel.FK_observation_cmmi_proc_areas_observations" FromRole="observation_cmmi_proc_areas" ToRole="observations" />
+  </EntityType>
+  <EntityType Name="observation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="noncompliance_weakness" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="activity" Relationship="ISAMSSModel.FK_observations_activities" FromRole="observations" ToRole="activities" />
+    <NavigationProperty Name="cars" Relationship="ISAMSSModel.FK_cars_observations" FromRole="observations" ToRole="cars" />
+    <NavigationProperty Name="cios" Relationship="ISAMSSModel.FK_cios_observations" FromRole="observations" ToRole="cios" />
+    <NavigationProperty Name="dmars" Relationship="ISAMSSModel.FK_dmars_observations" FromRole="observations" ToRole="dmars" />
+    <NavigationProperty Name="observation_cmmi_proc_areas" Relationship="ISAMSSModel.FK_observation_cmmi_proc_areas_observations" FromRole="observations" ToRole="observation_cmmi_proc_areas" />
+  </EntityType>
+  <EntityType Name="site">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="site_name" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="location" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="supplier" Relationship="ISAMSSModel.FK_sites_suppliers" FromRole="sites" ToRole="suppliers" />
+  </EntityType>
+  <EntityType Name="supplier">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="title" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="contracts" Relationship="ISAMSSModel.FK_contracts_suppliers" FromRole="suppliers" ToRole="contracts" />
+    <NavigationProperty Name="sites" Relationship="ISAMSSModel.FK_sites_suppliers" FromRole="suppliers" ToRole="sites" />
+  </EntityType>
+  <EntityType Name="user">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="lname" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="fname" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <Property Name="logonid" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="activities" Relationship="ISAMSSModel.FK_user_activities" FromRole="users" ToRole="activities" />
+    <NavigationProperty Name="crrs" Relationship="ISAMSSModel.FK_crrs_users" FromRole="users" ToRole="crrs" />
+    <NavigationProperty Name="customer_interactions" Relationship="ISAMSSModel.FK_customer_interactions_users" FromRole="users" ToRole="customer_interactions" />
+    <NavigationProperty Name="dmas" Relationship="ISAMSSModel.FK_dmas_users" FromRole="users" ToRole="dmas" />
+    <NavigationProperty Name="lods" Relationship="ISAMSSModel.FK_lods_users" FromRole="users" ToRole="lods" />
+  </EntityType>
+  <Association Name="FK_activities_activity_classes">
+    <End Role="activity_classes" Type="ISAMSSModel.activity_class" Multiplicity="1" />
+    <End Role="activities" Type="ISAMSSModel.activity" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_activities_contracts">
+    <End Role="contracts" Type="ISAMSSModel.contract" Multiplicity="1" />
+    <End Role="activities" Type="ISAMSSModel.activity" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_observations_activities">
+    <End Role="activities" Type="ISAMSSModel.activity" Multiplicity="1" />
+    <End Role="observations" Type="ISAMSSModel.observation" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_user_activities">
+    <End Role="users" Type="ISAMSSModel.user" Multiplicity="1" />
+    <End Role="activities" Type="ISAMSSModel.activity" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_cars_observations">
+    <End Role="observations" Type="ISAMSSModel.observation" Multiplicity="1" />
+    <End Role="cars" Type="ISAMSSModel.car" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_cios_observations">
+    <End Role="observations" Type="ISAMSSModel.observation" Multiplicity="1" />
+    <End Role="cios" Type="ISAMSSModel.cio" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_observation_cmmi_proc_areas_cmmi_process_areas">
+    <End Role="cmmi_process_areas" Type="ISAMSSModel.cmmi_process_area" Multiplicity="0..1" />
+    <End Role="observation_cmmi_proc_areas" Type="ISAMSSModel.observation_cmmi_proc_area" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_contracts_customers">
+    <End Role="customers" Type="ISAMSSModel.customer" Multiplicity="0..1" />
+    <End Role="contracts" Type="ISAMSSModel.contract" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_contracts_suppliers">
+    <End Role="suppliers" Type="ISAMSSModel.supplier" Multiplicity="1" />
+    <End Role="contracts" Type="ISAMSSModel.contract" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_crrs_contracts">
+    <End Role="contracts" Type="ISAMSSModel.contract" Multiplicity="1" />
+    <End Role="crrs" Type="ISAMSSModel.crr" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_lods_contracts">
+    <End Role="contracts" Type="ISAMSSModel.contract" Multiplicity="1" />
+    <End Role="lods" Type="ISAMSSModel.lod" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_crrs_users">
+    <End Role="users" Type="ISAMSSModel.user" Multiplicity="1" />
+    <End Role="crrs" Type="ISAMSSModel.crr" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_customer_interaction_customers">
+    <End Role="customers" Type="ISAMSSModel.customer" Multiplicity="1" />
+    <End Role="customer_interactions" Type="ISAMSSModel.customer_interaction" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_customer_interactions_users">
+    <End Role="users" Type="ISAMSSModel.user" Multiplicity="1" />
+    <End Role="customer_interactions" Type="ISAMSSModel.customer_interaction" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_dmar_attachments_dmars">
+    <End Role="dmars" Type="ISAMSSModel.dmar" Multiplicity="1" />
+    <End Role="dmar_attachments" Type="ISAMSSModel.dmar_attachment" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_dmars_dmas">
+    <End Role="dmas" Type="ISAMSSModel.dmas" Multiplicity="1" />
+    <End Role="dmars" Type="ISAMSSModel.dmar" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_dmars_observations">
+    <End Role="observations" Type="ISAMSSModel.observation" Multiplicity="1" />
+    <End Role="dmars" Type="ISAMSSModel.dmar" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_dmas_users">
+    <End Role="users" Type="ISAMSSModel.user" Multiplicity="0..1" />
+    <End Role="dmas" Type="ISAMSSModel.dmas" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_lods_users">
+    <End Role="users" Type="ISAMSSModel.user" Multiplicity="0..1" />
+    <End Role="lods" Type="ISAMSSModel.lod" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_observation_cmmi_proc_areas_observations">
+    <End Role="observations" Type="ISAMSSModel.observation" Multiplicity="0..1" />
+    <End Role="observation_cmmi_proc_areas" Type="ISAMSSModel.observation_cmmi_proc_area" Multiplicity="*" />
+  </Association>
+  <Association Name="FK_sites_suppliers">
+    <End Role="suppliers" Type="ISAMSSModel.supplier" Multiplicity="1" />
+    <End Role="sites" Type="ISAMSSModel.site" Multiplicity="*" />
+  </Association>
+</Schema>
