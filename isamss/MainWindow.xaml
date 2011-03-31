@@ -152,6 +152,7 @@
                     </TabItem>
                     <TabItem Header="CAR" Name="tabitem_car" />
                     <TabItem Header="CIO" Name="tabitem_cio" />
+                    <TabItem Header="Reports" IsEnabled="True" Name="tab_reports" />
                 </TabControl>
             </Grid>
         </GroupBox>
