@@ -113,8 +113,6 @@ Class MainWindow
 
         txt_userid.Text = Application.CurrentUser.LogonID
         txt_username.Text = Application.CurrentUser.FullName
-        myContractsFilter = New TContractsFilter
-        ttvContractsQuickview.BuildContractsTree(myContractsFilter.Contracts)
     End Sub
 
     Private Sub ClearAllTabs()
@@ -297,7 +295,13 @@ Class MainWindow
     Private Sub tab_useractivities_RequestBringIntoView(ByVal sender As System.Object, ByVal e As System.Windows.RequestBringIntoViewEventArgs) Handles tab_useractivities.RequestBringIntoView
     End Sub
 
+    Private Sub MainWindow_Closed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Closed
+        Application.Current.Shutdown()
+    End Sub
+
     Private Sub mainwindow_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
+        myContractsFilter = New TContractsFilter
+        ttvContractsQuickview.BuildContractsTree(myContractsFilter.Contracts)
         PopulateAllTabs()
     End Sub
 

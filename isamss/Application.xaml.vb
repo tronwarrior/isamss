@@ -151,7 +151,6 @@ Class Application
             End If
 
             _appEventLog.Source = Me.Info.ProductName
-
             _currentUser = New TUser
 
             If _currentUser.ID = TObject.InvalidID Then
@@ -159,13 +158,12 @@ Class Application
                 registerUserForm.ShowDialog()
             End If
 
-            _isAuthenticated = False
-
             If _currentUser.ID <> TObject.InvalidID Then
                 _isAuthenticated = True
                 _appEventLog.WriteEntry("ISAMSS::Application_Startup: User " & _currentUser.LogonID & " authenticated", EventLogEntryType.Information)
             Else
                 _appEventLog.WriteEntry("ISAMSS::Application_Startup: User " & _currentUser.LogonID & " not authenticated, application shutting down", EventLogEntryType.Warning)
+                _isAuthenticated = False
                 Me.Shutdown()
             End If
         Catch e As System.Exception
