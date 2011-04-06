@@ -36,114 +36,114 @@ Imports System.Windows.Shapes
 '''<summary>
 '''LogonForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Public Class LogonForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",4)
     Friend WithEvents login As LogonForm
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",10)
     Friend WithEvents txt_userid As System.Windows.Controls.TextBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",11)
     Friend WithEvents txt_pwd As System.Windows.Controls.PasswordBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",12)
     Friend WithEvents Image1 As System.Windows.Controls.Image
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",13)
     Friend WithEvents label3 As System.Windows.Controls.Label
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",14)
     Friend WithEvents label4 As System.Windows.Controls.Label
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",15)
     Friend WithEvents btn_cancel As System.Windows.Controls.Button
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Logon.xaml",16)
     Friend WithEvents btn_authenticate As System.Windows.Controls.Button
-    
+
     #End ExternalSource
-    
+
     Private _contentLoaded As Boolean
-    
+
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = true
+        _contentLoaded = True
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/logon.xaml", System.UriKind.Relative)
-        
+
         #ExternalSource("..\..\..\Logon.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-        
+
         #End ExternalSource
     End Sub
-    
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")> _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.login = CType(target,LogonForm)
+            Me.login = CType(target, LogonForm)
             Return
         End If
         If (connectionId = 2) Then
-            Me.txt_userid = CType(target,System.Windows.Controls.TextBox)
+            Me.txt_userid = CType(target, System.Windows.Controls.TextBox)
             Return
         End If
         If (connectionId = 3) Then
-            Me.txt_pwd = CType(target,System.Windows.Controls.PasswordBox)
+            Me.txt_pwd = CType(target, System.Windows.Controls.PasswordBox)
             Return
         End If
         If (connectionId = 4) Then
-            Me.Image1 = CType(target,System.Windows.Controls.Image)
+            Me.Image1 = CType(target, System.Windows.Controls.Image)
             Return
         End If
         If (connectionId = 5) Then
-            Me.label3 = CType(target,System.Windows.Controls.Label)
+            Me.label3 = CType(target, System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 6) Then
-            Me.label4 = CType(target,System.Windows.Controls.Label)
+            Me.label4 = CType(target, System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 7) Then
-            Me.btn_cancel = CType(target,System.Windows.Controls.Button)
+            Me.btn_cancel = CType(target, System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 8) Then
-            Me.btn_authenticate = CType(target,System.Windows.Controls.Button)
+            Me.btn_authenticate = CType(target, System.Windows.Controls.Button)
             Return
         End If
-        Me._contentLoaded = true
+        Me._contentLoaded = True
     End Sub
 End Class

@@ -99,7 +99,7 @@
                             <GroupBox Header="Interaction Journal" Height="219" HorizontalAlignment="Left" Margin="6,229,0,0" Name="GroupBox6" VerticalAlignment="Top" Width="573">
                                 <Grid>
                                     <ListView Height="155" HorizontalAlignment="Left" Margin="10,6,0,0" Name="lstvwCustomerJournal" VerticalAlignment="Top" Width="537" />
-                                    <Button Content="New" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="10,170,0,0" Name="Button1" VerticalAlignment="Top" Width="75" />
+                                    <Button Content="New" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="10,170,0,0" Name="btnNewCustomerInteractionJournal" VerticalAlignment="Top" Width="75" />
                                 </Grid>
                             </GroupBox>
                         </Grid>

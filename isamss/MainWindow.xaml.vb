@@ -27,6 +27,7 @@ Class MainWindow
         If contract IsNot Nothing Then
             btnNewLod.IsEnabled = True
             lstvwLods.ItemsSource = contract.LODs
+            btnNewCustomerInteractionJournal.IsEnabled = True
         End If
     End Sub
 
@@ -98,6 +99,11 @@ Class MainWindow
     Private Sub NewContract()
         Dim newContract As New NewContractForm(Me)
         newContract.ShowDialog()
+
+        If newContract.DialogResult = True Then
+            ttvContractsQuickview.CurrentContract.Refresh()
+            ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+        End If
     End Sub
 
     Private Sub btnEdit_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnEdit.Click
@@ -185,6 +191,7 @@ Class MainWindow
             lod.ShowDialog()
 
             If lod.DialogResult = True Then
+                ttvContractsQuickview.CurrentContract.Refresh()
                 ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
                 PopulateCustomerInteractionTab(ttvContractsQuickview.CurrentContract)
             End If
@@ -192,16 +199,18 @@ Class MainWindow
     End Sub
 
     Private Sub lstvwLods_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwLods.MouseDoubleClick
-        Dim lod As New LodForm(Me, CType(lstvwLods.SelectedItem, TLod))
-        lod.ShowDialog()
+        If lstvwLods.SelectedItem IsNot Nothing Then
+            Dim lod As New LodForm(Me, CType(lstvwLods.SelectedItem, TLod))
+            lod.ShowDialog()
 
-        If lod.DialogResult = True Then
-            If ttvContractsQuickview.CurrentContract IsNot Nothing Then
-                ttvContractsQuickview.CurrentContract.Refresh()
+            If lod.DialogResult = True Then
+                If ttvContractsQuickview.CurrentContract IsNot Nothing Then
+                    ttvContractsQuickview.CurrentContract.Refresh()
+                End If
+
+                ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+                PopulateCustomerInteractionTab(txtContractNumber.Tag)
             End If
-
-            ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
-            PopulateCustomerInteractionTab(txtContractNumber.Tag)
         End If
     End Sub
 

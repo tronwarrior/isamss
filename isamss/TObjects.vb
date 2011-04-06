@@ -2282,10 +2282,12 @@ Public Class TActivityClasses
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " &
-                                    "FROM (activity_classes INNER JOIN " &
-                                    "activities ON activity_classes.id = activities.activity_classes_id) " &
-                                    "WHERE (activities.user_id = " + CStr(user.ID) + ") AND (activities.contract_id = " + CStr(contract.ID) + ")"
+                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
+                            "FROM (activity_classes " & _
+                            "INNER JOIN activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
+                            "WHERE (activity_activity_classes.activity_id IN " & _
+                            "(SELECT activities.id FROM(activities) WHERE (user_id = " & CStr(user.ID) & ") AND (contract_id = " & _
+                            CStr(contract.ID) & ")))"
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim act_classes As New ISAMSSds.activity_classesDataTable
                 adapter.Fill(act_classes)
@@ -2299,20 +2301,42 @@ Public Class TActivityClasses
         End Try
     End Sub
 
-    Public Sub New(ByVal contract)
+    Public Sub New(ByVal contract As TContract)
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " &
-                                    "FROM (activity_classes INNER JOIN " &
-                                    "activities ON activity_classes.id = activities.activity_classes_id) " &
-                                    "WHERE (activities.contract_id = " + CStr(contract.ID) + ")"
+                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
+                        "FROM (activity_classes INNER JOIN " & _
+                        "activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
+                        "WHERE     (activity_activity_classes.activity_id IN " & _
+                        "(SELECT id FROM(activities) WHERE (contract_id = " & CStr(contract.ID) & ")))"
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim act_classes As New ISAMSSds.activity_classesDataTable
                 adapter.Fill(act_classes)
 
                 For Each act_class In act_classes
                     Dim a As New TActivityClass(act_class, contract)
+                    MyBase.Add(a)
+                Next
+            End Using
+        Catch e As OleDb.OleDbException
+        End Try
+    End Sub
+
+    Public Sub New(ByVal activity As TActivity)
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
+                        "FROM (activity_classes INNER JOIN " & _
+                        "activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
+                        "WHERE(activity_activity_classes.activity_id = " + CStr(activity.ID) + ")"
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim act_classes As New ISAMSSds.activity_classesDataTable
+                adapter.Fill(act_classes)
+
+                For Each act_class In act_classes
+                    Dim a As New TActivityClass(act_class)
                     MyBase.Add(a)
                 Next
             End Using
@@ -2330,7 +2354,7 @@ Public Class TActivityClass
         myid = row.id
         mytitle = row.title
 
-        If Not row.IsNull("description") Then
+        If row.IsdescriptionNull <> True Then
             mydescription = row.description
         End If
     End Sub
@@ -2432,7 +2456,7 @@ Public Class TActivityClass
 
     Private myid As Integer
     Private mytitle As String
-    Private mydescription As String = ""
+    Private mydescription As String
     Private myactivities As TActivities
 End Class
 
@@ -2484,7 +2508,6 @@ Public Class TActivity
             _myID = row.id
             myEntryDate = row.entry_date
             myActivityDate = row.activity_date
-            myActivityClassId = row.activity_classes_id
             myContractId = row.contract_id
             myUserId = row.user_id
             myobservations = New TObservations(Me)
@@ -2510,15 +2533,9 @@ Public Class TActivity
         End Set
     End Property
 
-    ReadOnly Property ActivityClass As TActivityClass
+    ReadOnly Property ActivityClass As TActivityClasses
         Get
-            Return New TActivityClass(myActivityClassId)
-        End Get
-    End Property
-
-    ReadOnly Property ActivityClassTitle As String
-        Get
-            Return New TActivityClass(myActivityClassId).Title
+            Return New TActivityClasses(Me)
         End Get
     End Property
 
@@ -2549,9 +2566,7 @@ Public Class TActivity
     Private myActivityDate As Date
     Private myUserId As Integer
     Private myContractId As Integer
-    Private myActivityClassId As Integer
     Private myobservations As TObservations
-
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////

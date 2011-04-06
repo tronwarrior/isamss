@@ -90,8 +90,6 @@ Public Class TTreeView
                     first = False
                 End If
 
-                ' Add this contracts treeviewitem to the hashtable with the contract id as the key
-                myContractsMap.Add(ct.ID, tvi)
                 MyBase.Items.Add(tvi)
             Next
         Catch e As System.Exception
@@ -109,6 +107,7 @@ Public Class TTreeView
             mySurveillanceMap.Remove(myCurrentContract.ID)
             tvi.Items.Clear()
             PopulateContractBranch(tvi, myCurrentContract, u)
+            myContractsMap.Add(myCurrentContract.ID, tvi)
             tvi.IsExpanded = True
         End If
     End Sub
@@ -231,7 +230,6 @@ Public Class TTreeView
 
             ' Add the activity class node to the tree.
             survTvi.Items.Add(ac)
-
         Next
 
         mySurveillanceMap.Add(ct.ID, survTvi)
@@ -245,6 +243,7 @@ Public Class TTreeView
 
         ' Populate the branch with the contract data
         PopulateContractBranch(ctTvi, ct, u)
+        myContractsMap.Add(ct.ID, ctTvi)
 
         Return ctTvi
     End Function

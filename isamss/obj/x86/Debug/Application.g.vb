@@ -38,39 +38,39 @@ Imports System.Windows.Shapes
 '''</summary>
 Partial Public Class Application
     Inherits System.Windows.Application
-    
+
     Private _contentLoaded As Boolean
-    
+
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
     Public Sub InitializeComponent()
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = true
-        
+        _contentLoaded = True
+
         #ExternalSource("..\..\..\Application.xaml",4)
         Me.StartupUri = New System.Uri("MainWindow.xaml", System.UriKind.Relative)
-        
+
         #End ExternalSource
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/application.xaml", System.UriKind.Relative)
-        
+
         #ExternalSource("..\..\..\Application.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-        
+
         #End ExternalSource
     End Sub
-    
+
     '''<summary>
     '''Application Entry Point.
     '''</summary>
-    <System.STAThreadAttribute(),  _
-     System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+    <System.STAThreadAttribute(), _
+     System.Diagnostics.DebuggerNonUserCodeAttribute()> _
     Public Shared Sub Main()
         Dim app As Application = New Application()
-        app.InitializeComponent
-        app.Run
+        app.InitializeComponent()
+        app.Run()
     End Sub
 End Class

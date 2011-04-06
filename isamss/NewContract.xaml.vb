@@ -45,10 +45,7 @@
         Dim crr As New TCrr(_contract.ID, dtpicker_reviewed.SelectedDate.Value, cbo_costCriticality.SelectedItem.Content, _
                             txt_costRationale.Text, cbo_schedCriticality.SelectedItem.Content, txt_schedRationale.Text, _
                             cbo_techCriticality.SelectedItem.Content, txt_techRationale.Text, Application.CurrentUser())
-        If _fileUpload.Upload = True Then
-            crr.AttachmentId = _fileUpload.Attachment.ID
-        End If
-
+        crr.AttachmentId = tspAttachment.Attachment.ID
         _contract.CRRs.Add(crr)
 
         For Each s In lstvwContractSites.ItemsSource
@@ -56,10 +53,13 @@
         Next
 
         _contract.Save()
+        _formDirty = False
+        DialogResult = True
         MyBase.Close()
     End Sub
 
     Private Sub btn_cancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_cancel.Click
+        DialogResult = False
         MyBase.Close()
     End Sub
 
