@@ -1422,6 +1422,7 @@ Public Class TCustomerJournalEntry
                 End If
             End Using
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TCustomerJournalEntry::Save, Exception, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1826,6 +1827,16 @@ Public Class TLod
         Set(ByVal value As Boolean)
             myIsDelegator = value
         End Set
+    End Property
+
+    ReadOnly Property IsDelegatorToString As String
+        Get
+            If myIsDelegator = True Then
+                Return "Yes"
+            Else
+                Return "No"
+            End If
+        End Get
     End Property
 
     ReadOnly Property Attachment As TAttachment

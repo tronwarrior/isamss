@@ -121,6 +121,9 @@
     <Compile Include="CRRForm.xaml.vb">
       <DependentUpon>CRRForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomerJournal.xaml.vb">
+      <DependentUpon>CustomerJournal.xaml</DependentUpon>
+    </Compile>
     <Compile Include="FileUpload.vb" />
     <Compile Include="FileUploadAndViewFormBase.vb" />
     <Compile Include="FileView.vb" />
@@ -167,11 +170,16 @@
       <DependentUpon>TStackPanelAttachment.xaml</DependentUpon>
     </Compile>
     <Compile Include="TTreeView.vb" />
+    <Compile Include="ValidationBinding.vb" />
     <Page Include="Contract.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Customer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomerJournal.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -373,6 +381,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\monitor_go.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\group.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

@@ -50,6 +50,14 @@ InitializeComponent
 	<summary>
 CustomerForm
 </summary>
+</member><member name="M:isamss.CustomerJournal.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.CustomerJournal">
+	<summary>
+CustomerJournal
+</summary>
 </member><member name="M:isamss.SiteForm.InitializeComponent">
 	<summary>
 InitializeComponent

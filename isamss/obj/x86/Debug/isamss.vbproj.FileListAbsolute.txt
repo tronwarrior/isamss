@@ -74,3 +74,5 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.exe
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.xml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.pdb
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\CustomerJournal.g.vb
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\CustomerJournal.baml

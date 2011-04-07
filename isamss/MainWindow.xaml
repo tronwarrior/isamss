@@ -86,7 +86,7 @@
                                         <ListView.View>
                                             <GridView AllowsColumnReorder="False">
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=EffectiveDate, StringFormat=d}" Header="Effective Date" />
-                                                <GridViewColumn DisplayMemberBinding="{Binding Path=IsDelegator}" Header="Delegator?" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=IsDelegatorToString}" Header="Delegator?" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Attachment.OriginalFilename}" Header="Attachment" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=Attachment.OriginalComputername}" Header="Uploaded From" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=User.FullName}" Header="Uploaded By" />
@@ -96,9 +96,17 @@
                                     <Button Content="New" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="10,153,0,0" Name="btnNewLod" VerticalAlignment="Top" Width="75" />
                                 </Grid>
                             </GroupBox>
-                            <GroupBox Header="Interaction Journal" Height="219" HorizontalAlignment="Left" Margin="6,229,0,0" Name="GroupBox6" VerticalAlignment="Top" Width="573">
+                            <GroupBox Header="Customer Interaction Journal Entries" Height="219" HorizontalAlignment="Left" Margin="6,229,0,0" Name="GroupBox6" VerticalAlignment="Top" Width="573">
                                 <Grid>
-                                    <ListView Height="155" HorizontalAlignment="Left" Margin="10,6,0,0" Name="lstvwCustomerJournal" VerticalAlignment="Top" Width="537" />
+                                    <ListView ItemsSource="{Binding}" Height="155" HorizontalAlignment="Left" Margin="10,6,0,0" Name="lstvwCustomerJournal" VerticalAlignment="Top" Width="537">
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="False">
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=CreatedAt, StringFormat=d}" Header="Entry Date" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=User.FullName}" Header="Uploaded By" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=Attachment.OriginalFilename}" Header="Attachment" />
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
                                     <Button Content="New" Height="23" HorizontalAlignment="Left" IsEnabled="False" Margin="10,170,0,0" Name="btnNewCustomerInteractionJournal" VerticalAlignment="Top" Width="75" />
                                 </Grid>
                             </GroupBox>
@@ -106,10 +114,6 @@
                     </TabItem>
                     <TabItem Header="Surveillance" IsEnabled="True" Name="tabitem_surveillance">
                         <Grid Height="453" Name="gridContractSurveillance" Width="578" Visibility="Visible">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="226*" />
-                                <ColumnDefinition Width="347*" />
-                            </Grid.ColumnDefinitions>
                             <GroupBox Grid.ColumnSpan="2" Header="PSSP" Height="160" HorizontalAlignment="Left" Margin="21,17,0,0" Name="GroupBox3" VerticalAlignment="Top" Width="542">
                                 <Grid>
                                     <ListView ItemsSource="{Binding}" Height="98" HorizontalAlignment="Left" Margin="7,8,0,0" Name="lstvwPSSPs" VerticalAlignment="Top" Width="516" SelectionMode="Single">

@@ -28,6 +28,7 @@ Class MainWindow
             btnNewLod.IsEnabled = True
             lstvwLods.ItemsSource = contract.LODs
             btnNewCustomerInteractionJournal.IsEnabled = True
+            lstvwCustomerJournal.ItemsSource = New TCustomerJournalEntries(ttvContractsQuickview.CurrentContract)
         End If
     End Sub
 
@@ -301,9 +302,6 @@ Class MainWindow
         End If
     End Sub
 
-    Private Sub tab_useractivities_RequestBringIntoView(ByVal sender As System.Object, ByVal e As System.Windows.RequestBringIntoViewEventArgs) Handles tab_useractivities.RequestBringIntoView
-    End Sub
-
     Private Sub MainWindow_Closed(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Closed
         Application.Current.Shutdown()
     End Sub
@@ -316,5 +314,32 @@ Class MainWindow
 
     Private Sub ttvContractsQuickview_ContractChanged(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles ttvContractsQuickview.ContractChanged
         PopulateAllTabs()
+    End Sub
+
+    Private Sub btnNewCustomerInteractionJournal_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnNewCustomerInteractionJournal.Click
+        Dim newJournalEntry As New CustomerJournal(Me, ttvContractsQuickview.CurrentContract, Nothing)
+        newJournalEntry.ShowDialog()
+
+        If newJournalEntry.DialogResult = True Then
+            ttvContractsQuickview.CurrentContract.Refresh()
+            ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+            PopulateCustomerInteractionTab(ttvContractsQuickview.CurrentContract)
+        End If
+    End Sub
+
+    Private Sub lstvwCustomerJournal_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwCustomerJournal.MouseDoubleClick
+        If lstvwCustomerJournal.SelectedItem IsNot Nothing Then
+            Dim customerjournalentry As New CustomerJournal(Me, ttvContractsQuickview.CurrentContract, lstvwCustomerJournal.SelectedItem)
+            customerjournalentry.ShowDialog()
+
+            If customerjournalentry.DialogResult = True Then
+                If ttvContractsQuickview.CurrentContract IsNot Nothing Then
+                    ttvContractsQuickview.CurrentContract.Refresh()
+                End If
+
+                ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+                PopulateCustomerInteractionTab(ttvContractsQuickview.CurrentContract)
+            End If
+        End If
     End Sub
 End Class
