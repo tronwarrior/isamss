@@ -265,6 +265,12 @@ Class MainWindow
         If lstvwPSSPs.SelectedItem IsNot Nothing Then
             Dim psspForm As New PSSPForm(Me, CType(lstvwPSSPs.SelectedItem, TPSSP))
             psspForm.ShowDialog()
+
+            If psspForm.DialogResult = True Then
+                ttvContractsQuickview.CurrentContract.Refresh()
+                ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+                PopulateSurveillanceTab(ttvContractsQuickview.CurrentContract)
+            End If
         End If
     End Sub
 
@@ -278,6 +284,21 @@ Class MainWindow
         If lod IsNot Nothing Then
             If lod.UserId = Application.CurrentUser.ID Then
                 lod.Delete()
+                ttvContractsQuickview.CurrentContract.Refresh()
+                ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+                PopulateCustomerInteractionTab(ttvContractsQuickview.CurrentContract)
+            Else
+                MsgBox("You do not have permission to delete this object.", MsgBoxStyle.OkOnly, "ISAMMS")
+            End If
+        End If
+    End Sub
+
+    Private Sub MenuItemDeleteJournalEntry_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MenuItemDeleteJournalEntry.Click
+        Dim je As TCustomerJournalEntry = lstvwCustomerJournal.SelectedItem
+
+        If je IsNot Nothing Then
+            If je.UserId = Application.CurrentUser.ID Then
+                je.Delete()
                 ttvContractsQuickview.CurrentContract.Refresh()
                 ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
                 PopulateCustomerInteractionTab(ttvContractsQuickview.CurrentContract)

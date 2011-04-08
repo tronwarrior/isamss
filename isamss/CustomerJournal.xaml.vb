@@ -16,7 +16,11 @@
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnCancel.Click
-        DialogResult = False
+        If _formDirty = True Then
+            DialogResult = Save()
+        Else
+            DialogResult = False
+        End If
     End Sub
 
     Private Sub dtEntryDate_SelectedDateChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles dtEntryDate.SelectedDateChanged

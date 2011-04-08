@@ -98,6 +98,14 @@ InitializeComponent
 	<summary>
 FilterContractsForm
 </summary>
+</member><member name="M:isamss.Window1.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.Window1">
+	<summary>
+Window1
+</summary>
 </member><member name="M:isamss.NewActivityForm.InitializeComponent">
 	<summary>
 InitializeComponent

@@ -1,5 +1,5 @@
 ﻿Public Class PSSPForm
-    Inherits FileUploadAndViewFormBase
+    'Inherits FileUploadAndViewFormBase
 
     Public Sub New(ByVal parent As Object, ByVal contract As TContract)
 
@@ -39,7 +39,7 @@
         _new = False
     End Sub
 
-    Protected Overrides Sub Save()
+    Private Sub Save()
         If _new = True Then
             If Not dtOriginationDate.SelectedDate.HasValue Or txtNotes.Text.Length = 0 Or cboActionClasses.SelectedIndex = -1 Then
 
@@ -49,7 +49,7 @@
                 _pssp.UserId = Application.CurrentUser.ID
                 _pssp.Metadata = txtNotes.Text
                 _pssp.AttachmentId = stpAttachment.Attachment.ID
-                _pssp.CreatedAt = Date.Now
+                _pssp.CreatedAt = dtOriginationDate.SelectedDate
                 _pssp.Save()
 
                 Dim pssph As New TPSSPHistory
@@ -59,30 +59,37 @@
                 pssph.Notes = txtNotes.Text
                 pssph.UserId = _pssp.UserId
                 pssph.Save()
-
                 _formDirty = False
-
-                MyBase.Close()
             End If
         Else
             If Not dtOriginationDate.SelectedDate.HasValue Or txtNotes.Text.Length = 0 Then
                 MsgBox("All entries must be complete", MsgBoxStyle.Critical, "ISAMMS")
             Else
+                _pssp.CreatedAt = dtOriginationDate.SelectedDate
                 _pssp.Metadata = txtNotes.Text
                 _pssp.AttachmentId = stpAttachment.Attachment.ID
                 _pssp.Save()
                 _formDirty = False
-                MyBase.Close()
             End If
         End If
     End Sub
 
     Private Sub btn_cancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_cancel.Click
+        DialogResult = False
+
+        If _formDirty = True Then
+            If MsgBox("Save changes?", MsgBoxStyle.YesNo, "ISAMMS") = MsgBoxResult.Yes Then
+                Save()
+                DialogResult = True
+            End If
+        End If
         MyBase.Close()
     End Sub
 
     Private Sub btn_save_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_save.Click
+        DialogResult = True
         Save()
+        MyBase.Close()
     End Sub
 
     Private _contract As TContract = Nothing
@@ -122,8 +129,14 @@
 
     Private Sub btnAddPSSPHistory_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnAddPSSPHistory.Click
         If _pssp IsNot Nothing Then
-            Dim psspa As New PSSPActionForm(Me, _pssp)
+            Dim psspa As New PSSPActionForm(Me, _pssp, Nothing)
             psspa.ShowDialog()
         End If
+    End Sub
+
+    Private _formDirty As Boolean = False
+
+    Private Sub Window_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
+        _formDirty = False
     End Sub
 End Class

@@ -3517,6 +3517,11 @@ Public Class TPSSPHistory
     Public Sub New()
     End Sub
 
+    Public Sub New(ByVal psspId As Integer, ByVal userId As Integer)
+        myPsspId = psspId
+        myUserId = userId
+    End Sub
+
     Public Sub New(ByVal row As ISAMSSds.pssp_historiesRow)
         Try
             myPsspId = row.pssp_id
@@ -3588,6 +3593,15 @@ Public Class TPSSPHistory
         End Set
     End Property
 
+    Property AttachmentId As Integer
+        Get
+            Return _attachmentId
+        End Get
+        Set(ByVal value As Integer)
+            _attachmentId = value
+        End Set
+    End Property
+
     Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
         Return False
     End Function
@@ -3640,11 +3654,12 @@ Public Class TPSSPHistory
         End Try
     End Sub
 
-    Private myPsspId As Integer
+    Private myPsspId As Integer = TObject.InvalidID
     Private myActionDate As Date
-    Private myUserId As Integer
+    Private myUserId As Integer = TObject.InvalidID
     Private myHistoryActionClassId As Integer
     Private myNotes As String
+    Private _attachmentId As Integer = TObject.InvalidID
 End Class
 
 Public Class THistoryActionClasses

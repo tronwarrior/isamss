@@ -99,6 +99,15 @@
                             <GroupBox Header="Customer Interaction Journal Entries" Height="219" HorizontalAlignment="Left" Margin="6,229,0,0" Name="GroupBox6" VerticalAlignment="Top" Width="573">
                                 <Grid>
                                     <ListView ItemsSource="{Binding}" Height="155" HorizontalAlignment="Left" Margin="10,6,0,0" Name="lstvwCustomerJournal" VerticalAlignment="Top" Width="537">
+                                        <ListView.ContextMenu>
+                                            <ContextMenu Name="customerJournalContextMenu">
+                                                <MenuItem Header="_Delete Journal Entry" Name="MenuItemDeleteJournalEntry">
+                                                    <MenuItem.Icon>
+                                                        <Image Source="/isamss;component/Images/delete.png" />
+                                                    </MenuItem.Icon>
+                                                </MenuItem>
+                                            </ContextMenu>
+                                        </ListView.ContextMenu>
                                         <ListView.View>
                                             <GridView AllowsColumnReorder="False">
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=CreatedAt, StringFormat=d}" Header="Entry Date" />
