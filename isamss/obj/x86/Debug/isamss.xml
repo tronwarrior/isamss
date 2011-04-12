@@ -50,6 +50,14 @@ InitializeComponent
 	<summary>
 CustomerForm
 </summary>
+</member><member name="M:isamss.ActivityForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.ActivityForm">
+	<summary>
+ActivityForm
+</summary>
 </member><member name="M:isamss.CustomerJournal.InitializeComponent">
 	<summary>
 InitializeComponent
@@ -105,14 +113,6 @@ InitializeComponent
 </member><member name="T:isamss.Window1">
 	<summary>
 Window1
-</summary>
-</member><member name="M:isamss.NewActivityForm.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:isamss.NewActivityForm">
-	<summary>
-NewActivityForm
 </summary>
 </member><member name="M:isamss.MainWindow.InitializeComponent">
 	<summary>

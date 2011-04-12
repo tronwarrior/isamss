@@ -36,6 +36,7 @@
         lblActionType.Visibility = System.Windows.Visibility.Hidden
         stpAttachment.Attachment = _pssp.Attachment
         txtNotes.Text = _pssp.Metadata
+        lstvwPSSPHistory.ItemsSource = _pssp.Histories
         _new = False
     End Sub
 
@@ -131,6 +132,11 @@
         If _pssp IsNot Nothing Then
             Dim psspa As New PSSPActionForm(Me, _pssp, Nothing)
             psspa.ShowDialog()
+
+            If psspa.DialogResult = True Then
+                lstvwPSSPHistory.ItemsSource = Nothing
+                lstvwPSSPHistory.ItemsSource = _pssp.Histories
+            End If
         End If
     End Sub
 
@@ -139,4 +145,19 @@
     Private Sub Window_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
         _formDirty = False
     End Sub
+
+    Private Sub MenuItemDeleteHistoryItem_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MenuItemDeleteHistoryItem.Click
+        Dim hist As TPSSPHistory = lstvwPSSPHistory.SelectedItem
+
+        If hist IsNot Nothing Then
+            If hist.UserId = Application.CurrentUser.ID Then
+                hist.Delete()
+                lstvwPSSPHistory.ItemsSource = Nothing
+                lstvwPSSPHistory.ItemsSource = _pssp.Histories
+            Else
+                MsgBox("You do not have permission to delete this object.", MsgBoxStyle.OkOnly, "ISAMMS")
+            End If
+        End If
+    End Sub
+
 End Class

@@ -3524,6 +3524,7 @@ Public Class TPSSPHistory
 
     Public Sub New(ByVal row As ISAMSSds.pssp_historiesRow)
         Try
+            _myID = row.id
             myPsspId = row.pssp_id
             myActionDate = row.action_date
             myUserId = row.user_id
@@ -3652,6 +3653,15 @@ Public Class TPSSPHistory
             End Using
         Catch e As OleDb.OleDbException
         End Try
+    End Sub
+
+    Public Shadows Sub Delete()
+        If _attachmentId <> TObject.InvalidID Then
+            Dim attachment As New TAttachment(_attachmentId)
+            attachment.Delete()
+        End If
+
+        MyBase.Delete("pssp_histories", New ISAMSSds.pssp_historiesDataTable)
     End Sub
 
     Private myPsspId As Integer = TObject.InvalidID

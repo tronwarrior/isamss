@@ -133,8 +133,8 @@
     <Compile Include="Lod.xaml.vb">
       <DependentUpon>Lod.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NewActivity.xaml.vb">
-      <DependentUpon>NewActivity.xaml</DependentUpon>
+    <Compile Include="Activity.xaml.vb">
+      <DependentUpon>Activity.xaml</DependentUpon>
     </Compile>
     <Compile Include="PSSP.xaml.vb">
       <DependentUpon>PSSP.xaml</DependentUpon>
@@ -194,7 +194,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NewActivity.xaml">
+    <Page Include="Activity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

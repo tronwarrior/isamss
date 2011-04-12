@@ -21,6 +21,8 @@
             cbi.Tag = h.ID
             cboActionClasses.Items.Add(cbi)
         Next
+
+
     End Sub
 
     Private Function Save() As Boolean
@@ -66,11 +68,11 @@
     End Sub
 
     Private Sub dtOriginationDate_SelectedDateChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles dtOriginationDate.SelectedDateChanged
-        _formDirty = False
+        _formDirty = True
     End Sub
 
     Private Sub txtNotes_TextChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.TextChangedEventArgs) Handles txtNotes.TextChanged
-        _formDirty = False
+        _formDirty = True
     End Sub
 
     Private Sub btn_cancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_cancel.Click
@@ -98,4 +100,6 @@
             _psspHist.Save()
         End If
     End Sub
+
+
 End Class

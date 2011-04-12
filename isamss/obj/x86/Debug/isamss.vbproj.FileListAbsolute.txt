@@ -32,7 +32,6 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Contract.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Customer.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\FilterContracts.baml
-C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\NewActivity.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Logon.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\PSSPAction.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Site.baml
@@ -44,7 +43,6 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Customer.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\FilterContracts.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Lod.g.vb
-C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\NewActivity.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\MainWindow.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Logon.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\NewContract.g.vb
@@ -78,3 +76,5 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\CustomerJournal.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Window1.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Window1.g.vb
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Activity.baml
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Activity.g.vb

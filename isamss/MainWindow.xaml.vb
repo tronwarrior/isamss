@@ -210,14 +210,23 @@ Class MainWindow
                 End If
 
                 ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
-                PopulateCustomerInteractionTab(txtContractNumber.Tag)
+                PopulateCustomerInteractionTab(ttvContractsQuickview.CurrentContract)
             End If
         End If
     End Sub
 
     Private Sub btnNewSurvActivity_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnNewSurvActivity.Click
-        Dim actForm As New NewActivityForm(Me, ttvContractsQuickview.CurrentContract)
+        Dim actForm As New ActivityForm(Me, ttvContractsQuickview.CurrentContract, Nothing)
         actForm.ShowDialog()
+
+        If actForm.DialogResult = True Then
+            If ttvContractsQuickview.CurrentContract IsNot Nothing Then
+                ttvContractsQuickview.CurrentContract.Refresh()
+            End If
+
+            ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+            PopulateSurveillanceTab(ttvContractsQuickview.CurrentContract)
+        End If
     End Sub
 
     Private Sub btnNewPSSP_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnNewPSSP.Click

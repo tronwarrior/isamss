@@ -15,11 +15,16 @@
         <src:TStackPanelAttachment HorizontalAlignment="Left" Margin="12,59,0,0" x:Name="stpAttachment" VerticalAlignment="Top" />
         <GroupBox Header="Change History" Height="173" HorizontalAlignment="Left" Margin="12,241,0,0" Name="GroupBox1" VerticalAlignment="Top" Width="349">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="16*" />
-                    <ColumnDefinition Width="321*" />
-                </Grid.ColumnDefinitions>
                 <ListView Height="113" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="6,6,0,0" Name="lstvwPSSPHistory" VerticalAlignment="Top" Width="325" Grid.ColumnSpan="2" IsEnabled="True">
+                    <ListView.ContextMenu>
+                        <ContextMenu Name="psspContextMenu">
+                            <MenuItem Header="_Delete History Item" Name="MenuItemDeleteHistoryItem">
+                                <MenuItem.Icon>
+                                    <Image Source="/isamss;component/Images/delete.png" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
                             <GridViewColumn DisplayMemberBinding="{Binding Path=HistoryActionClass.Title}" Header="Action Taken" />
