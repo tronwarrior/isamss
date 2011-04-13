@@ -136,6 +136,9 @@
     <Compile Include="Activity.xaml.vb">
       <DependentUpon>Activity.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Observation.xaml.vb">
+      <DependentUpon>Observation.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PSSP.xaml.vb">
       <DependentUpon>PSSP.xaml</DependentUpon>
     </Compile>
@@ -219,6 +222,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="CRRForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Observation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -394,6 +401,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\sport_8ball.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\zoom.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

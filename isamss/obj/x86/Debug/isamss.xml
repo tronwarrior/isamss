@@ -122,6 +122,14 @@ InitializeComponent
 	<summary>
 MainWindow
 </summary>
+</member><member name="M:isamss.ObservationForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.ObservationForm">
+	<summary>
+ObservationForm
+</summary>
 </member><member name="M:isamss.LogonForm.InitializeComponent">
 	<summary>
 InitializeComponent

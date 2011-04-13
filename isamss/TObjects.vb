@@ -2271,22 +2271,24 @@ End Class
 Public Class TActivityClasses
     Inherits ObservableCollection(Of TActivityClass)
 
-    Public Sub New()
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM activity_classes"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim act_classes As New ISAMSSds.activity_classesDataTable
-                adapter.Fill(act_classes)
+    Public Sub New(Optional ByVal loadAll As Boolean = True)
+        If loadAll = True Then
+            Try
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                    connection.Open()
+                    Dim query As String = "SELECT * FROM activity_classes"
+                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                    Dim act_classes As New ISAMSSds.activity_classesDataTable
+                    adapter.Fill(act_classes)
 
-                For Each act_class In act_classes
-                    Dim a As New TActivityClass(act_class)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+                    For Each act_class In act_classes
+                        Dim a As New TActivityClass(act_class)
+                        MyBase.Add(a)
+                    Next
+                End Using
+            Catch e As OleDb.OleDbException
+            End Try
+        End If
     End Sub
 
     Public Sub New(ByRef contract As TContract, ByRef user As TUser)
@@ -2355,6 +2357,39 @@ Public Class TActivityClasses
         End Try
     End Sub
 
+    Public Sub New(ByVal rhs As TActivityClasses)
+        For Each r In rhs
+            MyBase.Add(r)
+        Next
+    End Sub
+
+    Public Shared Operator +(ByVal lhs As TActivityClasses, ByVal rhs As TActivityClasses) As TActivityClasses
+        Dim rv As New TActivityClasses(lhs)
+
+        For Each ls In lhs
+            For Each rs In rhs
+                If ls.ID <> rs.ID Then
+                    rv.Add(rs)
+                End If
+            Next
+        Next
+
+        Return rv
+    End Operator
+
+    Public Shared Operator -(ByVal lhs As TActivityClasses, ByVal rhs As TActivityClasses) As TActivityClasses
+        Dim rv As New TActivityClasses(lhs)
+
+        For Each ls In lhs
+            For Each rs In rhs
+                If ls.ID = rs.ID Then
+                    rv.Remove(ls)
+                End If
+            Next
+        Next
+
+        Return rv
+    End Operator
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2514,70 +2549,80 @@ End Class
 Public Class TActivity
     Inherits TObject
 
+    Public Sub New(ByVal contract As TContract, ByVal user As TUser)
+        _contractId = contract.ID
+        _userId = user.ID
+    End Sub
+
     Public Sub New(ByVal row As ISAMSSds.activitiesRow)
         Try
             _myID = row.id
-            myEntryDate = row.entry_date
-            myActivityDate = row.activity_date
-            myContractId = row.contract_id
-            myUserId = row.user_id
-            myobservations = New TObservations(Me)
+            _entryDate = row.entry_date
+            _activityDate = row.activity_date
+            _contractId = row.contract_id
+            _userId = row.user_id
+            _observations = New TObservations(Me)
+            _activityClasses = New TActivityClasses(Me)
         Catch e As OleDb.OleDbException
         End Try
     End Sub
 
     Property EntryDate As Date
         Get
-            Return myEntryDate
+            Return _entryDate
         End Get
         Set(ByVal value As Date)
-            myEntryDate = value
+            _entryDate = value
         End Set
     End Property
 
     Property ActivityDate As Date
         Get
-            Return myActivityDate
+            Return _activityDate
         End Get
         Set(ByVal value As Date)
-            myActivityDate = value
+            _activityDate = value
         End Set
     End Property
 
     ReadOnly Property ActivityClass As TActivityClasses
         Get
-            Return New TActivityClasses(Me)
+            If _activityClasses Is Nothing Then
+                _activityClasses = New TActivityClasses(Me)
+            End If
+            Return _activityClasses
         End Get
     End Property
 
     ReadOnly Property ObservationsCount As Integer
         Get
-            If myobservations Is Nothing Then
-                myobservations = New TObservations(Me)
+            If _observations Is Nothing Then
+                _observations = New TObservations(Me)
             End If
 
-            Return myobservations.Count
+            Return _observations.Count
         End Get
     End Property
 
     ReadOnly Property Observations As TObservations
         Get
-            If myobservations Is Nothing Then
-                myobservations = New TObservations(Me)
+            If _observations Is Nothing Then
+                _observations = New TObservations(Me)
             End If
-            Return myobservations
+            Return _observations
         End Get
     End Property
 
     Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return CheckForUserActivites("SELECT id FROM activities WHERE contract_id = " & CStr(myContractId) & " AND user_id = " & CStr(u.ID))
+        Return CheckForUserActivites("SELECT id FROM activities WHERE contract_id = " & CStr(_contractId) & " AND user_id = " & CStr(u.ID))
     End Function
 
-    Private myEntryDate As Date
-    Private myActivityDate As Date
-    Private myUserId As Integer
-    Private myContractId As Integer
-    Private myobservations As TObservations
+    Private _entryDate As Date
+    Private _activityDate As Date
+    Private _activityClasses As TActivityClasses = Nothing
+    Private _userId As Integer = TObject.InvalidID
+    Private _contractId As Integer = TObject.InvalidID
+    Private _observations As TObservations = Nothing
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2824,13 +2869,13 @@ Public Class TSites
     Public Sub New()
     End Sub
 
-    Public Sub New(ByRef sites As TSites)
+    Public Sub New(ByVal sites As TSites)
         For Each s In sites
             MyBase.Add(s)
         Next
     End Sub
 
-    Public Sub New(ByRef supplier As TSupplier)
+    Public Sub New(ByVal supplier As TSupplier)
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
