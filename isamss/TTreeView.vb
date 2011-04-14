@@ -98,27 +98,35 @@ Public Class TTreeView
     End Sub
 
     Public Sub RefreshContractBranch(ByVal u As TUser)
-        Dim tvi As TreeViewItem = myContractsMap.Item(myCurrentContract.ID)
+        try
+            Dim tvi As TreeViewItem = myContractsMap.Item(myCurrentContract.ID)
 
-        If tvi IsNot Nothing Then
-            myContractsMap.Remove(myCurrentContract.ID)
-            myLODMap.Remove(myCurrentContract.ID)
-            myCRRMap.Remove(myCurrentContract.ID)
-            mySurveillanceMap.Remove(myCurrentContract.ID)
-            tvi.Items.Clear()
-            PopulateContractBranch(tvi, myCurrentContract, u)
-            myContractsMap.Add(myCurrentContract.ID, tvi)
-            tvi.IsExpanded = True
-        End If
+            If tvi IsNot Nothing Then
+                myContractsMap.Remove(myCurrentContract.ID)
+                myLODMap.Remove(myCurrentContract.ID)
+                myCRRMap.Remove(myCurrentContract.ID)
+                mySurveillanceMap.Remove(myCurrentContract.ID)
+                tvi.Items.Clear()
+                PopulateContractBranch(tvi, myCurrentContract, u)
+                myContractsMap.Add(myCurrentContract.ID, tvi)
+                tvi.IsExpanded = True
+            End If
+        Catch e As System.Exception
+            Application.WriteToEventLog("TTreeView::RefreshContractBranch, exception: " & e.Message, EventLogEntryType.Error)
+        End Try
     End Sub
 
     Public Sub AddContractBranch(ByVal contract As TContract, ByVal u As TUser)
-        Dim tvi As TreeViewItem = BuildContractBranch(contract, myUser)
-        myCurrentContract = contract
-        tvi.IsExpanded = True
-        tvi.IsSelected = True
-        myContractsMap.Add(contract.ID, tvi)
-        MyBase.Items.Add(tvi)
+        Try
+            Dim tvi As TreeViewItem = BuildContractBranch(contract, myUser)
+            myCurrentContract = contract
+            tvi.IsExpanded = True
+            tvi.IsSelected = True
+            MyBase.Items.Add(tvi)
+        Catch e As System.Exception
+            Application.WriteToEventLog("TTreeView::AddContractBranch, exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+
     End Sub
 
     Public Sub RefreshLODBranch(ByVal ct As TContract, ByVal u As TUser)
