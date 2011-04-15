@@ -1,4 +1,4 @@
-﻿<src:FileUploadAndViewFormBase x:Class="CRRForm"
+﻿<src:DataInputFormBase x:Class="CRRForm"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:src="clr-namespace:isamss"
@@ -38,4 +38,4 @@
         <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="306,420,0,0" Name="btn_save" TabIndex="8" VerticalAlignment="Top" Width="75" IsEnabled="False" />
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="225,420,0,0" Name="btn_cancel" TabIndex="9" VerticalAlignment="Top" Width="75" />
     </Grid>
-</src:FileUploadAndViewFormBase>
+</src:DataInputFormBase>

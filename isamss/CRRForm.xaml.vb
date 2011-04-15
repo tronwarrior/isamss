@@ -1,5 +1,5 @@
 ﻿Public Class CRRForm
-    Inherits FileUploadAndViewFormBase
+    Inherits DataInputFormBase
 
     Public Sub New(ByRef parent As Object, ByVal contract As TContract)
 
@@ -57,10 +57,7 @@
         txt_techRationale.Text = myCrr.TechnicalCriticalityRationale
 
         If myCrr.AttachmentId <> TObject.InvalidID Then
-            HasAttachment = True
             tspAttachment.Attachment = myCrr.Attachment
-        Else
-            HasAttachment = False
         End If
 
         _formDirty = False
@@ -113,7 +110,9 @@
         _formDirty = True
     End Sub
 
-    Protected Overrides Sub Save()
+    Protected Overrides Function Save() As Boolean
+        Dim rv As Boolean = False
+
         If Not dtpicker_reviewed.SelectedDate.HasValue Or _
             cbo_costCriticality.SelectedIndex = -1 Or txt_costRationale.Text.Length = 0 Or _
             cbo_schedCriticality.SelectedIndex = -1 Or txt_schedRationale.Text.Length = 0 Or _
@@ -122,15 +121,20 @@
         Else
             myCrr.Save()
             _formDirty = False
-            MyBase.DialogResult = True
+            MyBase.DialogResult = rv = True
             Me.Close()
         End If
+
+        Return rv
+    End Function
+
+    Protected Overrides Sub OnFormLoaded(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs)
+
     End Sub
 
     Private Sub btn_save_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_save.Click
         Me.Save()
     End Sub
-
 
     Private myCrr As TCrr = Nothing
     Private myParent As Object = Nothing

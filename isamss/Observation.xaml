@@ -1,6 +1,7 @@
-﻿<Window x:Class="ObservationForm"
+﻿<src:DataInputFormBase x:Class="ObservationForm"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:src="clr-namespace:isamss"
     Title="Observation" Height="584" Width="492" Icon="/isamss;component/Images/zoom.png" xmlns:my="clr-namespace:isamss">
     <Grid>
         <GroupBox Header="Disposition" Height="170" HorizontalAlignment="Left" Margin="320,216,0,0" Name="GroupBox1" VerticalAlignment="Top" Width="143">
@@ -18,6 +19,10 @@
             <Grid>
                 <ListView Height="100" HorizontalAlignment="Left" Margin="11,35,0,0" Name="ListView1" VerticalAlignment="Top" Width="120" />
                 <ListView Height="100" HorizontalAlignment="Left" Margin="156,35,0,0" Name="ListView2" VerticalAlignment="Top" Width="120" />
+                <Label Content="Activities " Height="24" HorizontalAlignment="Left" Margin="12,9,0,0" VerticalAlignment="Top" />
+                <Label Content="Selected for this Obs" Height="24" HorizontalAlignment="Left" Margin="156,9,0,0" VerticalAlignment="Top" />
+                <Image Height="22" HorizontalAlignment="Left" Margin="133,64,0,0" Name="Image1" Stretch="Fill" VerticalAlignment="Top" Width="21" Source="/isamss;component/Images/arrow_right.png" />
+                <Image Height="22" HorizontalAlignment="Left" Margin="133,85,0,0" Name="Image2" Source="/isamss;component/Images/arrow_left.png" Stretch="Fill" VerticalAlignment="Top" Width="21" />
             </Grid>
         </GroupBox>
         <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="382,514,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" />
@@ -28,4 +33,4 @@
             </Grid>
         </GroupBox>
     </Grid>
-</Window>
+</src:DataInputFormBase>

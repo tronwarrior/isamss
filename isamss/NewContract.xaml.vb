@@ -1,5 +1,5 @@
 ﻿Public Class NewContractForm
-    Inherits FileUploadAndViewFormBase
+    Inherits DataInputFormBase
 
     Public Sub New(ByRef parent As Object)
         ' This call is required by the designer.
@@ -38,7 +38,8 @@
         End If
     End Sub
 
-    Protected Overrides Sub Save()
+    Protected Overrides Function Save() As Boolean
+        Dim rv As Boolean = True
         _contract = New TContract(txt_newContractNumber.Text, txtProgramName.Text, chk_subcontract.IsChecked)
         _contract.Supplier = cbo_supplier.Items(cbo_supplier.SelectedIndex).Tag
         _contract.Customer = cbo_customer.Items(cbo_customer.SelectedIndex).Tag
@@ -54,9 +55,15 @@
 
         _contract.Save()
         _formDirty = False
-        DialogResult = True
+        DialogResult = rv = True
         MyBase.Close()
+        Return rv
+    End Function
+
+    Protected Overrides Sub OnFormLoaded(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs)
+
     End Sub
+
 
     Private Sub btn_cancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_cancel.Click
         DialogResult = False

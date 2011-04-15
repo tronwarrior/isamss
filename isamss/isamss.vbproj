@@ -125,7 +125,7 @@
       <DependentUpon>CustomerJournal.xaml</DependentUpon>
     </Compile>
     <Compile Include="FileUpload.vb" />
-    <Compile Include="FileUploadAndViewFormBase.vb" />
+    <Compile Include="DataInputFormBase.vb" />
     <Compile Include="FileView.vb" />
     <Compile Include="FilterContracts.xaml.vb">
       <DependentUpon>FilterContracts.xaml</DependentUpon>
@@ -404,6 +404,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\zoom.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_left.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
