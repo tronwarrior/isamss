@@ -6,9 +6,11 @@
         <GroupBox Header="Users" Height="167" HorizontalAlignment="Left" Margin="12,12,0,0" Name="GroupBox1" VerticalAlignment="Top" Width="376">
             <Grid Height="147">
                 <Label Content="Users" Height="24" HorizontalAlignment="Left" Margin="23,0,0,0" Name="Label1" VerticalAlignment="Top" IsEnabled="True" />
-                <ListBox Height="100" HorizontalAlignment="Right" Margin="0,25,24,0" Name="lstbxUsersFilter" VerticalAlignment="Top" Width="152" SelectionMode="Multiple" />
-                <ListBox ItemsSource="{Binding Path=Name}" Height="100" HorizontalAlignment="Left" Margin="23,25,0,0" Name="lstbxUsers" VerticalAlignment="Top" Width="144" SelectionMode="Multiple" />
-                <Label Content="Show Contracts For" Height="24" HorizontalAlignment="Left" Name="Label2" VerticalAlignment="Top" Margin="185,0,0,0" Width="152" />
+                <ListBox Height="100" HorizontalAlignment="Left" Margin="198,25,0,0" Name="lstbxUsersFilter" VerticalAlignment="Top" Width="142" SelectionMode="Multiple" />
+                <ListBox ItemsSource="{Binding Path=Name}" Height="100" HorizontalAlignment="Left" Margin="23,25,0,0" Name="lstbxUsers" VerticalAlignment="Top" Width="142" SelectionMode="Multiple" />
+                <Label Content="Show Contracts For" Height="24" HorizontalAlignment="Left" Name="Label2" VerticalAlignment="Top" Margin="198,0,0,0" Width="152" />
+                <Image Height="22" HorizontalAlignment="Left" Margin="171,47,0,0" Name="Image1" Source="/isamss;component/Images/arrow_right.png" Stretch="Fill" VerticalAlignment="Top" Width="21" />
+                <Image Height="22" HorizontalAlignment="Left" Margin="171,68,0,0" Name="Image2" Source="/isamss;component/Images/arrow_left.png" Stretch="Fill" VerticalAlignment="Top" Width="21" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Dates" Height="100" HorizontalAlignment="Left" Margin="12,193,0,0" Name="GroupBox2" VerticalAlignment="Top" Width="376">

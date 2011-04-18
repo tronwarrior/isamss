@@ -19,6 +19,7 @@ Public MustInherit Class DataInputFormBase
 
     Private Sub DataInputFormBase_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
         _formDirty = False
+        OnFormLoaded(sender, e)
     End Sub
 
 End Class

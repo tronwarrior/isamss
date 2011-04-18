@@ -2723,6 +2723,33 @@ Public Class TObservation
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
+' Class: TSAMIActivity
+' Purpose: Encapsulates observation data
+Public Class TSAMIActivity
+    Inherits TObject
+
+    Public Sub New()
+    End Sub
+
+    Public Sub New(ByVal row As ISAMSSds.sami_template_activitiesRow)
+        Try
+            _myID = row.id
+            _activityCode = row.activity_code
+            _activityDescription = row.activity_description
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TSAMIActivity::New(row), Exception, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
+        Return True
+    End Function
+
+    Private _activityCode As String
+    Private _activityDescription As String
+End Class
+
+'//////////////////////////////////////////////////////////////////////////////
 ' Class: TObsCMMiProcAreas
 ' Purpose: Encapsulates observation data
 Public Class TObsCMMiProcAreas
