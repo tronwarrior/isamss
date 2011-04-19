@@ -105,7 +105,7 @@
     End Sub
 
     Private Sub btnNewObservation_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnNewObservation.Click
-        Dim obs As New ObservationForm
+        Dim obs As New ObservationForm(_activity, Nothing)
         obs.ShowDialog()
 
     End Sub

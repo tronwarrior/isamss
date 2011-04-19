@@ -2617,6 +2617,7 @@ Public Class TActivity
         Return CheckForUserActivites("SELECT id FROM activities WHERE contract_id = " & CStr(_contractId) & " AND user_id = " & CStr(u.ID))
     End Function
 
+
     Private _entryDate As Date
     Private _activityDate As Date
     Private _activityClasses As TActivityClasses = Nothing
@@ -2675,38 +2676,69 @@ End Class
 Public Class TObservation
     Inherits TObject
 
+    Public Sub New()
+    End Sub
+
     Public Sub New(ByRef row As ISAMSSds.observationsRow)
         Try
-            myid = row.id
-            mydescription = row.description
-            mynoncompliance = row.noncompliance
-            myWeakness = row.weakness
-            myActivityId = row.activity_id
+            _myID = row.id
+            _description = row.description
+            _nonCompliance = row.noncompliance
+            _weakness = row.weakness
+            _activityId = row.activity_id
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TObservation::New(row), Exception, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
     Property Description As String
         Get
-            Return mydescription
+            Return _description
         End Get
         Set(ByVal value As String)
-            mydescription = value
+            _description = value
+        End Set
+    End Property
+
+    Property Weakness As Boolean
+        Get
+            Return _weakness
+        End Get
+        Set(ByVal value As Boolean)
+            _weakness = value
         End Set
     End Property
 
     Property NonCompliance As Boolean
         Get
-            Return mynoncompliance
+            Return _nonCompliance
         End Get
         Set(ByVal value As Boolean)
-            mynoncompliance = value
+            _nonCompliance = value
         End Set
     End Property
 
-    ReadOnly Property CMMiProcessAreas As TObsCMMiProcAreas
+    ReadOnly Property SAMIActivities As TSAMIActivities
         Get
-            Return mycmmiprocareas
+            If _samiActivites Is Nothing Then
+                _samiActivites = New TSAMIActivities(Me)
+            End If
+            Return _samiActivites
+        End Get
+    End Property
+
+    Property AttachmentId As Integer
+        Get
+            Return _attachmentId
+        End Get
+        Set(ByVal value As Integer)
+            _attachmentId = value
+        End Set
+    End Property
+
+    ReadOnly Property Attachment As TAttachment
+        Get
+            Return New TAttachment(_attachmentId)
         End Get
     End Property
 
@@ -2714,13 +2746,191 @@ Public Class TObservation
         Return False
     End Function
 
-    Private myid As Integer
-    Private myActivityId As Integer
-    Private mydescription As String
-    Private mynoncompliance As Boolean
-    Private myWeakness As Boolean
-    Private mycmmiprocareas As TObsCMMiProcAreas
+    Public Sub Save()
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM observations where id = " + CStr(ID)
+
+                Dim adapter As New OleDb.OleDbDataAdapter
+                adapter.SelectCommand = New OleDbCommand(query, connection)
+
+                Dim obs As New ISAMSSds.observationsDataTable
+                adapter.Fill(obs)
+                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+
+                If obs.Rows.Count = 1 Then
+                    builder.GetUpdateCommand()
+
+                    obs.Item(0).activity_id = _activityId
+                    obs.Item(0).description = _description
+                    obs.Item(0).noncompliance = _nonCompliance
+                    obs.Item(0).weakness = _weakness
+                    obs.Item(0).attachment_id = _attachmentId
+                    adapter.Update(obs)
+
+                    DeleteAllSAMIActivities()
+                    InsertAllSAMIActivities()
+
+                ElseIf obs.Rows.Count = 0 Then
+                    builder.GetInsertCommand()
+
+                    Dim row As ISAMSSds.observationsRow = obs.NewRow
+                    row.id = 0
+                    row.activity_id = _activityId
+                    row.description = _description
+                    row.noncompliance = _nonCompliance
+                    row.weakness = _weakness
+                    row.attachment_id = _attachmentId
+
+                    obs.AddobservationsRow(row)
+
+                    _cmdGetIdentity = New OleDbCommand()
+                    _cmdGetIdentity.CommandText = "SELECT @@IDENTITY"
+                    _cmdGetIdentity.Connection = connection
+
+                    AddHandler adapter.RowUpdated, AddressOf HandleRowUpdated
+                    adapter.Update(obs)
+
+                    DeleteAllSAMIActivities()
+                    InsertAllSAMIActivities()
+                End If
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TObservation::Save, Exception, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Shadows Sub Delete()
+        Try
+            Dim attachment As New TAttachment(_attachmentId)
+            attachment.Delete()
+            MyBase.Delete("observations", New ISAMSSds.observationsDataTable)
+        Catch e As Exception
+            Application.WriteToEventLog("TObservation::Delete, Exception, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Private Function DeleteAllSAMIActivities()
+        Dim rv As Boolean = False
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM observation_sami_template_activities WHERE observation_id = " + CStr(_myID)
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim tbl As New ISAMSSds.observation_sami_template_activitiesDataTable
+                adapter.Fill(tbl)
+                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                builder.GetDeleteCommand()
+
+                For Each row In tbl.Rows
+                    row.Delete()
+                Next
+
+                adapter.Update(tbl)
+
+                rv = True
+            End Using
+        Catch ex As Exception
+            Application.WriteToEventLog("TObservation::DeleteAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
+        End Try
+
+        Return rv
+    End Function
+
+    Private Function InsertAllSAMIActivities()
+        Dim rv As Boolean = False
+
+        If _samiActivites IsNot Nothing Then
+            Try
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                    connection.Open()
+                    Dim query As String = "SELECT * FROM observation_sami_template_activities WHERE observation_id = " + CStr(_myID)
+                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                    Dim tbl As New ISAMSSds.observation_sami_template_activitiesDataTable
+                    adapter.Fill(tbl)
+                    Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                    builder.GetInsertCommand()
+
+                    For Each act In _samiActivites
+                        Dim row As ISAMSSds.observation_sami_template_activitiesRow = tbl.NewRow
+                        row.observation_id = _myID
+                        row.sami_template_activity_id = act.ID
+                        tbl.Addobservation_sami_template_activitiesRow(row)
+                    Next
+
+                    adapter.Update(tbl)
+
+                    rv = True
+                End Using
+            Catch ex As Exception
+                Application.WriteToEventLog("TObservation::InsertAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
+            End Try
+        End If
+
+        Return rv
+    End Function
+
+    Private _activityId As Integer = TObject.InvalidID
+    Private _description As String
+    Private _nonCompliance As Boolean = False
+    Private _weakness As Boolean = False
+    Private _samiActivites As TSAMIActivities = Nothing
+    Private _attachmentId As Integer = TObject.InvalidID
 End Class
+
+'//////////////////////////////////////////////////////////////////////////////
+' Class: TSAMIActivities
+' Purpose: Collection class encapsulating a collection of TSAMIActivity objects
+Public Class TSAMIActivities
+    Inherits TObjects
+
+    Public Sub New()
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM sami_template_activities"
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim samiActs As New ISAMSSds.sami_template_activitiesDataTable
+                adapter.Fill(samiActs)
+
+                For Each act In samiActs
+                    Dim a As New TSAMIActivity(act)
+                    MyBase.Add(a)
+                Next
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TSAMIActivities::New, Exception, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Sub New(ByVal obs As TObservation)
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM sami_template_activities WHERE (id IN " & _
+                            "(SELECT sami_template_activity_id FROM(observation_sami_template_activities) " & _
+                            "WHERE (observation_id = " & obs.ID & ")))"
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim samiActs As New ISAMSSds.sami_template_activitiesDataTable
+                adapter.Fill(samiActs)
+
+                For Each act In samiActs
+                    Dim a As New TSAMIActivity(act)
+                    MyBase.Add(a)
+                Next
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TSAMIActivities::New(obs), Exception, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Overrides Function HasUserActivities(ByVal u As TUser, ByVal c As TContract) As Boolean
+        Return True
+    End Function
+End Class
+
 
 '//////////////////////////////////////////////////////////////////////////////
 ' Class: TSAMIActivity
@@ -2740,6 +2950,24 @@ Public Class TSAMIActivity
             Application.WriteToEventLog("TSAMIActivity::New(row), Exception, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    Property ActivityCode As String
+        Get
+            Return _activityCode
+        End Get
+        Set(ByVal value As String)
+            _activityCode = value
+        End Set
+    End Property
+
+    Property ActivityDescription As String
+        Get
+            Return _activityDescription
+        End Get
+        Set(ByVal value As String)
+            _activityDescription = value
+        End Set
+    End Property
 
     Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
         Return True
@@ -3171,7 +3399,6 @@ End Class
 ' data and operations
 Public Class TContractSite
     Inherits TObject
-
 
     Public Sub New(ByRef contract As TContract, ByRef site As TSite)
         myContract_id = contract.ID

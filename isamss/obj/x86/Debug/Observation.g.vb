@@ -37,180 +37,180 @@ Imports System.Windows.Shapes
 '''<summary>
 '''ObservationForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
 Partial Public Class ObservationForm
     Inherits isamss.DataInputFormBase
     Implements System.Windows.Markup.IComponentConnector
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",7)
     Friend WithEvents GroupBox1 As System.Windows.Controls.GroupBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",9)
     Friend WithEvents chkNoncompliance As System.Windows.Controls.CheckBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",10)
     Friend WithEvents chkWeakness As System.Windows.Controls.CheckBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",13)
     Friend WithEvents GroupBox2 As System.Windows.Controls.GroupBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",15)
     Friend WithEvents txtDescription As System.Windows.Controls.TextBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",18)
     Friend WithEvents GroupBox3 As System.Windows.Controls.GroupBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",20)
     Friend WithEvents ListView1 As System.Windows.Controls.ListView
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",21)
     Friend WithEvents ListView2 As System.Windows.Controls.ListView
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",24)
     Friend WithEvents Image1 As System.Windows.Controls.Image
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",25)
     Friend WithEvents Image2 As System.Windows.Controls.Image
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",28)
     Friend WithEvents btnSave As System.Windows.Controls.Button
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",29)
     Friend WithEvents btnCancel As System.Windows.Controls.Button
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",30)
     Friend WithEvents GroupBox4 As System.Windows.Controls.GroupBox
-    
+
     #End ExternalSource
-    
-    
+
+
     #ExternalSource("..\..\..\Observation.xaml",32)
     Friend WithEvents TStackPanelAttachment1 As isamss.TStackPanelAttachment
-    
+
     #End ExternalSource
-    
+
     Private _contentLoaded As Boolean
-    
+
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = true
+        _contentLoaded = True
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/observation.xaml", System.UriKind.Relative)
-        
+
         #ExternalSource("..\..\..\Observation.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-        
+
         #End ExternalSource
     End Sub
-    
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")>  _
+
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")> _
     Friend Function _CreateDelegate(ByVal delegateType As System.Type, ByVal handler As String) As System.[Delegate]
         Return System.[Delegate].CreateDelegate(delegateType, Me, handler)
     End Function
-    
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")> _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.GroupBox1 = CType(target,System.Windows.Controls.GroupBox)
+            Me.GroupBox1 = CType(target, System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 2) Then
-            Me.chkNoncompliance = CType(target,System.Windows.Controls.CheckBox)
+            Me.chkNoncompliance = CType(target, System.Windows.Controls.CheckBox)
             Return
         End If
         If (connectionId = 3) Then
-            Me.chkWeakness = CType(target,System.Windows.Controls.CheckBox)
+            Me.chkWeakness = CType(target, System.Windows.Controls.CheckBox)
             Return
         End If
         If (connectionId = 4) Then
-            Me.GroupBox2 = CType(target,System.Windows.Controls.GroupBox)
+            Me.GroupBox2 = CType(target, System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 5) Then
-            Me.txtDescription = CType(target,System.Windows.Controls.TextBox)
+            Me.txtDescription = CType(target, System.Windows.Controls.TextBox)
             Return
         End If
         If (connectionId = 6) Then
-            Me.GroupBox3 = CType(target,System.Windows.Controls.GroupBox)
+            Me.GroupBox3 = CType(target, System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 7) Then
-            Me.ListView1 = CType(target,System.Windows.Controls.ListView)
+            Me.ListView1 = CType(target, System.Windows.Controls.ListView)
             Return
         End If
         If (connectionId = 8) Then
-            Me.ListView2 = CType(target,System.Windows.Controls.ListView)
+            Me.ListView2 = CType(target, System.Windows.Controls.ListView)
             Return
         End If
         If (connectionId = 9) Then
-            Me.Image1 = CType(target,System.Windows.Controls.Image)
+            Me.Image1 = CType(target, System.Windows.Controls.Image)
             Return
         End If
         If (connectionId = 10) Then
-            Me.Image2 = CType(target,System.Windows.Controls.Image)
+            Me.Image2 = CType(target, System.Windows.Controls.Image)
             Return
         End If
         If (connectionId = 11) Then
-            Me.btnSave = CType(target,System.Windows.Controls.Button)
+            Me.btnSave = CType(target, System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 12) Then
-            Me.btnCancel = CType(target,System.Windows.Controls.Button)
+            Me.btnCancel = CType(target, System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 13) Then
-            Me.GroupBox4 = CType(target,System.Windows.Controls.GroupBox)
+            Me.GroupBox4 = CType(target, System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 14) Then
-            Me.TStackPanelAttachment1 = CType(target,isamss.TStackPanelAttachment)
+            Me.TStackPanelAttachment1 = CType(target, isamss.TStackPanelAttachment)
             Return
         End If
-        Me._contentLoaded = true
+        Me._contentLoaded = True
     End Sub
 End Class

@@ -69,7 +69,7 @@ Partial Public Class ISAMSSds
     
     Private tablecustomer_journal_entries As customer_journal_entriesDataTable
     
-    Private tableobservation_sami_template_activites As observation_sami_template_activitesDataTable
+    Private tableobservation_sami_template_activities As observation_sami_template_activitiesDataTable
     
     Private tablesami_template_activities As sami_template_activitiesDataTable
     
@@ -230,8 +230,8 @@ Partial Public Class ISAMSSds
             If (Not (ds.Tables("customer_journal_entries")) Is Nothing) Then
                 MyBase.Tables.Add(New customer_journal_entriesDataTable(ds.Tables("customer_journal_entries")))
             End If
-            If (Not (ds.Tables("observation_sami_template_activites")) Is Nothing) Then
-                MyBase.Tables.Add(New observation_sami_template_activitesDataTable(ds.Tables("observation_sami_template_activites")))
+            If (Not (ds.Tables("observation_sami_template_activities")) Is Nothing) Then
+                MyBase.Tables.Add(New observation_sami_template_activitiesDataTable(ds.Tables("observation_sami_template_activities")))
             End If
             If (Not (ds.Tables("sami_template_activities")) Is Nothing) Then
                 MyBase.Tables.Add(New sami_template_activitiesDataTable(ds.Tables("sami_template_activities")))
@@ -477,9 +477,9 @@ Partial Public Class ISAMSSds
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
      Global.System.ComponentModel.Browsable(false),  _
      Global.System.ComponentModel.DesignerSerializationVisibility(Global.System.ComponentModel.DesignerSerializationVisibility.Content)>  _
-    Public ReadOnly Property observation_sami_template_activites() As observation_sami_template_activitesDataTable
+    Public ReadOnly Property observation_sami_template_activities() As observation_sami_template_activitiesDataTable
         Get
-            Return Me.tableobservation_sami_template_activites
+            Return Me.tableobservation_sami_template_activities
         End Get
     End Property
     
@@ -626,8 +626,8 @@ Partial Public Class ISAMSSds
             If (Not (ds.Tables("customer_journal_entries")) Is Nothing) Then
                 MyBase.Tables.Add(New customer_journal_entriesDataTable(ds.Tables("customer_journal_entries")))
             End If
-            If (Not (ds.Tables("observation_sami_template_activites")) Is Nothing) Then
-                MyBase.Tables.Add(New observation_sami_template_activitesDataTable(ds.Tables("observation_sami_template_activites")))
+            If (Not (ds.Tables("observation_sami_template_activities")) Is Nothing) Then
+                MyBase.Tables.Add(New observation_sami_template_activitiesDataTable(ds.Tables("observation_sami_template_activities")))
             End If
             If (Not (ds.Tables("sami_template_activities")) Is Nothing) Then
                 MyBase.Tables.Add(New sami_template_activitiesDataTable(ds.Tables("sami_template_activities")))
@@ -796,10 +796,10 @@ Partial Public Class ISAMSSds
                 Me.tablecustomer_journal_entries.InitVars
             End If
         End If
-        Me.tableobservation_sami_template_activites = CType(MyBase.Tables("observation_sami_template_activites"),observation_sami_template_activitesDataTable)
+        Me.tableobservation_sami_template_activities = CType(MyBase.Tables("observation_sami_template_activities"),observation_sami_template_activitiesDataTable)
         If (initTable = true) Then
-            If (Not (Me.tableobservation_sami_template_activites) Is Nothing) Then
-                Me.tableobservation_sami_template_activites.InitVars
+            If (Not (Me.tableobservation_sami_template_activities) Is Nothing) Then
+                Me.tableobservation_sami_template_activities.InitVars
             End If
         End If
         Me.tablesami_template_activities = CType(MyBase.Tables("sami_template_activities"),sami_template_activitiesDataTable)
@@ -893,8 +893,8 @@ Partial Public Class ISAMSSds
         MyBase.Tables.Add(Me.tablehistory_action_classes)
         Me.tablecustomer_journal_entries = New customer_journal_entriesDataTable()
         MyBase.Tables.Add(Me.tablecustomer_journal_entries)
-        Me.tableobservation_sami_template_activites = New observation_sami_template_activitesDataTable()
-        MyBase.Tables.Add(Me.tableobservation_sami_template_activites)
+        Me.tableobservation_sami_template_activities = New observation_sami_template_activitiesDataTable()
+        MyBase.Tables.Add(Me.tableobservation_sami_template_activities)
         Me.tablesami_template_activities = New sami_template_activitiesDataTable()
         MyBase.Tables.Add(Me.tablesami_template_activities)
         Dim fkc As Global.System.Data.ForeignKeyConstraint
@@ -1021,9 +1021,9 @@ Partial Public Class ISAMSSds
         Me.Relations.Add(Me.relationusers_customer_journal_entries)
         Me.relationcustomers_customer_journal_entries = New Global.System.Data.DataRelation("customers_customer_journal_entries", New Global.System.Data.DataColumn() {Me.tablecustomers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecustomer_journal_entries.customer_idColumn}, false)
         Me.Relations.Add(Me.relationcustomers_customer_journal_entries)
-        Me.relationsami_template_activities_observation_sami_template_activites = New Global.System.Data.DataRelation("sami_template_activities_observation_sami_template_activites", New Global.System.Data.DataColumn() {Me.tablesami_template_activities.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_sami_template_activites.sami_template_activity_idColumn}, false)
+        Me.relationsami_template_activities_observation_sami_template_activites = New Global.System.Data.DataRelation("sami_template_activities_observation_sami_template_activites", New Global.System.Data.DataColumn() {Me.tablesami_template_activities.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_sami_template_activities.sami_template_activity_idColumn}, false)
         Me.Relations.Add(Me.relationsami_template_activities_observation_sami_template_activites)
-        Me.relationobservations_observation_sami_template_activites = New Global.System.Data.DataRelation("observations_observation_sami_template_activites", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_sami_template_activites.sami_template_activity_idColumn}, false)
+        Me.relationobservations_observation_sami_template_activites = New Global.System.Data.DataRelation("observations_observation_sami_template_activites", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_sami_template_activities.sami_template_activity_idColumn}, false)
         Me.Relations.Add(Me.relationobservations_observation_sami_template_activites)
     End Sub
     
@@ -1161,7 +1161,7 @@ Partial Public Class ISAMSSds
     
     <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-    Private Function ShouldSerializeobservation_sami_template_activites() As Boolean
+    Private Function ShouldSerializeobservation_sami_template_activities() As Boolean
         Return false
     End Function
     
@@ -1296,7 +1296,7 @@ Partial Public Class ISAMSSds
     Public Delegate Sub customer_journal_entriesRowChangeEventHandler(ByVal sender As Object, ByVal e As customer_journal_entriesRowChangeEvent)
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-    Public Delegate Sub observation_sami_template_activitesRowChangeEventHandler(ByVal sender As Object, ByVal e As observation_sami_template_activitesRowChangeEvent)
+    Public Delegate Sub observation_sami_template_activitiesRowChangeEventHandler(ByVal sender As Object, ByVal e As observation_sami_template_activitiesRowChangeEvent)
     
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
     Public Delegate Sub sami_template_activitiesRowChangeEventHandler(ByVal sender As Object, ByVal e As sami_template_activitiesRowChangeEvent)
@@ -2959,6 +2959,8 @@ Partial Public Class ISAMSSds
         
         Private columnweakness As Global.System.Data.DataColumn
         
+        Private columnattachment_id As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -3035,6 +3037,14 @@ Partial Public Class ISAMSSds
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property attachment_idColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnattachment_id
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -3071,9 +3081,9 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddobservationsRow(ByVal id As Integer, ByVal description As String, ByVal parentactivitiesRowByFK_activities_observations As activitiesRow, ByVal noncompliance As Boolean, ByVal weakness As Boolean) As observationsRow
+        Public Overloads Function AddobservationsRow(ByVal id As Integer, ByVal description As String, ByVal parentactivitiesRowByFK_activities_observations As activitiesRow, ByVal noncompliance As Boolean, ByVal weakness As Boolean, ByVal attachment_id As Integer) As observationsRow
             Dim rowobservationsRow As observationsRow = CType(Me.NewRow,observationsRow)
-            Dim columnValuesArray() As Object = New Object() {id, description, Nothing, noncompliance, weakness}
+            Dim columnValuesArray() As Object = New Object() {id, description, Nothing, noncompliance, weakness, attachment_id}
             If (Not (parentactivitiesRowByFK_activities_observations) Is Nothing) Then
                 columnValuesArray(2) = parentactivitiesRowByFK_activities_observations(0)
             End If
@@ -3110,6 +3120,7 @@ Partial Public Class ISAMSSds
             Me.columnactivity_id = MyBase.Columns("activity_id")
             Me.columnnoncompliance = MyBase.Columns("noncompliance")
             Me.columnweakness = MyBase.Columns("weakness")
+            Me.columnattachment_id = MyBase.Columns("attachment_id")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -3125,6 +3136,8 @@ Partial Public Class ISAMSSds
             MyBase.Columns.Add(Me.columnnoncompliance)
             Me.columnweakness = New Global.System.Data.DataColumn("weakness", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnweakness)
+            Me.columnattachment_id = New Global.System.Data.DataColumn("attachment_id", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnattachment_id)
             Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnid}, true))
             Me.columnid.AllowDBNull = false
             Me.columnid.Unique = true
@@ -8512,8 +8525,8 @@ Partial Public Class ISAMSSds
     '''</summary>
     <Global.System.Serializable(),  _
      Global.System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")>  _
-    Partial Public Class observation_sami_template_activitesDataTable
-        Inherits Global.System.Data.TypedTableBase(Of observation_sami_template_activitesRow)
+    Partial Public Class observation_sami_template_activitiesDataTable
+        Inherits Global.System.Data.TypedTableBase(Of observation_sami_template_activitiesRow)
         
         Private columnid As Global.System.Data.DataColumn
         
@@ -8525,7 +8538,7 @@ Partial Public Class ISAMSSds
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
             MyBase.New
-            Me.TableName = "observation_sami_template_activites"
+            Me.TableName = "observation_sami_template_activities"
             Me.BeginInit
             Me.InitClass
             Me.EndInit
@@ -8591,53 +8604,53 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Default ReadOnly Property Item(ByVal index As Integer) As observation_sami_template_activitesRow
+        Public Default ReadOnly Property Item(ByVal index As Integer) As observation_sami_template_activitiesRow
             Get
-                Return CType(Me.Rows(index),observation_sami_template_activitesRow)
+                Return CType(Me.Rows(index),observation_sami_template_activitiesRow)
             End Get
         End Property
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event observation_sami_template_activitesRowChanging As observation_sami_template_activitesRowChangeEventHandler
+        Public Event observation_sami_template_activitiesRowChanging As observation_sami_template_activitiesRowChangeEventHandler
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event observation_sami_template_activitesRowChanged As observation_sami_template_activitesRowChangeEventHandler
+        Public Event observation_sami_template_activitiesRowChanged As observation_sami_template_activitiesRowChangeEventHandler
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event observation_sami_template_activitesRowDeleting As observation_sami_template_activitesRowChangeEventHandler
+        Public Event observation_sami_template_activitiesRowDeleting As observation_sami_template_activitiesRowChangeEventHandler
         
         <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Event observation_sami_template_activitesRowDeleted As observation_sami_template_activitesRowChangeEventHandler
+        Public Event observation_sami_template_activitiesRowDeleted As observation_sami_template_activitiesRowChangeEventHandler
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Sub Addobservation_sami_template_activitesRow(ByVal row As observation_sami_template_activitesRow)
+        Public Overloads Sub Addobservation_sami_template_activitiesRow(ByVal row As observation_sami_template_activitiesRow)
             Me.Rows.Add(row)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addobservation_sami_template_activitesRow(ByVal observation_id As Integer, ByVal parentsami_template_activitiesRowBysami_template_activities_observation_sami_template_activites As sami_template_activitiesRow) As observation_sami_template_activitesRow
-            Dim rowobservation_sami_template_activitesRow As observation_sami_template_activitesRow = CType(Me.NewRow,observation_sami_template_activitesRow)
+        Public Overloads Function Addobservation_sami_template_activitiesRow(ByVal observation_id As Integer, ByVal parentsami_template_activitiesRowBysami_template_activities_observation_sami_template_activites As sami_template_activitiesRow) As observation_sami_template_activitiesRow
+            Dim rowobservation_sami_template_activitiesRow As observation_sami_template_activitiesRow = CType(Me.NewRow,observation_sami_template_activitiesRow)
             Dim columnValuesArray() As Object = New Object() {Nothing, observation_id, Nothing}
             If (Not (parentsami_template_activitiesRowBysami_template_activities_observation_sami_template_activites) Is Nothing) Then
                 columnValuesArray(2) = parentsami_template_activitiesRowBysami_template_activities_observation_sami_template_activites(0)
             End If
-            rowobservation_sami_template_activitesRow.ItemArray = columnValuesArray
-            Me.Rows.Add(rowobservation_sami_template_activitesRow)
-            Return rowobservation_sami_template_activitesRow
+            rowobservation_sami_template_activitiesRow.ItemArray = columnValuesArray
+            Me.Rows.Add(rowobservation_sami_template_activitiesRow)
+            Return rowobservation_sami_template_activitiesRow
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function FindByid(ByVal id As Integer) As observation_sami_template_activitesRow
-            Return CType(Me.Rows.Find(New Object() {id}),observation_sami_template_activitesRow)
+        Public Function FindByid(ByVal id As Integer) As observation_sami_template_activitiesRow
+            Return CType(Me.Rows.Find(New Object() {id}),observation_sami_template_activitiesRow)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Overrides Function Clone() As Global.System.Data.DataTable
-            Dim cln As observation_sami_template_activitesDataTable = CType(MyBase.Clone,observation_sami_template_activitesDataTable)
+            Dim cln As observation_sami_template_activitiesDataTable = CType(MyBase.Clone,observation_sami_template_activitiesDataTable)
             cln.InitVars
             Return cln
         End Function
@@ -8645,7 +8658,7 @@ Partial Public Class ISAMSSds
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Protected Overrides Function CreateInstance() As Global.System.Data.DataTable
-            Return New observation_sami_template_activitesDataTable()
+            Return New observation_sami_template_activitiesDataTable()
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -8675,28 +8688,28 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function Newobservation_sami_template_activitesRow() As observation_sami_template_activitesRow
-            Return CType(Me.NewRow,observation_sami_template_activitesRow)
+        Public Function Newobservation_sami_template_activitiesRow() As observation_sami_template_activitiesRow
+            Return CType(Me.NewRow,observation_sami_template_activitiesRow)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Protected Overrides Function NewRowFromBuilder(ByVal builder As Global.System.Data.DataRowBuilder) As Global.System.Data.DataRow
-            Return New observation_sami_template_activitesRow(builder)
+            Return New observation_sami_template_activitiesRow(builder)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Protected Overrides Function GetRowType() As Global.System.Type
-            Return GetType(observation_sami_template_activitesRow)
+            Return GetType(observation_sami_template_activitiesRow)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Protected Overrides Sub OnRowChanged(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowChanged(e)
-            If (Not (Me.observation_sami_template_activitesRowChangedEvent) Is Nothing) Then
-                RaiseEvent observation_sami_template_activitesRowChanged(Me, New observation_sami_template_activitesRowChangeEvent(CType(e.Row,observation_sami_template_activitesRow), e.Action))
+            If (Not (Me.observation_sami_template_activitiesRowChangedEvent) Is Nothing) Then
+                RaiseEvent observation_sami_template_activitiesRowChanged(Me, New observation_sami_template_activitiesRowChangeEvent(CType(e.Row,observation_sami_template_activitiesRow), e.Action))
             End If
         End Sub
         
@@ -8704,8 +8717,8 @@ Partial Public Class ISAMSSds
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Protected Overrides Sub OnRowChanging(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowChanging(e)
-            If (Not (Me.observation_sami_template_activitesRowChangingEvent) Is Nothing) Then
-                RaiseEvent observation_sami_template_activitesRowChanging(Me, New observation_sami_template_activitesRowChangeEvent(CType(e.Row,observation_sami_template_activitesRow), e.Action))
+            If (Not (Me.observation_sami_template_activitiesRowChangingEvent) Is Nothing) Then
+                RaiseEvent observation_sami_template_activitiesRowChanging(Me, New observation_sami_template_activitiesRowChangeEvent(CType(e.Row,observation_sami_template_activitiesRow), e.Action))
             End If
         End Sub
         
@@ -8713,8 +8726,8 @@ Partial Public Class ISAMSSds
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Protected Overrides Sub OnRowDeleted(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowDeleted(e)
-            If (Not (Me.observation_sami_template_activitesRowDeletedEvent) Is Nothing) Then
-                RaiseEvent observation_sami_template_activitesRowDeleted(Me, New observation_sami_template_activitesRowChangeEvent(CType(e.Row,observation_sami_template_activitesRow), e.Action))
+            If (Not (Me.observation_sami_template_activitiesRowDeletedEvent) Is Nothing) Then
+                RaiseEvent observation_sami_template_activitiesRowDeleted(Me, New observation_sami_template_activitiesRowChangeEvent(CType(e.Row,observation_sami_template_activitiesRow), e.Action))
             End If
         End Sub
         
@@ -8722,14 +8735,14 @@ Partial Public Class ISAMSSds
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Protected Overrides Sub OnRowDeleting(ByVal e As Global.System.Data.DataRowChangeEventArgs)
             MyBase.OnRowDeleting(e)
-            If (Not (Me.observation_sami_template_activitesRowDeletingEvent) Is Nothing) Then
-                RaiseEvent observation_sami_template_activitesRowDeleting(Me, New observation_sami_template_activitesRowChangeEvent(CType(e.Row,observation_sami_template_activitesRow), e.Action))
+            If (Not (Me.observation_sami_template_activitiesRowDeletingEvent) Is Nothing) Then
+                RaiseEvent observation_sami_template_activitiesRowDeleting(Me, New observation_sami_template_activitiesRowChangeEvent(CType(e.Row,observation_sami_template_activitiesRow), e.Action))
             End If
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub Removeobservation_sami_template_activitesRow(ByVal row As observation_sami_template_activitesRow)
+        Public Sub Removeobservation_sami_template_activitiesRow(ByVal row As observation_sami_template_activitiesRow)
             Me.Rows.Remove(row)
         End Sub
         
@@ -8756,7 +8769,7 @@ Partial Public Class ISAMSSds
             type.Attributes.Add(attribute1)
             Dim attribute2 As Global.System.Xml.Schema.XmlSchemaAttribute = New Global.System.Xml.Schema.XmlSchemaAttribute()
             attribute2.Name = "tableTypeName"
-            attribute2.FixedValue = "observation_sami_template_activitesDataTable"
+            attribute2.FixedValue = "observation_sami_template_activitiesDataTable"
             type.Attributes.Add(attribute2)
             type.Particle = sequence
             Dim dsSchema As Global.System.Xml.Schema.XmlSchema = ds.GetSchemaSerializable
@@ -10235,6 +10248,21 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property attachment_id() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tableobservations.attachment_idColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'attachment_id' in table 'observations' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tableobservations.attachment_idColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property activitiesRow() As activitiesRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_activities_observations")),activitiesRow)
@@ -10294,6 +10322,18 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function Isattachment_idNull() As Boolean
+            Return Me.IsNull(Me.tableobservations.attachment_idColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub Setattachment_idNull()
+            Me(Me.tableobservations.attachment_idColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function GetdmarsRows() As dmarsRow()
             If (Me.Table.ChildRelations("FK_observations_dmars") Is Nothing) Then
                 Return New dmarsRow(-1) {}
@@ -10334,11 +10374,11 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function Getobservation_sami_template_activitesRows() As observation_sami_template_activitesRow()
+        Public Function Getobservation_sami_template_activitiesRows() As observation_sami_template_activitiesRow()
             If (Me.Table.ChildRelations("observations_observation_sami_template_activites") Is Nothing) Then
-                Return New observation_sami_template_activitesRow(-1) {}
+                Return New observation_sami_template_activitiesRow(-1) {}
             Else
-                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("observations_observation_sami_template_activites")),observation_sami_template_activitesRow())
+                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("observations_observation_sami_template_activites")),observation_sami_template_activitiesRow())
             End If
         End Function
     End Class
@@ -13381,26 +13421,26 @@ Partial Public Class ISAMSSds
     '''<summary>
     '''Represents strongly named DataRow class.
     '''</summary>
-    Partial Public Class observation_sami_template_activitesRow
+    Partial Public Class observation_sami_template_activitiesRow
         Inherits Global.System.Data.DataRow
         
-        Private tableobservation_sami_template_activites As observation_sami_template_activitesDataTable
+        Private tableobservation_sami_template_activities As observation_sami_template_activitiesDataTable
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Friend Sub New(ByVal rb As Global.System.Data.DataRowBuilder)
             MyBase.New(rb)
-            Me.tableobservation_sami_template_activites = CType(Me.Table,observation_sami_template_activitesDataTable)
+            Me.tableobservation_sami_template_activities = CType(Me.Table,observation_sami_template_activitiesDataTable)
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property id() As Integer
             Get
-                Return CType(Me(Me.tableobservation_sami_template_activites.idColumn),Integer)
+                Return CType(Me(Me.tableobservation_sami_template_activities.idColumn),Integer)
             End Get
             Set
-                Me(Me.tableobservation_sami_template_activites.idColumn) = value
+                Me(Me.tableobservation_sami_template_activities.idColumn) = value
             End Set
         End Property
         
@@ -13409,14 +13449,14 @@ Partial Public Class ISAMSSds
         Public Property observation_id() As Integer
             Get
                 Try 
-                    Return CType(Me(Me.tableobservation_sami_template_activites.observation_idColumn),Integer)
+                    Return CType(Me(Me.tableobservation_sami_template_activities.observation_idColumn),Integer)
                 Catch e As Global.System.InvalidCastException
                     Throw New Global.System.Data.StrongTypingException("The value for column 'observation_id' in table 'observation_sami_template_activit"& _ 
-                            "es' is DBNull.", e)
+                            "ies' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableobservation_sami_template_activites.observation_idColumn) = value
+                Me(Me.tableobservation_sami_template_activities.observation_idColumn) = value
             End Set
         End Property
         
@@ -13425,14 +13465,14 @@ Partial Public Class ISAMSSds
         Public Property sami_template_activity_id() As Integer
             Get
                 Try 
-                    Return CType(Me(Me.tableobservation_sami_template_activites.sami_template_activity_idColumn),Integer)
+                    Return CType(Me(Me.tableobservation_sami_template_activities.sami_template_activity_idColumn),Integer)
                 Catch e As Global.System.InvalidCastException
                     Throw New Global.System.Data.StrongTypingException("The value for column 'sami_template_activity_id' in table 'observation_sami_templ"& _ 
-                            "ate_activites' is DBNull.", e)
+                            "ate_activities' is DBNull.", e)
                 End Try
             End Get
             Set
-                Me(Me.tableobservation_sami_template_activites.sami_template_activity_idColumn) = value
+                Me(Me.tableobservation_sami_template_activities.sami_template_activity_idColumn) = value
             End Set
         End Property
         
@@ -13461,25 +13501,25 @@ Partial Public Class ISAMSSds
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function Isobservation_idNull() As Boolean
-            Return Me.IsNull(Me.tableobservation_sami_template_activites.observation_idColumn)
+            Return Me.IsNull(Me.tableobservation_sami_template_activities.observation_idColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub Setobservation_idNull()
-            Me(Me.tableobservation_sami_template_activites.observation_idColumn) = Global.System.Convert.DBNull
+            Me(Me.tableobservation_sami_template_activities.observation_idColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Function Issami_template_activity_idNull() As Boolean
-            Return Me.IsNull(Me.tableobservation_sami_template_activites.sami_template_activity_idColumn)
+            Return Me.IsNull(Me.tableobservation_sami_template_activities.sami_template_activity_idColumn)
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub Setsami_template_activity_idNull()
-            Me(Me.tableobservation_sami_template_activites.sami_template_activity_idColumn) = Global.System.Convert.DBNull
+            Me(Me.tableobservation_sami_template_activities.sami_template_activity_idColumn) = Global.System.Convert.DBNull
         End Sub
     End Class
     
@@ -13567,11 +13607,11 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function Getobservation_sami_template_activitesRows() As observation_sami_template_activitesRow()
+        Public Function Getobservation_sami_template_activitesRows() As observation_sami_template_activitiesRow()
             If (Me.Table.ChildRelations("sami_template_activities_observation_sami_template_activites") Is Nothing) Then
-                Return New observation_sami_template_activitesRow(-1) {}
+                Return New observation_sami_template_activitiesRow(-1) {}
             Else
-                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("sami_template_activities_observation_sami_template_activites")),observation_sami_template_activitesRow())
+                Return CType(MyBase.GetChildRows(Me.Table.ChildRelations("sami_template_activities_observation_sami_template_activites")),observation_sami_template_activitiesRow())
             End If
         End Function
     End Class
@@ -14372,16 +14412,16 @@ Partial Public Class ISAMSSds
     '''Row event argument class
     '''</summary>
     <Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-    Public Class observation_sami_template_activitesRowChangeEvent
+    Public Class observation_sami_template_activitiesRowChangeEvent
         Inherits Global.System.EventArgs
         
-        Private eventRow As observation_sami_template_activitesRow
+        Private eventRow As observation_sami_template_activitiesRow
         
         Private eventAction As Global.System.Data.DataRowAction
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub New(ByVal row As observation_sami_template_activitesRow, ByVal action As Global.System.Data.DataRowAction)
+        Public Sub New(ByVal row As observation_sami_template_activitiesRow, ByVal action As Global.System.Data.DataRowAction)
             MyBase.New
             Me.eventRow = row
             Me.eventAction = action
@@ -14389,7 +14429,7 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property Row() As observation_sami_template_activitesRow
+        Public ReadOnly Property Row() As observation_sami_template_activitiesRow
             Get
                 Return Me.eventRow
             End Get
@@ -16115,47 +16155,56 @@ Namespace ISAMSSdsTableAdapters
             tableMapping.ColumnMappings.Add("activity_id", "activity_id")
             tableMapping.ColumnMappings.Add("noncompliance", "noncompliance")
             tableMapping.ColumnMappings.Add("weakness", "weakness")
+            tableMapping.ColumnMappings.Add("attachment_id", "attachment_id")
             Me._adapter.TableMappings.Add(tableMapping)
             Me._adapter.DeleteCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.DeleteCommand.Connection = Me.Connection
-            Me._adapter.DeleteCommand.CommandText = "DELETE FROM `observations` WHERE ((`id` = ?) AND ((? = 1 AND `noncompliance` IS N"& _ 
-                "ULL) OR (`noncompliance` = ?)) AND ((? = 1 AND `weakness` IS NULL) OR (`weakness"& _ 
-                "` = ?)) AND ((? = 1 AND `activity_id` IS NULL) OR (`activity_id` = ?)))"
+            Me._adapter.DeleteCommand.CommandText = "DELETE FROM `observations` WHERE ((`id` = ?) AND ((? = 1 AND `activity_id` IS NUL"& _ 
+                "L) OR (`activity_id` = ?)) AND ((? = 1 AND `noncompliance` IS NULL) OR (`noncomp"& _ 
+                "liance` = ?)) AND ((? = 1 AND `weakness` IS NULL) OR (`weakness` = ?)) AND ((? ="& _ 
+                " 1 AND `attachment_id` IS NULL) OR (`attachment_id` = ?)))"
             Me._adapter.DeleteCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_noncompliance", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "noncompliance", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_noncompliance", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "noncompliance", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_weakness", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "weakness", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_weakness", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "weakness", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_attachment_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "attachment_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_attachment_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "attachment_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.InsertCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.InsertCommand.Connection = Me.Connection
-            Me._adapter.InsertCommand.CommandText = "INSERT INTO `observations` (`description`, `noncompliance`, `weakness`, `activity"& _ 
-                "_id`) VALUES (?, ?, ?, ?)"
+            Me._adapter.InsertCommand.CommandText = "INSERT INTO `observations` (`activity_id`, `description`, `noncompliance`, `weakn"& _ 
+                "ess`, `attachment_id`) VALUES (?, ?, ?, ?, ?)"
             Me._adapter.InsertCommand.CommandType = Global.System.Data.CommandType.Text
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("description", Global.System.Data.OleDb.OleDbType.LongVarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("noncompliance", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "noncompliance", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("weakness", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "weakness", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("attachment_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "attachment_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.UpdateCommand.Connection = Me.Connection
-            Me._adapter.UpdateCommand.CommandText = "UPDATE `observations` SET `description` = ?, `noncompliance` = ?, `weakness` = ?,"& _ 
-                " `activity_id` = ? WHERE ((`id` = ?) AND ((? = 1 AND `noncompliance` IS NULL) OR"& _ 
-                " (`noncompliance` = ?)) AND ((? = 1 AND `weakness` IS NULL) OR (`weakness` = ?))"& _ 
-                " AND ((? = 1 AND `activity_id` IS NULL) OR (`activity_id` = ?)))"
+            Me._adapter.UpdateCommand.CommandText = "UPDATE `observations` SET `activity_id` = ?, `description` = ?, `noncompliance` ="& _ 
+                " ?, `weakness` = ?, `attachment_id` = ? WHERE ((`id` = ?) AND ((? = 1 AND `activ"& _ 
+                "ity_id` IS NULL) OR (`activity_id` = ?)) AND ((? = 1 AND `noncompliance` IS NULL"& _ 
+                ") OR (`noncompliance` = ?)) AND ((? = 1 AND `weakness` IS NULL) OR (`weakness` ="& _ 
+                " ?)) AND ((? = 1 AND `attachment_id` IS NULL) OR (`attachment_id` = ?)))"
             Me._adapter.UpdateCommand.CommandType = Global.System.Data.CommandType.Text
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("description", Global.System.Data.OleDb.OleDbType.LongVarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("noncompliance", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "noncompliance", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("weakness", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "weakness", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("attachment_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "attachment_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_noncompliance", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "noncompliance", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_noncompliance", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "noncompliance", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_weakness", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "weakness", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_weakness", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "weakness", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "activity_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_attachment_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "attachment_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_attachment_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "attachment_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -16231,14 +16280,21 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Delete, true)>  _
-        Public Overloads Overridable Function Delete(ByVal Original_id As Integer, ByVal Original_noncompliance As Boolean, ByVal Original_weakness As Boolean, ByVal Original_activity_id As Integer) As Integer
+        Public Overloads Overridable Function Delete(ByVal Original_id As Integer, ByVal Original_activity_id As Integer, ByVal Original_noncompliance As Boolean, ByVal Original_weakness As Boolean, ByVal Original_attachment_id As Global.System.Nullable(Of Integer)) As Integer
             Me.Adapter.DeleteCommand.Parameters(0).Value = CType(Original_id,Integer)
             Me.Adapter.DeleteCommand.Parameters(1).Value = CType(0,Object)
-            Me.Adapter.DeleteCommand.Parameters(2).Value = CType(Original_noncompliance,Boolean)
+            Me.Adapter.DeleteCommand.Parameters(2).Value = CType(Original_activity_id,Integer)
             Me.Adapter.DeleteCommand.Parameters(3).Value = CType(0,Object)
-            Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_weakness,Boolean)
+            Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_noncompliance,Boolean)
             Me.Adapter.DeleteCommand.Parameters(5).Value = CType(0,Object)
-            Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_activity_id,Integer)
+            Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_weakness,Boolean)
+            If (Original_attachment_id.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(8).Value = CType(Original_attachment_id.Value,Integer)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(8).Value = Global.System.DBNull.Value
+            End If
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.DeleteCommand.Connection.State
             If ((Me.Adapter.DeleteCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
                         <> Global.System.Data.ConnectionState.Open) Then
@@ -16258,15 +16314,20 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Insert, true)>  _
-        Public Overloads Overridable Function Insert(ByVal description As String, ByVal noncompliance As Boolean, ByVal weakness As Boolean, ByVal activity_id As Integer) As Integer
+        Public Overloads Overridable Function Insert(ByVal activity_id As Integer, ByVal description As String, ByVal noncompliance As Boolean, ByVal weakness As Boolean, ByVal attachment_id As Global.System.Nullable(Of Integer)) As Integer
+            Me.Adapter.InsertCommand.Parameters(0).Value = CType(activity_id,Integer)
             If (description Is Nothing) Then
                 Throw New Global.System.ArgumentNullException("description")
             Else
-                Me.Adapter.InsertCommand.Parameters(0).Value = CType(description,String)
+                Me.Adapter.InsertCommand.Parameters(1).Value = CType(description,String)
             End If
-            Me.Adapter.InsertCommand.Parameters(1).Value = CType(noncompliance,Boolean)
-            Me.Adapter.InsertCommand.Parameters(2).Value = CType(weakness,Boolean)
-            Me.Adapter.InsertCommand.Parameters(3).Value = CType(activity_id,Integer)
+            Me.Adapter.InsertCommand.Parameters(2).Value = CType(noncompliance,Boolean)
+            Me.Adapter.InsertCommand.Parameters(3).Value = CType(weakness,Boolean)
+            If (attachment_id.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(4).Value = CType(attachment_id.Value,Integer)
+            Else
+                Me.Adapter.InsertCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.InsertCommand.Connection.State
             If ((Me.Adapter.InsertCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
                         <> Global.System.Data.ConnectionState.Open) Then
@@ -16286,22 +16347,34 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
-        Public Overloads Overridable Function Update(ByVal description As String, ByVal noncompliance As Boolean, ByVal weakness As Boolean, ByVal activity_id As Integer, ByVal Original_id As Integer, ByVal Original_noncompliance As Boolean, ByVal Original_weakness As Boolean, ByVal Original_activity_id As Integer) As Integer
+        Public Overloads Overridable Function Update(ByVal activity_id As Integer, ByVal description As String, ByVal noncompliance As Boolean, ByVal weakness As Boolean, ByVal attachment_id As Global.System.Nullable(Of Integer), ByVal Original_id As Integer, ByVal Original_activity_id As Integer, ByVal Original_noncompliance As Boolean, ByVal Original_weakness As Boolean, ByVal Original_attachment_id As Global.System.Nullable(Of Integer)) As Integer
+            Me.Adapter.UpdateCommand.Parameters(0).Value = CType(activity_id,Integer)
             If (description Is Nothing) Then
                 Throw New Global.System.ArgumentNullException("description")
             Else
-                Me.Adapter.UpdateCommand.Parameters(0).Value = CType(description,String)
+                Me.Adapter.UpdateCommand.Parameters(1).Value = CType(description,String)
             End If
-            Me.Adapter.UpdateCommand.Parameters(1).Value = CType(noncompliance,Boolean)
-            Me.Adapter.UpdateCommand.Parameters(2).Value = CType(weakness,Boolean)
-            Me.Adapter.UpdateCommand.Parameters(3).Value = CType(activity_id,Integer)
-            Me.Adapter.UpdateCommand.Parameters(4).Value = CType(Original_id,Integer)
-            Me.Adapter.UpdateCommand.Parameters(5).Value = CType(0,Object)
-            Me.Adapter.UpdateCommand.Parameters(6).Value = CType(Original_noncompliance,Boolean)
-            Me.Adapter.UpdateCommand.Parameters(7).Value = CType(0,Object)
-            Me.Adapter.UpdateCommand.Parameters(8).Value = CType(Original_weakness,Boolean)
-            Me.Adapter.UpdateCommand.Parameters(9).Value = CType(0,Object)
-            Me.Adapter.UpdateCommand.Parameters(10).Value = CType(Original_activity_id,Integer)
+            Me.Adapter.UpdateCommand.Parameters(2).Value = CType(noncompliance,Boolean)
+            Me.Adapter.UpdateCommand.Parameters(3).Value = CType(weakness,Boolean)
+            If (attachment_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(attachment_id.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            Me.Adapter.UpdateCommand.Parameters(5).Value = CType(Original_id,Integer)
+            Me.Adapter.UpdateCommand.Parameters(6).Value = CType(0,Object)
+            Me.Adapter.UpdateCommand.Parameters(7).Value = CType(Original_activity_id,Integer)
+            Me.Adapter.UpdateCommand.Parameters(8).Value = CType(0,Object)
+            Me.Adapter.UpdateCommand.Parameters(9).Value = CType(Original_noncompliance,Boolean)
+            Me.Adapter.UpdateCommand.Parameters(10).Value = CType(0,Object)
+            Me.Adapter.UpdateCommand.Parameters(11).Value = CType(Original_weakness,Boolean)
+            If (Original_attachment_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(12).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(13).Value = CType(Original_attachment_id.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(12).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(13).Value = Global.System.DBNull.Value
+            End If
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.UpdateCommand.Connection.State
             If ((Me.Adapter.UpdateCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
                         <> Global.System.Data.ConnectionState.Open) Then
@@ -21650,7 +21723,7 @@ Namespace ISAMSSdsTableAdapters
      Global.System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner"& _ 
         ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"),  _
      Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
-    Partial Public Class observation_sami_template_activitesTableAdapter
+    Partial Public Class observation_sami_template_activitiesTableAdapter
         Inherits Global.System.ComponentModel.Component
         
         Private WithEvents _adapter As Global.System.Data.OleDb.OleDbDataAdapter
@@ -21767,16 +21840,16 @@ Namespace ISAMSSdsTableAdapters
             Me._adapter = New Global.System.Data.OleDb.OleDbDataAdapter()
             Dim tableMapping As Global.System.Data.Common.DataTableMapping = New Global.System.Data.Common.DataTableMapping()
             tableMapping.SourceTable = "Table"
-            tableMapping.DataSetTable = "observation_sami_template_activites"
+            tableMapping.DataSetTable = "observation_sami_template_activities"
             tableMapping.ColumnMappings.Add("id", "id")
             tableMapping.ColumnMappings.Add("observation_id", "observation_id")
             tableMapping.ColumnMappings.Add("sami_template_activity_id", "sami_template_activity_id")
             Me._adapter.TableMappings.Add(tableMapping)
             Me._adapter.DeleteCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.DeleteCommand.Connection = Me.Connection
-            Me._adapter.DeleteCommand.CommandText = "DELETE FROM `observation_sami_template_activites` WHERE ((`id` = ?) AND ((? = 1 A"& _ 
-                "ND `observation_id` IS NULL) OR (`observation_id` = ?)) AND ((? = 1 AND `sami_te"& _ 
-                "mplate_activity_id` IS NULL) OR (`sami_template_activity_id` = ?)))"
+            Me._adapter.DeleteCommand.CommandText = "DELETE FROM `observation_sami_template_activities` WHERE ((`id` = ?) AND ((? = 1 "& _ 
+                "AND `observation_id` IS NULL) OR (`observation_id` = ?)) AND ((? = 1 AND `sami_t"& _ 
+                "emplate_activity_id` IS NULL) OR (`sami_template_activity_id` = ?)))"
             Me._adapter.DeleteCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_observation_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "observation_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
@@ -21785,17 +21858,17 @@ Namespace ISAMSSdsTableAdapters
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_sami_template_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_template_activity_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.InsertCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.InsertCommand.Connection = Me.Connection
-            Me._adapter.InsertCommand.CommandText = "INSERT INTO `observation_sami_template_activites` (`observation_id`, `sami_templa"& _ 
-                "te_activity_id`) VALUES (?, ?)"
+            Me._adapter.InsertCommand.CommandText = "INSERT INTO `observation_sami_template_activities` (`observation_id`, `sami_templ"& _ 
+                "ate_activity_id`) VALUES (?, ?)"
             Me._adapter.InsertCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("observation_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "observation_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("sami_template_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_template_activity_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.UpdateCommand.Connection = Me.Connection
-            Me._adapter.UpdateCommand.CommandText = "UPDATE `observation_sami_template_activites` SET `observation_id` = ?, `sami_temp"& _ 
-                "late_activity_id` = ? WHERE ((`id` = ?) AND ((? = 1 AND `observation_id` IS NULL"& _ 
-                ") OR (`observation_id` = ?)) AND ((? = 1 AND `sami_template_activity_id` IS NULL"& _ 
-                ") OR (`sami_template_activity_id` = ?)))"
+            Me._adapter.UpdateCommand.CommandText = "UPDATE `observation_sami_template_activities` SET `observation_id` = ?, `sami_tem"& _ 
+                "plate_activity_id` = ? WHERE ((`id` = ?) AND ((? = 1 AND `observation_id` IS NUL"& _ 
+                "L) OR (`observation_id` = ?)) AND ((? = 1 AND `sami_template_activity_id` IS NUL"& _ 
+                "L) OR (`sami_template_activity_id` = ?)))"
             Me._adapter.UpdateCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("observation_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "observation_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("sami_template_activity_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_template_activity_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
@@ -21820,7 +21893,7 @@ Namespace ISAMSSdsTableAdapters
             Me._commandCollection(0) = New Global.System.Data.OleDb.OleDbCommand()
             Me._commandCollection(0).Connection = Me.Connection
             Me._commandCollection(0).CommandText = "SELECT id, observation_id, sami_template_activity_id FROM observation_sami_templa"& _ 
-                "te_activites"
+                "te_activities"
             Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
         End Sub
         
@@ -21828,7 +21901,7 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Fill, true)>  _
-        Public Overloads Overridable Function Fill(ByVal dataTable As ISAMSSds.observation_sami_template_activitesDataTable) As Integer
+        Public Overloads Overridable Function Fill(ByVal dataTable As ISAMSSds.observation_sami_template_activitiesDataTable) As Integer
             Me.Adapter.SelectCommand = Me.CommandCollection(0)
             If (Me.ClearBeforeFill = true) Then
                 dataTable.Clear
@@ -21841,9 +21914,9 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.[Select], true)>  _
-        Public Overloads Overridable Function GetData() As ISAMSSds.observation_sami_template_activitesDataTable
+        Public Overloads Overridable Function GetData() As ISAMSSds.observation_sami_template_activitiesDataTable
             Me.Adapter.SelectCommand = Me.CommandCollection(0)
-            Dim dataTable As ISAMSSds.observation_sami_template_activitesDataTable = New ISAMSSds.observation_sami_template_activitesDataTable()
+            Dim dataTable As ISAMSSds.observation_sami_template_activitiesDataTable = New ISAMSSds.observation_sami_template_activitiesDataTable()
             Me.Adapter.Fill(dataTable)
             Return dataTable
         End Function
@@ -21851,7 +21924,7 @@ Namespace ISAMSSdsTableAdapters
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
-        Public Overloads Overridable Function Update(ByVal dataTable As ISAMSSds.observation_sami_template_activitesDataTable) As Integer
+        Public Overloads Overridable Function Update(ByVal dataTable As ISAMSSds.observation_sami_template_activitiesDataTable) As Integer
             Return Me.Adapter.Update(dataTable)
         End Function
         
@@ -21859,7 +21932,7 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
         Public Overloads Overridable Function Update(ByVal dataSet As ISAMSSds) As Integer
-            Return Me.Adapter.Update(dataSet, "observation_sami_template_activites")
+            Return Me.Adapter.Update(dataSet, "observation_sami_template_activities")
         End Function
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -21874,116 +21947,6 @@ Namespace ISAMSSdsTableAdapters
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")>  _
         Public Overloads Overridable Function Update(ByVal dataRows() As Global.System.Data.DataRow) As Integer
             Return Me.Adapter.Update(dataRows)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Delete, true)>  _
-        Public Overloads Overridable Function Delete(ByVal Original_id As Integer, ByVal Original_observation_id As Global.System.Nullable(Of Integer), ByVal Original_sami_template_activity_id As Global.System.Nullable(Of Integer)) As Integer
-            Me.Adapter.DeleteCommand.Parameters(0).Value = CType(Original_id,Integer)
-            If (Original_observation_id.HasValue = true) Then
-                Me.Adapter.DeleteCommand.Parameters(1).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(2).Value = CType(Original_observation_id.Value,Integer)
-            Else
-                Me.Adapter.DeleteCommand.Parameters(1).Value = CType(1,Object)
-                Me.Adapter.DeleteCommand.Parameters(2).Value = Global.System.DBNull.Value
-            End If
-            If (Original_sami_template_activity_id.HasValue = true) Then
-                Me.Adapter.DeleteCommand.Parameters(3).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_sami_template_activity_id.Value,Integer)
-            Else
-                Me.Adapter.DeleteCommand.Parameters(3).Value = CType(1,Object)
-                Me.Adapter.DeleteCommand.Parameters(4).Value = Global.System.DBNull.Value
-            End If
-            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.DeleteCommand.Connection.State
-            If ((Me.Adapter.DeleteCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
-                        <> Global.System.Data.ConnectionState.Open) Then
-                Me.Adapter.DeleteCommand.Connection.Open
-            End If
-            Try 
-                Dim returnValue As Integer = Me.Adapter.DeleteCommand.ExecuteNonQuery
-                Return returnValue
-            Finally
-                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
-                    Me.Adapter.DeleteCommand.Connection.Close
-                End If
-            End Try
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Insert, true)>  _
-        Public Overloads Overridable Function Insert(ByVal observation_id As Global.System.Nullable(Of Integer), ByVal sami_template_activity_id As Global.System.Nullable(Of Integer)) As Integer
-            If (observation_id.HasValue = true) Then
-                Me.Adapter.InsertCommand.Parameters(0).Value = CType(observation_id.Value,Integer)
-            Else
-                Me.Adapter.InsertCommand.Parameters(0).Value = Global.System.DBNull.Value
-            End If
-            If (sami_template_activity_id.HasValue = true) Then
-                Me.Adapter.InsertCommand.Parameters(1).Value = CType(sami_template_activity_id.Value,Integer)
-            Else
-                Me.Adapter.InsertCommand.Parameters(1).Value = Global.System.DBNull.Value
-            End If
-            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.InsertCommand.Connection.State
-            If ((Me.Adapter.InsertCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
-                        <> Global.System.Data.ConnectionState.Open) Then
-                Me.Adapter.InsertCommand.Connection.Open
-            End If
-            Try 
-                Dim returnValue As Integer = Me.Adapter.InsertCommand.ExecuteNonQuery
-                Return returnValue
-            Finally
-                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
-                    Me.Adapter.InsertCommand.Connection.Close
-                End If
-            End Try
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
-         Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
-         Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
-        Public Overloads Overridable Function Update(ByVal observation_id As Global.System.Nullable(Of Integer), ByVal sami_template_activity_id As Global.System.Nullable(Of Integer), ByVal Original_id As Integer, ByVal Original_observation_id As Global.System.Nullable(Of Integer), ByVal Original_sami_template_activity_id As Global.System.Nullable(Of Integer)) As Integer
-            If (observation_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(0).Value = CType(observation_id.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(0).Value = Global.System.DBNull.Value
-            End If
-            If (sami_template_activity_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(1).Value = CType(sami_template_activity_id.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(1).Value = Global.System.DBNull.Value
-            End If
-            Me.Adapter.UpdateCommand.Parameters(2).Value = CType(Original_id,Integer)
-            If (Original_observation_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(3).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(Original_observation_id.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(3).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
-            End If
-            If (Original_sami_template_activity_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(Original_sami_template_activity_id.Value,Integer)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(6).Value = Global.System.DBNull.Value
-            End If
-            Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.UpdateCommand.Connection.State
-            If ((Me.Adapter.UpdateCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
-                        <> Global.System.Data.ConnectionState.Open) Then
-                Me.Adapter.UpdateCommand.Connection.Open
-            End If
-            Try 
-                Dim returnValue As Integer = Me.Adapter.UpdateCommand.ExecuteNonQuery
-                Return returnValue
-            Finally
-                If (previousConnectionState = Global.System.Data.ConnectionState.Closed) Then
-                    Me.Adapter.UpdateCommand.Connection.Close
-                End If
-            End Try
         End Function
     End Class
     
@@ -22389,7 +22352,7 @@ Namespace ISAMSSdsTableAdapters
         
         Private _customer_journal_entriesTableAdapter As customer_journal_entriesTableAdapter
         
-        Private _observation_sami_template_activitesTableAdapter As observation_sami_template_activitesTableAdapter
+        Private _observation_sami_template_activitiesTableAdapter As observation_sami_template_activitiesTableAdapter
         
         Private _sami_template_activitiesTableAdapter As sami_template_activitiesTableAdapter
         
@@ -22721,12 +22684,12 @@ Namespace ISAMSSdsTableAdapters
          Global.System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso"& _ 
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3"& _ 
             "a", "System.Drawing.Design.UITypeEditor")>  _
-        Public Property observation_sami_template_activitesTableAdapter() As observation_sami_template_activitesTableAdapter
+        Public Property observation_sami_template_activitiesTableAdapter() As observation_sami_template_activitiesTableAdapter
             Get
-                Return Me._observation_sami_template_activitesTableAdapter
+                Return Me._observation_sami_template_activitiesTableAdapter
             End Get
             Set
-                Me._observation_sami_template_activitesTableAdapter = value
+                Me._observation_sami_template_activitiesTableAdapter = value
             End Set
         End Property
         
@@ -22851,9 +22814,9 @@ Namespace ISAMSSdsTableAdapters
                             AndAlso (Not (Me._customer_journal_entriesTableAdapter.Connection) Is Nothing)) Then
                     Return Me._customer_journal_entriesTableAdapter.Connection
                 End If
-                If ((Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing)  _
-                            AndAlso (Not (Me._observation_sami_template_activitesTableAdapter.Connection) Is Nothing)) Then
-                    Return Me._observation_sami_template_activitesTableAdapter.Connection
+                If ((Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing)  _
+                            AndAlso (Not (Me._observation_sami_template_activitiesTableAdapter.Connection) Is Nothing)) Then
+                    Return Me._observation_sami_template_activitiesTableAdapter.Connection
                 End If
                 If ((Not (Me._sami_template_activitiesTableAdapter) Is Nothing)  _
                             AndAlso (Not (Me._sami_template_activitiesTableAdapter.Connection) Is Nothing)) Then
@@ -22938,7 +22901,7 @@ Namespace ISAMSSdsTableAdapters
                 If (Not (Me._customer_journal_entriesTableAdapter) Is Nothing) Then
                     count = (count + 1)
                 End If
-                If (Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing) Then
+                If (Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing) Then
                     count = (count + 1)
                 End If
                 If (Not (Me._sami_template_activitiesTableAdapter) Is Nothing) Then
@@ -23099,12 +23062,12 @@ Namespace ISAMSSdsTableAdapters
                     allChangedRows.AddRange(updatedRows)
                 End If
             End If
-            If (Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing) Then
-                Dim updatedRows() As Global.System.Data.DataRow = dataSet.observation_sami_template_activites.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.ModifiedCurrent)
+            If (Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing) Then
+                Dim updatedRows() As Global.System.Data.DataRow = dataSet.observation_sami_template_activities.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.ModifiedCurrent)
                 updatedRows = Me.GetRealUpdatedRows(updatedRows, allAddedRows)
                 If ((Not (updatedRows) Is Nothing)  _
                             AndAlso (0 < updatedRows.Length)) Then
-                    result = (result + Me._observation_sami_template_activitesTableAdapter.Update(updatedRows))
+                    result = (result + Me._observation_sami_template_activitiesTableAdapter.Update(updatedRows))
                     allChangedRows.AddRange(updatedRows)
                 End If
             End If
@@ -23309,11 +23272,11 @@ Namespace ISAMSSdsTableAdapters
                     allAddedRows.AddRange(addedRows)
                 End If
             End If
-            If (Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing) Then
-                Dim addedRows() As Global.System.Data.DataRow = dataSet.observation_sami_template_activites.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Added)
+            If (Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing) Then
+                Dim addedRows() As Global.System.Data.DataRow = dataSet.observation_sami_template_activities.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Added)
                 If ((Not (addedRows) Is Nothing)  _
                             AndAlso (0 < addedRows.Length)) Then
-                    result = (result + Me._observation_sami_template_activitesTableAdapter.Update(addedRows))
+                    result = (result + Me._observation_sami_template_activitiesTableAdapter.Update(addedRows))
                     allAddedRows.AddRange(addedRows)
                 End If
             End If
@@ -23439,11 +23402,11 @@ Namespace ISAMSSdsTableAdapters
                     allChangedRows.AddRange(deletedRows)
                 End If
             End If
-            If (Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing) Then
-                Dim deletedRows() As Global.System.Data.DataRow = dataSet.observation_sami_template_activites.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Deleted)
+            If (Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing) Then
+                Dim deletedRows() As Global.System.Data.DataRow = dataSet.observation_sami_template_activities.Select(Nothing, Nothing, Global.System.Data.DataViewRowState.Deleted)
                 If ((Not (deletedRows) Is Nothing)  _
                             AndAlso (0 < deletedRows.Length)) Then
-                    result = (result + Me._observation_sami_template_activitesTableAdapter.Update(deletedRows))
+                    result = (result + Me._observation_sami_template_activitiesTableAdapter.Update(deletedRows))
                     allChangedRows.AddRange(deletedRows)
                 End If
             End If
@@ -23726,8 +23689,8 @@ Namespace ISAMSSdsTableAdapters
                 Throw New Global.System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s"& _ 
                         "tring.")
             End If
-            If ((Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing)  _
-                        AndAlso (Me.MatchTableAdapterConnection(Me._observation_sami_template_activitesTableAdapter.Connection) = false)) Then
+            If ((Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing)  _
+                        AndAlso (Me.MatchTableAdapterConnection(Me._observation_sami_template_activitiesTableAdapter.Connection) = false)) Then
                 Throw New Global.System.ArgumentException("All TableAdapters managed by a TableAdapterManager must use the same connection s"& _ 
                         "tring.")
             End If
@@ -23966,13 +23929,13 @@ Namespace ISAMSSdsTableAdapters
                         adaptersWithAcceptChangesDuringUpdate.Add(Me._customer_journal_entriesTableAdapter.Adapter)
                     End If
                 End If
-                If (Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing) Then
-                    revertConnections.Add(Me._observation_sami_template_activitesTableAdapter, Me._observation_sami_template_activitesTableAdapter.Connection)
-                    Me._observation_sami_template_activitesTableAdapter.Connection = CType(workConnection,Global.System.Data.OleDb.OleDbConnection)
-                    Me._observation_sami_template_activitesTableAdapter.Transaction = CType(workTransaction,Global.System.Data.OleDb.OleDbTransaction)
-                    If Me._observation_sami_template_activitesTableAdapter.Adapter.AcceptChangesDuringUpdate Then
-                        Me._observation_sami_template_activitesTableAdapter.Adapter.AcceptChangesDuringUpdate = false
-                        adaptersWithAcceptChangesDuringUpdate.Add(Me._observation_sami_template_activitesTableAdapter.Adapter)
+                If (Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing) Then
+                    revertConnections.Add(Me._observation_sami_template_activitiesTableAdapter, Me._observation_sami_template_activitiesTableAdapter.Connection)
+                    Me._observation_sami_template_activitiesTableAdapter.Connection = CType(workConnection,Global.System.Data.OleDb.OleDbConnection)
+                    Me._observation_sami_template_activitiesTableAdapter.Transaction = CType(workTransaction,Global.System.Data.OleDb.OleDbTransaction)
+                    If Me._observation_sami_template_activitiesTableAdapter.Adapter.AcceptChangesDuringUpdate Then
+                        Me._observation_sami_template_activitiesTableAdapter.Adapter.AcceptChangesDuringUpdate = false
+                        adaptersWithAcceptChangesDuringUpdate.Add(Me._observation_sami_template_activitiesTableAdapter.Adapter)
                     End If
                 End If
                 If (Not (Me._sami_template_activitiesTableAdapter) Is Nothing) Then
@@ -24132,9 +24095,9 @@ Namespace ISAMSSdsTableAdapters
                     Me._customer_journal_entriesTableAdapter.Connection = CType(revertConnections(Me._customer_journal_entriesTableAdapter),Global.System.Data.OleDb.OleDbConnection)
                     Me._customer_journal_entriesTableAdapter.Transaction = Nothing
                 End If
-                If (Not (Me._observation_sami_template_activitesTableAdapter) Is Nothing) Then
-                    Me._observation_sami_template_activitesTableAdapter.Connection = CType(revertConnections(Me._observation_sami_template_activitesTableAdapter),Global.System.Data.OleDb.OleDbConnection)
-                    Me._observation_sami_template_activitesTableAdapter.Transaction = Nothing
+                If (Not (Me._observation_sami_template_activitiesTableAdapter) Is Nothing) Then
+                    Me._observation_sami_template_activitiesTableAdapter.Connection = CType(revertConnections(Me._observation_sami_template_activitiesTableAdapter),Global.System.Data.OleDb.OleDbConnection)
+                    Me._observation_sami_template_activitiesTableAdapter.Transaction = Nothing
                 End If
                 If (Not (Me._sami_template_activitiesTableAdapter) Is Nothing) Then
                     Me._sami_template_activitiesTableAdapter.Connection = CType(revertConnections(Me._sami_template_activitiesTableAdapter),Global.System.Data.OleDb.OleDbConnection)
