@@ -106,14 +106,6 @@ InitializeComponent
 	<summary>
 FilterContractsForm
 </summary>
-</member><member name="M:isamss.Window1.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:isamss.Window1">
-	<summary>
-Window1
-</summary>
 </member><member name="M:isamss.MainWindow.InitializeComponent">
 	<summary>
 InitializeComponent
@@ -300,11 +292,15 @@ Represents the strongly named DataTable class.
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.observation_sami_template_activitiesDataTable">
+</member><member name="T:isamss.ISAMSSds.sami_activity_categoriesDataTable">
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.sami_template_activitiesDataTable">
+</member><member name="T:isamss.ISAMSSds.sami_activitiesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.observation_sami_activitiesDataTable">
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
@@ -396,11 +392,15 @@ Represents strongly named DataRow class.
 	<summary>
 Represents strongly named DataRow class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.observation_sami_template_activitiesRow">
+</member><member name="T:isamss.ISAMSSds.sami_activity_categoriesRow">
 	<summary>
 Represents strongly named DataRow class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.sami_template_activitiesRow">
+</member><member name="T:isamss.ISAMSSds.sami_activitiesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.observation_sami_activitiesRow">
 	<summary>
 Represents strongly named DataRow class.
 </summary>
@@ -492,11 +492,15 @@ Row event argument class
 	<summary>
 Row event argument class
 </summary>
-</member><member name="T:isamss.ISAMSSds.observation_sami_template_activitiesRowChangeEvent">
+</member><member name="T:isamss.ISAMSSds.sami_activity_categoriesRowChangeEvent">
 	<summary>
 Row event argument class
 </summary>
-</member><member name="T:isamss.ISAMSSds.sami_template_activitiesRowChangeEvent">
+</member><member name="T:isamss.ISAMSSds.sami_activitiesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.observation_sami_activitiesRowChangeEvent">
 	<summary>
 Row event argument class
 </summary>
@@ -592,11 +596,15 @@ Represents the connection and commands used to retrieve and save data.
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.observation_sami_template_activitiesTableAdapter">
+</member><member name="T:isamss.ISAMSSdsTableAdapters.sami_activity_categoriesTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.sami_template_activitiesTableAdapter">
+</member><member name="T:isamss.ISAMSSdsTableAdapters.sami_activitiesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.observation_sami_activitiesTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>

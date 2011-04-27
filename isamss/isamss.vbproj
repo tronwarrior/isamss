@@ -174,9 +174,6 @@
     </Compile>
     <Compile Include="TTreeView.vb" />
     <Compile Include="ValidationBinding.vb" />
-    <Compile Include="Window1.xaml.vb">
-      <DependentUpon>Window1.xaml</DependentUpon>
-    </Compile>
     <Page Include="Contract.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -254,10 +251,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="TStackPanelAttachment.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Window1.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -410,6 +403,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\arrow_left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_up.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
