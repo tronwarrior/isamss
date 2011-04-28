@@ -3,6 +3,7 @@
 
     Private _activity As TActivity = Nothing
     Private _observation As TObservation = Nothing
+    Private _samiActivities As TSAMIActivities = Nothing
 
     Public Sub New(ByVal activity As TActivity, ByVal observation As TObservation)
 
@@ -23,6 +24,8 @@
     End Function
 
     Protected Overrides Sub OnFormLoaded(ByVal sender As Object, ByVal e As System.Windows.RoutedEventArgs)
+        _samiActivities = New TSAMIActivities(False)
+
         If _observation IsNot Nothing Then
             txtDescription.Text = _observation.Description
             tspAttachment.Attachment = _observation.Attachment
