@@ -2,6 +2,16 @@
 Imports System.Collections.ObjectModel
 
 Class MainWindow
+    Private myContractsFilter As TContractsFilter
+
+    Public Sub New()
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        txt_userid.Text = Application.CurrentUser.LogonID
+        txt_username.Text = Application.CurrentUser.FullName
+    End Sub
+
     Private Sub PopulateCRRTab(ByRef contract As TContract)
         If contract IsNot Nothing Then
             txtContractNumber.Tag = contract
@@ -114,14 +124,6 @@ Class MainWindow
         ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
     End Sub
 
-    Public Sub New()
-        ' This call is required by the designer.
-        InitializeComponent()
-
-        txt_userid.Text = Application.CurrentUser.LogonID
-        txt_username.Text = Application.CurrentUser.FullName
-    End Sub
-
     Private Sub ClearAllTabs()
         ' CR&R tab
         ClearCRRTab()
@@ -166,10 +168,6 @@ Class MainWindow
             ttvContractsQuickview.CurrentContract.Refresh()
             ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
         End If
-    End Sub
-
-    Private Sub lstvwContractSites_SelectionChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles lstvwContractSites.SelectionChanged
-        lstvwContractSites.SelectedIndex = -1
     End Sub
 
     Private Sub lstvwCRRs_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwCRRs.MouseDoubleClick
@@ -243,9 +241,6 @@ Class MainWindow
         SelectTab(CType(ttvContractsQuickview.SelectedItem, TreeViewItem))
     End Sub
 
-    '///////////////////////////////////////////////////////////////////////////
-    ' Data members
-    Private myContractsFilter As TContractsFilter
 
     Private Sub MenuItemRefresh_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MenuItemRefresh.Click
         ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)

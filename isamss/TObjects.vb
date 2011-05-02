@@ -2891,6 +2891,7 @@ Public Class TSAMIActivityCategories
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
                 Dim query As String = "SELECT * FROM sami_activity_categories"
+
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim samiActs As New ISAMSSds.sami_activity_categoriesDataTable
                 adapter.Fill(samiActs)
@@ -2987,6 +2988,12 @@ End Class
 Public Class TSAMIActivities
     Inherits TObjects
 
+    Public Enum ActivityCategories
+        tech
+        cost
+        sched
+    End Enum
+
     Public Sub New(Optional ByVal loadAll As Boolean = True)
         If loadAll = True Then
             Try
@@ -3006,6 +3013,37 @@ Public Class TSAMIActivities
                 Application.WriteToEventLog("TSAMIActivities::New, Exception, message: " & e.Message, EventLogEntryType.Error)
             End Try
         End If
+    End Sub
+
+    Public Sub New(ByVal category As ActivityCategories)
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                ' TODO: fix this big HACK! Should be doing a cross-query using the categories table, 
+                ' but, alas, we will leave that to another day...
+                Dim query As String = "SELECT * FROM sami_activities WHERE sami_activity_category_id = "
+
+                Select Case category
+                    Case ActivityCategories.tech
+                        query &= "1"
+                    Case ActivityCategories.cost
+                        query &= "2"
+                    Case ActivityCategories.sched
+                        query &= "3"
+                End Select
+
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim samiActs As New ISAMSSds.sami_activitiesDataTable
+                adapter.Fill(samiActs)
+
+                For Each act In samiActs
+                    Dim a As New TSAMIActivity(act)
+                    MyBase.Add(a)
+                Next
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TSAMIActivities::New, Exception, message: " & e.Message, EventLogEntryType.Error)
+        End Try
     End Sub
 
     Public Sub New(ByVal rhs As TSAMIActivities)

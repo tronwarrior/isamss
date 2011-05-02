@@ -1,6 +1,12 @@
 ﻿Public Class ObservationForm
     Inherits DataInputFormBase
 
+    Private Enum samitabs
+        tech = 0
+        cost
+        sched
+    End Enum
+
     Private _activity As TActivity = Nothing
     Private _observation As TObservation = Nothing
     Private _samiActivities As TSAMIActivities = Nothing
@@ -18,7 +24,7 @@
     Protected Overrides Function Save() As Boolean
         Dim rv As Boolean = False
 
-        ' !!! TODO: Save code
+
 
         Return rv
     End Function
@@ -41,7 +47,7 @@
         MyBase.Close()
     End Sub
 
-    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSave.Click
+    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs)
         DialogResult = Save()
     End Sub
 
@@ -51,6 +57,8 @@
             Dim dest As TSAMIActivities = lstvwSamiActsForThisObs.ItemsSource
             lstvwSamiActsForThisObs.ItemsSource = dest + source
             lstvwSamiActivities.ItemsSource = lstvwSamiActivities.ItemsSource - source
+            _formDirty = True
+            btnSave.IsEnabled = True
         End If
     End Sub
 
@@ -60,6 +68,8 @@
             Dim dest As TSAMIActivities = lstvwSamiActivities.ItemsSource
             lstvwSamiActivities.ItemsSource = dest + source
             lstvwSamiActsForThisObs.ItemsSource = lstvwSamiActsForThisObs.ItemsSource - source
+            _formDirty = True
+            btnSave.IsEnabled = True
         End If
     End Sub
 
@@ -69,6 +79,9 @@
         Else
 
         End If
+
+        _formDirty = True
+        btnSave.IsEnabled = True
     End Sub
 
     Private Sub chkWeakness_Checked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkWeakness.Checked
@@ -77,5 +90,33 @@
         Else
 
         End If
+
+        _formDirty = True
+        btnSave.IsEnabled = True
     End Sub
+
+    Private Sub txtDescription_TextChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.TextChangedEventArgs) Handles txtDescription.TextChanged
+        _formDirty = True
+        btnSave.IsEnabled = True
+    End Sub
+
+    Private Sub tspAttachment_AttachmentAdded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles tspAttachment.AttachmentAdded
+        _formDirty = True
+        btnSave.IsEnabled = True
+    End Sub
+
+    Private Sub tspAttachment_AttachmentDeleted(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles tspAttachment.AttachmentDeleted
+        _formDirty = True
+        btnSave.IsEnabled = True
+    End Sub
+
+    Private Sub tabSamiActivities_RequestBringIntoView(ByVal sender As System.Object, ByVal e As System.Windows.RequestBringIntoViewEventArgs) Handles tabSamiActivities.RequestBringIntoView
+        Select Case sender.SelectedIndex
+            Case samitabs.tech
+                'TODO: start here...
+            Case samitabs.cost
+            Case samitabs.sched
+        End Select
+    End Sub
+
 End Class

@@ -6,8 +6,8 @@
     <Grid>
         <GroupBox Header="Disposition" Height="85" HorizontalAlignment="Left" Margin="427,500,0,0" Name="GroupBox1" VerticalAlignment="Top" Width="156">
             <Grid>
-                <CheckBox Content="Noncompliance" Height="16" HorizontalAlignment="Left" Margin="17,14,0,0" Name="chkNoncompliance" VerticalAlignment="Top" />
-                <CheckBox Content="Weakness" Height="16" HorizontalAlignment="Left" Margin="17,38,0,0" Name="chkWeakness" VerticalAlignment="Top" />
+                <CheckBox Content="Noncompliance" Height="16" HorizontalAlignment="Left" Margin="17,14,0,0" Name="chkNoncompliance" VerticalAlignment="Top" Width="105" />
+                <CheckBox Content="Weakness" Height="16" HorizontalAlignment="Left" Margin="17,38,0,0" Name="chkWeakness" VerticalAlignment="Top" Width="105" />
             </Grid>
         </GroupBox>
         <GroupBox Header="Description" Height="174" HorizontalAlignment="Left" Margin="12,6,0,0" Name="GroupBox2" VerticalAlignment="Top" Width="571">
@@ -19,7 +19,7 @@
             <Grid Height="283" Name="Grid1" Width="557">
                 <TabControl Height="271" HorizontalAlignment="Left" Margin="7,6,0,0" Name="tabSamiActivities" VerticalAlignment="Top" Width="541">
                     <TabItem Header="Core - Technical" Name="TabItem1" IsEnabled="True">
-                        <Grid>
+                        <Grid Name="grdTech">
                             <Grid Name="grdSamiActivities" Margin="0,0,0,-6">
                                 <ListView Height="71" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="9,25,0,0" Name="lstvwSamiActivities" VerticalAlignment="Top" Width="515">
                                     <ListView.View>
@@ -64,12 +64,18 @@
                             </Grid>
                         </Grid>
                     </TabItem>
-                    <TabItem Header="Core - Schedule" IsEnabled="True" />
-                    <TabItem Header="Core - Cost" />
+                    <TabItem Header="Core - Schedule" IsEnabled="True">
+                        <Grid Name="grdSched">
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Core - Cost">
+                        <Grid Name="grdCost">
+                        </Grid>
+                    </TabItem>
                 </TabControl>
             </Grid>
         </GroupBox>
-        <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="508,592,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" />
+        <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="508,592,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" IsEnabled="False" />
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="427,592,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" />
         <GroupBox Header="Attachment" Height="82" HorizontalAlignment="Left" Margin="12,505,0,0" Name="GroupBox4" VerticalAlignment="Top" Width="409">
             <Grid>
