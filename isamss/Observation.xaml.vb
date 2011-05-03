@@ -19,12 +19,24 @@
         ' Add any initialization after the InitializeComponent() call.
         _activity = activity
         _observation = observation
+        _samiActivities = New TSAMIActivities(False)
     End Sub
 
     Protected Overrides Function Save() As Boolean
+        ' TODO: !!! Start here
+
         Dim rv As Boolean = False
 
-
+        If txtDescription.Text.Length = 0 Or _samiActivities.Count = 0 Then
+            MsgBox("All entries must be complete before saving.", , "ISAMMS")
+        Else
+            _observation.Description = txtDescription.Text
+            _observation.AttachmentId = tspAttachment.Attachment.ID
+            _observation.NonCompliance = chkNoncompliance.IsChecked
+            _observation.Weakness = chkWeakness.IsChecked
+            _observation.SAMIActivities = _samiActivities
+            _observation.Save()
+        End If
 
         Return rv
     End Function
@@ -35,11 +47,25 @@
         If _observation IsNot Nothing Then
             txtDescription.Text = _observation.Description
             tspAttachment.Attachment = _observation.Attachment
-            lstvwSamiActivities.ItemsSource = ((New TSAMIActivities) - _observation.SAMIActivities)
-            lstvwSamiActsForThisObs.ItemsSource = New TSAMIActivities(_observation.SAMIActivities)
+
+            lstvwSamiTechActsForThisObs.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
+            lstvwSamiTechActivities.ItemsSource = ((New TSAMIActivities) - lstvwSamiTechActsForThisObs.ItemsSource)
+
+            lstvwSamiSchedActivities.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
+            lstvwSamiSchedActsForThisObs.ItemsSource = ((New TSAMIActivities) - lstvwSamiSchedActivities.ItemsSource)
+
+            lstvwSamiCostActivities.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
+            lstvwSamiCostActsForThisObs.ItemsSource = ((New TSAMIActivities) - lstvwSamiCostActivities.ItemsSource)
         Else
-            lstvwSamiActivities.ItemsSource = New TSAMIActivities
-            lstvwSamiActsForThisObs.ItemsSource = New TSAMIActivities(False)
+            _observation = New TObservation(_activity)
+            lstvwSamiTechActivities.ItemsSource = New TSAMIActivities(TSAMIActivities.ActivityCategories.tech)
+            lstvwSamiTechActsForThisObs.ItemsSource = New TSAMIActivities(False)
+
+            lstvwSamiSchedActivities.ItemsSource = New TSAMIActivities(TSAMIActivities.ActivityCategories.sched)
+            lstvwSamiSchedActsForThisObs.ItemsSource = New TSAMIActivities(False)
+
+            lstvwSamiCostActivities.ItemsSource = New TSAMIActivities(TSAMIActivities.ActivityCategories.cost)
+            lstvwSamiCostActsForThisObs.ItemsSource = New TSAMIActivities(False)
         End If
     End Sub
 
@@ -51,33 +77,20 @@
         DialogResult = Save()
     End Sub
 
-    Private Sub btnDown_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnDown.Click
-        If lstvwSamiActivities.SelectedItems.Count > 0 Then
-            Dim source As New TSAMIActivities(lstvwSamiActivities.SelectedItems)
-            Dim dest As TSAMIActivities = lstvwSamiActsForThisObs.ItemsSource
-            lstvwSamiActsForThisObs.ItemsSource = dest + source
-            lstvwSamiActivities.ItemsSource = lstvwSamiActivities.ItemsSource - source
-            _formDirty = True
-            btnSave.IsEnabled = True
-        End If
-    End Sub
-
-    Private Sub btnUp_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnUp.Click
-        If lstvwSamiActsForThisObs.SelectedItems.Count > 0 Then
-            Dim source As New TSAMIActivities(lstvwSamiActsForThisObs.SelectedItems)
-            Dim dest As TSAMIActivities = lstvwSamiActivities.ItemsSource
-            lstvwSamiActivities.ItemsSource = dest + source
-            lstvwSamiActsForThisObs.ItemsSource = lstvwSamiActsForThisObs.ItemsSource - source
-            _formDirty = True
-            btnSave.IsEnabled = True
-        End If
-    End Sub
-
     Private Sub chkNoncompliance_Checked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkNoncompliance.Checked
         If chkNoncompliance.IsChecked Then
-            ' !!! TODO: Launch CAR form
-        Else
 
+            ' !!! TODO: Launch CAR form
+        End If
+
+        _formDirty = True
+        btnSave.IsEnabled = True
+    End Sub
+
+    Private Sub chkNoncompliance_Unchecked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkNoncompliance.Unchecked
+        If chkNoncompliance.IsChecked = False Then
+
+            ' !!! TODO: Launch CAR form
         End If
 
         _formDirty = True
@@ -87,7 +100,16 @@
     Private Sub chkWeakness_Checked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkWeakness.Checked
         If chkWeakness.IsChecked Then
             ' !!! TODO: Launch CIO form
-        Else
+
+        End If
+
+        _formDirty = True
+        btnSave.IsEnabled = True
+    End Sub
+
+    Private Sub chkWeakness_Unchecked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkWeakness.Unchecked
+        If chkWeakness.IsChecked = False Then
+            ' !!! TODO: Launch CIO form
 
         End If
 
@@ -113,10 +135,82 @@
     Private Sub tabSamiActivities_RequestBringIntoView(ByVal sender As System.Object, ByVal e As System.Windows.RequestBringIntoViewEventArgs) Handles tabSamiActivities.RequestBringIntoView
         Select Case sender.SelectedIndex
             Case samitabs.tech
-                'TODO: start here...
             Case samitabs.cost
             Case samitabs.sched
         End Select
+    End Sub
+
+    Private Sub btnAddTech_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnAddTech.Click
+        If lstvwSamiTechActivities.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiTechActivities.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiTechActsForThisObs.ItemsSource
+            lstvwSamiTechActsForThisObs.ItemsSource = dest + source
+            lstvwSamiTechActivities.ItemsSource = lstvwSamiTechActivities.ItemsSource - source
+
+            _formDirty = True
+            btnSave.IsEnabled = True
+        End If
+    End Sub
+
+    Private Sub btnSubtractTech_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSubtractTech.Click
+        If lstvwSamiTechActsForThisObs.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiTechActsForThisObs.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiTechActivities.ItemsSource
+            lstvwSamiTechActivities.ItemsSource = dest + source
+            lstvwSamiTechActsForThisObs.ItemsSource = lstvwSamiTechActsForThisObs.ItemsSource - source
+
+            _formDirty = True
+            btnSave.IsEnabled = True
+        End If
+    End Sub
+
+    Private Sub btnAddSched_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnAddSched.Click
+        If lstvwSamiSchedActivities.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiSchedActivities.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiSchedActsForThisObs.ItemsSource
+
+            lstvwSamiSchedActsForThisObs.ItemsSource = dest + source
+            lstvwSamiSchedActivities.ItemsSource = lstvwSamiSchedActivities.ItemsSource - source
+
+            _formDirty = True
+            btnSave.IsEnabled = True
+        End If
+    End Sub
+
+    Private Sub btnSubtractSched_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSubtractSched.Click
+        If lstvwSamiTechActsForThisObs.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiTechActsForThisObs.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiTechActivities.ItemsSource
+            lstvwSamiTechActivities.ItemsSource = dest + source
+            lstvwSamiTechActsForThisObs.ItemsSource = lstvwSamiTechActsForThisObs.ItemsSource - source
+
+            _formDirty = True
+            btnSave.IsEnabled = True
+        End If
+    End Sub
+
+    Private Sub btnAddCost_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnAddCost.Click
+        If lstvwSamiCostActivities.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiCostActivities.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiCostActsForThisObs.ItemsSource
+            lstvwSamiCostActsForThisObs.ItemsSource = dest + source
+            lstvwSamiCostActivities.ItemsSource = lstvwSamiCostActivities.ItemsSource - source
+
+            _formDirty = True
+            btnSave.IsEnabled = True
+        End If
+    End Sub
+
+    Private Sub btnSubtractCost_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSubtractCost.Click
+        If lstvwSamiTechActsForThisObs.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiTechActsForThisObs.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiTechActivities.ItemsSource
+            lstvwSamiTechActivities.ItemsSource = dest + source
+            lstvwSamiTechActsForThisObs.ItemsSource = lstvwSamiTechActsForThisObs.ItemsSource - source
+
+            _formDirty = True
+            btnSave.IsEnabled = True
+        End If
     End Sub
 
 End Class

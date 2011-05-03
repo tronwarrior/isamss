@@ -21,7 +21,7 @@
                     <TabItem Header="Core - Technical" Name="TabItem1" IsEnabled="True">
                         <Grid Name="grdTech">
                             <Grid Name="grdSamiActivities" Margin="0,0,0,-6">
-                                <ListView Height="71" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="9,25,0,0" Name="lstvwSamiActivities" VerticalAlignment="Top" Width="515">
+                                <ListView Height="71" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="9,25,0,0" Name="lstvwSamiTechActivities" VerticalAlignment="Top" Width="515">
                                     <ListView.View>
                                         <GridView AllowsColumnReorder="False">
                                             <GridView.ColumnHeaderContainerStyle>
@@ -37,7 +37,7 @@
                                         </GridView>
                                     </ListView.View>
                                 </ListView>
-                                <ListView Height="84" HorizontalAlignment="Left" Margin="9,136,0,0" Name="lstvwSamiActsForThisObs" VerticalAlignment="Top" Width="515">
+                                <ListView Height="84" HorizontalAlignment="Left" Margin="9,136,0,0" Name="lstvwSamiTechActsForThisObs" VerticalAlignment="Top" Width="515">
                                     <ListView.View>
                                         <GridView AllowsColumnReorder="False">
                                             <GridView.ColumnHeaderContainerStyle>
@@ -55,21 +55,101 @@
                                 </ListView>
                                 <Label Content="Activities " Height="24" HorizontalAlignment="Left" Margin="9,4,0,0" VerticalAlignment="Top" />
                                 <Label Content="Covered by this Observation" Height="24" HorizontalAlignment="Left" Margin="9,113,0,0" VerticalAlignment="Top" />
-                                <Button Height="24" HorizontalAlignment="Left" Margin="243,102,0,0" Name="btnDown" VerticalAlignment="Top" Width="24">
+                                <Button Height="24" HorizontalAlignment="Left" Margin="243,102,0,0" Name="btnAddTech" VerticalAlignment="Top" Width="24">
                                     <Image Source="/isamss;component/Images/arrow_down.png" />
                                 </Button>
-                                <Button Height="24" HorizontalAlignment="Left" Margin="266,102,0,0" Name="btnUp" VerticalAlignment="Top" Width="24">
+                                <Button Height="24" HorizontalAlignment="Left" Margin="266,102,0,0" Name="btnSubtractTech" VerticalAlignment="Top" Width="24">
                                     <Image Source="/isamss;component/Images/arrow_up.png" />
                                 </Button>
                             </Grid>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Core - Schedule" IsEnabled="True">
-                        <Grid Name="grdSched">
+                        <Grid Name="Grid2">
+                            <ListView Height="71" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="9,25,0,0" Name="lstvwSamiSchedActivities" VerticalAlignment="Top" Width="515">
+                                <ListView.View>
+                                    <GridView AllowsColumnReorder="False">
+                                        <GridView.ColumnHeaderContainerStyle>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                            </Style>
+                                        </GridView.ColumnHeaderContainerStyle>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                            <Style TargetType="{x:Type ListViewItem}">
+                                                <Setter Property="ListBoxItem.IsSelected" Value="False" />
+                                            </Style>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <ListView Height="84" HorizontalAlignment="Left" Margin="9,136,0,0" Name="lstvwSamiSchedActsForThisObs" VerticalAlignment="Top" Width="515">
+                                <ListView.View>
+                                    <GridView AllowsColumnReorder="False">
+                                        <GridView.ColumnHeaderContainerStyle>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                            </Style>
+                                        </GridView.ColumnHeaderContainerStyle>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                            <Style TargetType="{x:Type ListViewItem}">
+                                                <Setter Property="ListBoxItem.IsSelected" Value="False" />
+                                            </Style>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Label Content="Activities " Height="24" HorizontalAlignment="Left" Margin="9,4,0,0" VerticalAlignment="Top" />
+                            <Label Content="Covered by this Observation" Height="24" HorizontalAlignment="Left" Margin="9,113,0,0" VerticalAlignment="Top" />
+                            <Button Height="24" HorizontalAlignment="Left" Margin="243,102,0,0" Name="btnAddSched" VerticalAlignment="Top" Width="24">
+                                <Image Source="/isamss;component/Images/arrow_down.png" />
+                            </Button>
+                            <Button Height="24" HorizontalAlignment="Left" Margin="266,102,0,0" Name="btnSubtractSched" VerticalAlignment="Top" Width="24">
+                                <Image Source="/isamss;component/Images/arrow_up.png" />
+                            </Button>
                         </Grid>
                     </TabItem>
                     <TabItem Header="Core - Cost">
-                        <Grid Name="grdCost">
+                        <Grid Name="Grid3">
+                            <ListView Height="71" HorizontalAlignment="Left" ItemsSource="{Binding}" Margin="9,25,0,0" Name="lstvwSamiCostActivities" VerticalAlignment="Top" Width="515">
+                                <ListView.View>
+                                    <GridView AllowsColumnReorder="False">
+                                        <GridView.ColumnHeaderContainerStyle>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                            </Style>
+                                        </GridView.ColumnHeaderContainerStyle>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                            <Style TargetType="{x:Type ListViewItem}">
+                                                <Setter Property="ListBoxItem.IsSelected" Value="False" />
+                                            </Style>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <ListView Height="84" HorizontalAlignment="Left" Margin="9,136,0,0" Name="lstvwSamiCostActsForThisObs" VerticalAlignment="Top" Width="515">
+                                <ListView.View>
+                                    <GridView AllowsColumnReorder="False">
+                                        <GridView.ColumnHeaderContainerStyle>
+                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                <Setter Property="UIElement.Visibility" Value="Collapsed" />
+                                            </Style>
+                                        </GridView.ColumnHeaderContainerStyle>
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                            <Style TargetType="{x:Type ListViewItem}">
+                                                <Setter Property="ListBoxItem.IsSelected" Value="False" />
+                                            </Style>
+                                        </GridViewColumn>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                            <Label Content="Activities " Height="24" HorizontalAlignment="Left" Margin="9,4,0,0" VerticalAlignment="Top" />
+                            <Label Content="Covered by this Observation" Height="24" HorizontalAlignment="Left" Margin="9,113,0,0" VerticalAlignment="Top" />
+                            <Button Height="24" HorizontalAlignment="Left" Margin="243,102,0,0" Name="btnAddCost" VerticalAlignment="Top" Width="24">
+                                <Image Source="/isamss;component/Images/arrow_down.png" />
+                            </Button>
+                            <Button Height="24" HorizontalAlignment="Left" Margin="266,102,0,0" Name="btnSubtractCost" VerticalAlignment="Top" Width="24">
+                                <Image Source="/isamss;component/Images/arrow_up.png" />
+                            </Button>
                         </Grid>
                     </TabItem>
                 </TabControl>
@@ -79,7 +159,7 @@
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="427,592,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" />
         <GroupBox Header="Attachment" Height="82" HorizontalAlignment="Left" Margin="12,505,0,0" Name="GroupBox4" VerticalAlignment="Top" Width="409">
             <Grid>
-                <my:TStackPanelAttachment HorizontalAlignment="Left" Margin="13,-13,0,0" x:Name="tspAttachment" VerticalAlignment="Top" />
+                <my:TStackPanelAttachment HorizontalAlignment="Left" Margin="23,-13,0,0" x:Name="tspAttachment" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
     </Grid>
