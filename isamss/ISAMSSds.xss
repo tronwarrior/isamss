@@ -29,7 +29,7 @@
     <Shape ID="DesignTable:history_action_classes" ZOrder="7" X="362" Y="484" Height="122" Width="271" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="75" />
     <Shape ID="DesignTable:customer_journal_entries" ZOrder="8" X="297" Y="120" Height="258" Width="289" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="177" />
     <Shape ID="DesignTable:sami_activity_categories" ZOrder="6" X="76" Y="1384" Height="122" Width="284" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="75" />
-    <Shape ID="DesignTable:sami_activities" ZOrder="5" X="80" Y="1144" Height="139" Width="227" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="92" />
+    <Shape ID="DesignTable:sami_activities" ZOrder="5" X="80" Y="1144" Height="207" Width="227" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="160" />
     <Shape ID="DesignTable:observation_sami_activities" ZOrder="3" X="389" Y="1223" Height="122" Width="300" AdapterExpanded="true" DataTableExpanded="true" OldAdapterHeight="0" OldDataTableHeight="0" SplitterPosition="75" />
   </Shapes>
   <Connectors>
@@ -42,22 +42,6 @@
         <Point>
           <X>334</X>
           <Y>156</Y>
-        </Point>
-      </RoutePoints>
-    </Connector>
-    <Connector ID="DesignRelation:FK_customers_contracts" ZOrder="16" LineWidth="11">
-      <RoutePoints>
-        <Point>
-          <X>334</X>
-          <Y>398</Y>
-        </Point>
-        <Point>
-          <X>247</X>
-          <Y>398</Y>
-        </Point>
-        <Point>
-          <X>247</X>
-          <Y>243</Y>
         </Point>
       </RoutePoints>
     </Connector>
@@ -77,15 +61,19 @@
         </Point>
       </RoutePoints>
     </Connector>
-    <Connector ID="DesignRelation:FK_activity_classes_activities" ZOrder="44" LineWidth="11">
+    <Connector ID="DesignRelation:FK_customers_contracts" ZOrder="16" LineWidth="11">
       <RoutePoints>
         <Point>
-          <X>597</X>
-          <Y>877</Y>
+          <X>334</X>
+          <Y>398</Y>
         </Point>
         <Point>
-          <X>527</X>
-          <Y>877</Y>
+          <X>247</X>
+          <Y>398</Y>
+        </Point>
+        <Point>
+          <X>247</X>
+          <Y>243</Y>
         </Point>
       </RoutePoints>
     </Connector>
@@ -105,6 +93,18 @@
         </Point>
       </RoutePoints>
     </Connector>
+    <Connector ID="DesignRelation:FK_activity_classes_activities" ZOrder="44" LineWidth="11">
+      <RoutePoints>
+        <Point>
+          <X>597</X>
+          <Y>877</Y>
+        </Point>
+        <Point>
+          <X>527</X>
+          <Y>877</Y>
+        </Point>
+      </RoutePoints>
+    </Connector>
     <Connector ID="DesignRelation:FK_activities_observations" ZOrder="43" LineWidth="11">
       <RoutePoints>
         <Point>
@@ -121,18 +121,6 @@
         </Point>
       </RoutePoints>
     </Connector>
-    <Connector ID="DesignRelation:FK_cmmi_process_areas_observation_cmmi_proc_areas" ZOrder="42" LineWidth="11">
-      <RoutePoints>
-        <Point>
-          <X>1252</X>
-          <Y>1069</Y>
-        </Point>
-        <Point>
-          <X>1182</X>
-          <Y>1069</Y>
-        </Point>
-      </RoutePoints>
-    </Connector>
     <Connector ID="DesignRelation:FK_observations_observation_cmmi_proc_areas" ZOrder="41" LineWidth="11">
       <RoutePoints>
         <Point>
@@ -141,6 +129,18 @@
         </Point>
         <Point>
           <X>882</X>
+          <Y>1069</Y>
+        </Point>
+      </RoutePoints>
+    </Connector>
+    <Connector ID="DesignRelation:FK_cmmi_process_areas_observation_cmmi_proc_areas" ZOrder="42" LineWidth="11">
+      <RoutePoints>
+        <Point>
+          <X>1252</X>
+          <Y>1069</Y>
+        </Point>
+        <Point>
+          <X>1182</X>
           <Y>1069</Y>
         </Point>
       </RoutePoints>
@@ -177,18 +177,6 @@
         </Point>
       </RoutePoints>
     </Connector>
-    <Connector ID="DesignRelation:FK_dmas_dmars" ZOrder="38" LineWidth="11">
-      <RoutePoints>
-        <Point>
-          <X>1129</X>
-          <Y>1815</Y>
-        </Point>
-        <Point>
-          <X>1059</X>
-          <Y>1815</Y>
-        </Point>
-      </RoutePoints>
-    </Connector>
     <Connector ID="DesignRelation:FK_observations_dmars" ZOrder="37" LineWidth="11">
       <RoutePoints>
         <Point>
@@ -202,6 +190,18 @@
         <Point>
           <X>882</X>
           <Y>1720</Y>
+        </Point>
+      </RoutePoints>
+    </Connector>
+    <Connector ID="DesignRelation:FK_dmas_dmars" ZOrder="38" LineWidth="11">
+      <RoutePoints>
+        <Point>
+          <X>1129</X>
+          <Y>1815</Y>
+        </Point>
+        <Point>
+          <X>1059</X>
+          <Y>1815</Y>
         </Point>
       </RoutePoints>
     </Connector>
@@ -445,7 +445,7 @@
         </Point>
         <Point>
           <X>180</X>
-          <Y>1283</Y>
+          <Y>1351</Y>
         </Point>
       </RoutePoints>
     </Connector>

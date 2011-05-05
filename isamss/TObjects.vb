@@ -3172,6 +3172,13 @@ End Class
 Public Class TSAMIActivity
     Inherits TObject
 
+    Private _samiActivityCategoryId As Integer = TObject.InvalidID
+    Private _code As String
+    Private _title As String
+    Private _description As String
+    Private _osi9001Id As Integer = TObject.InvalidID
+    Private _as9100Id As Integer = TObject.InvalidID
+
     Public Sub New()
     End Sub
 
@@ -3179,7 +3186,16 @@ Public Class TSAMIActivity
         Try
             _myID = row.id
             _code = row.code
+            _title = row.title
             _description = row.description
+
+            If Not row.Isosi_9001_idNull Then
+                _osi9001Id = row.osi_9001_id
+            End If
+
+            If Not row.Isas_9100_idNull Then
+                _as9100Id = row.as_9100_id
+            End If
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog("TSAMIActivity::New(row), Exception, message: " & e.Message, EventLogEntryType.Error)
         End Try
@@ -3203,6 +3219,15 @@ Public Class TSAMIActivity
         End Set
     End Property
 
+    Property Title As String
+        Get
+            Return _title
+        End Get
+        Set(ByVal value As String)
+            _title = value
+        End Set
+    End Property
+
     Property Description As String
         Get
             Return _description
@@ -3212,13 +3237,28 @@ Public Class TSAMIActivity
         End Set
     End Property
 
+    Property OSI9001Id As Integer
+        Get
+            Return _osi9001Id
+        End Get
+        Set(ByVal value As Integer)
+            _osi9001Id = value
+        End Set
+    End Property
+
+    Property AS9100Id As Integer
+        Get
+            Return _as9100Id
+        End Get
+        Set(ByVal value As Integer)
+            _as9100Id = value
+        End Set
+    End Property
+
     Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
         Return True
     End Function
 
-    Private _samiActivityCategoryId As Integer = TObject.InvalidID
-    Private _code As String
-    Private _description As String
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////

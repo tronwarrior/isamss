@@ -29,7 +29,7 @@
                                                     <Setter Property="UIElement.Visibility" Value="Collapsed" />
                                                 </Style>
                                             </GridView.ColumnHeaderContainerStyle>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Title}">
                                                 <Style TargetType="{x:Type ListViewItem}">
                                                     <Setter Property="ListBoxItem.IsSelected" Value="False" />
                                                 </Style>
@@ -45,7 +45,7 @@
                                                     <Setter Property="UIElement.Visibility" Value="Collapsed" />
                                                 </Style>
                                             </GridView.ColumnHeaderContainerStyle>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                            <GridViewColumn DisplayMemberBinding="{Binding Path=Title}">
                                                 <Style TargetType="{x:Type ListViewItem}">
                                                     <Setter Property="ListBoxItem.IsSelected" Value="False" />
                                                 </Style>
@@ -74,7 +74,7 @@
                                                 <Setter Property="UIElement.Visibility" Value="Collapsed" />
                                             </Style>
                                         </GridView.ColumnHeaderContainerStyle>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Title}">
                                             <Style TargetType="{x:Type ListViewItem}">
                                                 <Setter Property="ListBoxItem.IsSelected" Value="False" />
                                             </Style>
@@ -90,7 +90,7 @@
                                                 <Setter Property="UIElement.Visibility" Value="Collapsed" />
                                             </Style>
                                         </GridView.ColumnHeaderContainerStyle>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Title}">
                                             <Style TargetType="{x:Type ListViewItem}">
                                                 <Setter Property="ListBoxItem.IsSelected" Value="False" />
                                             </Style>
@@ -118,7 +118,7 @@
                                                 <Setter Property="UIElement.Visibility" Value="Collapsed" />
                                             </Style>
                                         </GridView.ColumnHeaderContainerStyle>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Title}">
                                             <Style TargetType="{x:Type ListViewItem}">
                                                 <Setter Property="ListBoxItem.IsSelected" Value="False" />
                                             </Style>
@@ -134,7 +134,7 @@
                                                 <Setter Property="UIElement.Visibility" Value="Collapsed" />
                                             </Style>
                                         </GridView.ColumnHeaderContainerStyle>
-                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Description}">
+                                        <GridViewColumn DisplayMemberBinding="{Binding Path=Title}">
                                             <Style TargetType="{x:Type ListViewItem}">
                                                 <Setter Property="ListBoxItem.IsSelected" Value="False" />
                                             </Style>

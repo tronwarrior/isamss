@@ -79,7 +79,6 @@
 
     Private Sub chkNoncompliance_Checked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkNoncompliance.Checked
         If chkNoncompliance.IsChecked Then
-
             ' !!! TODO: Launch CAR form
         End If
 
@@ -89,7 +88,6 @@
 
     Private Sub chkNoncompliance_Unchecked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkNoncompliance.Unchecked
         If chkNoncompliance.IsChecked = False Then
-
             ' !!! TODO: Launch CAR form
         End If
 
@@ -100,7 +98,6 @@
     Private Sub chkWeakness_Checked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkWeakness.Checked
         If chkWeakness.IsChecked Then
             ' !!! TODO: Launch CIO form
-
         End If
 
         _formDirty = True
@@ -110,7 +107,6 @@
     Private Sub chkWeakness_Unchecked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkWeakness.Unchecked
         If chkWeakness.IsChecked = False Then
             ' !!! TODO: Launch CIO form
-
         End If
 
         _formDirty = True
@@ -178,11 +174,11 @@
     End Sub
 
     Private Sub btnSubtractSched_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSubtractSched.Click
-        If lstvwSamiTechActsForThisObs.SelectedItems.Count > 0 Then
-            Dim source As New TSAMIActivities(lstvwSamiTechActsForThisObs.SelectedItems)
-            Dim dest As TSAMIActivities = lstvwSamiTechActivities.ItemsSource
-            lstvwSamiTechActivities.ItemsSource = dest + source
-            lstvwSamiTechActsForThisObs.ItemsSource = lstvwSamiTechActsForThisObs.ItemsSource - source
+        If lstvwSamiSchedActsForThisObs.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiSchedActsForThisObs.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiSchedActivities.ItemsSource
+            lstvwSamiSchedActivities.ItemsSource = dest + source
+            lstvwSamiSchedActsForThisObs.ItemsSource = lstvwSamiSchedActsForThisObs.ItemsSource - source
 
             _formDirty = True
             btnSave.IsEnabled = True
@@ -202,11 +198,11 @@
     End Sub
 
     Private Sub btnSubtractCost_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSubtractCost.Click
-        If lstvwSamiTechActsForThisObs.SelectedItems.Count > 0 Then
-            Dim source As New TSAMIActivities(lstvwSamiTechActsForThisObs.SelectedItems)
-            Dim dest As TSAMIActivities = lstvwSamiTechActivities.ItemsSource
-            lstvwSamiTechActivities.ItemsSource = dest + source
-            lstvwSamiTechActsForThisObs.ItemsSource = lstvwSamiTechActsForThisObs.ItemsSource - source
+        If lstvwSamiCostActsForThisObs.SelectedItems.Count > 0 Then
+            Dim source As New TSAMIActivities(lstvwSamiCostActsForThisObs.SelectedItems)
+            Dim dest As TSAMIActivities = lstvwSamiCostActivities.ItemsSource
+            lstvwSamiCostActivities.ItemsSource = dest + source
+            lstvwSamiCostActsForThisObs.ItemsSource = lstvwSamiCostActsForThisObs.ItemsSource - source
 
             _formDirty = True
             btnSave.IsEnabled = True

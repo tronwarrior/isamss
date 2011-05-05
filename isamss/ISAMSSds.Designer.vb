@@ -77,27 +77,27 @@ Partial Public Class ISAMSSds
     
     Private relationFK_contracts_crrs As Global.System.Data.DataRelation
     
-    Private relationFK_suppliers_contracts As Global.System.Data.DataRelation
-    
     Private relationFK_customers_contracts As Global.System.Data.DataRelation
     
-    Private relationFK_contracts_activities As Global.System.Data.DataRelation
+    Private relationFK_suppliers_contracts As Global.System.Data.DataRelation
     
     Private relationFK_activity_classes_activities As Global.System.Data.DataRelation
     
+    Private relationFK_contracts_activities As Global.System.Data.DataRelation
+    
     Private relationFK_activities_observations As Global.System.Data.DataRelation
     
-    Private relationFK_observations_observation_cmmi_proc_areas As Global.System.Data.DataRelation
-    
     Private relationFK_cmmi_process_areas_observation_cmmi_proc_areas As Global.System.Data.DataRelation
+    
+    Private relationFK_observations_observation_cmmi_proc_areas As Global.System.Data.DataRelation
     
     Private relationFK_observations_cars As Global.System.Data.DataRelation
     
     Private relationFK_observations_cios As Global.System.Data.DataRelation
     
-    Private relationFK_observations_dmars As Global.System.Data.DataRelation
-    
     Private relationFK_dmas_dmars As Global.System.Data.DataRelation
+    
+    Private relationFK_observations_dmars As Global.System.Data.DataRelation
     
     Private relationFK_suppliers_sites As Global.System.Data.DataRelation
     
@@ -835,17 +835,17 @@ Partial Public Class ISAMSSds
             End If
         End If
         Me.relationFK_contracts_crrs = Me.Relations("FK_contracts_crrs")
-        Me.relationFK_suppliers_contracts = Me.Relations("FK_suppliers_contracts")
         Me.relationFK_customers_contracts = Me.Relations("FK_customers_contracts")
-        Me.relationFK_contracts_activities = Me.Relations("FK_contracts_activities")
+        Me.relationFK_suppliers_contracts = Me.Relations("FK_suppliers_contracts")
         Me.relationFK_activity_classes_activities = Me.Relations("FK_activity_classes_activities")
+        Me.relationFK_contracts_activities = Me.Relations("FK_contracts_activities")
         Me.relationFK_activities_observations = Me.Relations("FK_activities_observations")
-        Me.relationFK_observations_observation_cmmi_proc_areas = Me.Relations("FK_observations_observation_cmmi_proc_areas")
         Me.relationFK_cmmi_process_areas_observation_cmmi_proc_areas = Me.Relations("FK_cmmi_process_areas_observation_cmmi_proc_areas")
+        Me.relationFK_observations_observation_cmmi_proc_areas = Me.Relations("FK_observations_observation_cmmi_proc_areas")
         Me.relationFK_observations_cars = Me.Relations("FK_observations_cars")
         Me.relationFK_observations_cios = Me.Relations("FK_observations_cios")
-        Me.relationFK_observations_dmars = Me.Relations("FK_observations_dmars")
         Me.relationFK_dmas_dmars = Me.Relations("FK_dmas_dmars")
+        Me.relationFK_observations_dmars = Me.Relations("FK_observations_dmars")
         Me.relationFK_suppliers_sites = Me.Relations("FK_suppliers_sites")
         Me.relationusers_crrs = Me.Relations("users_crrs")
         Me.relationcontract_sites_sites = Me.Relations("contract_sites_sites")
@@ -932,22 +932,22 @@ Partial Public Class ISAMSSds
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn})
-        Me.tablecontracts.Constraints.Add(fkc)
-        fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
-        fkc.DeleteRule = Global.System.Data.Rule.Cascade
-        fkc.UpdateRule = Global.System.Data.Rule.Cascade
         fkc = New Global.System.Data.ForeignKeyConstraint("FK_customers_contracts", New Global.System.Data.DataColumn() {Me.tablecustomers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.customer_idColumn})
         Me.tablecontracts.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_contracts_activities", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tableactivities.contract_idColumn})
-        Me.tableactivities.Constraints.Add(fkc)
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn})
+        Me.tablecontracts.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
         fkc = New Global.System.Data.ForeignKeyConstraint("FK_activity_classes_activities", New Global.System.Data.DataColumn() {Me.tableactivity_classes.idColumn}, New Global.System.Data.DataColumn() {Me.tableactivities.activity_classes_idColumn})
+        Me.tableactivities.Constraints.Add(fkc)
+        fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
+        fkc.DeleteRule = Global.System.Data.Rule.Cascade
+        fkc.UpdateRule = Global.System.Data.Rule.Cascade
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_contracts_activities", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tableactivities.contract_idColumn})
         Me.tableactivities.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
@@ -957,12 +957,12 @@ Partial Public Class ISAMSSds
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn})
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_cmmi_process_areas_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tablecmmi_process_areas.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.cmmi_process_areas_idColumn})
         Me.tableobservation_cmmi_proc_areas.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_cmmi_process_areas_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tablecmmi_process_areas.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.cmmi_process_areas_idColumn})
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn})
         Me.tableobservation_cmmi_proc_areas.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
@@ -977,12 +977,12 @@ Partial Public Class ISAMSSds
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn})
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_dmas_dmars", New Global.System.Data.DataColumn() {Me.tabledmas.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.dmas_idColumn})
         Me.tabledmars.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_dmas_dmars", New Global.System.Data.DataColumn() {Me.tabledmas.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.dmas_idColumn})
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn})
         Me.tabledmars.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
@@ -994,28 +994,28 @@ Partial Public Class ISAMSSds
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
         Me.relationFK_contracts_crrs = New Global.System.Data.DataRelation("FK_contracts_crrs", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tablecrrs.contract_idColumn}, false)
         Me.Relations.Add(Me.relationFK_contracts_crrs)
-        Me.relationFK_suppliers_contracts = New Global.System.Data.DataRelation("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn}, false)
-        Me.Relations.Add(Me.relationFK_suppliers_contracts)
         Me.relationFK_customers_contracts = New Global.System.Data.DataRelation("FK_customers_contracts", New Global.System.Data.DataColumn() {Me.tablecustomers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.customer_idColumn}, false)
         Me.Relations.Add(Me.relationFK_customers_contracts)
-        Me.relationFK_contracts_activities = New Global.System.Data.DataRelation("FK_contracts_activities", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tableactivities.contract_idColumn}, false)
-        Me.Relations.Add(Me.relationFK_contracts_activities)
+        Me.relationFK_suppliers_contracts = New Global.System.Data.DataRelation("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn}, false)
+        Me.Relations.Add(Me.relationFK_suppliers_contracts)
         Me.relationFK_activity_classes_activities = New Global.System.Data.DataRelation("FK_activity_classes_activities", New Global.System.Data.DataColumn() {Me.tableactivity_classes.idColumn}, New Global.System.Data.DataColumn() {Me.tableactivities.activity_classes_idColumn}, false)
         Me.Relations.Add(Me.relationFK_activity_classes_activities)
+        Me.relationFK_contracts_activities = New Global.System.Data.DataRelation("FK_contracts_activities", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tableactivities.contract_idColumn}, false)
+        Me.Relations.Add(Me.relationFK_contracts_activities)
         Me.relationFK_activities_observations = New Global.System.Data.DataRelation("FK_activities_observations", New Global.System.Data.DataColumn() {Me.tableactivities.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservations.activity_idColumn}, false)
         Me.Relations.Add(Me.relationFK_activities_observations)
-        Me.relationFK_observations_observation_cmmi_proc_areas = New Global.System.Data.DataRelation("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn}, false)
-        Me.Relations.Add(Me.relationFK_observations_observation_cmmi_proc_areas)
         Me.relationFK_cmmi_process_areas_observation_cmmi_proc_areas = New Global.System.Data.DataRelation("FK_cmmi_process_areas_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tablecmmi_process_areas.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.cmmi_process_areas_idColumn}, false)
         Me.Relations.Add(Me.relationFK_cmmi_process_areas_observation_cmmi_proc_areas)
+        Me.relationFK_observations_observation_cmmi_proc_areas = New Global.System.Data.DataRelation("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn}, false)
+        Me.Relations.Add(Me.relationFK_observations_observation_cmmi_proc_areas)
         Me.relationFK_observations_cars = New Global.System.Data.DataRelation("FK_observations_cars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tablecars.observation_idColumn}, false)
         Me.Relations.Add(Me.relationFK_observations_cars)
         Me.relationFK_observations_cios = New Global.System.Data.DataRelation("FK_observations_cios", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tablecios.observation_idColumn}, false)
         Me.Relations.Add(Me.relationFK_observations_cios)
-        Me.relationFK_observations_dmars = New Global.System.Data.DataRelation("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn}, false)
-        Me.Relations.Add(Me.relationFK_observations_dmars)
         Me.relationFK_dmas_dmars = New Global.System.Data.DataRelation("FK_dmas_dmars", New Global.System.Data.DataColumn() {Me.tabledmas.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.dmas_idColumn}, false)
         Me.Relations.Add(Me.relationFK_dmas_dmars)
+        Me.relationFK_observations_dmars = New Global.System.Data.DataRelation("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn}, false)
+        Me.Relations.Add(Me.relationFK_observations_dmars)
         Me.relationFK_suppliers_sites = New Global.System.Data.DataRelation("FK_suppliers_sites", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablesites.supplier_idColumn}, false)
         Me.Relations.Add(Me.relationFK_suppliers_sites)
         Me.relationusers_crrs = New Global.System.Data.DataRelation("users_crrs", New Global.System.Data.DataColumn() {Me.tableusers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecrrs.user_idColumn}, false)
@@ -8868,6 +8868,14 @@ Partial Public Class ISAMSSds
         
         Private columndescription As Global.System.Data.DataColumn
         
+        Private columntitle As Global.System.Data.DataColumn
+        
+        Private columncmmi_process_area_id As Global.System.Data.DataColumn
+        
+        Private columnosi_9001_id As Global.System.Data.DataColumn
+        
+        Private columnas_9100_id As Global.System.Data.DataColumn
+        
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub New()
@@ -8936,6 +8944,38 @@ Partial Public Class ISAMSSds
         End Property
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property titleColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columntitle
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property cmmi_process_area_idColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columncmmi_process_area_id
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property osi_9001_idColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnosi_9001_id
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public ReadOnly Property as_9100_idColumn() As Global.System.Data.DataColumn
+            Get
+                Return Me.columnas_9100_id
+            End Get
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Browsable(false)>  _
         Public ReadOnly Property Count() As Integer
@@ -8972,9 +9012,9 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addsami_activitiesRow(ByVal parentsami_activity_categoriesRowBysami_activity_categories_sami_activities As sami_activity_categoriesRow, ByVal code As String, ByVal description As String) As sami_activitiesRow
+        Public Overloads Function Addsami_activitiesRow(ByVal parentsami_activity_categoriesRowBysami_activity_categories_sami_activities As sami_activity_categoriesRow, ByVal code As String, ByVal description As String, ByVal title As String, ByVal cmmi_process_area_id As Integer, ByVal osi_9001_id As Integer, ByVal as_9100_id As Integer) As sami_activitiesRow
             Dim rowsami_activitiesRow As sami_activitiesRow = CType(Me.NewRow,sami_activitiesRow)
-            Dim columnValuesArray() As Object = New Object() {Nothing, Nothing, code, description}
+            Dim columnValuesArray() As Object = New Object() {Nothing, Nothing, code, description, title, cmmi_process_area_id, osi_9001_id, as_9100_id}
             If (Not (parentsami_activity_categoriesRowBysami_activity_categories_sami_activities) Is Nothing) Then
                 columnValuesArray(1) = parentsami_activity_categoriesRowBysami_activity_categories_sami_activities(0)
             End If
@@ -9010,6 +9050,10 @@ Partial Public Class ISAMSSds
             Me.columnsami_activity_category_id = MyBase.Columns("sami_activity_category_id")
             Me.columncode = MyBase.Columns("code")
             Me.columndescription = MyBase.Columns("description")
+            Me.columntitle = MyBase.Columns("title")
+            Me.columncmmi_process_area_id = MyBase.Columns("cmmi_process_area_id")
+            Me.columnosi_9001_id = MyBase.Columns("osi_9001_id")
+            Me.columnas_9100_id = MyBase.Columns("as_9100_id")
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -9023,6 +9067,14 @@ Partial Public Class ISAMSSds
             MyBase.Columns.Add(Me.columncode)
             Me.columndescription = New Global.System.Data.DataColumn("description", GetType(String), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columndescription)
+            Me.columntitle = New Global.System.Data.DataColumn("title", GetType(String), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columntitle)
+            Me.columncmmi_process_area_id = New Global.System.Data.DataColumn("cmmi_process_area_id", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columncmmi_process_area_id)
+            Me.columnosi_9001_id = New Global.System.Data.DataColumn("osi_9001_id", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnosi_9001_id)
+            Me.columnas_9100_id = New Global.System.Data.DataColumn("as_9100_id", GetType(Integer), Nothing, Global.System.Data.MappingType.Element)
+            MyBase.Columns.Add(Me.columnas_9100_id)
             Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnid}, true))
             Me.columnid.AutoIncrement = true
             Me.columnid.AutoIncrementSeed = -1
@@ -9031,6 +9083,7 @@ Partial Public Class ISAMSSds
             Me.columnid.Unique = true
             Me.columncode.MaxLength = 255
             Me.columndescription.MaxLength = 255
+            Me.columntitle.MaxLength = 255
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -10053,23 +10106,23 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property suppliersRow() As suppliersRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_suppliers_contracts")),suppliersRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_suppliers_contracts"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property customersRow() As customersRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_customers_contracts")),customersRow)
             End Get
             Set
                 Me.SetParentRow(value, Me.Table.ParentRelations("FK_customers_contracts"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property suppliersRow() As suppliersRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_suppliers_contracts")),suppliersRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_suppliers_contracts"))
             End Set
         End Property
         
@@ -10408,23 +10461,23 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property contractsRow() As contractsRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_contracts_activities")),contractsRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_contracts_activities"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property activity_classesRow() As activity_classesRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_activity_classes_activities")),activity_classesRow)
             End Get
             Set
                 Me.SetParentRow(value, Me.Table.ParentRelations("FK_activity_classes_activities"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property contractsRow() As contractsRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_contracts_activities")),contractsRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_contracts_activities"))
             End Set
         End Property
         
@@ -10798,23 +10851,23 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property observationsRow() As observationsRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas")),observationsRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property cmmi_process_areasRow() As cmmi_process_areasRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_cmmi_process_areas_observation_cmmi_proc_areas")),cmmi_process_areasRow)
             End Get
             Set
                 Me.SetParentRow(value, Me.Table.ParentRelations("FK_cmmi_process_areas_observation_cmmi_proc_areas"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property observationsRow() As observationsRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas")),observationsRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas"))
             End Set
         End Property
         
@@ -12114,23 +12167,23 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property observationsRow() As observationsRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_dmars")),observationsRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_dmars"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property dmasRow() As dmasRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_dmas_dmars")),dmasRow)
             End Get
             Set
                 Me.SetParentRow(value, Me.Table.ParentRelations("FK_dmas_dmars"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property observationsRow() As observationsRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_dmars")),observationsRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_dmars"))
             End Set
         End Property
         
@@ -13935,6 +13988,67 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property title() As String
+            Get
+                Try 
+                    Return CType(Me(Me.tablesami_activities.titleColumn),String)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'title' in table 'sami_activities' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tablesami_activities.titleColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property cmmi_process_area_id() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tablesami_activities.cmmi_process_area_idColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'cmmi_process_area_id' in table 'sami_activities' is DBNull."& _ 
+                            "", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tablesami_activities.cmmi_process_area_idColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property osi_9001_id() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tablesami_activities.osi_9001_idColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'osi_9001_id' in table 'sami_activities' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tablesami_activities.osi_9001_idColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property as_9100_id() As Integer
+            Get
+                Try 
+                    Return CType(Me(Me.tablesami_activities.as_9100_idColumn),Integer)
+                Catch e As Global.System.InvalidCastException
+                    Throw New Global.System.Data.StrongTypingException("The value for column 'as_9100_id' in table 'sami_activities' is DBNull.", e)
+                End Try
+            End Get
+            Set
+                Me(Me.tablesami_activities.as_9100_idColumn) = value
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property sami_activity_categoriesRow() As sami_activity_categoriesRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("sami_activity_categories_sami_activities")),sami_activity_categoriesRow)
@@ -13978,6 +14092,54 @@ Partial Public Class ISAMSSds
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub SetdescriptionNull()
             Me(Me.tablesami_activities.descriptionColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function IstitleNull() As Boolean
+            Return Me.IsNull(Me.tablesami_activities.titleColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub SettitleNull()
+            Me(Me.tablesami_activities.titleColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function Iscmmi_process_area_idNull() As Boolean
+            Return Me.IsNull(Me.tablesami_activities.cmmi_process_area_idColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub Setcmmi_process_area_idNull()
+            Me(Me.tablesami_activities.cmmi_process_area_idColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function Isosi_9001_idNull() As Boolean
+            Return Me.IsNull(Me.tablesami_activities.osi_9001_idColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub Setosi_9001_idNull()
+            Me(Me.tablesami_activities.osi_9001_idColumn) = Global.System.Convert.DBNull
+        End Sub
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Function Isas_9100_idNull() As Boolean
+            Return Me.IsNull(Me.tablesami_activities.as_9100_idColumn)
+        End Function
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Sub Setas_9100_idNull()
+            Me(Me.tablesami_activities.as_9100_idColumn) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -22704,46 +22866,83 @@ Namespace ISAMSSdsTableAdapters
             tableMapping.ColumnMappings.Add("sami_activity_category_id", "sami_activity_category_id")
             tableMapping.ColumnMappings.Add("code", "code")
             tableMapping.ColumnMappings.Add("description", "description")
+            tableMapping.ColumnMappings.Add("title", "title")
+            tableMapping.ColumnMappings.Add("cmmi_process_area_id", "cmmi_process_area_id")
+            tableMapping.ColumnMappings.Add("osi_9001_id", "osi_9001_id")
+            tableMapping.ColumnMappings.Add("as_9100_id", "as_9100_id")
             Me._adapter.TableMappings.Add(tableMapping)
             Me._adapter.DeleteCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.DeleteCommand.Connection = Me.Connection
             Me._adapter.DeleteCommand.CommandText = "DELETE FROM `sami_activities` WHERE ((`id` = ?) AND ((? = 1 AND `sami_activity_ca"& _ 
                 "tegory_id` IS NULL) OR (`sami_activity_category_id` = ?)) AND ((? = 1 AND `code`"& _ 
-                " IS NULL) OR (`code` = ?)) AND ((? = 1 AND `description` IS NULL) OR (`descripti"& _ 
-                "on` = ?)))"
+                " IS NULL) OR (`code` = ?)) AND ((? = 1 AND `title` IS NULL) OR (`title` = ?)) AN"& _ 
+                "D ((? = 1 AND `description` IS NULL) OR (`description` = ?)) AND ((? = 1 AND `cm"& _ 
+                "mi_process_area_id` IS NULL) OR (`cmmi_process_area_id` = ?)) AND ((? = 1 AND `o"& _ 
+                "si_9001_id` IS NULL) OR (`osi_9001_id` = ?)) AND ((? = 1 AND `as_9100_id` IS NUL"& _ 
+                "L) OR (`as_9100_id` = ?)))"
             Me._adapter.DeleteCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_sami_activity_category_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_activity_category_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_sami_activity_category_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_activity_category_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_code", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "code", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_code", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "code", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_title", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "title", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_title", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "title", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_description", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_description", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_cmmi_process_area_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "cmmi_process_area_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_cmmi_process_area_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "cmmi_process_area_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_osi_9001_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "osi_9001_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_osi_9001_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "osi_9001_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_as_9100_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "as_9100_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_as_9100_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "as_9100_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.InsertCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.InsertCommand.Connection = Me.Connection
-            Me._adapter.InsertCommand.CommandText = "INSERT INTO `sami_activities` (`sami_activity_category_id`, `code`, `description`"& _ 
-                ") VALUES (?, ?, ?)"
+            Me._adapter.InsertCommand.CommandText = "INSERT INTO `sami_activities` (`sami_activity_category_id`, `code`, `title`, `des"& _ 
+                "cription`, `cmmi_process_area_id`, `osi_9001_id`, `as_9100_id`) VALUES (?, ?, ?,"& _ 
+                " ?, ?, ?, ?)"
             Me._adapter.InsertCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("sami_activity_category_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_activity_category_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("code", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "code", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("title", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "title", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("description", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("cmmi_process_area_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "cmmi_process_area_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("osi_9001_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "osi_9001_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("as_9100_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "as_9100_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.UpdateCommand.Connection = Me.Connection
-            Me._adapter.UpdateCommand.CommandText = "UPDATE `sami_activities` SET `sami_activity_category_id` = ?, `code` = ?, `descri"& _ 
-                "ption` = ? WHERE ((`id` = ?) AND ((? = 1 AND `sami_activity_category_id` IS NULL"& _ 
-                ") OR (`sami_activity_category_id` = ?)) AND ((? = 1 AND `code` IS NULL) OR (`cod"& _ 
-                "e` = ?)) AND ((? = 1 AND `description` IS NULL) OR (`description` = ?)))"
+            Me._adapter.UpdateCommand.CommandText = "UPDATE `sami_activities` SET `sami_activity_category_id` = ?, `code` = ?, `title`"& _ 
+                " = ?, `description` = ?, `cmmi_process_area_id` = ?, `osi_9001_id` = ?, `as_9100"& _ 
+                "_id` = ? WHERE ((`id` = ?) AND ((? = 1 AND `sami_activity_category_id` IS NULL) "& _ 
+                "OR (`sami_activity_category_id` = ?)) AND ((? = 1 AND `code` IS NULL) OR (`code`"& _ 
+                " = ?)) AND ((? = 1 AND `title` IS NULL) OR (`title` = ?)) AND ((? = 1 AND `descr"& _ 
+                "iption` IS NULL) OR (`description` = ?)) AND ((? = 1 AND `cmmi_process_area_id` "& _ 
+                "IS NULL) OR (`cmmi_process_area_id` = ?)) AND ((? = 1 AND `osi_9001_id` IS NULL)"& _ 
+                " OR (`osi_9001_id` = ?)) AND ((? = 1 AND `as_9100_id` IS NULL) OR (`as_9100_id` "& _ 
+                "= ?)))"
             Me._adapter.UpdateCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("sami_activity_category_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_activity_category_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("code", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "code", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("title", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "title", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("description", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("cmmi_process_area_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "cmmi_process_area_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("osi_9001_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "osi_9001_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("as_9100_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "as_9100_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_sami_activity_category_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_activity_category_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_sami_activity_category_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "sami_activity_category_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_code", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "code", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_code", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "code", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_title", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "title", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_title", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "title", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_description", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_description", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "description", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_cmmi_process_area_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "cmmi_process_area_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_cmmi_process_area_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "cmmi_process_area_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_osi_9001_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "osi_9001_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_osi_9001_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "osi_9001_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_as_9100_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "as_9100_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
+            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_as_9100_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "as_9100_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -22759,7 +22958,7 @@ Namespace ISAMSSdsTableAdapters
             Me._commandCollection = New Global.System.Data.OleDb.OleDbCommand(0) {}
             Me._commandCollection(0) = New Global.System.Data.OleDb.OleDbCommand()
             Me._commandCollection(0).Connection = Me.Connection
-            Me._commandCollection(0).CommandText = "SELECT id, sami_activity_category_id, code, description FROM sami_activities"
+            Me._commandCollection(0).CommandText = "SELECT * FROM sami_activities"
             Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
         End Sub
         
@@ -22819,7 +23018,7 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Delete, true)>  _
-        Public Overloads Overridable Function Delete(ByVal Original_id As Integer, ByVal Original_sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal Original_code As String, ByVal Original_description As String) As Integer
+        Public Overloads Overridable Function Delete(ByVal Original_id As Integer, ByVal Original_sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal Original_code As String, ByVal Original_title As String, ByVal Original_description As String, ByVal Original_cmmi_process_area_id As Global.System.Nullable(Of Integer), ByVal Original_osi_9001_id As Global.System.Nullable(Of Integer), ByVal Original_as_9100_id As Global.System.Nullable(Of Integer)) As Integer
             Me.Adapter.DeleteCommand.Parameters(0).Value = CType(Original_id,Integer)
             If (Original_sami_activity_category_id.HasValue = true) Then
                 Me.Adapter.DeleteCommand.Parameters(1).Value = CType(0,Object)
@@ -22835,12 +23034,40 @@ Namespace ISAMSSdsTableAdapters
                 Me.Adapter.DeleteCommand.Parameters(3).Value = CType(0,Object)
                 Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_code,String)
             End If
-            If (Original_description Is Nothing) Then
+            If (Original_title Is Nothing) Then
                 Me.Adapter.DeleteCommand.Parameters(5).Value = CType(1,Object)
                 Me.Adapter.DeleteCommand.Parameters(6).Value = Global.System.DBNull.Value
             Else
                 Me.Adapter.DeleteCommand.Parameters(5).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_description,String)
+                Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_title,String)
+            End If
+            If (Original_description Is Nothing) Then
+                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(8).Value = Global.System.DBNull.Value
+            Else
+                Me.Adapter.DeleteCommand.Parameters(7).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(8).Value = CType(Original_description,String)
+            End If
+            If (Original_cmmi_process_area_id.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(9).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(10).Value = CType(Original_cmmi_process_area_id.Value,Integer)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(9).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(10).Value = Global.System.DBNull.Value
+            End If
+            If (Original_osi_9001_id.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(11).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(12).Value = CType(Original_osi_9001_id.Value,Integer)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(11).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(12).Value = Global.System.DBNull.Value
+            End If
+            If (Original_as_9100_id.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(13).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(14).Value = CType(Original_as_9100_id.Value,Integer)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(13).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(14).Value = Global.System.DBNull.Value
             End If
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.DeleteCommand.Connection.State
             If ((Me.Adapter.DeleteCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
@@ -22861,7 +23088,7 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Insert, true)>  _
-        Public Overloads Overridable Function Insert(ByVal sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal code As String, ByVal description As String) As Integer
+        Public Overloads Overridable Function Insert(ByVal sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal code As String, ByVal title As String, ByVal description As String, ByVal cmmi_process_area_id As Global.System.Nullable(Of Integer), ByVal osi_9001_id As Global.System.Nullable(Of Integer), ByVal as_9100_id As Global.System.Nullable(Of Integer)) As Integer
             If (sami_activity_category_id.HasValue = true) Then
                 Me.Adapter.InsertCommand.Parameters(0).Value = CType(sami_activity_category_id.Value,Integer)
             Else
@@ -22872,10 +23099,30 @@ Namespace ISAMSSdsTableAdapters
             Else
                 Me.Adapter.InsertCommand.Parameters(1).Value = CType(code,String)
             End If
-            If (description Is Nothing) Then
+            If (title Is Nothing) Then
                 Me.Adapter.InsertCommand.Parameters(2).Value = Global.System.DBNull.Value
             Else
-                Me.Adapter.InsertCommand.Parameters(2).Value = CType(description,String)
+                Me.Adapter.InsertCommand.Parameters(2).Value = CType(title,String)
+            End If
+            If (description Is Nothing) Then
+                Me.Adapter.InsertCommand.Parameters(3).Value = Global.System.DBNull.Value
+            Else
+                Me.Adapter.InsertCommand.Parameters(3).Value = CType(description,String)
+            End If
+            If (cmmi_process_area_id.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(4).Value = CType(cmmi_process_area_id.Value,Integer)
+            Else
+                Me.Adapter.InsertCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            If (osi_9001_id.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(5).Value = CType(osi_9001_id.Value,Integer)
+            Else
+                Me.Adapter.InsertCommand.Parameters(5).Value = Global.System.DBNull.Value
+            End If
+            If (as_9100_id.HasValue = true) Then
+                Me.Adapter.InsertCommand.Parameters(6).Value = CType(as_9100_id.Value,Integer)
+            Else
+                Me.Adapter.InsertCommand.Parameters(6).Value = Global.System.DBNull.Value
             End If
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.InsertCommand.Connection.State
             If ((Me.Adapter.InsertCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
@@ -22896,7 +23143,7 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
-        Public Overloads Overridable Function Update(ByVal sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal code As String, ByVal description As String, ByVal Original_id As Integer, ByVal Original_sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal Original_code As String, ByVal Original_description As String) As Integer
+        Public Overloads Overridable Function Update(ByVal sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal code As String, ByVal title As String, ByVal description As String, ByVal cmmi_process_area_id As Global.System.Nullable(Of Integer), ByVal osi_9001_id As Global.System.Nullable(Of Integer), ByVal as_9100_id As Global.System.Nullable(Of Integer), ByVal Original_id As Integer, ByVal Original_sami_activity_category_id As Global.System.Nullable(Of Integer), ByVal Original_code As String, ByVal Original_title As String, ByVal Original_description As String, ByVal Original_cmmi_process_area_id As Global.System.Nullable(Of Integer), ByVal Original_osi_9001_id As Global.System.Nullable(Of Integer), ByVal Original_as_9100_id As Global.System.Nullable(Of Integer)) As Integer
             If (sami_activity_category_id.HasValue = true) Then
                 Me.Adapter.UpdateCommand.Parameters(0).Value = CType(sami_activity_category_id.Value,Integer)
             Else
@@ -22907,32 +23154,80 @@ Namespace ISAMSSdsTableAdapters
             Else
                 Me.Adapter.UpdateCommand.Parameters(1).Value = CType(code,String)
             End If
-            If (description Is Nothing) Then
+            If (title Is Nothing) Then
                 Me.Adapter.UpdateCommand.Parameters(2).Value = Global.System.DBNull.Value
             Else
-                Me.Adapter.UpdateCommand.Parameters(2).Value = CType(description,String)
+                Me.Adapter.UpdateCommand.Parameters(2).Value = CType(title,String)
             End If
-            Me.Adapter.UpdateCommand.Parameters(3).Value = CType(Original_id,Integer)
-            If (Original_sami_activity_category_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(Original_sami_activity_category_id.Value,Integer)
+            If (description Is Nothing) Then
+                Me.Adapter.UpdateCommand.Parameters(3).Value = Global.System.DBNull.Value
             Else
-                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(3).Value = CType(description,String)
+            End If
+            If (cmmi_process_area_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(cmmi_process_area_id.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            If (osi_9001_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(osi_9001_id.Value,Integer)
+            Else
                 Me.Adapter.UpdateCommand.Parameters(5).Value = Global.System.DBNull.Value
             End If
-            If (Original_code Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(7).Value = Global.System.DBNull.Value
+            If (as_9100_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(as_9100_id.Value,Integer)
             Else
-                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(7).Value = CType(Original_code,String)
+                Me.Adapter.UpdateCommand.Parameters(6).Value = Global.System.DBNull.Value
             End If
-            If (Original_description Is Nothing) Then
+            Me.Adapter.UpdateCommand.Parameters(7).Value = CType(Original_id,Integer)
+            If (Original_sami_activity_category_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(8).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(9).Value = CType(Original_sami_activity_category_id.Value,Integer)
+            Else
                 Me.Adapter.UpdateCommand.Parameters(8).Value = CType(1,Object)
                 Me.Adapter.UpdateCommand.Parameters(9).Value = Global.System.DBNull.Value
+            End If
+            If (Original_code Is Nothing) Then
+                Me.Adapter.UpdateCommand.Parameters(10).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(11).Value = Global.System.DBNull.Value
             Else
-                Me.Adapter.UpdateCommand.Parameters(8).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(9).Value = CType(Original_description,String)
+                Me.Adapter.UpdateCommand.Parameters(10).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(11).Value = CType(Original_code,String)
+            End If
+            If (Original_title Is Nothing) Then
+                Me.Adapter.UpdateCommand.Parameters(12).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(13).Value = Global.System.DBNull.Value
+            Else
+                Me.Adapter.UpdateCommand.Parameters(12).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(13).Value = CType(Original_title,String)
+            End If
+            If (Original_description Is Nothing) Then
+                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(15).Value = Global.System.DBNull.Value
+            Else
+                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(15).Value = CType(Original_description,String)
+            End If
+            If (Original_cmmi_process_area_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(Original_cmmi_process_area_id.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(17).Value = Global.System.DBNull.Value
+            End If
+            If (Original_osi_9001_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(Original_osi_9001_id.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(19).Value = Global.System.DBNull.Value
+            End If
+            If (Original_as_9100_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(21).Value = CType(Original_as_9100_id.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(21).Value = Global.System.DBNull.Value
             End If
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.UpdateCommand.Connection.State
             If ((Me.Adapter.UpdateCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
