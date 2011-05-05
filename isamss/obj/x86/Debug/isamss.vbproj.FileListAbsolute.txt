@@ -38,6 +38,7 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Supplier.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\RegisterUser.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\TStackPanelAttachment.baml
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Window1.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Application.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Contract.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Customer.g.vb
@@ -56,6 +57,7 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Supplier.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\RegisterUser.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\TStackPanelAttachment.g.vb
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Window1.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Application.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\GeneratedInternalTypeHelper.g.vb
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss_MarkupCompile.cache
@@ -78,5 +80,3 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.exe
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.xml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.pdb
-C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Window1.baml
-C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Window1.g.vb

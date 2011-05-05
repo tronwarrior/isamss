@@ -26,12 +26,16 @@
     End Sub
 
     Private Sub Window_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
-        _formDirty = False
-        lstvwActivityClasses.ItemsSource = _activityClasses
-
         If _activity Is Nothing Then
             _activity = New TActivity(_contract, Application.CurrentUser)
         End If
+
+        dtActivityDate.SelectedDate = _activity.ActivityDate
+        lstvwActivityClasses.ItemsSource = _activityClasses
+        lstvwThisActivityClasses.ItemsSource = _activityClassesForThis
+        lstvwObservations.ItemsSource = _activity.Observations
+
+        _formDirty = False
     End Sub
 
     Private Function Save() As Boolean
@@ -42,6 +46,8 @@
         Else
             _activity.EntryDate = Date.Now
             _activity.ActivityDate = dtActivityDate.SelectedDate
+            _activity.ActivityClasses = _activityClassesForThis
+            _activity.Save()
             rv = True
         End If
         
@@ -107,6 +113,8 @@
     Private Sub btnNewObservation_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnNewObservation.Click
         Dim obs As New ObservationForm(_activity, Nothing)
         obs.ShowDialog()
-
+        lstvwObservations.ItemsSource = _activity.Observations
+        _formDirty = True
+        btn_save.IsEnabled = True
     End Sub
 End Class

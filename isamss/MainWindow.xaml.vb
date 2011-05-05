@@ -30,6 +30,7 @@ Class MainWindow
         If contract IsNot Nothing Then
             btnNewPSSP.IsEnabled = True
             lstvwPSSPs.ItemsSource = New TPSSPs(contract)
+            lstvwSurveillanceAll.ItemsSource = New TActivities(contract)
         End If
     End Sub
 
@@ -364,6 +365,22 @@ Class MainWindow
 
                 ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
                 PopulateCustomerInteractionTab(ttvContractsQuickview.CurrentContract)
+            End If
+        End If
+    End Sub
+
+    Private Sub lstvwSurveillanceAll_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwSurveillanceAll.MouseDoubleClick
+        If lstvwSurveillanceAll.SelectedItem IsNot Nothing Then
+            Dim actForm As New ActivityForm(Me, ttvContractsQuickview.CurrentContract, lstvwSurveillanceAll.SelectedItem)
+            actForm.ShowDialog()
+
+            If actForm.DialogResult = True Then
+                If ttvContractsQuickview.CurrentContract IsNot Nothing Then
+                    ttvContractsQuickview.CurrentContract.Refresh()
+                End If
+
+                ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+                PopulateSurveillanceTab(ttvContractsQuickview.CurrentContract)
             End If
         End If
     End Sub

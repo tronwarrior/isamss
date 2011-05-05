@@ -312,6 +312,10 @@ Represents the strongly named DataTable class.
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
+</member><member name="T:isamss.ISAMSSds.activity_activity_classesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
 </member><member name="T:isamss.ISAMSSds.usersRow">
 	<summary>
 Represents strongly named DataRow class.
@@ -412,6 +416,10 @@ Represents strongly named DataRow class.
 	<summary>
 Represents strongly named DataRow class.
 </summary>
+</member><member name="T:isamss.ISAMSSds.activity_activity_classesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
 </member><member name="T:isamss.ISAMSSds.usersRowChangeEvent">
 	<summary>
 Row event argument class
@@ -509,6 +517,10 @@ Row event argument class
 Row event argument class
 </summary>
 </member><member name="T:isamss.ISAMSSds.observation_sami_activitiesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.activity_activity_classesRowChangeEvent">
 	<summary>
 Row event argument class
 </summary>
@@ -613,6 +625,10 @@ Represents the connection and commands used to retrieve and save data.
 Represents the connection and commands used to retrieve and save data.
 </summary>
 </member><member name="T:isamss.ISAMSSdsTableAdapters.observation_sami_activitiesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.activity_activity_classesTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>

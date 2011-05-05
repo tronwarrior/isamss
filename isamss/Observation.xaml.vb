@@ -10,6 +10,7 @@
     Private _activity As TActivity = Nothing
     Private _observation As TObservation = Nothing
     Private _samiActivities As TSAMIActivities = Nothing
+    Private _newObservation As Boolean = False
 
     Public Sub New(ByVal activity As TActivity, ByVal observation As TObservation)
 
@@ -23,8 +24,6 @@
     End Sub
 
     Protected Overrides Function Save() As Boolean
-        ' TODO: !!! Start here
-
         Dim rv As Boolean = False
 
         If txtDescription.Text.Length = 0 Or _samiActivities.Count = 0 Then
@@ -35,7 +34,10 @@
             _observation.NonCompliance = chkNoncompliance.IsChecked
             _observation.Weakness = chkWeakness.IsChecked
             _observation.SAMIActivities = _samiActivities
-            _observation.Save()
+
+            If _newObservation Then
+                _activity.Observations.Add(_observation)
+            End If
         End If
 
         Return rv
@@ -57,6 +59,7 @@
             lstvwSamiCostActivities.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
             lstvwSamiCostActsForThisObs.ItemsSource = ((New TSAMIActivities) - lstvwSamiCostActivities.ItemsSource)
         Else
+            _newObservation = True
             _observation = New TObservation(_activity)
             lstvwSamiTechActivities.ItemsSource = New TSAMIActivities(TSAMIActivities.ActivityCategories.tech)
             lstvwSamiTechActsForThisObs.ItemsSource = New TSAMIActivities(False)
@@ -69,13 +72,14 @@
         End If
     End Sub
 
+    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSave.Click
+        DialogResult = Save()
+    End Sub
+
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnCancel.Click
         MyBase.Close()
     End Sub
 
-    Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs)
-        DialogResult = Save()
-    End Sub
 
     Private Sub chkNoncompliance_Checked(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles chkNoncompliance.Checked
         If chkNoncompliance.IsChecked Then
@@ -143,6 +147,7 @@
             lstvwSamiTechActsForThisObs.ItemsSource = dest + source
             lstvwSamiTechActivities.ItemsSource = lstvwSamiTechActivities.ItemsSource - source
 
+            _samiActivities = _samiActivities + lstvwSamiTechActsForThisObs.ItemsSource
             _formDirty = True
             btnSave.IsEnabled = True
         End If
@@ -155,6 +160,7 @@
             lstvwSamiTechActivities.ItemsSource = dest + source
             lstvwSamiTechActsForThisObs.ItemsSource = lstvwSamiTechActsForThisObs.ItemsSource - source
 
+            _samiActivities = _samiActivities - lstvwSamiTechActivities.ItemsSource
             _formDirty = True
             btnSave.IsEnabled = True
         End If
@@ -168,6 +174,8 @@
             lstvwSamiSchedActsForThisObs.ItemsSource = dest + source
             lstvwSamiSchedActivities.ItemsSource = lstvwSamiSchedActivities.ItemsSource - source
 
+            _samiActivities = _samiActivities + lstvwSamiSchedActsForThisObs.ItemsSource
+
             _formDirty = True
             btnSave.IsEnabled = True
         End If
@@ -179,6 +187,8 @@
             Dim dest As TSAMIActivities = lstvwSamiSchedActivities.ItemsSource
             lstvwSamiSchedActivities.ItemsSource = dest + source
             lstvwSamiSchedActsForThisObs.ItemsSource = lstvwSamiSchedActsForThisObs.ItemsSource - source
+
+            _samiActivities = _samiActivities - lstvwSamiSchedActivities.ItemsSource
 
             _formDirty = True
             btnSave.IsEnabled = True
@@ -192,6 +202,8 @@
             lstvwSamiCostActsForThisObs.ItemsSource = dest + source
             lstvwSamiCostActivities.ItemsSource = lstvwSamiCostActivities.ItemsSource - source
 
+            _samiActivities = _samiActivities + lstvwSamiCostActsForThisObs.ItemsSource
+
             _formDirty = True
             btnSave.IsEnabled = True
         End If
@@ -203,6 +215,8 @@
             Dim dest As TSAMIActivities = lstvwSamiCostActivities.ItemsSource
             lstvwSamiCostActivities.ItemsSource = dest + source
             lstvwSamiCostActsForThisObs.ItemsSource = lstvwSamiCostActsForThisObs.ItemsSource - source
+
+            _samiActivities = _samiActivities - lstvwSamiCostActivities.ItemsSource
 
             _formDirty = True
             btnSave.IsEnabled = True

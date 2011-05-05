@@ -8,9 +8,10 @@
                 <ListView ItemsSource="{Binding}" Height="158" HorizontalAlignment="Left" Margin="6,6,0,0" Name="lstvwObservations" VerticalAlignment="Top" Width="474">
                     <ListView.View>
                         <GridView AllowsColumnReorder="False">
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Description}" Header="Description" />
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Noncompliance}" Header="Noncompliance?" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=NonCompliance}" Header="Noncompliance?" />
                             <GridViewColumn DisplayMemberBinding="{Binding Path=Weakness}" Header="Weakness?" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=SAMIActivities.Count}" Header="# SAMI Activites" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Attachment.OriginalFilename}" Header="Attachment" />
                         </GridView>
                     </ListView.View>
                 </ListView>

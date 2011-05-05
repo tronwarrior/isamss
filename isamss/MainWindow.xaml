@@ -151,10 +151,10 @@
                                     <ListView ItemsSource="{Binding}" Height="203" HorizontalAlignment="Left" Margin="6,6,0,0" Name="lstvwSurveillanceAll" VerticalAlignment="Top" Width="516" SelectionMode="Single" Visibility="Visible">
                                         <ListView.View>
                                             <GridView AllowsColumnReorder="False">
-                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ActivityClassTitle}" Header="Activity Type" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=ActivityDate, StringFormat=d}" Header="Activity Date" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=EntryDate}" Header="Entry Date" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=ObservationsCount}" Header="# of Observations" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=User.FullName}" Header="Conducted By" />
                                             </GridView>
                                         </ListView.View>
                                     </ListView>

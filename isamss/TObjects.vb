@@ -2541,6 +2541,27 @@ Public Class TActivities
         Catch e As OleDb.OleDbException
         End Try
     End Sub
+
+    Public Sub New(ByVal contract As TContract)
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * " &
+                                        "FROM activities " &
+                                        "WHERE (activities.contract_id = " + CStr(contract.ID) + ")"
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim acts As New ISAMSSds.activitiesDataTable
+                adapter.Fill(acts)
+
+                For Each act In acts
+                    Dim a As New TActivity(act)
+                    MyBase.Add(a)
+                Next
+            End Using
+        Catch e As OleDb.OleDbException
+        End Try
+    End Sub
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2585,13 +2606,19 @@ Public Class TActivity
         End Set
     End Property
 
-    ReadOnly Property ActivityClass As TActivityClasses
+    Property ActivityClasses As TActivityClasses
         Get
             If _activityClasses Is Nothing Then
                 _activityClasses = New TActivityClasses(Me)
             End If
             Return _activityClasses
         End Get
+        Set(ByVal value As TActivityClasses)
+            If _activityClasses Is Nothing Then
+                _activityClasses = New TActivityClasses(Me)
+            End If
+            _activityClasses = value
+        End Set
     End Property
 
     ReadOnly Property ObservationsCount As Integer
@@ -2613,10 +2640,128 @@ Public Class TActivity
         End Get
     End Property
 
+    ReadOnly Property User As TUser
+        Get
+            Return New TUser(_userId)
+        End Get
+    End Property
+
     Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
         Return CheckForUserActivites("SELECT id FROM activities WHERE contract_id = " & CStr(_contractId) & " AND user_id = " & CStr(u.ID))
     End Function
 
+    Public Sub Save()
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM activities where id = " + CStr(ID)
+
+                Dim adapter As New OleDb.OleDbDataAdapter
+                adapter.SelectCommand = New OleDbCommand(query, connection)
+
+                Dim acts As New ISAMSSds.activitiesDataTable
+                adapter.Fill(acts)
+                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+
+                If acts.Rows.Count = 1 Then
+                    builder.GetUpdateCommand()
+
+                    acts.Item(0).entry_date = _entryDate
+                    acts.Item(0).activity_date = _activityDate
+                    acts.Item(0).contract_id = _contractId
+                    acts.Item(0).user_id = _userId
+                    adapter.Update(acts)
+                    DeleteActivityClasses()
+                    SaveActivityClasses()
+                    _observations.Save(Me)
+                ElseIf acts.Rows.Count = 0 Then
+                    builder.GetInsertCommand()
+
+                    Dim row As ISAMSSds.activitiesRow = acts.NewRow
+                    row.id = 0
+
+                    row.entry_date = _entryDate
+                    row.activity_date = _activityDate
+                    row.contract_id = _contractId
+                    row.user_id = _userId
+
+                    acts.AddactivitiesRow(row)
+
+                    _cmdGetIdentity = New OleDbCommand()
+                    _cmdGetIdentity.CommandText = "SELECT @@IDENTITY"
+                    _cmdGetIdentity.Connection = connection
+
+                    AddHandler adapter.RowUpdated, AddressOf HandleRowUpdated
+                    adapter.Update(acts)
+                    DeleteActivityClasses()
+                    SaveActivityClasses()
+                    _observations.Save(Me)
+                End If
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TActivity::Save, Exception, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Private Function DeleteActivityClasses() As Boolean
+        Dim rv As Boolean = False
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(ID)
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim tbl As New ISAMSSds.activity_activity_classesDataTable
+                adapter.Fill(tbl)
+                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                builder.GetDeleteCommand()
+
+                For Each row In tbl.Rows
+                    row.Delete()
+                Next
+
+                adapter.Update(tbl)
+                rv = True
+            End Using
+        Catch ex As Exception
+            Application.WriteToEventLog("TActivity::DeleteActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
+        End Try
+
+        Return rv
+    End Function
+
+    Private Function SaveActivityClasses() As Boolean
+        Dim rv As Boolean = False
+        If _activityClasses IsNot Nothing Then
+            Try
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                    connection.Open()
+                    Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(ID)
+                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                    Dim tbl As New ISAMSSds.activity_activity_classesDataTable
+                    adapter.Fill(tbl)
+                    Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                    builder.GetInsertCommand()
+
+                    For Each act In _activityClasses
+                        Dim row As ISAMSSds.activity_activity_classesRow = tbl.NewRow
+                        row.activity_id = _myID
+                        row.activity_class_id = act.ID
+                        tbl.Addactivity_activity_classesRow(row)
+                    Next
+
+                    adapter.Update(tbl)
+
+                    rv = True
+                End Using
+            Catch ex As Exception
+                Application.WriteToEventLog("TActivity::SaveActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
+            End Try
+        End If
+
+        Return rv
+        Return rv
+    End Function
 
     Private _entryDate As Date
     Private _activityDate As Date
@@ -2668,6 +2813,17 @@ Public Class TObservations
         End Try
     End Sub
 
+    Public Function Save(ByVal activity As TActivity) As Boolean
+        Dim rv As Boolean = False
+
+        For Each o In MyBase.Items
+            o.ActivityId = activity.ID
+            o.Save()
+        Next
+
+        Return rv
+    End Function
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2701,6 +2857,15 @@ Public Class TObservation
             Application.WriteToEventLog("TObservation::New(row), Exception, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    Property ActivityId As Integer
+        Get
+            Return _activityId
+        End Get
+        Set(ByVal value As Integer)
+            _activityId = value
+        End Set
+    End Property
 
     Property Description As String
         Get
@@ -2863,7 +3028,7 @@ Public Class TObservation
             Try
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                     connection.Open()
-                    Dim query As String = "SELECT * FROM observation_sami_template_activities WHERE observation_id = " + CStr(_myID)
+                    Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(_myID)
                     Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                     Dim tbl As New ISAMSSds.observation_sami_activitiesDataTable
                     adapter.Fill(tbl)
