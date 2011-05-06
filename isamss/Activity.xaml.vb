@@ -117,4 +117,15 @@
         _formDirty = True
         btn_save.IsEnabled = True
     End Sub
+
+    Private Sub lstvwObservations_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwObservations.MouseDoubleClick
+        If lstvwObservations.SelectedItem IsNot Nothing Then
+            Dim obsForm As New ObservationForm(_activity, lstvwObservations.SelectedItem)
+            obsForm.ShowDialog()
+
+            If obsForm.DialogResult = True Then
+            End If
+        End If
+
+    End Sub
 End Class

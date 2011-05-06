@@ -70,6 +70,8 @@
             lstvwSamiCostActivities.ItemsSource = New TSAMIActivities(TSAMIActivities.ActivityCategories.cost)
             lstvwSamiCostActsForThisObs.ItemsSource = New TSAMIActivities(False)
         End If
+
+        _formDirty = False
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSave.Click
