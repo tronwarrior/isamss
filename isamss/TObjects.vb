@@ -92,7 +92,7 @@ Public MustInherit Class TObject
     End Sub
 
     Protected Shared INVALID_ID As Integer = -1
-    Protected _myID As Integer
+    Protected _myID As Integer = -1
     Protected _cmdGetIdentity As OleDbCommand
 End Class
 
