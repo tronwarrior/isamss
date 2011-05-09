@@ -16,21 +16,19 @@
         _contract = contract
         _activity = activity
 
-        If _activity Is Nothing Then
-            _activityClasses = New TActivityClasses
-            _activityClassesForThis = New TActivityClasses(False)
-        Else
-            _activityClassesForThis = New TActivityClasses(_activity)
-            _activityClasses = New TActivityClasses((New TActivityClasses) - _activityClassesForThis)
-        End If
     End Sub
 
     Private Sub Window_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
         If _activity Is Nothing Then
             _activity = New TActivity(_contract, Application.CurrentUser)
+            _activityClasses = New TActivityClasses
+            _activityClassesForThis = New TActivityClasses(False)
+        Else
+            dtActivityDate.SelectedDate = _activity.ActivityDate
+            _activityClassesForThis = New TActivityClasses(_activity)
+            _activityClasses = New TActivityClasses((New TActivityClasses) - _activityClassesForThis)
         End If
 
-        dtActivityDate.SelectedDate = _activity.ActivityDate
         lstvwActivityClasses.ItemsSource = _activityClasses
         lstvwThisActivityClasses.ItemsSource = _activityClassesForThis
         lstvwObservations.ItemsSource = _activity.Observations

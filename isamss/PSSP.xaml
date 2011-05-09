@@ -8,7 +8,7 @@
         <Label Content="Date of Action" Height="25" HorizontalAlignment="Left" Margin="12,2,0,0" Name="Label6" VerticalAlignment="Top" />
         <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="286,429,0,0" Name="btn_save" TabIndex="4" VerticalAlignment="Top" Width="75" IsEnabled="False" />
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="205,429,0,0" Name="btn_cancel" TabIndex="5" VerticalAlignment="Top" Width="75" />
-        <TextBox Height="76" HorizontalAlignment="Left" Margin="12,159,0,0" Name="txtNotes" VerticalAlignment="Top" Width="349" AcceptsReturn="True" TabIndex="3" />
+        <TextBox Height="76" HorizontalAlignment="Left" Margin="12,159,0,0" Name="txtNotes" VerticalAlignment="Top" Width="349" AcceptsReturn="True" TabIndex="3" TextWrapping="Wrap" />
         <Label Content="Notes" Height="25" HorizontalAlignment="Left" Margin="12,137,0,0" Name="Label2" VerticalAlignment="Top" />
         <ComboBox Height="23" HorizontalAlignment="Left" Margin="205,31,0,0" Name="cboActionClasses" VerticalAlignment="Top" Width="156" ItemsSource="{Binding Path=Title}" />
         <Label Content="Type of Action" Height="25" HorizontalAlignment="Left" Margin="205,1,0,0" Name="lblActionType" VerticalAlignment="Top" />
@@ -36,5 +36,6 @@
                 <Button Content="Add" Grid.ColumnSpan="2" Height="23" HorizontalAlignment="Left" Margin="6,126,0,0" Name="btnAddPSSPHistory" VerticalAlignment="Top" Width="75" IsEnabled="True" />
             </Grid>
         </GroupBox>
+        <Label Content="Attachment" Height="23" HorizontalAlignment="Left" Margin="12,70,0,0" Name="Label1" VerticalAlignment="Top" Width="106" />
     </Grid>
 </Window>

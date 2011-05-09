@@ -84,6 +84,7 @@
                 <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,273,0,0" Name="txt_techRationale" TextWrapping="Wrap" VerticalAlignment="Top" Width="349" TabIndex="16" />
                 <Label Content="Technical Criticiality Rationale" Height="23" HorizontalAlignment="Left" Margin="6,0,0,134" Name="Label11" VerticalAlignment="Bottom" />
                 <src:TStackPanelAttachment HorizontalAlignment="Left" Margin="6,319,0,0" x:Name="tspAttachment" VerticalAlignment="Top" />
+                <Label Content="Attachment" Height="23" HorizontalAlignment="Left" Margin="6,333,0,0" Name="Label14" VerticalAlignment="Top" Width="106" />
             </Grid>
         </GroupBox>
     </Grid>

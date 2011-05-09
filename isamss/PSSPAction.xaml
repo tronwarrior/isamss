@@ -7,10 +7,11 @@
         <Label Content="Date of Change" Height="25" HorizontalAlignment="Left" Margin="10,8,0,0" Name="Label6" VerticalAlignment="Top" />
         <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="286,273,0,0" Name="btn_save" TabIndex="4" VerticalAlignment="Top" Width="75" />
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="205,273,0,0" Name="btn_cancel" TabIndex="5" VerticalAlignment="Top" Width="75" />
-        <TextBox AcceptsReturn="True" Height="93" HorizontalAlignment="Left" Margin="12,87,0,0" Name="txtNotes" TabIndex="3" VerticalAlignment="Top" Width="349" />
+        <TextBox AcceptsReturn="True" Height="93" HorizontalAlignment="Left" Margin="12,87,0,0" Name="txtNotes" TabIndex="3" VerticalAlignment="Top" Width="349" TextWrapping="Wrap" />
         <Label Content="Notes" Height="25" HorizontalAlignment="Left" Margin="12,62,0,0" Name="Label2" VerticalAlignment="Top" />
         <ComboBox Height="23" HorizontalAlignment="Left" ItemsSource="{Binding Path=Title}" Margin="205,33,0,0" Name="cboActionClasses" VerticalAlignment="Top" Width="156" />
         <Label Content="Type of Action" Height="25" HorizontalAlignment="Right" Margin="0,8,120,0" Name="Label3" VerticalAlignment="Top" />
         <my1:TStackPanelAttachment HorizontalAlignment="Left" Margin="12,189,0,0" x:Name="tspAttachment" VerticalAlignment="Top" />
+        <Label Content="Attachment" Height="23" HorizontalAlignment="Left" Margin="12,202,0,0" Name="Label1" VerticalAlignment="Top" Width="106" />
     </Grid>
 </Window>

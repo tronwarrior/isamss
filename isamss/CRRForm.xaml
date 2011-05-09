@@ -33,6 +33,7 @@
                 <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,265,0,0" Name="txt_techRationale" TabIndex="6" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" />
                 <Label Content="Technical Criticiality Rationale" Height="23" HorizontalAlignment="Left" Margin="6,235,0,0" Name="Label11" VerticalAlignment="Top" />
                 <src:TStackPanelAttachment HorizontalAlignment="Left" Margin="6,314,0,0" x:Name="tspAttachment" VerticalAlignment="Top" />
+                <Label Content="Attachment" Height="28" HorizontalAlignment="Left" Margin="6,324,0,0" Name="Label1" VerticalAlignment="Top" Width="106" />
             </Grid>
         </GroupBox>
         <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="306,420,0,0" Name="btn_save" TabIndex="8" VerticalAlignment="Top" Width="75" IsEnabled="False" />

@@ -115,6 +115,7 @@ Class MainWindow
         If newContract.DialogResult = True Then
             ttvContractsQuickview.CurrentContract.Refresh()
             ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+            PopulateAllTabs()
         End If
     End Sub
 
@@ -251,6 +252,7 @@ Class MainWindow
         Dim filterForm As New FilterContractsForm(myContractsFilter)
         If filterForm.ShowDialog() = True Then
             ttvContractsQuickview.BuildContractsTree(myContractsFilter.Contracts)
+            PopulateAllTabs()
         End If
     End Sub
 

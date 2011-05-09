@@ -13,5 +13,6 @@
         <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="285,129,0,0" Name="btnSave" TabIndex="4" VerticalAlignment="Top" Width="75" IsEnabled="False" />
         <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="203,129,0,0" Name="btnCancel" TabIndex="5" VerticalAlignment="Top" Width="75" />
         <my1:TStackPanelAttachment HorizontalAlignment="Left" Margin="12,50,0,0" x:Name="tspAttachment" VerticalAlignment="Top" />
+        <Label Content="Attachment" Height="23" HorizontalAlignment="Left" Margin="12,62,0,0" Name="Label1" VerticalAlignment="Top" Width="106" />
     </Grid>
 </Window>
