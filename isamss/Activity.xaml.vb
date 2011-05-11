@@ -34,6 +34,7 @@
         lstvwObservations.ItemsSource = _activity.Observations
 
         _formDirty = False
+        btn_save.IsEnabled = False
     End Sub
 
     Private Function Save() As Boolean

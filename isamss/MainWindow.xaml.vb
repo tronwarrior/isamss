@@ -1,5 +1,6 @@
 ﻿Imports System.Threading
 Imports System.Collections.ObjectModel
+Imports System.Xml
 
 Class MainWindow
     Private myContractsFilter As TContractsFilter
@@ -334,11 +335,27 @@ Class MainWindow
         Application.Current.Shutdown()
     End Sub
 
+
     Private Sub mainwindow_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
         myContractsFilter = New TContractsFilter
         ttvContractsQuickview.BuildContractsTree(myContractsFilter.Contracts)
         PopulateAllTabs()
+        Me.Title &= " - " & GetVersionId()
     End Sub
+
+    Private Function GetVersionId() As String
+        Dim s As String = "v"
+
+        Try
+            Dim xmld = New XmlDocument()
+            xmld.Load(System.Reflection.Assembly.GetExecutingAssembly.Location & ".manifest")
+            s &= xmld.ChildNodes.Item(1).ChildNodes.Item(0).Attributes.GetNamedItem("version").Value
+        Catch ex As Exception
+        Finally
+        End Try
+
+        Return s
+    End Function
 
     Private Sub ttvContractsQuickview_ContractChanged(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles ttvContractsQuickview.ContractChanged
         PopulateAllTabs()
@@ -386,4 +403,19 @@ Class MainWindow
             End If
         End If
     End Sub
+
+    Private Sub btnFilterContracts_MouseEnter(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseEventArgs) Handles btnFilterContracts.MouseEnter
+        btnFilterContracts.ToolTip = BuildFiltersString()
+    End Sub
+
+    Private Function BuildFiltersString() As String
+        Dim slist As String = ""
+        Dim last As Boolean = False
+
+        For Each user In myContractsFilter.Users
+            slist += "'" & user.FullName & "' "
+        Next
+
+        Return slist
+    End Function
 End Class

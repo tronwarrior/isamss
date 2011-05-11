@@ -38,174 +38,174 @@ Imports System.Windows.Shapes
 '''<summary>
 '''FilterContractsForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
 Partial Public Class FilterContractsForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",6)
     Friend WithEvents GroupBox1 As System.Windows.Controls.GroupBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",8)
     Friend WithEvents Label1 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",9)
     Friend WithEvents lstbxUsersFilter As System.Windows.Controls.ListBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",10)
     Friend WithEvents lstbxUsers As System.Windows.Controls.ListBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",11)
     Friend WithEvents Label2 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",12)
     Friend WithEvents Image1 As System.Windows.Controls.Image
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",13)
     Friend WithEvents Image2 As System.Windows.Controls.Image
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",16)
     Friend WithEvents GroupBox2 As System.Windows.Controls.GroupBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",18)
     Friend WithEvents dtStart As Microsoft.Windows.Controls.DatePicker
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",19)
     Friend WithEvents Label3 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",20)
     Friend WithEvents Label4 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",21)
     Friend WithEvents dtEnd As Microsoft.Windows.Controls.DatePicker
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",24)
     Friend WithEvents btnApply As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\FilterContracts.xaml",25)
     Friend WithEvents btnCancel As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
+    
     Private _contentLoaded As Boolean
-
+    
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = True
+        _contentLoaded = true
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/filtercontracts.xaml", System.UriKind.Relative)
-
+        
         #ExternalSource("..\..\..\FilterContracts.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-
+        
         #End ExternalSource
     End Sub
-
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")> _
+    
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.GroupBox1 = CType(target, System.Windows.Controls.GroupBox)
+            Me.GroupBox1 = CType(target,System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 2) Then
-            Me.Label1 = CType(target, System.Windows.Controls.Label)
+            Me.Label1 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 3) Then
-            Me.lstbxUsersFilter = CType(target, System.Windows.Controls.ListBox)
+            Me.lstbxUsersFilter = CType(target,System.Windows.Controls.ListBox)
             Return
         End If
         If (connectionId = 4) Then
-            Me.lstbxUsers = CType(target, System.Windows.Controls.ListBox)
+            Me.lstbxUsers = CType(target,System.Windows.Controls.ListBox)
             Return
         End If
         If (connectionId = 5) Then
-            Me.Label2 = CType(target, System.Windows.Controls.Label)
+            Me.Label2 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 6) Then
-            Me.Image1 = CType(target, System.Windows.Controls.Image)
+            Me.Image1 = CType(target,System.Windows.Controls.Image)
             Return
         End If
         If (connectionId = 7) Then
-            Me.Image2 = CType(target, System.Windows.Controls.Image)
+            Me.Image2 = CType(target,System.Windows.Controls.Image)
             Return
         End If
         If (connectionId = 8) Then
-            Me.GroupBox2 = CType(target, System.Windows.Controls.GroupBox)
+            Me.GroupBox2 = CType(target,System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 9) Then
-            Me.dtStart = CType(target, Microsoft.Windows.Controls.DatePicker)
+            Me.dtStart = CType(target,Microsoft.Windows.Controls.DatePicker)
             Return
         End If
         If (connectionId = 10) Then
-            Me.Label3 = CType(target, System.Windows.Controls.Label)
+            Me.Label3 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 11) Then
-            Me.Label4 = CType(target, System.Windows.Controls.Label)
+            Me.Label4 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 12) Then
-            Me.dtEnd = CType(target, Microsoft.Windows.Controls.DatePicker)
+            Me.dtEnd = CType(target,Microsoft.Windows.Controls.DatePicker)
             Return
         End If
         If (connectionId = 13) Then
-            Me.btnApply = CType(target, System.Windows.Controls.Button)
+            Me.btnApply = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 14) Then
-            Me.btnCancel = CType(target, System.Windows.Controls.Button)
+            Me.btnCancel = CType(target,System.Windows.Controls.Button)
             Return
         End If
-        Me._contentLoaded = True
+        Me._contentLoaded = true
     End Sub
 End Class

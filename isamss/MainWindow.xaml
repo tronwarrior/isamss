@@ -24,21 +24,17 @@
                         <Grid Height="428" Name="Grid1" Width="576">
                             <GroupBox Height="139" HorizontalAlignment="Left" Margin="10,5,0,0" Name="GroupBox1" VerticalAlignment="Top" Width="560" Header="Contract Information">
                                 <Grid Height="121">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="102*" />
-                                        <ColumnDefinition Width="446*" />
-                                    </Grid.ColumnDefinitions>
                                     <Label Content="Contract #" Height="23" HorizontalAlignment="Left" Margin="7,8,0,0" Name="Label1" VerticalAlignment="Top" />
                                     <TextBlock Height="18" HorizontalAlignment="Left" Margin="69,12,0,0" Name="txtContractNumber" Text="" VerticalAlignment="Top" Width="189" Background="#FFE8EAF5" Grid.ColumnSpan="2" />
                                     <Label Content="Program" HorizontalAlignment="Left" Margin="7,35,0,63" Name="Label2" Width="54" />
                                     <TextBlock Height="18" HorizontalAlignment="Right" Margin="0,38,290,0" Name="txtProgramName" Text="" VerticalAlignment="Top" Width="189" Background="#FFE8EAF5" Grid.ColumnSpan="2" />
                                     <Label Content="Customer" Height="23" HorizontalAlignment="Left" Margin="7,63,0,0" Name="Label3" VerticalAlignment="Top" Width="61" />
                                     <TextBlock Height="18" HorizontalAlignment="Right" Margin="0,65,289,0" Name="txtCustomer" Text="" VerticalAlignment="Top" Width="190" Background="#FFE8EAF5" Grid.ColumnSpan="2" />
-                                    <Label Content="Supplier" Height="23" HorizontalAlignment="Left" Margin="171,6,0,0" Name="Label4" VerticalAlignment="Top" Width="50" Grid.Column="1" />
+                                    <Label Content="Supplier" Height="23" HorizontalAlignment="Left" Margin="279,9,0,0" Name="Label4" VerticalAlignment="Top" Width="50" />
                                     <TextBlock Height="18" HorizontalAlignment="Right" Margin="0,12,7,0" Name="txtSupplier" Text="" VerticalAlignment="Top" Width="212" Background="#FFE8EAF5" Grid.Column="1" />
                                     <Button Content="Edit" Height="23" HorizontalAlignment="Right" Margin="0,92,7,0" Name="btnEdit" VerticalAlignment="Top" Width="61" IsEnabled="False" Grid.Column="1" />
-                                    <Label Content="Site(s)" Height="23" HorizontalAlignment="Left" Margin="171,34,0,0" Name="Label5" VerticalAlignment="Top" Grid.Column="1" />
-                                    <ListView ItemsSource="{Binding}" Grid.Column="1" Height="43" HorizontalAlignment="Left" Margin="227,41,0,0" Name="lstvwContractSites" VerticalAlignment="Top" Width="212" Background="#FFE8EAF5" BorderThickness="0" SelectionMode="Single">
+                                    <Label Content="Site(s)" Height="23" HorizontalAlignment="Left" Margin="288,40,0,0" Name="Label5" VerticalAlignment="Top" />
+                                    <ListView ItemsSource="{Binding}" Height="43" HorizontalAlignment="Left" Margin="330,40,0,0" Name="lstvwContractSites" VerticalAlignment="Top" Width="212" Background="#FFE8EAF5" BorderThickness="0" SelectionMode="Single">
                                         <ListView.View>
                                             <GridView AllowsColumnReorder="False">
                                                 <GridView.ColumnHeaderContainerStyle>
@@ -170,8 +166,8 @@
             </Grid>
         </GroupBox>
         <Grid Margin="20,119,136,16">
-            <Button Content="Filter Contracts" Height="23" HorizontalAlignment="Left" Margin="7,9,0,0" Name="btnFilterContracts" VerticalAlignment="Top" Width="110" TabIndex="0" />
-            <MyNamespace:TTreeView Margin="7,0,8,15" x:Name="ttvContractsQuickview" Height="361" VerticalAlignment="Bottom">
+            <Button Content="Filter Contracts" Height="23" HorizontalAlignment="Left" Margin="7,5,0,0" Name="btnFilterContracts" VerticalAlignment="Top" Width="100" TabIndex="0" />
+            <MyNamespace:TTreeView Margin="7,0,8,15" x:Name="ttvContractsQuickview" Height="362" VerticalAlignment="Bottom">
                 <MyNamespace:TTreeView.ContextMenu>
                     <ContextMenu Name="cmQuickview" >
                         <MenuItem Header="_New Contract" Name="MenuItemNewContract">
@@ -194,8 +190,8 @@
                 <TreeViewItem>
                 </TreeViewItem>
             </MyNamespace:TTreeView>
-            <Button Content="Refresh Quickview" Height="23" HorizontalAlignment="Left" Margin="123,9,0,0" Name="btnRefresh" TabIndex="0" VerticalAlignment="Top" Width="110" />
-            <Button Content="New Contract" Height="23" HorizontalAlignment="Left" Margin="238,9,0,0" Name="btnNewContract" TabIndex="0" VerticalAlignment="Top" Width="110" />
+            <Button Content="Refresh Quickview" Height="23" HorizontalAlignment="Left" Margin="131,5,0,0" Name="btnRefresh" TabIndex="0" VerticalAlignment="Top" Width="100" />
+            <Button Content="New Contract" Height="23" HorizontalAlignment="Left" Margin="248,5,0,0" Name="btnNewContract" TabIndex="0" VerticalAlignment="Top" Width="100" />
         </Grid>
     </Grid>
 </Window>

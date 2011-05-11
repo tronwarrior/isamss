@@ -58,6 +58,12 @@
 
             lstvwSamiCostActivities.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
             lstvwSamiCostActsForThisObs.ItemsSource = ((New TSAMIActivities) - lstvwSamiCostActivities.ItemsSource)
+
+            _samiActivities = _samiActivities + lstvwSamiTechActsForThisObs.ItemsSource
+            _samiActivities = _samiActivities + lstvwSamiCostActsForThisObs.ItemsSource
+            _samiActivities = _samiActivities + lstvwSamiSchedActsForThisObs.ItemsSource
+
+            btnSave.Content = "Update"
         Else
             _newObservation = True
             _observation = New TObservation(_activity)
@@ -69,9 +75,12 @@
 
             lstvwSamiCostActivities.ItemsSource = New TSAMIActivities(TSAMIActivities.ActivityCategories.cost)
             lstvwSamiCostActsForThisObs.ItemsSource = New TSAMIActivities(False)
+
+            btnSave.Content = "Add"
         End If
 
         _formDirty = False
+        btnSave.IsEnabled = False
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSave.Click
