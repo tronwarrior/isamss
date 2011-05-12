@@ -58,7 +58,7 @@
             Dim doc As New Microsoft.Office.Interop.Word.Document
             word.Visible = True
             doc = word.Documents.Open(fn, , False, False, , , True)
-        Catch ex As Exception
+        Catch ex As System.Exception
             Application.WriteToEventLog("FileView::OpenWordFile, Exception opening file " & fn & ", message: " & ex.Message, EventLogEntryType.Error)
         End Try
     End Sub
@@ -67,7 +67,7 @@
         Dim fn As String = _fileInfo.FullName
         Try
             Process.Start(fn)
-        Catch ex As Exception
+        Catch ex As System.Exception
             Application.WriteToEventLog("FileView::OpenPdfFile, Exception opening file " & fn & ", message: " & ex.Message, EventLogEntryType.Error)
         End Try
     End Sub
@@ -79,7 +79,7 @@
             Dim book As New Microsoft.Office.Interop.Excel.Workbook
             excel.Visible = True
             book = excel.Workbooks.Open(fn, , False, False, , , True)
-        Catch ex As Exception
+        Catch ex As System.Exception
             Application.WriteToEventLog("FileView::OpenExcelFile, Exception opening file " & fn & ", message: " & ex.Message, EventLogEntryType.Error)
         End Try
     End Sub

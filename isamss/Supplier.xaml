@@ -1,13 +1,13 @@
 ﻿<Window x:Class="SupplierForm"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    Title="Supplier" Height="212" Width="336" Icon="/isamss;component/Images/add.png">
+    Title="Supplier" Height="181" Width="336" Icon="/isamss;component/Images/add.png">
     <Grid>
-        <Label Content="Name" Height="24" HorizontalAlignment="Left" Margin="10,19,0,0" Name="Label1" VerticalAlignment="Top" />
-        <TextBox Height="24" HorizontalAlignment="Left" Margin="85,19,0,0" Name="txtTitle" VerticalAlignment="Top" Width="209" />
-        <Label Content="Description" Height="24" HorizontalAlignment="Left" Margin="10,52,0,0" Name="Label2" VerticalAlignment="Top" />
-        <TextBox Height="65" HorizontalAlignment="Left" Margin="85,54,0,0" Name="txtDescription" VerticalAlignment="Top" Width="209" AcceptsReturn="True" MaxLines="10" AcceptsTab="False" TextWrapping="Wrap" />
-        <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="138,136,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" />
-        <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="219,136,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" />
+        <Label Content="Name" Height="24" HorizontalAlignment="Left" Margin="10,6,0,0" Name="Label1" VerticalAlignment="Top" />
+        <TextBox Height="24" HorizontalAlignment="Left" Margin="85,6,0,0" Name="txtTitle" VerticalAlignment="Top" Width="209" />
+        <Label Content="Description" Height="24" HorizontalAlignment="Left" Margin="10,39,0,0" Name="Label2" VerticalAlignment="Top" />
+        <TextBox Height="65" HorizontalAlignment="Left" Margin="85,41,0,0" Name="txtDescription" VerticalAlignment="Top" Width="209" AcceptsReturn="True" MaxLines="10" AcceptsTab="False" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="138,112,0,0" Name="btnCancel" VerticalAlignment="Top" Width="75" />
+        <Button Content="Save" Height="23" HorizontalAlignment="Left" Margin="219,112,0,0" Name="btnSave" VerticalAlignment="Top" Width="75" />
     </Grid>
 </Window>

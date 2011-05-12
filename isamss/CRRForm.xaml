@@ -14,7 +14,7 @@
                     <ComboBoxItem Content="M" />
                     <ComboBoxItem Content="L" />
                 </ComboBox>
-                <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,90,0,0" Name="txt_costRationale" TabIndex="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="347" />
+                <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,90,0,0" Name="txt_costRationale" TabIndex="2" TextWrapping="Wrap" VerticalAlignment="Top" Width="347" VerticalScrollBarVisibility="Auto" />
                 <Label Content="Cost Criticiality Rationale" Height="23" HorizontalAlignment="Left" Margin="6,60,0,0" Name="Label7" VerticalAlignment="Top" />
                 <Label Content="Schedule Criticality" Height="23" HorizontalAlignment="Left" Margin="209,146,0,0" Name="Label8" VerticalAlignment="Top" Width="104" />
                 <ComboBox Height="23" HorizontalAlignment="Left" Margin="317,146,0,0" Name="cbo_schedCriticality" TabIndex="3" VerticalAlignment="Top" Width="36">
@@ -22,7 +22,7 @@
                     <ComboBoxItem Content="M" />
                     <ComboBoxItem Content="L" />
                 </ComboBox>
-                <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,176,0,0" Name="txt_schedRationale" TabIndex="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" />
+                <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,176,0,0" Name="txt_schedRationale" TabIndex="4" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" VerticalScrollBarVisibility="Auto" />
                 <Label Content="Schedule Criticiality Rationale" Height="23" HorizontalAlignment="Left" Margin="6,146,0,0" Name="Label9" VerticalAlignment="Top" />
                 <Label Content="Technical Criticality" Height="23" HorizontalAlignment="Left" Margin="209,235,0,0" Name="Label10" VerticalAlignment="Top" Width="104" />
                 <ComboBox Height="23" HorizontalAlignment="Left" Margin="318,235,0,0" Name="cbo_techCriticality" TabIndex="5" VerticalAlignment="Top" Width="36">
@@ -30,7 +30,7 @@
                     <ComboBoxItem Content="M" />
                     <ComboBoxItem Content="L" />
                 </ComboBox>
-                <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,265,0,0" Name="txt_techRationale" TabIndex="6" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" />
+                <TextBox AcceptsReturn="True" AcceptsTab="False" Height="45" HorizontalAlignment="Left" Margin="6,265,0,0" Name="txt_techRationale" TabIndex="6" TextWrapping="Wrap" VerticalAlignment="Top" Width="348" VerticalScrollBarVisibility="Auto" />
                 <Label Content="Technical Criticiality Rationale" Height="23" HorizontalAlignment="Left" Margin="6,235,0,0" Name="Label11" VerticalAlignment="Top" />
                 <src:TStackPanelAttachment HorizontalAlignment="Left" Margin="6,314,0,0" x:Name="tspAttachment" VerticalAlignment="Top" />
                 <Label Content="Attachment" Height="28" HorizontalAlignment="Left" Margin="6,324,0,0" Name="Label1" VerticalAlignment="Top" Width="106" />

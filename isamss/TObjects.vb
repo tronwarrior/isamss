@@ -11,6 +11,7 @@ Public MustInherit Class TObject
     Public Sub New()
         ' Set the ID to an invalid value
         _myID = INVALID_ID
+
         ' Set the OleDbCommand to null0
         _cmdGetIdentity = Nothing
 
@@ -371,7 +372,7 @@ Public Class TContracts
                     MyBase.Add(tc)
                 Next
             End Using
-        Catch e As Exception
+        Catch e As System.Exception
         End Try
     End Sub
 
@@ -2723,7 +2724,7 @@ Public Class TActivity
                 adapter.Update(tbl)
                 rv = True
             End Using
-        Catch ex As Exception
+        Catch ex As System.Exception
             Application.WriteToEventLog("TActivity::DeleteActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
         End Try
 
@@ -2754,7 +2755,7 @@ Public Class TActivity
 
                     rv = True
                 End Using
-            Catch ex As Exception
+            Catch ex As System.Exception
                 Application.WriteToEventLog("TActivity::SaveActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
             End Try
         End If
@@ -2988,7 +2989,7 @@ Public Class TObservation
             attachment.Delete()
             DeleteAllSAMIActivities()
             MyBase.Delete("observations", New ISAMSSds.observationsDataTable)
-        Catch e As Exception
+        Catch e As System.Exception
             Application.WriteToEventLog("TObservation::Delete, Exception, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
@@ -3014,7 +3015,7 @@ Public Class TObservation
 
                 rv = True
             End Using
-        Catch ex As Exception
+        Catch ex As System.Exception
             Application.WriteToEventLog("TObservation::DeleteAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
         End Try
 
@@ -3046,7 +3047,7 @@ Public Class TObservation
 
                     rv = True
                 End Using
-            Catch ex As Exception
+            Catch ex As System.Exception
                 Application.WriteToEventLog("TObservation::InsertAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
             End Try
         End If
@@ -3124,7 +3125,7 @@ Public Class TSAMIActivityCategory
             _myID = row.id
             _title = row.title
             _description = row.description
-        Catch ex As Exception
+        Catch ex As System.Exception
             Application.WriteToEventLog("TSAMIActivityCategory::New(row), Exception, message: " & ex.Message, EventLogEntryType.Error)
         End Try
     End Sub

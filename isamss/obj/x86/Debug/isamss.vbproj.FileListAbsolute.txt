@@ -78,3 +78,6 @@ C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isams
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\PSSP.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\PSSPAction.baml
 C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\obj\x86\Debug\Themes\Generic.baml
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\bin\Debug\Microsoft.Office.Interop.Outlook.dll
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\bin\Debug\Microsoft.Office.Interop.PowerPoint.dll
+C:\Documents and Settings\DC13516\my documents\visual studio 2010\Projects\isamss\isamss\bin\Debug\Microsoft.Office.Interop.Outlook.xml

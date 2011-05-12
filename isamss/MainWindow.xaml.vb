@@ -350,7 +350,7 @@ Class MainWindow
             Dim xmld = New XmlDocument()
             xmld.Load(System.Reflection.Assembly.GetExecutingAssembly.Location & ".manifest")
             s &= xmld.ChildNodes.Item(1).ChildNodes.Item(0).Attributes.GetNamedItem("version").Value
-        Catch ex As Exception
+        Catch ex As System.Exception
         Finally
         End Try
 
@@ -418,4 +418,7 @@ Class MainWindow
 
         Return slist
     End Function
+
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles Button1.Click
+    End Sub
 End Class
