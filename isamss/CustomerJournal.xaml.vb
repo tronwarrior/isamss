@@ -61,7 +61,6 @@
         If txtInteractionNotes.Text.Length = 0 Or dtEntryDate.SelectedDate.HasValue = False Then
             MsgBox("All fields must be completed before submitting", MsgBoxStyle.Critical, "Error")
         Else
-            _journalEntry.CreatedAt = dtEntryDate.SelectedDate
             _journalEntry.AttachmentId = tspAttachment.Attachment.ID
             _journalEntry.Description = txtInteractionNotes.Text
             _journalEntry.Save()

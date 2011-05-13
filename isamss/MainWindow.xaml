@@ -193,6 +193,5 @@
             <Button Content="Refresh Quickview" Height="23" HorizontalAlignment="Left" Margin="131,5,0,0" Name="btnRefresh" TabIndex="0" VerticalAlignment="Top" Width="100" />
             <Button Content="New Contract" Height="23" HorizontalAlignment="Left" Margin="248,5,0,0" Name="btnNewContract" TabIndex="0" VerticalAlignment="Top" Width="100" />
         </Grid>
-        <Button Content="Button" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="294,9,0,0" Name="Button1" VerticalAlignment="Top" Width="75" />
     </Grid>
 </Window>

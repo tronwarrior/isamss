@@ -50,7 +50,6 @@
                 _pssp.UserId = Application.CurrentUser.ID
                 _pssp.Metadata = txtNotes.Text
                 _pssp.AttachmentId = stpAttachment.Attachment.ID
-                _pssp.CreatedAt = dtOriginationDate.SelectedDate
                 _pssp.Save()
 
                 Dim pssph As New TPSSPHistory
@@ -66,7 +65,6 @@
             If Not dtOriginationDate.SelectedDate.HasValue Or txtNotes.Text.Length = 0 Then
                 MsgBox("All entries must be complete", MsgBoxStyle.Critical, "ISAMMS")
             Else
-                _pssp.CreatedAt = dtOriginationDate.SelectedDate
                 _pssp.Metadata = txtNotes.Text
                 _pssp.AttachmentId = stpAttachment.Attachment.ID
                 _pssp.Save()

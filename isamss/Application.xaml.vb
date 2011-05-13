@@ -130,7 +130,7 @@ Class Application
 
     Public Shared Function CurrentUser() As TUser
         If _currentUser Is Nothing Then
-            _currentUser = New TUser
+            _currentUser = New TUser(System.Environment.UserName)
         End If
         Return _currentUser
     End Function
@@ -151,7 +151,7 @@ Class Application
             End If
 
             _appEventLog.Source = Me.Info.ProductName
-            _currentUser = New TUser
+            _currentUser = New TUser(System.Environment.UserName)
 
             If _currentUser.ID = TObject.InvalidID Then
                 Dim registerUserForm As New RegisterUserForm(_currentUser)

@@ -419,6 +419,4 @@ Class MainWindow
         Return slist
     End Function
 
-    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles Button1.Click
-    End Sub
 End Class

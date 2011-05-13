@@ -51,17 +51,17 @@
             tspAttachment.Attachment = _observation.Attachment
 
             lstvwSamiTechActsForThisObs.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
-            lstvwSamiTechActivities.ItemsSource = ((New TSAMIActivities) - lstvwSamiTechActsForThisObs.ItemsSource)
+            lstvwSamiTechActivities.ItemsSource = ((New TSAMIActivities(TSAMIActivities.ActivityCategories.tech)) - lstvwSamiTechActsForThisObs.ItemsSource)
 
-            lstvwSamiSchedActivities.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
-            lstvwSamiSchedActsForThisObs.ItemsSource = ((New TSAMIActivities) - lstvwSamiSchedActivities.ItemsSource)
+            lstvwSamiSchedActsForThisObs.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.sched)
+            lstvwSamiSchedActivities.ItemsSource = ((New TSAMIActivities(TSAMIActivities.ActivityCategories.sched)) - lstvwSamiSchedActsForThisObs.ItemsSource)
 
-            lstvwSamiCostActivities.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.tech)
-            lstvwSamiCostActsForThisObs.ItemsSource = ((New TSAMIActivities) - lstvwSamiCostActivities.ItemsSource)
+            lstvwSamiCostActsForThisObs.ItemsSource = New TSAMIActivities(_observation, TSAMIActivities.ActivityCategories.cost)
+            lstvwSamiCostActivities.ItemsSource = ((New TSAMIActivities(TSAMIActivities.ActivityCategories.cost)) - lstvwSamiCostActsForThisObs.ItemsSource)
 
             _samiActivities = _samiActivities + lstvwSamiTechActsForThisObs.ItemsSource
-            _samiActivities = _samiActivities + lstvwSamiCostActsForThisObs.ItemsSource
             _samiActivities = _samiActivities + lstvwSamiSchedActsForThisObs.ItemsSource
+            _samiActivities = _samiActivities + lstvwSamiCostActsForThisObs.ItemsSource
 
             btnSave.Content = "Update"
         Else
