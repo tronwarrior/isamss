@@ -8,7 +8,6 @@ Imports System.Diagnostics
 ' Purpose:  The base class for all serializable classes that are to be stored
 '           within the target datastore.
 Public MustInherit Class TObject
-
     '//////////////////////////////////////////////////////////////////////////
     ' Access:   Protected
     ' Section:  Object datastore members
@@ -22,6 +21,8 @@ Public MustInherit Class TObject
     Protected _creatorId = INVALID_ID
     ' Used to timestamp the creation date/time
     Protected _createdAt As Date
+    ' Used to identify the updater of the object
+    Protected _updaterId = INVALID_ID
     ' Used to timestamp the last update date/teim
     Protected _updatedAt As Date
 
@@ -31,8 +32,6 @@ Public MustInherit Class TObject
     '//////////////////////////////////////////////////////////////////////////
 
     ' Used to identify the datastore table name for the object
-    Protected _tableName As String
-    ' Used to perform CRUD operations on the datastore table
     Protected _adapter As OleDb.OleDbDataAdapter = Nothing
     ' Used to hold a new row when performing a datastore create
     Protected _row As Object = Nothing
@@ -178,6 +177,7 @@ Public MustInherit Class TObject
             End If
 
             _adapter.Update(tableObj)
+            _isNewRow = False
             rv = True
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog("TObject::FinishSave, Exception saving row " & CStr(_id) & " from table " & tableName & ", message: " & e.Message, EventLogEntryType.Error)
@@ -240,10 +240,13 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    Public MustOverride Function HasUserActivities(ByVal u As TUser) As Boolean
-
-    ' !!! TODO: Comment this
     Protected MustOverride Sub AddNewRow(ByRef tableObj As Object)
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Public MustOverride Function HasUserActivities(ByVal u As TUser) As Boolean
 
     '//////////////////////////////////////////////////////////////////////////
     ' Method:   
@@ -374,27 +377,31 @@ End Class
 Public Class TUser
     Inherits TObject
 
+    Private _table As New ISAMSSds.usersDataTable
+    Private Shadows _row As ISAMSSds.usersRow = Nothing
+
+    Private _firstName As String
+    Private _lastName As String
+    Private _logonId As String
+
     Public Sub New()
-        _tableName = "users"
     End Sub
 
     Public Sub New(ByVal logonId As String)
-        _tableName = "users"
-
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
+                '_table.
                 Dim query As String = "select * from users where logonid = '" & logonId & "'"
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim usrs As New ISAMSSds.usersDataTable
-                adapter.Fill(usrs)
+                adapter.Fill(_table)
 
-                If usrs.Rows.Count > 0 Then
-                    Dim row As ISAMSSds.usersRow = usrs.Rows.Item(0)
-                    _id = row.id
-                    _firstName = row.fname
-                    _lastName = row.lname
-                    _logonId = row.logonid
+                If _table.Rows.Count > 0 Then
+                    _row = _table.Rows.Item(0)
+                    _id = _row.id
+                    _firstName = _row.fname
+                    _lastName = _row.lname
+                    _logonId = _row.logonid
                 End If
             End Using
         Catch e As OleDb.OleDbException
@@ -403,8 +410,6 @@ Public Class TUser
     End Sub
 
     Public Sub New(ByVal rhs As TUser)
-        _tableName = "users"
-
         If rhs IsNot Nothing Then
             _id = rhs.ID
             _firstName = rhs._firstName
@@ -414,8 +419,6 @@ Public Class TUser
     End Sub
 
     Public Sub New(ByVal lname As String, ByVal fname As String, ByVal logonid As String)
-        _tableName = "users"
-
         _lastName = lname
         _firstName = fname
         _logonId = logonid
@@ -516,11 +519,11 @@ Public Class TUser
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
                 Dim users As New ISAMSSds.usersDataTable
-                If MyBase.StartSave(connection, _tableName, users) Then
+                If MyBase.StartSave(connection, "users", users) Then
                     _row.lname = _lastName
                     _row.fname = _firstName
                     _row.logonid = _logonId
-                    rv = MyBase.FinishSave(connection, _tableName, users)
+                    rv = MyBase.FinishSave(connection, "users", users)
                 End If
             End Using
         Catch e As OleDb.OleDbException
@@ -530,9 +533,6 @@ Public Class TUser
         Return rv
     End Function
 
-    Private _lastName As String
-    Private _firstName As String
-    Private _logonId As String
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1410,6 +1410,9 @@ Public Class TCustomer
     Private myDescription As String
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class:    TCustomerJournalEntries
+' Purpose:  
 Public Class TCustomerJournalEntries
     Inherits ObservableCollection(Of TCustomerJournalEntry)
 
@@ -1432,6 +1435,9 @@ Public Class TCustomerJournalEntries
     End Sub
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class:    TCustomerJournalEntry
+' Purpose:  
 Public Class TCustomerJournalEntry
     Inherits TObject
 
@@ -1583,6 +1589,7 @@ Public Class TCustomerJournalEntry
 
                     Dim row As ISAMSSds.customer_journal_entriesRow = cust.NewRow
                     row.id = 0
+                    _createdAt = Date.Now
                     row.created_at = _createdAt
                     row.description = _description
                     row.contract_id = _contractId
@@ -3645,144 +3652,6 @@ Public Class TSAMIActivity
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
-' Class: TObsCMMiProcAreas
-' Purpose: Encapsulates observation data
-Public Class TObsCMMiProcAreas
-    Inherits ObservableCollection(Of TObsCMMiProcArea)
-
-    Public Sub New(ByRef a As TObservation)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM observation_cmmi_proc_ares WHERE observation_id = " + CStr(a.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim obscmmi As New ISAMSSds.observation_cmmi_proc_areasDataTable
-                adapter.Fill(obscmmi)
-
-                For Each obs In obscmmi
-                    Dim o As New TObsCMMiProcArea(obs)
-                    MyBase.Add(o)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-    End Sub
-End Class
-
-'//////////////////////////////////////////////////////////////////////////////
-' Class: TObsCMMiProcArea
-' Purpose: Encapsulates observation data
-Public Class TObsCMMiProcArea
-    Public Sub New(ByRef row As ISAMSSds.observation_cmmi_proc_areasRow)
-        myid = row.id
-        mycmmiprocarea = New TCMMiProcArea(row.cmmi_process_areas_id)
-    End Sub
-
-    ReadOnly Property ID As Integer
-        Get
-            Return myid
-        End Get
-    End Property
-
-    ReadOnly Property CMMiProcArea As TCMMiProcArea
-        Get
-            Return mycmmiprocarea
-        End Get
-    End Property
-
-    Private myid As Integer
-    Private mycmmiprocarea As TCMMiProcArea
-End Class
-
-'//////////////////////////////////////////////////////////////////////////////
-' Class: TCMMiProcArea
-' Purpose: Encapsulates observation data
-Public Class TCMMiProcAreas
-    Inherits ObservableCollection(Of TCMMiProcArea)
-
-    Public Sub New()
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM cmmi_process_areas"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim cmmi As New ISAMSSds.cmmi_process_areasDataTable
-                adapter.Fill(cmmi)
-
-                For Each c In cmmi
-                    Dim cm As New TCMMiProcArea(c)
-                    MyBase.Add(cm)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-    End Sub
-End Class
-
-'//////////////////////////////////////////////////////////////////////////////
-' Class: TCMMiProcArea
-' Purpose: Encapsulates observation data
-Public Class TCMMiProcArea
-    Public Sub New(ByVal id As Integer)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM cmmi_process_areas WHERE id = " + CStr(id)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim cmmi As New ISAMSSds.cmmi_process_areasDataTable
-                adapter.Fill(cmmi)
-
-                If cmmi.Rows.Count = 1 Then
-                    Dim row As ISAMSSds.cmmi_process_areasRow = cmmi.Rows.Item(0)
-                    myid = row.id
-                    myver = row.version
-                    myacronym = row.acronym
-                    mytitle = row.title
-                End If
-
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-    End Sub
-
-    Public Sub New(ByRef row As ISAMSSds.cmmi_process_areasRow)
-        myid = row.id
-        myver = row.version
-        myacronym = row.acronym
-        mytitle = row.title
-    End Sub
-
-    ReadOnly Property ID As Integer
-        Get
-            Return myid
-        End Get
-    End Property
-
-    ReadOnly Property Version As String
-        Get
-            Return myver
-        End Get
-    End Property
-
-    ReadOnly Property Acronym As String
-        Get
-            Return myacronym
-        End Get
-    End Property
-
-    ReadOnly Property Title As String
-        Get
-            Return mytitle
-        End Get
-    End Property
-
-    Private myid As Integer
-    Private myver As String
-    Private myacronym As String
-    Private mytitle As String
-End Class
-
-'//////////////////////////////////////////////////////////////////////////////
 ' Class: TSites
 ' Purpose: Collection class for TSite objects
 Public Class TSites
@@ -4175,6 +4044,9 @@ Public Class TContractSite
     Private mySite_id As Integer
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
 Public Class TPSSPs
     Inherits ObservableCollection(Of TPSSP)
 
@@ -4276,6 +4148,9 @@ Public Class TPSSPs
 
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
 Public Class TPSSP
     Inherits TObject
 
@@ -4421,6 +4296,7 @@ Public Class TPSSP
                     row.user_id = myUserId
                     row.attachment_id = myAttachmentId
                     row.metadata = myMetadata
+                    _createdAt = Date.Now
                     row.created_date = _createdAt
 
                     pssp.AddpsspsRow(row)
@@ -4453,6 +4329,9 @@ Public Class TPSSP
     Private myMetadata As String
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
 Public Class TPSSPHistories
     Inherits ObservableCollection(Of TPSSPHistory)
 
@@ -4479,6 +4358,9 @@ Public Class TPSSPHistories
 
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
 Public Class TPSSPHistory
     Inherits TObject
 
@@ -4644,6 +4526,9 @@ Public Class TPSSPHistory
     Private _attachmentId As Integer = TObject.InvalidID
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
 Public Class THistoryActionClasses
     Inherits ObservableCollection(Of THistoryActionClass)
 
@@ -4667,6 +4552,9 @@ Public Class THistoryActionClasses
 
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
 Public Class THistoryActionClass
     Inherits TObject
 
@@ -4732,6 +4620,9 @@ Public Class THistoryActionClass
     Private myDescription As String
 End Class
 
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
 Public Class TContractsFilter
 
     Public Sub New()
