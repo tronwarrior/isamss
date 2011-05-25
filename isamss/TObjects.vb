@@ -15,8 +15,6 @@ Public MustInherit Class TObject
 
     ' Used as the invalid indentifier constant
     Protected Shared INVALID_ID As Integer = -1
-    ' Contains the object identifier as it exists in the database
-    Protected _id As Integer = INVALID_ID
     ' Used to identify the creator of the object
     Protected _creatorId = INVALID_ID
     ' Used to timestamp the creation date/time
@@ -33,6 +31,8 @@ Public MustInherit Class TObject
 
     ' Used to identify the datastore table name for the object
     Protected _adapter As OleDb.OleDbDataAdapter = Nothing
+    ' Used to hold the table object
+    Protected _table As Object = Nothing
     ' Used to hold a new row when performing a datastore create
     Protected _row As Object = Nothing
     ' Used by StartSave and FinishSave to flag that the object is a new datastore object
@@ -57,7 +57,8 @@ Public MustInherit Class TObject
     ' Method:       New
     ' Purpose:      ctor for this class
     ' Parameters:    
-    Public Sub New()
+    Public Sub New(ByRef table As Object)
+        _table = table
     End Sub
 
     '//////////////////////////////////////////////////////////////////////////
@@ -65,7 +66,7 @@ Public MustInherit Class TObject
     ' Purpose:  
     ' Parameters:    
     Public Sub Clone(ByVal rhs As TObject)
-        _id = rhs._id
+        ID = rhs.ID
         _creatorId = rhs._creatorId
         _cmdGetIdentity = rhs._cmdGetIdentity
         _createdAt = rhs._createdAt
@@ -82,7 +83,7 @@ Public MustInherit Class TObject
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & tableName & " WHERE id = " + CStr(_id)
+                Dim query As String = "SELECT * FROM " & tableName & " WHERE id = " + CStr(ID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 adapter.Fill(tableObj)
                 Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
@@ -91,13 +92,13 @@ Public MustInherit Class TObject
                 If tableObj.Rows.Count = 1 Then
                     tableObj.Rows(0).Delete()
                     adapter.Update(tableObj)
-                    _id = INVALID_ID
+                    ID = INVALID_ID
                 End If
             End Using
 
             rv = True
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TObject::Delete, Exception deleting row " & CStr(_id) & " from table " & tableName & ", message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TObject::Delete, Exception deleting row " & CStr(ID) & " from table " & tableName & ", message: " & e.Message, EventLogEntryType.Error)
         End Try
 
         Return rv
@@ -107,11 +108,11 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    Protected Function StartSave(ByVal connection As OleDb.OleDbConnection, ByVal tableName As String, ByRef tableObj As Object) As Boolean
+    Protected Function StartSave(ByVal connection As OleDb.OleDbConnection, ByRef tableObj As Object) As Boolean
         Dim rv As Boolean = False
 
         Try
-            Dim query As String = "SELECT * FROM " & tableName & " WHERE id = " + CStr(_id)
+            Dim query As String = "SELECT * FROM " & tableObj.TableName & " WHERE id = " + CStr(ID)
 
             If _adapter IsNot Nothing Then
                 _adapter = Nothing
@@ -128,7 +129,7 @@ Public MustInherit Class TObject
             If tableObj.Rows.Count = 1 Then
                 _cmdBuilder.GetUpdateCommand()
                 _row = tableObj.Items(0)
-                _isNewrow = False
+                _isNewRow = False
             Else
                 _cmdBuilder.GetInsertCommand()
                 _row = tableObj.NewRow()
@@ -154,7 +155,7 @@ Public MustInherit Class TObject
 
             rv = True
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TObject::Delete, Exception deleting row " & CStr(_id) & " from table " & tableName & ", message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TObject::Delete, Exception deleting row " & CStr(ID) & " from table " & tableObj.TableName & ", message: " & e.Message, EventLogEntryType.Error)
         End Try
 
         Return rv
@@ -164,11 +165,11 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    Protected Function FinishSave(ByVal connection As OleDb.OleDbConnection, ByVal tableName As String, ByRef tableObj As Object) As Boolean
+    Protected Function FinishSave(ByVal connection As OleDb.OleDbConnection, ByRef tableObj As Object) As Boolean
         Dim rv As Boolean = False
 
         Try
-            _row.id = _id
+            _row.id = ID
             _row.updater_id = Application.CurrentUser.ID
             _row.updated_at = Date.Now
 
@@ -180,7 +181,7 @@ Public MustInherit Class TObject
             _isNewRow = False
             rv = True
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TObject::FinishSave, Exception saving row " & CStr(_id) & " from table " & tableName & ", message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TObject::FinishSave, Exception saving row " & CStr(ID) & " from table " & tableObj.TableName & ", message: " & e.Message, EventLogEntryType.Error)
         End Try
 
         Return rv
@@ -200,10 +201,46 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    ReadOnly Property ID As Integer
+    Protected Property Row
         Get
-            Return _id
+            Return _row
         End Get
+        Set(ByVal value)
+            _row = value
+        End Set
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Property Table
+        Get
+            Return _table
+        End Get
+        Set(ByVal value)
+            _table = value
+        End Set
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Property ID As Integer
+        Get
+            If _row IsNot Nothing Then
+                Return _row.id
+            Else
+                Return INVALID_ID
+            End If
+        End Get
+        Set(ByVal value As Integer)
+            If _row Is Nothing Then
+                _row = GetNewRow(_table)
+                _row.id = value
+            End If
+        End Set
     End Property
 
     '//////////////////////////////////////////////////////////////////////////
@@ -230,6 +267,16 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
+    ReadOnly Property UpdaterId As Integer
+        Get
+            Return _updaterId
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
     ReadOnly Property UpdatedAt As Date
         Get
             Return _updatedAt
@@ -246,27 +293,7 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    Public MustOverride Function HasUserActivities(ByVal u As TUser) As Boolean
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
-    Protected Function CheckForUserActivites(ByVal q As String) As Boolean
-        Dim rv As Boolean = False
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim cmd As New OleDbCommand
-                cmd.CommandText = q
-                cmd.Connection = connection
-                Dim datareader As OleDbDataReader = cmd.ExecuteReader()
-                rv = datareader.HasRows
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-        Return rv
-    End Function
+    Protected MustOverride Function GetNewRow(ByRef tableObj As Object) As Object
 
     '//////////////////////////////////////////////////////////////////////////
     ' Method:       HandleRowUpdated
@@ -279,7 +306,7 @@ Public MustInherit Class TObject
                 ' Get the Identity column value
                 eargs.Row("id") = Int32.Parse(_cmdGetIdentity.ExecuteScalar().ToString())
                 eargs.Row.AcceptChanges()
-                _id = eargs.Row("id")
+                ID = eargs.Row("id")
             End If
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog("TObject::HandleRowUpdated, exception: " & e.Message, EventLogEntryType.Error)
@@ -293,24 +320,6 @@ End Class
 ' Purpose:  The base class for collections of classes derived from TObject
 Public MustInherit Class TObjects
     Inherits ObservableCollection(Of Object)
-
-    Public MustOverride Function HasUserActivities(ByVal u As TUser, ByVal c As TContract) As Boolean
-
-    Protected Function CheckForUserActivities(ByVal q As String) As Boolean
-        Dim rv As Boolean = False
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim cmd As New OleDbCommand
-                cmd.CommandText = q
-                cmd.Connection = connection
-                Dim datareader As OleDbDataReader = cmd.ExecuteReader()
-                rv = datareader.HasRows
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-        Return rv
-    End Function
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -377,31 +386,22 @@ End Class
 Public Class TUser
     Inherits TObject
 
-    Private _table As New ISAMSSds.usersDataTable
-    Private Shadows _row As ISAMSSds.usersRow = Nothing
-
-    Private _firstName As String
-    Private _lastName As String
-    Private _logonId As String
-
     Public Sub New()
+        MyBase.New(New ISAMSSds.usersDataTable)
     End Sub
 
     Public Sub New(ByVal logonId As String)
+        MyBase.New(New ISAMSSds.usersDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                '_table.
-                Dim query As String = "select * from users where logonid = '" & logonId & "'"
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE logonid = '" & logonId & "'"
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 adapter.Fill(_table)
 
                 If _table.Rows.Count > 0 Then
-                    _row = _table.Rows.Item(0)
-                    _id = _row.id
-                    _firstName = _row.fname
-                    _lastName = _row.lname
-                    _logonId = _row.logonid
+                    Row = _table.Rows.Item(0)
                 End If
             End Using
         Catch e As OleDb.OleDbException
@@ -410,67 +410,72 @@ Public Class TUser
     End Sub
 
     Public Sub New(ByVal rhs As TUser)
+        MyBase.New(New ISAMSSds.usersDataTable)
+
         If rhs IsNot Nothing Then
-            _id = rhs.ID
-            _firstName = rhs._firstName
-            _lastName = rhs._lastName
-            _logonId = rhs._logonId
+            If _row Is Nothing Then
+                _row = _table.NewusersRow
+            End If
+
+            ID = rhs.ID
+            _row.id = rhs.ID
+            _row.fname = rhs.FirstName
+            _row.lname = rhs.LastName
+            _row.logonid = rhs.LogonID
         End If
     End Sub
 
     Public Sub New(ByVal lname As String, ByVal fname As String, ByVal logonid As String)
-        _lastName = lname
-        _firstName = fname
-        _logonId = logonid
+        MyBase.New(New ISAMSSds.usersDataTable)
+
+        If _row Is Nothing Then
+            _row = _table.NewusersRow
+        End If
+
+        _row.fname = fname
+        _row.lname = lname
+        _row.logonid = logonid
     End Sub
 
-    Public Sub New(ByRef row As ISAMSSds.usersRow)
-        _id = row.id
-        _firstName = row.fname
-        _lastName = row.lname
-        _logonId = row.logonid
+    Public Sub New(ByVal row As ISAMSSds.usersRow)
+        MyBase.New(New ISAMSSds.usersDataTable)
+
+        If _row Is Nothing Then
+            _row = _table.NewusersRow
+        End If
+
+        _row = row
     End Sub
 
-    Public Sub New(ByVal userid As Integer)
+    Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.usersDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "select * from users where id = " + CStr(userid)
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(id)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim usrs As New ISAMSSds.usersDataTable
-                adapter.Fill(usrs)
+                adapter.Fill(_table)
 
-                If usrs.Rows.Count > 0 Then
-                    Dim row As ISAMSSds.usersRow = usrs.Rows.Item(0)
-                    _firstName = row.fname
-                    _lastName = row.lname
-                    _id = row.id
-                    _logonId = row.logonid
+                If _table.Rows.Count > 0 Then
+                    _row = _table.Rows.Item(0)
                 End If
             End Using
         Catch e As OleDb.OleDbException
         End Try
     End Sub
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        If u.ID = _id Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-
     ReadOnly Property FullName() As String
         Get
             Dim sfn As String = "<No Entry>"
             Dim sln As String = "<No Entry>"
 
-            If _firstName.Length > 0 Then
-                sfn = _firstName
+            If _row IsNot Nothing Then
+                sfn = _row.fname
             End If
 
-            If _lastName.Length > 0 Then
-                sln = _lastName
+            If _row IsNot Nothing Then
+                sln = _row.lname
             End If
 
             Return sfn + " " + sln
@@ -479,38 +484,74 @@ Public Class TUser
 
     Property FirstName As String
         Get
-            Return _firstName
+            If _row IsNot Nothing Then
+                Return _row.fname
+            Else
+                Return ""
+            End If
         End Get
         Set(ByVal value As String)
-            _firstName = value
+            If _row Is Nothing Then
+                _row = _table.NewusersRow
+            End If
+            _row.fname = value
         End Set
     End Property
 
     Property LastName As String
         Get
-            Return _lastName
+            If _row IsNot Nothing Then
+                Return _row.lname
+            Else
+                Return ""
+            End If
         End Get
         Set(ByVal value As String)
-            _lastName = value
+            If _row Is Nothing Then
+                _row = _table.NewusersRow
+            End If
+            _row.lname = value
         End Set
     End Property
 
     Property LogonID() As String
-        Set(ByVal value As String)
-            _logonId = value
-        End Set
         Get
-            Return _logonId
+            If _row IsNot Nothing Then
+                Return _row.logonid
+            Else
+                Return ""
+            End If
         End Get
+        Set(ByVal value As String)
+            If _row Is Nothing Then
+                _row = _table.NewusersRow
+            End If
+            _row.logonid = value
+        End Set
     End Property
 
     Protected Overrides Sub AddNewRow(ByRef tableObj As Object)
         Try
             tableObj.AddusersRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(_id) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.usersRow = Nothing
+        Try
+            row = tableObj.NewusersRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TUser::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 
     Public Shadows Function Save() As Boolean
         Dim rv As Boolean = False
@@ -519,15 +560,12 @@ Public Class TUser
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
                 Dim users As New ISAMSSds.usersDataTable
-                If MyBase.StartSave(connection, "users", users) Then
-                    _row.lname = _lastName
-                    _row.fname = _firstName
-                    _row.logonid = _logonId
-                    rv = MyBase.FinishSave(connection, "users", users)
+                If MyBase.StartSave(connection, _table) Then
+                    rv = MyBase.FinishSave(connection, _table)
                 End If
             End Using
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::Save, Exception saving row " & CStr(_id) & " to table users, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::Save, Exception saving row " & CStr(ID) & " to table users, message: " & e.Message, EventLogEntryType.Error)
         End Try
 
         Return rv
@@ -848,10 +886,13 @@ Public Class TContract
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.contractsDataTable)
     End Sub
 
     Public Sub New(ByRef contract As TContract)
-        _id = contract.ID
+        MyBase.New(New ISAMSSds.contractsDataTable)
+
+        ID = contract.ID
         myContractNumber = contract.ContractNumber
         myIsSubContract = contract.SubContract
         myProgramName = contract.ProgramName
@@ -863,6 +904,8 @@ Public Class TContract
     End Sub
 
     Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.contractsDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -876,7 +919,7 @@ Public Class TContract
 
                 If ctx.Rows.Count = 1 Then
                     Dim row As ISAMSSds.contractsRow = ctx.Rows(0)
-                    _id = row.id
+                    id = row.id
                     myContractNumber = row.contract_num
                     myIsSubContract = row.subcontract
                     myProgramName = row.program_name
@@ -889,13 +932,17 @@ Public Class TContract
     End Sub
 
     Public Sub New(ByVal contractNumber As String, ByVal programName As String, ByVal subContract As Boolean)
+        MyBase.New(New ISAMSSds.contractsDataTable)
+
         myContractNumber = contractNumber
         myIsSubContract = subContract
         myProgramName = programName
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.contractsRow)
-        _id = row.id
+        MyBase.New(New ISAMSSds.contractsDataTable)
+
+        ID = row.id
         myContractNumber = row.contract_num
         myIsSubContract = row.subcontract
         myProgramName = row.program_name
@@ -904,17 +951,15 @@ Public Class TContract
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.contractsRow, ByRef u As TUser)
-        _id = row.id
+        MyBase.New(New ISAMSSds.contractsDataTable)
+
+        ID = row.id
         myContractNumber = row.contract_num
         myIsSubContract = row.subcontract
         myProgramName = row.program_name
         mySupplierId = row.supplier_id
         myCustomerId = row.customer_id
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal user As TUser) As Boolean
-        Return CheckForUserActivites("SELECT * FROM contracts WHERE id IN (SELECT contract_id FROM crrs WHERE (contract_id = " & ID & ") AND (user_id = " + CStr(user.ID) + "))")
-    End Function
 
     Property ContractNumber() As String
         Get
@@ -1062,6 +1107,21 @@ Public Class TContract
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.contractsRow = Nothing
+        Try
+            row = tableObj.NewcontractsRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TContract::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Public Sub Refresh()
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
@@ -1077,7 +1137,7 @@ Public Class TContract
 
                 If ctx.Rows.Count = 1 Then
                     Dim row As ISAMSSds.contractsRow = ctx.Rows(0)
-                    _id = row.id
+                    ID = row.id
                     myContractNumber = row.contract_num
                     myIsSubContract = row.subcontract
                     myProgramName = row.program_name
@@ -1126,6 +1186,7 @@ Public Class TContract
     Private mySites As TSites = Nothing
     Private myLods As TLods = Nothing
     Private myActivityClasses As TActivityClasses = Nothing
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1160,9 +1221,12 @@ Public Class TSupplier
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.suppliersDataTable)
     End Sub
 
     Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.suppliersDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -1173,7 +1237,7 @@ Public Class TSupplier
 
                 If supp.Rows.Count = 1 Then
                     Dim row As ISAMSSds.suppliersRow = supp.Rows.Item(0)
-                    _id = row.id
+                    id = row.id
                     myTitle = row.title
                     myDescription = row.description
                 End If
@@ -1183,14 +1247,12 @@ Public Class TSupplier
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.suppliersRow)
-        _id = row.id
+        MyBase.New(New ISAMSSds.suppliersDataTable)
+
+        ID = row.id
         myTitle = row.title
         myDescription = row.description
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
 
     Property Title() As String
         Get
@@ -1273,6 +1335,22 @@ Public Class TSupplier
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.suppliersRow = Nothing
+        Try
+            row = tableObj.NewsuppliersRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TUser::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
+
     Private myTitle As String
     Private myDescription As String
     Private mySites = Nothing
@@ -1310,9 +1388,12 @@ Public Class TCustomer
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.customersDataTable)
     End Sub
 
     Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.customersDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -1323,7 +1404,7 @@ Public Class TCustomer
 
                 If cust.Rows.Count = 1 Then
                     Dim row As ISAMSSds.customersRow = cust.Rows.Item(0)
-                    _id = row.id
+                    id = row.id
                     myTitle = row.title
                     myDescription = row.description
                 End If
@@ -1332,12 +1413,10 @@ Public Class TCustomer
         End Try
     End Sub
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
-
     Public Sub New(ByRef row As ISAMSSds.customersRow)
-        _id = row.id
+        MyBase.New(New ISAMSSds.customersDataTable)
+
+        ID = row.id
         myTitle = row.title
         myDescription = row.description
     End Sub
@@ -1406,6 +1485,21 @@ Public Class TCustomer
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.suppliersRow = Nothing
+        Try
+            row = tableObj.NewsuppliersRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TCustomer::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Private myTitle As String
     Private myDescription As String
 End Class
@@ -1442,9 +1536,12 @@ Public Class TCustomerJournalEntry
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.customer_journal_entriesDataTable)
     End Sub
 
     Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.customer_journal_entriesDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -1455,7 +1552,7 @@ Public Class TCustomerJournalEntry
 
                 If cust.Rows.Count = 1 Then
                     Dim row As ISAMSSds.customer_journal_entriesRow = cust.Rows.Item(0)
-                    _id = row.id
+                    id = row.id
                     _createdAt = row.created_at
                     _customerId = row.customer_id
                     _contractId = row.contract_id
@@ -1470,8 +1567,10 @@ Public Class TCustomerJournalEntry
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.customer_journal_entriesRow)
+        MyBase.New(New ISAMSSds.customer_journal_entriesDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             _createdAt = row.created_at
             _customerId = row.customer_id
             _contractId = row.contract_id
@@ -1484,7 +1583,9 @@ Public Class TCustomerJournalEntry
     End Sub
 
     Public Sub New(ByVal customerId As Integer, ByVal contractId As Integer, ByVal userId As Integer)
-        _id = TObject.InvalidID
+        MyBase.New(New ISAMSSds.customer_journal_entriesDataTable)
+
+        ID = TObject.InvalidID
         _customerId = customerId
         _contractId = contractId
         _userId = userId
@@ -1553,14 +1654,6 @@ Public Class TCustomerJournalEntry
         End Get
     End Property
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        If u.ID = _userId Then
-            Return True
-        Else
-            Return False
-        End If
-    End Function
-
     Public Sub Save()
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
@@ -1616,6 +1709,22 @@ Public Class TCustomerJournalEntry
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.customer_journal_entriesRow = Nothing
+
+        Try
+            row = tableObj.Newcustomer_journal_entriesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TCustomerJournalEntry::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Public Shadows Sub Delete()
         If _attachmentId <> TObject.InvalidID Then
             Attachment.Delete()
@@ -1636,7 +1745,6 @@ End Class
 ' Purpose: Collection class for TCrr
 Public Class TCrrs
     Inherits TObjects
-
 
     Public Sub New(ByRef contract As TContract)
         Try
@@ -1674,9 +1782,6 @@ Public Class TCrrs
         End Try
     End Sub
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser, ByVal c As TContract) As Boolean
-        Return CheckForUserActivities("SELECT id FROM crrs WHERE contract_id = " & c.ID & " AND user_id = " & u.ID)
-    End Function
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1686,12 +1791,16 @@ Public Class TCrr
     Inherits TObject
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
+        MyBase.New(New ISAMSSds.crrsDataTable)
+
         myContract_id = contract.ID
         user_id = user.ID
     End Sub
 
     Public Sub New(ByRef c As ISAMSSds.crrsRow)
-        _id = c.id
+        MyBase.New(New ISAMSSds.crrsDataTable)
+
+        ID = c.id
         date_reviewed = c.date_reviewed
         cost_criticality = c.cost_criticality
         cost_criticality_rationale = c.cost_criticality_rationale
@@ -1711,6 +1820,8 @@ Public Class TCrr
                    ByVal cost_crit As String, ByVal cost_crit_rat As String, _
                    ByVal sched_crit As String, ByVal sched_crit_rat As String, _
                    ByVal tech_crit As String, ByVal tech_crit_rat As String, ByRef u As TUser, Optional ByVal attachment_id As Integer = -1)
+        MyBase.New(New ISAMSSds.crrsDataTable)
+
         myContract_id = contractid
         date_reviewed = dt_rvwd
         cost_criticality = cost_crit
@@ -1722,16 +1833,6 @@ Public Class TCrr
         myAttachmentId = attachment_id
         user_id = u.ID
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Dim rv As Boolean = False
-
-        If u.ID = user_id Then
-            rv = True
-        End If
-
-        Return rv
-    End Function
 
     Property ContractID As Integer
         Get
@@ -1833,7 +1934,7 @@ Public Class TCrr
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT * FROM crrs where id = " + CStr(_id)
+                Dim query As String = "SELECT * FROM crrs where id = " + CStr(ID)
 
                 Dim adapter As New OleDb.OleDbDataAdapter
                 adapter.SelectCommand = New OleDbCommand(query, connection)
@@ -1897,6 +1998,22 @@ Public Class TCrr
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.crrsRow = Nothing
+
+        Try
+            row = tableObj.NewcrrsRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TCrr::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Public Shadows Sub Delete()
         MyBase.Delete("crrs", New ISAMSSds.crrsDataTable)
 
@@ -1945,9 +2062,6 @@ Public Class TLods
         End Try
     End Sub
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser, ByVal c As TContract) As Boolean
-        Return CheckForUserActivities("SELECT id FROM lods WHERE contract_id = " & c.ID & " AND user_id = " & u.ID)
-    End Function
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1957,13 +2071,17 @@ Public Class TLod
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.lodsDataTable)
     End Sub
 
     Public Sub New(ByVal contract As TContract)
+        MyBase.New(New ISAMSSds.lodsDataTable)
         myContractId = contract.ID
     End Sub
 
     Public Sub New(ByVal lodid As Integer)
+        MyBase.New(New ISAMSSds.lodsDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -1974,7 +2092,7 @@ Public Class TLod
 
                 If lods.Rows.Count > 0 Then
                     Dim row As ISAMSSds.lodsRow = lods.Rows.Item(0)
-                    _id = row.id
+                    ID = row.id
                     myEffectiveDate = row.effective_date
                     myIsDelegator = row.delegating
                     myAttachmentId = row.attachment_id
@@ -1987,21 +2105,15 @@ Public Class TLod
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.lodsRow)
-        _id = row.id
+        MyBase.New(New ISAMSSds.lodsDataTable)
+
+        ID = row.id
         myEffectiveDate = row.effective_date
         myIsDelegator = row.delegating
         myAttachmentId = row.attachment_id
         myContractId = row.contract_id
         myUserId = row.user_id
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Dim rv As Boolean = False
-        If u.ID = myUserId Then
-            rv = True
-        End If
-        Return rv
-    End Function
 
     Property EffectiveDate() As Date
         Get
@@ -2130,6 +2242,22 @@ Public Class TLod
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.lodsRow = Nothing
+
+        Try
+            row = tableObj.NewlodRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TLod::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Public Shadows Sub Delete()
         MyBase.Delete("lods", New ISAMSSds.lodsDataTable)
     End Sub
@@ -2212,6 +2340,8 @@ Public Class TAttachment
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.attachmentsDataTable)
+
         myFilename = ""
         myFileExtension = ""
         myFullpath = ""
@@ -2225,6 +2355,8 @@ Public Class TAttachment
     End Sub
 
     Public Sub New(ByVal attachmentid As Integer)
+        MyBase.New(New ISAMSSds.attachmentsDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -2235,7 +2367,7 @@ Public Class TAttachment
 
                 If attachments.Rows.Count = 1 Then
                     Dim row As ISAMSSds.attachmentsRow = attachments.Rows(0)
-                    _id = row.id
+                    ID = row.id
                     myFilename = row.filename
                     myFileExtension = row.file_extension
                     myFullpath = row.fullpath
@@ -2259,7 +2391,9 @@ Public Class TAttachment
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.attachmentsRow)
-        _id = row.id
+        MyBase.New(New ISAMSSds.attachmentsDataTable)
+
+        ID = row.id
         myFilename = row.filename
         myFileExtension = row.file_extension
         myFullpath = row.fullpath
@@ -2368,10 +2502,6 @@ Public Class TAttachment
         End Set
     End Property
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return CheckForUserActivites("SELECT id FROM attachments WHERE user_id = " & u.ID)
-    End Function
-
     Public Sub Save()
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
@@ -2442,9 +2572,25 @@ Public Class TAttachment
         Try
             tableObj.AddattachmentsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(_id) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.attachmentsRow = Nothing
+
+        Try
+            row = tableObj.NewattachmentsRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TAttachment::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 
     Public Shadows Sub Delete()
         MyBase.Delete("attachments", New ISAMSSds.attachmentsDataTable)
@@ -2775,13 +2921,16 @@ Public Class TActivity
     Inherits TObject
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
+        MyBase.New(New ISAMSSds.activitiesDataTable)
         _contractId = contract.ID
         _userId = user.ID
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.activitiesRow)
+        MyBase.New(New ISAMSSds.activitiesDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             _entryDate = row.entry_date
             _activityDate = row.activity_date
             _contractId = row.contract_id
@@ -2850,10 +2999,6 @@ Public Class TActivity
         End Get
     End Property
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return CheckForUserActivites("SELECT id FROM activities WHERE contract_id = " & CStr(_contractId) & " AND user_id = " & CStr(u.ID))
-    End Function
-
     Public Sub Save()
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
@@ -2912,9 +3057,21 @@ Public Class TActivity
 
             tableObj.AddactivitiesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(_id) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.activitiesRow = Nothing
+
+        Try
+            row = tableObj.NewactivitiesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TActivities::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 
     Private Function DeleteActivityClasses() As Boolean
         Dim rv As Boolean = False
@@ -2929,8 +3086,8 @@ Public Class TActivity
                 Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
                 builder.GetDeleteCommand()
 
-                For Each row In tbl.Rows
-                    row.Delete()
+                For Each r In tbl.Rows
+                    r.Delete()
                 Next
 
                 adapter.Update(tbl)
@@ -2958,7 +3115,7 @@ Public Class TActivity
 
                     For Each act In _activityClasses
                         Dim row As ISAMSSds.activity_activity_classesRow = tbl.NewRow
-                        row.activity_id = _id
+                        row.activity_id = ID
                         row.activity_class_id = act.ID
                         tbl.Addactivity_activity_classesRow(row)
                     Next
@@ -3053,15 +3210,19 @@ Public Class TObservation
     Private _attachmentId As Integer = TObject.InvalidID
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.observationsDataTable)
     End Sub
 
     Public Sub New(ByVal activity As TActivity)
+        MyBase.New(New ISAMSSds.lodsDataTable)
         _activityId = activity.ID
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.observationsRow)
+        MyBase.New(New ISAMSSds.lodsDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             _description = row.description
             _nonCompliance = row.noncompliance
             _weakness = row.weakness
@@ -3136,10 +3297,6 @@ Public Class TObservation
         End Get
     End Property
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
-
     Public Sub Save()
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
@@ -3199,6 +3356,22 @@ Public Class TObservation
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.observationsRow = Nothing
+
+        Try
+            row = tableObj.NewobservationsRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TObservation::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Public Shadows Sub Delete()
         Try
             Dim attachment As New TAttachment(_attachmentId)
@@ -3216,15 +3389,15 @@ Public Class TObservation
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(_id)
+                Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim tbl As New ISAMSSds.observation_sami_activitiesDataTable
                 adapter.Fill(tbl)
                 Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
                 builder.GetDeleteCommand()
 
-                For Each row In tbl.Rows
-                    row.Delete()
+                For Each r In tbl.Rows
+                    r.Delete()
                 Next
 
                 adapter.Update(tbl)
@@ -3245,7 +3418,7 @@ Public Class TObservation
             Try
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                     connection.Open()
-                    Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(_id)
+                    Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
                     Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                     Dim tbl As New ISAMSSds.observation_sami_activitiesDataTable
                     adapter.Fill(tbl)
@@ -3254,7 +3427,7 @@ Public Class TObservation
 
                     For Each act In _samiActivites
                         Dim row As ISAMSSds.observation_sami_activitiesRow = tbl.NewRow
-                        row.observation_id = _id
+                        row.observation_id = ID
                         row.sami_activity_id = act.ID
                         tbl.Addobservation_sami_activitiesRow(row)
                     Next
@@ -3299,9 +3472,6 @@ Public Class TSAMIActivityCategories
         End Try
     End Sub
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser, ByVal c As TContract) As Boolean
-        Return False
-    End Function
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -3314,9 +3484,12 @@ Public Class TSAMIActivityCategory
     Private _description As String
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
     End Sub
 
     Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -3337,8 +3510,10 @@ Public Class TSAMIActivityCategory
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.sami_activity_categoriesRow)
+        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             _title = row.title
             _description = row.description
         Catch ex As System.Exception
@@ -3347,7 +3522,9 @@ Public Class TSAMIActivityCategory
     End Sub
 
     Public Sub New(ByVal rhs As TSAMIActivityCategory)
-        _id = rhs.ID
+        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+
+        ID = rhs.ID
         _title = rhs._title
         _description = rhs._description
     End Sub
@@ -3370,13 +3547,25 @@ Public Class TSAMIActivityCategory
         End Set
     End Property
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
-
     Protected Overrides Sub AddNewRow(ByRef tableObj As Object)
 
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.sami_activity_categoriesRow = Nothing
+
+        Try
+            row = tableObj.Newsami_activity_categoriesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TSAMIActivityCategory::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -3507,10 +3696,6 @@ Public Class TSAMIActivities
         End Try
     End Sub
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser, ByVal c As TContract) As Boolean
-        Return True
-    End Function
-
     Public Shared Operator +(ByVal lhs As TSAMIActivities, ByVal rhs As TSAMIActivities) As TSAMIActivities
         Dim rv As New TSAMIActivities(lhs)
 
@@ -3566,11 +3751,14 @@ Public Class TSAMIActivity
     Private _as9100Id As Integer = TObject.InvalidID
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable)
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.sami_activitiesRow)
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             _code = row.code
             _title = row.title
             _description = row.description
@@ -3641,13 +3829,25 @@ Public Class TSAMIActivity
         End Set
     End Property
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return True
-    End Function
-
     Protected Overrides Sub AddNewRow(ByRef tableObj As Object)
 
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.sami_activitiesRow = Nothing
+
+        Try
+            row = tableObj.Newsami_activitiesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TSAMIActivity::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 
 End Class
 
@@ -3751,20 +3951,26 @@ Public Class TSite
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.sitesDataTable)
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.sitesRow)
-        _id = row.id
+        MyBase.New(New ISAMSSds.sitesDataTable)
+
+        ID = row.id
         mySiteName = row.site_name
         myLocation = row.location
         mySupplier_id = row.supplier_id
     End Sub
 
     Public Sub New(ByVal supplier As TSupplier)
+        MyBase.New(New ISAMSSds.sitesDataTable)
         mySupplier_id = supplier.ID
     End Sub
 
     Public Sub New(ByVal siteid As Integer)
+        MyBase.New(New ISAMSSds.sitesDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -3778,7 +3984,7 @@ Public Class TSite
 
                 If sites.Rows.Count = 1 Then
                     Dim row As ISAMSSds.sitesRow = sites.Rows(0)
-                    _id = row.id
+                    ID = row.id
                     mySiteName = row.site_name
                     myLocation = row.location
                     mySupplier_id = row.supplier_id
@@ -3790,15 +3996,13 @@ Public Class TSite
     End Sub
 
     Public Sub New(ByRef site As TSite)
-        _id = site.ID
+        MyBase.New(New ISAMSSds.sitesDataTable)
+
+        ID = site.ID
         mySiteName = site.SiteName
         myLocation = site.Location
         mySupplier_id = site.SupplierID
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
 
     Public Sub Save()
         Try
@@ -3847,6 +4051,22 @@ Public Class TSite
     Protected Overrides Sub AddNewRow(ByRef tableObj As Object)
 
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.sitesRow = Nothing
+
+        Try
+            row = tableObj.NewsitesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TSite::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 
     Property SiteName As String
         Get
@@ -3941,17 +4161,23 @@ Public Class TContractSite
     Inherits TObject
 
     Public Sub New(ByRef contract As TContract, ByRef site As TSite)
+        MyBase.New(New ISAMSSds.contract_sitesDataTable)
+
         myContract_id = contract.ID
         mySite_id = site.ID
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.contract_sitesRow)
-        _id = row.id
+        MyBase.New(New ISAMSSds.contract_sitesDataTable)
+
+        ID = row.id
         myContract_id = row.contract_id
         mySite_id = row.site_id
     End Sub
 
     Public Sub New(ByVal contractsiteid As Integer)
+        MyBase.New(New ISAMSSds.contract_sitesDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -3965,7 +4191,7 @@ Public Class TContractSite
 
                 If sites.Rows.Count = 1 Then
                     Dim row As ISAMSSds.contract_sitesRow = sites.Rows(0)
-                    _id = row.id
+                    ID = row.id
                     myContract_id = row.contract_id
                     mySite_id = row.site_id
                 End If
@@ -3974,10 +4200,6 @@ Public Class TContractSite
         Catch e As OleDb.OleDbException
         End Try
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
 
     Property ContractID As Integer
         Get
@@ -4039,6 +4261,22 @@ Public Class TContractSite
     Protected Overrides Sub AddNewRow(ByRef tableObj As Object)
 
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.contract_sitesRow = Nothing
+
+        Try
+            row = tableObj.Newcontract_sitesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TContractSite::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 
     Private myContract_id As Integer
     Private mySite_id As Integer
@@ -4155,11 +4393,14 @@ Public Class TPSSP
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.psspsDataTable)
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.psspsRow)
+        MyBase.New(New ISAMSSds.psspsDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             myContractId = row.contract_id
             myAttachmentId = row.attachment_id
             myUserId = row.user_id
@@ -4173,6 +4414,8 @@ Public Class TPSSP
     End Sub
 
     Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.psspsDataTable)
+
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
@@ -4183,7 +4426,7 @@ Public Class TPSSP
 
                 If pssps.Rows.Count = 1 Then
                     Dim row As ISAMSSds.psspsRow = pssps.Rows(0)
-                    _id = row.id
+                    id = row.id
                     myContractId = row.contract_id
                     myAttachmentId = row.attachment_id
                     myUserId = row.user_id
@@ -4199,16 +4442,14 @@ Public Class TPSSP
     End Sub
 
     Public Sub New(ByVal pssp As TPSSP)
-        _id = pssp.ID
+        MyBase.New(New ISAMSSds.psspsDataTable)
+
+        ID = pssp.ID
         myContractId = pssp.myContractId
         myAttachmentId = pssp.myContractId
         myUserId = pssp.myUserId
         myMetadata = pssp.myMetadata
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
 
     ReadOnly Property User As TUser
         Get
@@ -4317,6 +4558,22 @@ Public Class TPSSP
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.psspsRow = Nothing
+
+        Try
+            row = tableObj.NewpsspsRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TPSSP::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Public Shadows Sub Delete()
         Dim attachment As New TAttachment(myAttachmentId)
         attachment.Delete()
@@ -4365,16 +4622,21 @@ Public Class TPSSPHistory
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.pssp_historiesDataTable)
     End Sub
 
     Public Sub New(ByVal psspId As Integer, ByVal userId As Integer)
+        MyBase.New(New ISAMSSds.pssp_historiesDataTable)
+
         myPsspId = psspId
         myUserId = userId
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.pssp_historiesRow)
+        MyBase.New(New ISAMSSds.pssp_historiesDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             myPsspId = row.pssp_id
             myActionDate = row.action_date
             myUserId = row.user_id
@@ -4453,10 +4715,6 @@ Public Class TPSSPHistory
         End Set
     End Property
 
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
-
     Public Sub Save()
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
@@ -4509,6 +4767,22 @@ Public Class TPSSPHistory
 
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.pssp_historiesRow = Nothing
+
+        Try
+            row = tableObj.Newpssp_historiesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("TPSSPHistory::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
+
     Public Shadows Sub Delete()
         If _attachmentId <> TObject.InvalidID Then
             Dim attachment As New TAttachment(_attachmentId)
@@ -4559,9 +4833,11 @@ Public Class THistoryActionClass
     Inherits TObject
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.history_action_classesDataTable)
     End Sub
 
     Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.history_action_classesDataTable)
 
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
@@ -4582,17 +4858,15 @@ Public Class THistoryActionClass
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.history_action_classesRow)
+        MyBase.New(New ISAMSSds.history_action_classesDataTable)
+
         Try
-            _id = row.id
+            ID = row.id
             myTitle = row.title
             myDescription = row.description
         Catch e As OleDb.OleDbException
         End Try
     End Sub
-
-    Public Overrides Function HasUserActivities(ByVal u As TUser) As Boolean
-        Return False
-    End Function
 
     Property Title As String
         Get
@@ -4615,6 +4889,22 @@ Public Class THistoryActionClass
     Protected Overrides Sub AddNewRow(ByRef tableObj As Object)
 
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Function GetNewRow(ByRef tableObj As Object) As Object
+        Dim row As ISAMSSds.history_action_classesRow = Nothing
+
+        Try
+            row = tableObj.Newhistory_action_classesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog("THistoryActionClass::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return row
+    End Function
 
     Private myTitle As String
     Private myDescription As String

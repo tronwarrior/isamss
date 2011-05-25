@@ -177,7 +177,7 @@ Public Class TTreeView
         ' Set the contract's customer.
         Dim custTvi As New TreeViewItem
         SetBranchFontWeight(custTvi, False)
-        SetBranchForeground(custTvi, ct.HasUserActivities(u))
+        'SetBranchForeground(custTvi, ct.HasUserActivities(u))
         custTvi.Header = "Customer: " & ct.Customer().Title()
         custTvi.Tag = ct.Customer()
         custTvi.TabIndex = BranchTabIndices.customerTab
@@ -187,7 +187,7 @@ Public Class TTreeView
     Private Function BuildSupplierBranch(ByVal ct As TContract, ByVal u As TUser)
         Dim suppTvi As New TreeViewItem
         SetBranchFontWeight(suppTvi, False)
-        SetBranchForeground(suppTvi, ct.HasUserActivities(u))
+        'SetBranchForeground(suppTvi, ct.HasUserActivities(u))
         suppTvi.Header = "Supplier: " & ct.Supplier().Title()
         suppTvi.Tag = ct.Supplier()
         suppTvi.TabIndex = BranchTabIndices.crrTab
@@ -197,7 +197,7 @@ Public Class TTreeView
     Private Function BuildCRRBranch(ByVal ct As TContract, ByVal u As TUser) As TreeViewItem
         Dim crrTvi As New TreeViewItem
         SetBranchFontWeight(crrTvi, False)
-        SetBranchForeground(crrTvi, ct.CRRs.HasUserActivities(u, ct))
+        'SetBranchForeground(crrTvi, ct.CRRs.HasUserActivities(u, ct))
         crrTvi.Header = "CR&R " & "(" & ct.CRRs.Count & ")"
         crrTvi.TabIndex = BranchTabIndices.crrTab
         crrTvi.Tag = ct.CRRs
@@ -210,7 +210,7 @@ Public Class TTreeView
     Private Function BuildLODBranch(ByVal ct As TContract, ByVal u As TUser) As TreeViewItem
         Dim lodTvi As New TreeViewItem
         SetBranchFontWeight(lodTvi, False)
-        SetBranchForeground(lodTvi, ct.LODs.HasUserActivities(u, ct))
+        'SetBranchForeground(lodTvi, ct.LODs.HasUserActivities(u, ct))
         lodTvi.Header = "LOD " & "(" & ct.LODs.Count & ")"
         lodTvi.TabIndex = BranchTabIndices.customerTab
         lodTvi.Tag = ct.LODs
@@ -222,7 +222,7 @@ Public Class TTreeView
     Private Function BuildSurveillanceBranch(ByVal ct As TContract, ByVal u As TUser) As TreeViewItem
         Dim survTvi As New TreeViewItem
         SetBranchFontWeight(survTvi, False)
-        SetBranchForeground(survTvi, ct.HasUserActivities(u))
+        'SetBranchForeground(survTvi, ct.HasUserActivities(u))
         survTvi.Header = "Surveillance " & "(" & ct.ActivityClasses.Count & ")"
         survTvi.Tag = ct
         survTvi.TabIndex = BranchTabIndices.surveillanceTab
@@ -231,7 +231,7 @@ Public Class TTreeView
         For Each actclass In ct.ActivityClasses
             ' Create a node for this activity class.
             Dim ac As New TreeViewItem
-            SetBranchForeground(ac, ct.HasUserActivities(u))
+            'SetBranchForeground(ac, ct.HasUserActivities(u))
             ac.Header = actclass.Title() & " (" & actclass.Activities.Count & ")"
             ac.Tag = actclass
             ac.TabIndex = BranchTabIndices.surveillanceTab
@@ -258,7 +258,7 @@ Public Class TTreeView
 
     Private Sub PopulateContractBranch(ByRef ctTvi As TreeViewItem, ByVal ct As TContract, ByVal u As TUser)
         SetBranchFontWeight(ctTvi, True)
-        SetBranchForeground(ctTvi, ct.HasUserActivities(u))
+        'SetBranchForeground(ctTvi, ct.HasUserActivities(u))
         ctTvi.Header = ct.ContractNumber() + ": " + ct.ProgramName()
         ctTvi.Tag = ct
         ctTvi.TabIndex = BranchTabIndices.crrTab
