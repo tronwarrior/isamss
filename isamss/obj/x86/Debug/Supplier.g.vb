@@ -36,94 +36,94 @@ Imports System.Windows.Shapes
 '''<summary>
 '''SupplierForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
 Partial Public Class SupplierForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
-
-
+    
+    
     #ExternalSource("..\..\..\Supplier.xaml",6)
     Friend WithEvents Label1 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Supplier.xaml",7)
     Friend WithEvents txtTitle As System.Windows.Controls.TextBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Supplier.xaml",8)
     Friend WithEvents Label2 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Supplier.xaml",9)
     Friend WithEvents txtDescription As System.Windows.Controls.TextBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Supplier.xaml",10)
     Friend WithEvents btnCancel As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Supplier.xaml",11)
     Friend WithEvents btnSave As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
+    
     Private _contentLoaded As Boolean
-
+    
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = True
+        _contentLoaded = true
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/supplier.xaml", System.UriKind.Relative)
-
+        
         #ExternalSource("..\..\..\Supplier.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-
+        
         #End ExternalSource
     End Sub
-
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")> _
+    
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.Label1 = CType(target, System.Windows.Controls.Label)
+            Me.Label1 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 2) Then
-            Me.txtTitle = CType(target, System.Windows.Controls.TextBox)
+            Me.txtTitle = CType(target,System.Windows.Controls.TextBox)
             Return
         End If
         If (connectionId = 3) Then
-            Me.Label2 = CType(target, System.Windows.Controls.Label)
+            Me.Label2 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 4) Then
-            Me.txtDescription = CType(target, System.Windows.Controls.TextBox)
+            Me.txtDescription = CType(target,System.Windows.Controls.TextBox)
             Return
         End If
         If (connectionId = 5) Then
-            Me.btnCancel = CType(target, System.Windows.Controls.Button)
+            Me.btnCancel = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 6) Then
-            Me.btnSave = CType(target, System.Windows.Controls.Button)
+            Me.btnSave = CType(target,System.Windows.Controls.Button)
             Return
         End If
-        Me._contentLoaded = True
+        Me._contentLoaded = true
     End Sub
 End Class

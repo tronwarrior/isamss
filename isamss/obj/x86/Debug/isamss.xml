@@ -260,31 +260,11 @@ Represents the strongly named DataTable class.
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.sitesDataTable">
-	<summary>
-Represents the strongly named DataTable class.
-</summary>
 </member><member name="T:isamss.ISAMSSds.contract_sitesDataTable">
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
 </member><member name="T:isamss.ISAMSSds.lodsDataTable">
-	<summary>
-Represents the strongly named DataTable class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.psspsDataTable">
-	<summary>
-Represents the strongly named DataTable class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.pssp_historiesDataTable">
-	<summary>
-Represents the strongly named DataTable class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.history_action_classesDataTable">
-	<summary>
-Represents the strongly named DataTable class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.customer_journal_entriesDataTable">
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
@@ -305,6 +285,26 @@ Represents the strongly named DataTable class.
 Represents the strongly named DataTable class.
 </summary>
 </member><member name="T:isamss.ISAMSSds.attachmentsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.psspsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.customer_journal_entriesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.supplier_sitesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.pssp_historiesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.history_action_classesDataTable">
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
@@ -364,31 +364,11 @@ Represents strongly named DataRow class.
 	<summary>
 Represents strongly named DataRow class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.sitesRow">
-	<summary>
-Represents strongly named DataRow class.
-</summary>
 </member><member name="T:isamss.ISAMSSds.contract_sitesRow">
 	<summary>
 Represents strongly named DataRow class.
 </summary>
 </member><member name="T:isamss.ISAMSSds.lodsRow">
-	<summary>
-Represents strongly named DataRow class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.psspsRow">
-	<summary>
-Represents strongly named DataRow class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.pssp_historiesRow">
-	<summary>
-Represents strongly named DataRow class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.history_action_classesRow">
-	<summary>
-Represents strongly named DataRow class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.customer_journal_entriesRow">
 	<summary>
 Represents strongly named DataRow class.
 </summary>
@@ -409,6 +389,26 @@ Represents strongly named DataRow class.
 Represents strongly named DataRow class.
 </summary>
 </member><member name="T:isamss.ISAMSSds.attachmentsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.psspsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.customer_journal_entriesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.supplier_sitesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.pssp_historiesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.history_action_classesRow">
 	<summary>
 Represents strongly named DataRow class.
 </summary>
@@ -468,31 +468,11 @@ Row event argument class
 	<summary>
 Row event argument class
 </summary>
-</member><member name="T:isamss.ISAMSSds.sitesRowChangeEvent">
-	<summary>
-Row event argument class
-</summary>
 </member><member name="T:isamss.ISAMSSds.contract_sitesRowChangeEvent">
 	<summary>
 Row event argument class
 </summary>
 </member><member name="T:isamss.ISAMSSds.lodsRowChangeEvent">
-	<summary>
-Row event argument class
-</summary>
-</member><member name="T:isamss.ISAMSSds.psspsRowChangeEvent">
-	<summary>
-Row event argument class
-</summary>
-</member><member name="T:isamss.ISAMSSds.pssp_historiesRowChangeEvent">
-	<summary>
-Row event argument class
-</summary>
-</member><member name="T:isamss.ISAMSSds.history_action_classesRowChangeEvent">
-	<summary>
-Row event argument class
-</summary>
-</member><member name="T:isamss.ISAMSSds.customer_journal_entriesRowChangeEvent">
 	<summary>
 Row event argument class
 </summary>
@@ -513,6 +493,26 @@ Row event argument class
 Row event argument class
 </summary>
 </member><member name="T:isamss.ISAMSSds.attachmentsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.psspsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.customer_journal_entriesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.supplier_sitesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.pssp_historiesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.history_action_classesRowChangeEvent">
 	<summary>
 Row event argument class
 </summary>
@@ -576,31 +576,11 @@ Represents the connection and commands used to retrieve and save data.
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.sitesTableAdapter">
-	<summary>
-Represents the connection and commands used to retrieve and save data.
-</summary>
 </member><member name="T:isamss.ISAMSSdsTableAdapters.contract_sitesTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
 </member><member name="T:isamss.ISAMSSdsTableAdapters.lodsTableAdapter">
-	<summary>
-Represents the connection and commands used to retrieve and save data.
-</summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.psspsTableAdapter">
-	<summary>
-Represents the connection and commands used to retrieve and save data.
-</summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.pssp_historiesTableAdapter">
-	<summary>
-Represents the connection and commands used to retrieve and save data.
-</summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.history_action_classesTableAdapter">
-	<summary>
-Represents the connection and commands used to retrieve and save data.
-</summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.customer_journal_entriesTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
@@ -621,6 +601,26 @@ Represents the connection and commands used to retrieve and save data.
 Represents the connection and commands used to retrieve and save data.
 </summary>
 </member><member name="T:isamss.ISAMSSdsTableAdapters.attachmentsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.psspsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.customer_journal_entriesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.supplier_sitesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.pssp_historiesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.history_action_classesTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>

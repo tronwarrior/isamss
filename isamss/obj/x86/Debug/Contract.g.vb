@@ -36,224 +36,224 @@ Imports System.Windows.Shapes
 '''<summary>
 '''ContractForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
 Partial Public Class ContractForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",6)
     Friend WithEvents btn_save As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",7)
     Friend WithEvents btn_cancel As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",8)
     Friend WithEvents GroupBox1 As System.Windows.Controls.GroupBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",10)
     Friend WithEvents txtContractNumber As System.Windows.Controls.TextBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",11)
     Friend WithEvents label1 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",12)
     Friend WithEvents cbo_supplier As System.Windows.Controls.ComboBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",13)
     Friend WithEvents label2 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",14)
     Friend WithEvents label3 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",15)
     Friend WithEvents cbo_customer As System.Windows.Controls.ComboBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",16)
     Friend WithEvents chk_subcontract As System.Windows.Controls.CheckBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",17)
     Friend WithEvents txtProgramName As System.Windows.Controls.TextBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",18)
     Friend WithEvents label4 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",19)
     Friend WithEvents btnAddSupplier As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",20)
     Friend WithEvents btnAddCustomer As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",21)
     Friend WithEvents label12 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",22)
     Friend WithEvents btnAddSupplierSite As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",23)
     Friend WithEvents lstvwContractSites As System.Windows.Controls.ListView
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",39)
     Friend WithEvents Label5 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Contract.xaml",40)
     Friend WithEvents lstvwSupplierSites As System.Windows.Controls.ListView
-
+    
     #End ExternalSource
-
+    
     Private _contentLoaded As Boolean
-
+    
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = True
+        _contentLoaded = true
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/contract.xaml", System.UriKind.Relative)
-
+        
         #ExternalSource("..\..\..\Contract.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-
+        
         #End ExternalSource
     End Sub
-
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")> _
+    
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.btn_save = CType(target, System.Windows.Controls.Button)
+            Me.btn_save = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 2) Then
-            Me.btn_cancel = CType(target, System.Windows.Controls.Button)
+            Me.btn_cancel = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 3) Then
-            Me.GroupBox1 = CType(target, System.Windows.Controls.GroupBox)
+            Me.GroupBox1 = CType(target,System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 4) Then
-            Me.txtContractNumber = CType(target, System.Windows.Controls.TextBox)
+            Me.txtContractNumber = CType(target,System.Windows.Controls.TextBox)
             Return
         End If
         If (connectionId = 5) Then
-            Me.label1 = CType(target, System.Windows.Controls.Label)
+            Me.label1 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 6) Then
-            Me.cbo_supplier = CType(target, System.Windows.Controls.ComboBox)
+            Me.cbo_supplier = CType(target,System.Windows.Controls.ComboBox)
             Return
         End If
         If (connectionId = 7) Then
-            Me.label2 = CType(target, System.Windows.Controls.Label)
+            Me.label2 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 8) Then
-            Me.label3 = CType(target, System.Windows.Controls.Label)
+            Me.label3 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 9) Then
-            Me.cbo_customer = CType(target, System.Windows.Controls.ComboBox)
+            Me.cbo_customer = CType(target,System.Windows.Controls.ComboBox)
             Return
         End If
         If (connectionId = 10) Then
-            Me.chk_subcontract = CType(target, System.Windows.Controls.CheckBox)
+            Me.chk_subcontract = CType(target,System.Windows.Controls.CheckBox)
             Return
         End If
         If (connectionId = 11) Then
-            Me.txtProgramName = CType(target, System.Windows.Controls.TextBox)
+            Me.txtProgramName = CType(target,System.Windows.Controls.TextBox)
             Return
         End If
         If (connectionId = 12) Then
-            Me.label4 = CType(target, System.Windows.Controls.Label)
+            Me.label4 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 13) Then
-            Me.btnAddSupplier = CType(target, System.Windows.Controls.Button)
+            Me.btnAddSupplier = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 14) Then
-            Me.btnAddCustomer = CType(target, System.Windows.Controls.Button)
+            Me.btnAddCustomer = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 15) Then
-            Me.label12 = CType(target, System.Windows.Controls.Label)
+            Me.label12 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 16) Then
-            Me.btnAddSupplierSite = CType(target, System.Windows.Controls.Button)
+            Me.btnAddSupplierSite = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 17) Then
-            Me.lstvwContractSites = CType(target, System.Windows.Controls.ListView)
+            Me.lstvwContractSites = CType(target,System.Windows.Controls.ListView)
             Return
         End If
         If (connectionId = 18) Then
-            Me.Label5 = CType(target, System.Windows.Controls.Label)
+            Me.Label5 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 19) Then
-            Me.lstvwSupplierSites = CType(target, System.Windows.Controls.ListView)
+            Me.lstvwSupplierSites = CType(target,System.Windows.Controls.ListView)
             Return
         End If
-        Me._contentLoaded = True
+        Me._contentLoaded = true
     End Sub
 End Class

@@ -38,154 +38,154 @@ Imports System.Windows.Shapes
 '''<summary>
 '''ActivityForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
 Partial Public Class ActivityForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",6)
     Friend WithEvents GroupBox1 As System.Windows.Controls.GroupBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",8)
     Friend WithEvents lstvwObservations As System.Windows.Controls.ListView
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",18)
     Friend WithEvents btnNewObservation As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",21)
     Friend WithEvents GroupBox2 As System.Windows.Controls.GroupBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",23)
     Friend WithEvents Label4 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",24)
     Friend WithEvents lstvwThisActivityClasses As System.Windows.Controls.ListView
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",36)
     Friend WithEvents Label2 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",37)
     Friend WithEvents lstvwActivityClasses As System.Windows.Controls.ListView
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",51)
     Friend WithEvents btn_save As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",52)
     Friend WithEvents btn_cancel As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",53)
     Friend WithEvents GroupBox3 As System.Windows.Controls.GroupBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Activity.xaml",55)
     Friend WithEvents dtActivityDate As Microsoft.Windows.Controls.DatePicker
-
+    
     #End ExternalSource
-
+    
     Private _contentLoaded As Boolean
-
+    
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = True
+        _contentLoaded = true
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/activity.xaml", System.UriKind.Relative)
-
+        
         #ExternalSource("..\..\..\Activity.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-
+        
         #End ExternalSource
     End Sub
-
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")> _
+    
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.GroupBox1 = CType(target, System.Windows.Controls.GroupBox)
+            Me.GroupBox1 = CType(target,System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 2) Then
-            Me.lstvwObservations = CType(target, System.Windows.Controls.ListView)
+            Me.lstvwObservations = CType(target,System.Windows.Controls.ListView)
             Return
         End If
         If (connectionId = 3) Then
-            Me.btnNewObservation = CType(target, System.Windows.Controls.Button)
+            Me.btnNewObservation = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 4) Then
-            Me.GroupBox2 = CType(target, System.Windows.Controls.GroupBox)
+            Me.GroupBox2 = CType(target,System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 5) Then
-            Me.Label4 = CType(target, System.Windows.Controls.Label)
+            Me.Label4 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 6) Then
-            Me.lstvwThisActivityClasses = CType(target, System.Windows.Controls.ListView)
+            Me.lstvwThisActivityClasses = CType(target,System.Windows.Controls.ListView)
             Return
         End If
         If (connectionId = 7) Then
-            Me.Label2 = CType(target, System.Windows.Controls.Label)
+            Me.Label2 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 8) Then
-            Me.lstvwActivityClasses = CType(target, System.Windows.Controls.ListView)
+            Me.lstvwActivityClasses = CType(target,System.Windows.Controls.ListView)
             Return
         End If
         If (connectionId = 9) Then
-            Me.btn_save = CType(target, System.Windows.Controls.Button)
+            Me.btn_save = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 10) Then
-            Me.btn_cancel = CType(target, System.Windows.Controls.Button)
+            Me.btn_cancel = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 11) Then
-            Me.GroupBox3 = CType(target, System.Windows.Controls.GroupBox)
+            Me.GroupBox3 = CType(target,System.Windows.Controls.GroupBox)
             Return
         End If
         If (connectionId = 12) Then
-            Me.dtActivityDate = CType(target, Microsoft.Windows.Controls.DatePicker)
+            Me.dtActivityDate = CType(target,Microsoft.Windows.Controls.DatePicker)
             Return
         End If
-        Me._contentLoaded = True
+        Me._contentLoaded = true
     End Sub
 End Class
