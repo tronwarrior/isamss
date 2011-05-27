@@ -305,7 +305,7 @@ Class MainWindow
         Dim je As TCustomerJournalEntry = lstvwCustomerJournal.SelectedItem
 
         If je IsNot Nothing Then
-            If je.UserId = Application.CurrentUser.ID Then
+            If je.CreatorId = Application.CurrentUser.ID Then
                 je.Delete()
                 ttvContractsQuickview.CurrentContract.Refresh()
                 ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)

@@ -7,7 +7,7 @@
         InitializeComponent()
 
         ' Add any initialization after the InitializeComponent() call.
-        myCrr = New TCrr(contract, Application.CurrentUser)
+        myCrr = New TCrr(contract)
 
         _formDirty = False
         btn_save.IsEnabled = False

@@ -190,7 +190,7 @@
                 <TreeViewItem>
                 </TreeViewItem>
             </MyNamespace:TTreeView>
-            <Button Content="Refresh Quickview" Height="23" HorizontalAlignment="Left" Margin="131,5,0,0" Name="btnRefresh" TabIndex="0" VerticalAlignment="Top" Width="100" />
+            <Button Content="Refresh Quickview" Height="23" HorizontalAlignment="Left" Margin="129,5,0,0" Name="btnRefresh" TabIndex="0" VerticalAlignment="Top" Width="100" />
             <Button Content="New Contract" Height="23" HorizontalAlignment="Left" Margin="248,5,0,0" Name="btnNewContract" TabIndex="0" VerticalAlignment="Top" Width="100" />
         </Grid>
     </Grid>

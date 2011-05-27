@@ -49,7 +49,7 @@
             txtInteractionNotes.Text = _journalEntry.Description
             tspAttachment.Attachment = _journalEntry.Attachment
         Else
-            _journalEntry = New TCustomerJournalEntry(_contract.Customer.ID, _contract.ID, Application.CurrentUser.ID)
+            _journalEntry = New TCustomerJournalEntry(_contract.Customer.ID, _contract.ID)
         End If
 
         _formDirty = False

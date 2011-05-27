@@ -43,10 +43,17 @@
         _contract = New TContract(txt_newContractNumber.Text, txtProgramName.Text, chk_subcontract.IsChecked)
         _contract.Supplier = cbo_supplier.Items(cbo_supplier.SelectedIndex).Tag
         _contract.Customer = cbo_customer.Items(cbo_customer.SelectedIndex).Tag
-        Dim crr As New TCrr(_contract.ID, dtpicker_reviewed.SelectedDate.Value, cbo_costCriticality.SelectedItem.Content, _
-                            txt_costRationale.Text, cbo_schedCriticality.SelectedItem.Content, txt_schedRationale.Text, _
-                            cbo_techCriticality.SelectedItem.Content, txt_techRationale.Text, Application.CurrentUser())
+
+        Dim crr As New TCrr(_contract)
+        crr.DateReviewed = dtpicker_reviewed.SelectedDate.Value
+        crr.CostCriticality = cbo_costCriticality.SelectedItem.Content()
+        crr.CostCriticalityRationale = txt_costRationale.Text
+        crr.ScheduleCriticality = cbo_schedCriticality.SelectedItem.Content()
+        crr.ScheduleCriticalityRationale = txt_schedRationale.Text
+        crr.TechnicalCriticality = cbo_techCriticality.SelectedItem.Content()
+        crr.TechnicalCriticalityRationale = txt_techRationale.Text
         crr.AttachmentId = tspAttachment.Attachment.ID
+
         _contract.CRRs.Add(crr)
 
         For Each s In lstvwContractSites.ItemsSource

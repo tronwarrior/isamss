@@ -145,11 +145,6 @@ Class Application
         Try
             _appEventLog = New EventLog
 
-            Dim c As New TContract("123456789", "TEST", False)
-            c.Supplier = New TSupplier(4634)
-            c.Customer = New TCustomer(4631)
-            c.Save()
-
             'Register the App as an Event Source
             If Not EventLog.SourceExists(Me.Info.Title) Then
                 EventLog.CreateEventSource(Me.Info.Title, "Application")
