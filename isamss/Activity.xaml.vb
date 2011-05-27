@@ -20,11 +20,11 @@
 
     Private Sub Window_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
         If _activity Is Nothing Then
-            _activity = New TActivity(_contract, Application.CurrentUser)
+            _activity = New TActivity(_contract)
             _activityClasses = New TActivityClasses
             _activityClassesForThis = New TActivityClasses(False)
         Else
-            dtActivityDate.SelectedDate = _activity.ActivityDate
+            dtActivityDate.SelectedDate = _activity.StartDate
             _activityClassesForThis = New TActivityClasses(_activity)
             _activityClasses = New TActivityClasses((New TActivityClasses) - _activityClassesForThis)
         End If
@@ -44,8 +44,11 @@
             MsgBox("All entries must be complete.", MsgBoxStyle.OkOnly, "ISAMMS")
         Else
             _activity.EntryDate = Date.Now
-            _activity.ActivityDate = dtActivityDate.SelectedDate
-            _activity.ActivityClasses = _activityClassesForThis
+            _activity.StartDate = dtActivityDate.SelectedDate
+
+            For Each a In _activityClassesForThis
+                _activity.AddActivityClass(a)
+            Next
             _activity.Save()
             rv = True
         End If

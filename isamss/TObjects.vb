@@ -929,10 +929,7 @@ Public Class TContract
 
     ReadOnly Property CRRs As TCrrs
         Get
-            If _crrs Is Nothing Then
-                _crrs = New TCrrs(Me)
-            End If
-            Return _crrs
+            Return New TCrrs(Me)
         End Get
     End Property
 
@@ -957,10 +954,7 @@ Public Class TContract
 
     ReadOnly Property LODs As TLods
         Get
-            If _lods Is Nothing Then
-                _lods = New TLods(Me)
-            End If
-            Return _lods
+            Return New TLods(Me)
         End Get
     End Property
 
@@ -1509,174 +1503,149 @@ Public Class TCrr
         _row = row
     End Sub
 
-    ' TODO: !!! Start here
-
     Property ContractID As Integer
         Get
-            Return myContract_id
+            If _row.Iscontract_idNull Then
+                Return INVALID_ID
+            Else
+                Return _row.contract_id
+            End If
         End Get
         Set(ByVal value As Integer)
-            myContract_id = value
+            _row.contract_id = value
         End Set
     End Property
 
     Property DateReviewed() As Date
         Get
-            Return date_reviewed
+            If _row.Isdate_reviewedNull Then
+                Return ""
+            Else
+                Return _row.date_reviewed
+            End If
         End Get
         Set(ByVal value As Date)
-            date_reviewed = value
+            _row.date_reviewed = value
         End Set
     End Property
 
     Property CostCriticality() As String
         Get
-            Return cost_criticality
+            If _row.Iscost_criticalityNull Then
+                Return ""
+            Else
+                Return _row.cost_criticality
+            End If
         End Get
         Set(ByVal value As String)
-            cost_criticality = value
+            _row.cost_criticality = value
         End Set
     End Property
 
     Property CostCriticalityRationale() As String
         Get
-            Return cost_criticality_rationale
+            If _row.Iscost_criticality_rationaleNull Then
+                Return ""
+            Else
+                Return _row.cost_criticality_rationale
+            End If
         End Get
         Set(ByVal value As String)
-            cost_criticality_rationale = value
+            _row.cost_criticality_rationale = value
         End Set
     End Property
 
     Property ScheduleCriticality() As String
         Get
-            Return schedule_criticality
+            If _row.Isschedule_criticalityNull Then
+                Return ""
+            Else
+                Return _row.schedule_criticality
+            End If
         End Get
         Set(ByVal value As String)
-            schedule_criticality = value
+            _row.schedule_criticality = value
         End Set
     End Property
 
     Property ScheduleCriticalityRationale() As String
         Get
-            Return schedule_criticality_rationale
+            If _row.Isschedule_criticality_rationaleNull Then
+                Return ""
+            Else
+                Return _row.schedule_criticality_rationale
+            End If
         End Get
         Set(ByVal value As String)
-            schedule_criticality_rationale = value
+            _row.schedule_criticality_rationale = value
         End Set
     End Property
 
     Property TechnicalCriticality() As String
         Get
-            Return technical_criticality
+            If _row.Istechnical_criticalityNull Then
+                Return ""
+            Else
+                Return _row.technical_criticality
+            End If
         End Get
         Set(ByVal value As String)
-            technical_criticality = value
+            _row.technical_criticality = value
         End Set
     End Property
 
     Property TechnicalCriticalityRationale() As String
         Get
-            Return technical_criticality_rationale
+            If _row.Istechnical_criticality_rationaleNull Then
+                Return ""
+            Else
+                Return _row.technical_criticality_rationale
+            End If
         End Get
         Set(ByVal value As String)
-            technical_criticality_rationale = value
+            _row.technical_criticality_rationale = value
         End Set
     End Property
 
     Property AttachmentId As Integer
         Get
-            Return myAttachmentId
+            If _row.Isattachment_idNull Then
+                Return INVALID_ID
+            Else
+                Return _row.attachment_id
+            End If
         End Get
         Set(ByVal value As Integer)
-            myAttachmentId = value
+            _row.attachment_id = value
         End Set
     End Property
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Return New TAttachment(myAttachmentId)
+            Return New TAttachment(CInt(_row.attachment_id))
         End Get
     End Property
 
     ReadOnly Property UserName As String
         Get
-            Dim u As New TUser(CInt(_row.creator_id))
-            Dim s As String = u.FullName
-            u = Nothing
-            Return s
+            If _row.Iscreator_idNull Then
+                Return ""
+            Else
+                Return New TUser(CInt(_row.creator_id)).FullName
+            End If
         End Get
     End Property
 
     Public Shadows Function Save() As Boolean
-        Dim rv As Boolean = False
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM crrs where id = " + CStr(ID)
-
-                Dim adapter As New OleDb.OleDbDataAdapter
-                adapter.SelectCommand = New OleDbCommand(query, connection)
-
-                Dim crrs As New ISAMSSds.crrsDataTable
-                adapter.Fill(crrs)
-                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-
-                If crrs.Rows.Count = 1 Then
-                    builder.GetUpdateCommand()
-
-                    crrs.Item(0).contract_id = myContract_id
-                    crrs.Item(0).date_reviewed = date_reviewed
-                    crrs.Item(0).cost_criticality = cost_criticality
-                    crrs.Item(0).cost_criticality_rationale = cost_criticality_rationale
-                    crrs.Item(0).schedule_criticality = schedule_criticality
-                    crrs.Item(0).schedule_criticality_rationale = schedule_criticality_rationale
-                    crrs.Item(0).technical_criticality = technical_criticality
-                    crrs.Item(0).technical_criticality_rationale = technical_criticality_rationale
-                    crrs.Item(0).attachment_id = myAttachmentId
-                    crrs.Item(0).creator_id = _row.creator_id
-
-                    adapter.Update(crrs)
-                ElseIf crrs.Rows.Count = 0 Then
-                    builder.GetInsertCommand()
-
-                    Dim row As ISAMSSds.crrsRow = crrs.NewRow
-                    row.id = 0
-                    row.contract_id = myContract_id
-                    row.date_reviewed = date_reviewed
-                    row.cost_criticality = cost_criticality
-                    row.cost_criticality_rationale = cost_criticality_rationale
-                    row.schedule_criticality = schedule_criticality
-                    row.schedule_criticality_rationale = schedule_criticality_rationale
-                    row.technical_criticality = technical_criticality
-                    row.technical_criticality_rationale = technical_criticality_rationale
-                    row.attachment_id = myAttachmentId
-                    row.creator_id = _row.creator_id
-
-                    crrs.AddcrrsRow(row)
-
-                    ' This sets up a call method that will retrieve the record id after the newly
-                    ' committed record is inserted into the database; this way our object has the
-                    ' proper id.
-                    _cmdGetIdentity = New OleDbCommand()
-                    _cmdGetIdentity.CommandText = "SELECT @@IDENTITY"
-                    _cmdGetIdentity.Connection = connection
-
-                    ' Set the adapter up to call our callback handler to that we
-                    ' can retrieve the record ID and set our object ID appropriately.
-                    AddHandler adapter.RowUpdated, AddressOf HandleRowUpdated
-
-                    adapter.Update(crrs)
-                End If
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-
-        Return rv
+        Return MyBase.Save
     End Function
 
     Protected Overrides Sub AddNewRow()
-
+        Try
+            _table.AddcrrsRow(_row)
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
     End Sub
 
     '//////////////////////////////////////////////////////////////////////////
@@ -1687,29 +1656,19 @@ Public Class TCrr
         Try
             _row = _table.NewcrrsRow()
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TCrr::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
     Public Shadows Sub Delete()
         MyBase.Delete()
 
-        If myAttachmentId <> TObject.InvalidID Then
-            Dim a As New TAttachment(myAttachmentId)
+        If _row.attachment_id <> TObject.InvalidID Then
+            Dim a As New TAttachment(CInt(_row.attachment_id))
             a.Delete()
         End If
     End Sub
 
-    Private myContract_id As Integer
-    Private date_reviewed As Date
-    Private cost_criticality As String
-    Private cost_criticality_rationale As String
-    Private schedule_criticality As String
-    Private schedule_criticality_rationale As String
-    Private technical_criticality As String
-    Private technical_criticality_rationale As String
-    Private myAttachmentId As Integer
-    Private creator_id As Integer
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1753,67 +1712,52 @@ Public Class TLod
 
     Public Sub New(ByVal contract As TContract)
         MyBase.New(New ISAMSSds.lodsDataTable)
-        myContractId = contract.ID
+        _row.contract_id = contract.ID
     End Sub
 
-    Public Sub New(ByVal lodid As Integer)
-        MyBase.New(New ISAMSSds.lodsDataTable)
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELET * FROM lods WHERE id = " + CStr(lodid)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim lods As New ISAMSSds.lodsDataTable
-                adapter.Fill(lods)
-
-                If lods.Rows.Count > 0 Then
-                    Dim row As ISAMSSds.lodsRow = lods.Rows.Item(0)
-                    _row.id = row.id
-                    myEffectiveDate = row.effective_date
-                    myIsDelegator = row.delegating
-                    myAttachmentId = row.attachment_id
-                    myContractId = row.contract_id
-                    myUserId = row.creator_id
-                End If
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.lodsDataTable, id)
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.lodsRow)
         MyBase.New(New ISAMSSds.lodsDataTable)
-
-        _row.id = row.id
-        myEffectiveDate = row.effective_date
-        myIsDelegator = row.delegating
-        myAttachmentId = row.attachment_id
-        myContractId = row.contract_id
-        myUserId = row.creator_id
+        _row = row
     End Sub
 
     Property EffectiveDate() As Date
         Get
-            Return myEffectiveDate
+            If _row.Iseffective_dateNull Then
+                Return ""
+            Else
+                Return _row.effective_date()
+            End If
         End Get
         Set(ByVal value As Date)
-            myEffectiveDate = value
+            _row.effective_date = value
         End Set
     End Property
 
     Property IsDelegator() As Boolean
         Get
-            Return myIsDelegator
+            If _row.IsdelegatingNull Then
+                Return False
+            Else
+                Return _row.delegating
+            End If
         End Get
         Set(ByVal value As Boolean)
-            myIsDelegator = value
+            _row.delegating = value
         End Set
     End Property
 
     ReadOnly Property IsDelegatorToString As String
         Get
-            If myIsDelegator = True Then
-                Return "Yes"
+            If Not _row.IsdelegatingNull Then
+                If _row.delegating = True Then
+                    Return "Yes"
+                Else
+                    Return "No"
+                End If
             Else
                 Return "No"
             End If
@@ -1822,105 +1766,65 @@ Public Class TLod
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Return New TAttachment(myAttachmentId)
+            Return New TAttachment(CInt(_row.attachment_id))
         End Get
     End Property
 
     Property AttachmentId As Integer
         Get
-            Return myAttachmentId
+            If _row.Isattachment_idNull Then
+                Return INVALID_ID
+            Else
+                Return _row.attachment_id
+            End If
         End Get
         Set(ByVal value As Integer)
-            myAttachmentId = value
+            _row.attachment_id = value
         End Set
     End Property
 
     Property ContractId As Integer
         Get
-            Return myContractId
+            If _row.Iscontract_idNull Then
+                Return INVALID_ID
+            Else
+                Return _row.contract_id
+            End If
         End Get
         Set(ByVal value As Integer)
-            myContractId = value
+            _row.contract_id = value
         End Set
     End Property
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(myUserId)
+            Return New TUser(CInt(_row.creator_id))
         End Get
     End Property
 
     Property UserId As Integer
         Get
-            Return myUserId
+            If _row.Iscreator_idNull Then
+                Return INVALID_ID
+            Else
+                Return _row.creator_id
+            End If
         End Get
         Set(ByVal value As Integer)
-            myUserId = value
+            _row.creator_id = value
         End Set
     End Property
 
     Public Shadows Function Save() As Boolean
-        Dim rv As Boolean = False
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM lods where id = " + CStr(ID)
-
-                Dim adapter As New OleDb.OleDbDataAdapter
-                adapter.SelectCommand = New OleDbCommand(query, connection)
-
-                Dim lods As New ISAMSSds.lodsDataTable
-                adapter.Fill(lods)
-                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-
-                If lods.Rows.Count = 1 Then
-                    builder.GetUpdateCommand()
-                    lods.Item(0).effective_date = myEffectiveDate
-                    lods.Item(0).delegating = myIsDelegator
-                    lods.Item(0).attachment_id = myAttachmentId
-                    lods.Item(0).contract_id = myContractId
-                    lods.Item(0).creator_id = myUserId
-
-                    adapter.Update(lods)
-                ElseIf lods.Rows.Count = 0 Then
-                    builder.GetInsertCommand()
-
-                    ' Set the record fields.
-                    Dim row As ISAMSSds.lodsRow = lods.NewRow
-                    row.id = 0
-                    row.effective_date = myEffectiveDate
-                    row.delegating = myIsDelegator
-                    row.attachment_id = myAttachmentId
-                    row.contract_id = myContractId
-                    row.creator_id = myUserId
-
-                    ' Add the row to the dataset.
-                    lods.AddlodsRow(row)
-
-                    ' This sets up a call method that will retrieve the record id after the newly
-                    ' committed record is inserted into the database; this way our object has the
-                    ' proper id.
-                    _cmdGetIdentity = New OleDbCommand()
-                    _cmdGetIdentity.CommandText = "SELECT @@IDENTITY"
-                    _cmdGetIdentity.Connection = connection
-
-                    ' Set the adapter up to call our callback handler to that we
-                    ' can retrieve the record ID and set our object ID appropriately.
-                    AddHandler adapter.RowUpdated, AddressOf HandleRowUpdated
-
-                    ' Commit the dataset changes to the database.
-                    adapter.Update(lods)
-                End If
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-
-        Return rv
+        Return MyBase.Save
     End Function
 
     Protected Overrides Sub AddNewRow()
-
+        Try
+            Table.AddlodRow(_row)
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
     End Sub
 
     '//////////////////////////////////////////////////////////////////////////
@@ -1931,7 +1835,7 @@ Public Class TLod
         Try
             _row = _table.NewlodRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TLod::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1939,11 +1843,6 @@ Public Class TLod
         MyBase.Delete()
     End Sub
 
-    Private myEffectiveDate As Date
-    Private myIsDelegator As Boolean = False
-    Private myAttachmentId As Integer = TObject.InvalidID
-    Private myContractId As Integer = TObject.InvalidID
-    Private myUserId As Integer = TObject.InvalidID
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2018,242 +1917,162 @@ Public Class TAttachment
 
     Public Sub New()
         MyBase.New(New ISAMSSds.attachmentsDataTable)
-
-        myFilename = ""
-        myFileExtension = ""
-        myFullpath = ""
-        myComputername = ""
-        myOriginalFilename = ""
-        myOriginalFullpath = ""
-        myOriginalComputername = ""
-        myDescription = ""
-        myUserId = -1
-        myMetadata = ""
     End Sub
 
-    Public Sub New(ByVal attachmentid As Integer)
-        MyBase.New(New ISAMSSds.attachmentsDataTable)
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM attachments WHERE id = " + CStr(attachmentid)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim attachments As New ISAMSSds.attachmentsDataTable
-                adapter.Fill(attachments)
-
-                If attachments.Rows.Count = 1 Then
-                    Dim row As ISAMSSds.attachmentsRow = attachments.Rows(0)
-                    _row.id = row.id
-                    myFilename = row.filename
-                    myFileExtension = row.file_extension
-                    myFullpath = row.fullpath
-                    myComputername = row.computer_name
-                    myOriginalFilename = row.origin_filename
-                    myOriginalFullpath = row.origin_fullpath
-                    myOriginalComputername = row.origin_computer_name
-                    myUserId = row.creator_id
-
-                    If Not row.IsdescriptionNull Then
-                        myDescription = row.description
-                    End If
-
-                    If Not row.IsmetadataNull Then
-                        myMetadata = row.metadata
-                    End If
-                End If
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.attachmentsDataTable, id)
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.attachmentsRow)
         MyBase.New(New ISAMSSds.attachmentsDataTable)
-
-        _row.id = row.id
-        myFilename = row.filename
-        myFileExtension = row.file_extension
-        myFullpath = row.fullpath
-        myComputername = row.computer_name
-        myOriginalFilename = row.origin_filename
-        myOriginalFullpath = row.origin_fullpath
-        myOriginalComputername = row.origin_computer_name
-        myDescription = row.description
-        myUserId = row.creator_id
-        myMetadata = row.metadata
+        _row = row
     End Sub
 
     Property Filename As String
         Get
-            Return myFilename
+            If _row.IsfilenameNull Then
+                Return ""
+            Else
+                Return _row.filename
+            End If
         End Get
         Set(ByVal value As String)
-            myFilename = value
+            _row.filename = value
         End Set
     End Property
 
     Property FileExtension As String
         Get
-            Return myFileExtension
+            If _row.Isfile_extensionNull Then
+                Return ""
+            Else
+                Return _row.file_extension
+            End If
         End Get
         Set(ByVal value As String)
-            myFileExtension = value
+            _row.file_extension = value
         End Set
     End Property
 
     Property Fullpath As String
         Get
-            Return myFullpath
+            If _row.IsfullpathNull Then
+                Return ""
+            Else
+                Return _row.fullpath
+            End If
         End Get
         Set(ByVal value As String)
-            myFullpath = value
+            _row.fullpath = value
         End Set
     End Property
 
     Property Computername As String
         Get
-            Return myComputername
+            If _row.Iscomputer_nameNull Then
+                Return ""
+            Else
+                Return _row.computer_name
+            End If
         End Get
         Set(ByVal value As String)
-            myComputername = value
+            _row.computer_name = value
         End Set
     End Property
 
     Property OriginalFilename As String
         Get
-            Return myOriginalFilename
+            If _row.Isoriginal_filenameNull Then
+                Return ""
+            Else
+                Return _row.original_filename
+            End If
         End Get
         Set(ByVal value As String)
-            myOriginalFilename = value
+            _row.original_filename = value
         End Set
     End Property
 
     Property OriginalFullpath As String
         Get
-            Return myOriginalFullpath
+            If _row.Isorigin_fullpathNull Then
+                Return ""
+            Else
+                Return _row.origin_fullpath
+            End If
         End Get
         Set(ByVal value As String)
-            myOriginalFullpath = value
+            _row.origin_fullpath = value
         End Set
     End Property
 
     Property OriginalComputername As String
         Get
-            Return myOriginalComputername
+            If _row.Isorigin_computer_nameNull Then
+                Return ""
+            Else
+                Return _row.origin_computer_name
+            End If
         End Get
         Set(ByVal value As String)
-            myOriginalComputername = value
+            _row.origin_computer_name = value
         End Set
     End Property
 
     Property Description As String
         Get
-            Return myDescription
+            If _row.IsdescriptionNull Then
+                Return ""
+            Else
+                Return _row.description
+            End If
         End Get
         Set(ByVal value As String)
-            myDescription = value
+            _row.description = value
         End Set
     End Property
 
     Property Metadata As String
         Get
-            Return myMetadata
+            If _row.IsmetadataNull Then
+                Return ""
+            Else
+                Return _row.metadata
+            End If
         End Get
         Set(ByVal value As String)
-            myMetadata = value
+            _row.metadata = value
         End Set
     End Property
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(myUserId)
+            Return New TUser(CInt(_row.creator_id))
         End Get
     End Property
 
     Property UserId As Integer
         Get
-            Return myUserId
+            If _row.Iscreator_idNull Then
+                Return ""
+            Else
+                Return _row.creator_id
+            End If
         End Get
         Set(ByVal value As Integer)
-            myUserId = value
+            _row.creator_id = value
         End Set
     End Property
 
     Public Shadows Function Save() As Boolean
-        Dim rv As Boolean = False
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM attachments where id = " + CStr(ID)
-
-                Dim adapter As New OleDb.OleDbDataAdapter
-                adapter.SelectCommand = New OleDbCommand(query, connection)
-
-                Dim attachments As New ISAMSSds.attachmentsDataTable
-                adapter.Fill(attachments)
-                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-
-                If attachments.Rows.Count = 1 Then
-                    builder.GetUpdateCommand()
-                    attachments.Item(0).filename = myFilename
-                    attachments.Item(0).file_extension = myFileExtension
-                    attachments.Item(0).fullpath = myFullpath
-                    attachments.Item(0).computer_name = myComputername
-                    attachments.Item(0).origin_filename = myOriginalFilename
-                    attachments.Item(0).origin_fullpath = myOriginalFullpath
-                    attachments.Item(0).origin_computer_name = myOriginalComputername
-                    attachments.Item(0).description = myDescription
-                    attachments.Item(0).creator_id = myUserId
-                    attachments.Item(0).metadata = myMetadata
-
-                    adapter.Update(attachments)
-                ElseIf attachments.Rows.Count = 0 Then
-                    builder.GetInsertCommand()
-
-                    ' Set the record fields.
-                    Dim row As ISAMSSds.attachmentsRow = attachments.NewRow
-                    row.id = 0
-                    row.filename = myFilename
-                    row.file_extension = myFileExtension
-                    row.fullpath = myFullpath
-                    row.computer_name = myComputername
-                    row.origin_filename = myOriginalFilename
-                    row.origin_fullpath = myOriginalFullpath
-                    row.origin_computer_name = myOriginalComputername
-                    row.description = myDescription
-                    row.creator_id = myUserId
-                    row.metadata = myMetadata
-
-                    ' Add the row to the dataset.
-                    attachments.AddattachmentsRow(row)
-
-                    ' This sets up a call method that will retrieve the record id after the newly
-                    ' committed record is inserted into the database; this way our object has the
-                    ' proper id.
-                    _cmdGetIdentity = New OleDbCommand()
-                    _cmdGetIdentity.CommandText = "SELECT @@IDENTITY"
-                    _cmdGetIdentity.Connection = connection
-
-                    ' Set the adapter up to call our callback handler to that we
-                    ' can retrieve the record ID and set our object ID appropriately.
-                    AddHandler adapter.RowUpdated, AddressOf HandleRowUpdated
-
-                    ' Commit the dataset changes to the database.
-                    adapter.Update(attachments)
-                End If
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-
-        Return rv
+        Return MyBase.Save
     End Function
 
     Protected Overrides Sub AddNewRow()
         Try
             _table.AddattachmentsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2265,31 +2084,21 @@ Public Class TAttachment
         Try
             _row = _table.NewattachmentsRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TAttachment::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
     Public Shadows Sub Delete()
         MyBase.Delete()
         Try
-            If myFullpath.Length > 0 And myFilename.Length > 0 Then
-                My.Computer.FileSystem.DeleteFile(myFullpath & "\" & myFilename)
+            If Fullpath.Length > 0 And Filename.Length > 0 Then
+                My.Computer.FileSystem.DeleteFile(Fullpath & "\" & Filename)
             End If
         Catch ex As System.IO.IOException
-            Application.WriteToEventLog("TAttachment::Delete, IO Exception deleting file " & myFullpath & "\" & myFilename & ", message: " & ex.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("::Delete, IO Exception deleting file " & Fullpath & "\" & Filename & ", message: " & ex.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
-    Private myFilename As String
-    Private myFileExtension As String
-    Private myFullpath As String
-    Private myComputername As String
-    Private myOriginalFilename As String
-    Private myOriginalFullpath As String
-    Private myOriginalComputername As String
-    Private myDescription As String
-    Private myUserId As Integer
-    Private myMetadata As String
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2333,7 +2142,7 @@ Public Class TActivityClasses
                 adapter.Fill(act_classes)
 
                 For Each act_class In act_classes
-                    Dim a As New TActivityClass(act_class, contract, user)
+                    Dim a As New TActivityClass(act_class)
                     MyBase.Add(a)
                 Next
             End Using
@@ -2355,7 +2164,7 @@ Public Class TActivityClasses
                 adapter.Fill(act_classes)
 
                 For Each act_class In act_classes
-                    Dim a As New TActivityClass(act_class, contract)
+                    Dim a As New TActivityClass(act_class)
                     MyBase.Add(a)
                 Next
             End Using
@@ -2423,114 +2232,75 @@ End Class
 ' Class: TActivityClass
 ' Purpose: Encapsulates the activity class data
 Public Class TActivityClass
-    Public Sub New(ByRef row As ISAMSSds.activity_classesRow)
-        myid = row.id
-        mytitle = row.title
+    Inherits TObject
 
-        If row.IsdescriptionNull <> True Then
-            mydescription = row.description
-        End If
+    Public Sub New()
+        MyBase.New(New ISAMSSds.activity_classesDataTable)
     End Sub
 
     Public Sub New(ByVal id As Integer)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM activity_classes WHERE id = " + CStr(id)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim act_class As New ISAMSSds.activity_classesDataTable
-                adapter.Fill(act_class)
-
-                If act_class.Rows.Count = 1 Then
-                    Dim row As ISAMSSds.activity_classesRow = act_class.Rows.Item(0)
-                    myid = row.id
-                    mytitle = row.title
-                    If Not row.IsNull("description") Then
-                        mydescription = row.description
-                    End If
-                End If
-
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.activity_classesDataTable, id)
     End Sub
 
-    Public Sub New(ByRef row As ISAMSSds.activity_classesRow, ByRef c As TContract, ByRef u As TUser)
-        myid = row.id
-        mytitle = row.title
-
-        If Not row.IsNull("description") Then
-            mydescription = row.description
-        End If
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM activities WHERE (creator_id = " + CStr(u.ID) + ") AND (contract_id = " + CStr(c.ID) + ") AND (activity_classes_id = " + CStr(row.id) + ")"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim acts As New ISAMSSds.activitiesDataTable
-                adapter.Fill(acts)
-
-                myactivities = New TActivities(acts)
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByRef row As ISAMSSds.activity_classesRow)
+        MyBase.New(New ISAMSSds.activity_classesDataTable)
+        _row = row
     End Sub
 
-    Public Sub New(ByVal row As ISAMSSds.activity_classesRow, ByVal contract As TContract)
-        myid = row.id
-        mytitle = row.title
-
-        If Not row.IsNull("description") Then
-            mydescription = row.description
-        End If
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM activities WHERE (contract_id = " + CStr(contract.ID) + ") AND (activity_classes_id = " + CStr(row.id) + ")"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim acts As New ISAMSSds.activitiesDataTable
-                adapter.Fill(acts)
-
-                myactivities = New TActivities(acts)
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-    End Sub
-
-    ReadOnly Property ID As Integer
+    Property Title As String
         Get
-            Return myid
-        End Get
-    End Property
-
-    ReadOnly Property Title As String
-        Get
-            Return mytitle
-        End Get
-    End Property
-
-    ReadOnly Property Description
-        Get
-            Return mydescription
-        End Get
-    End Property
-
-    ReadOnly Property Activities As TActivities
-        Get
-            If myactivities Is Nothing Then
-                myactivities = New TActivities
+            If _row.IstitleNull Then
+                Return ""
+            Else
+                Return _row.title
             End If
-
-            Return myactivities
         End Get
+        Set(ByVal value As String)
+            _row.title = value
+        End Set
     End Property
 
-    Private myid As Integer
-    Private mytitle As String
-    Private mydescription As String
-    Private myactivities As TActivities
+    Property Description As String
+        Get
+            If _row.IsdescriptionNull Then
+                Return ""
+            Else
+                Return _row.description
+            End If
+        End Get
+        Set(ByVal value As String)
+            _row.description = value
+        End Set
+    End Property
+
+    Public Shadows Function Save() As Boolean
+        Return MyBase.Save
+    End Function
+
+    Protected Overrides Sub AddNewRow()
+        Try
+            _table.Addactivity_classesRow(_row)
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Protected Overrides Sub GetNewRow()
+        Try
+            _row = _table.Newactivity_classesRow
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Shadows Sub Delete()
+        MyBase.Delete()
+    End Sub
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2549,13 +2319,13 @@ Public Class TActivities
         Next
     End Sub
 
-    Public Sub New(ByRef cid As Integer, ByRef uid As Integer)
+    Public Sub New(ByVal contract As TContract, ByVal user As TUser)
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
                 Dim query As String = "SELECT * " &
                                         "FROM activities " &
-                                        "WHERE (activities.creator_id = " + CStr(uid) + ") AND (activities.contract_id = " + CStr(cid) + ")"
+                                        "WHERE (activities.creator_id = " + CStr(user.ID) + ") AND (activities.contract_id = " + CStr(contract.ID) + ")"
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim acts As New ISAMSSds.activitiesDataTable
                 adapter.Fill(acts)
@@ -2597,145 +2367,155 @@ End Class
 Public Class TActivity
     Inherits TObject
 
-    Public Sub New(ByVal contract As TContract, ByVal user As TUser)
+    Public Sub New()
         MyBase.New(New ISAMSSds.activitiesDataTable)
-        _contractId = contract.ID
-        _userId = user.ID
+    End Sub
+
+    Public Sub New(ByVal id As Integer)
+        MyBase.New(New ISAMSSds.activitiesDataTable, id)
+        ReadActivityClasses()
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.activitiesRow)
         MyBase.New(New ISAMSSds.activitiesDataTable)
+        _row = row
+        ReadActivityClasses()
+    End Sub
 
-        Try
-            _row.id = row.id
-            _entryDate = row.entry_date
-            _activityDate = row.activity_date
-            _contractId = row.contract_id
-            _userId = row.creator_id
-            _observations = New TObservations(Me)
-            _activityClasses = New TActivityClasses(Me)
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByVal contract As TContract)
+        MyBase.New(New ISAMSSds.activitiesDataTable)
+        _row.contract_id = contract.ID
     End Sub
 
     Property EntryDate As Date
         Get
-            Return _entryDate
+            If _row.Iscreated_atNull Then
+                Return ""
+            Else
+                Return _row.created_at
+            End If
         End Get
         Set(ByVal value As Date)
-            _entryDate = value
+            _row.created_at = value
         End Set
     End Property
 
-    Property ActivityDate As Date
+    Property StartDate As Date
         Get
-            Return _activityDate
+            If _row.Isstart_dateNull Then
+                Return ""
+            Else
+                Return _row.start_date
+            End If
         End Get
         Set(ByVal value As Date)
-            _activityDate = value
+            _row.start_date = value
         End Set
     End Property
 
-    Property ActivityClasses As TActivityClasses
+    Property EndDate As Date
         Get
-            If _activityClasses Is Nothing Then
-                _activityClasses = New TActivityClasses(Me)
+            If _row.Isend_dateNull Then
+                Return ""
+            Else
+                Return _row.end_date
             End If
-            Return _activityClasses
         End Get
-        Set(ByVal value As TActivityClasses)
-            If _activityClasses Is Nothing Then
-                _activityClasses = New TActivityClasses(Me)
-            End If
-            _activityClasses = value
+        Set(ByVal value As Date)
+            _row.end_date = value
         End Set
+    End Property
+
+    Property Accepted As Boolean
+        Get
+            If _row.IsacceptedNull Then
+                Return ""
+            Else
+                Return _row.accepted
+            End If
+        End Get
+        Set(ByVal value As Boolean)
+            _row.accepted = value
+        End Set
+    End Property
+
+    Property ContractId As Integer
+        Get
+            If _row.Iscontract_idNull Then
+                Return ""
+            Else
+                Return _row.contract_id
+            End If
+        End Get
+        Set(ByVal value As Integer)
+            _row.contract_id = value
+        End Set
+    End Property
+
+    Property Description As String
+        Get
+            If _row.IsdescriptionNull Then
+                Return ""
+            Else
+                Return _row.description
+            End If
+        End Get
+        Set(ByVal value As String)
+            _row.description = value
+        End Set
+    End Property
+
+    Public Sub AddActivityClass(ByRef activityClass As TActivityClass)
+        If Not _activityClassIds.Contains(activityClass.ID) Then
+            _activityClassIds.Add(activityClass.ID)
+        End If
+    End Sub
+
+    Public Sub RemoveActivityClass(ByRef activityClass As TActivityClass)
+        If _activityClassIds.Contains(activityClass.ID) Then
+            _activityClassIds.Remove(activityClass.ID)
+        End If
+    End Sub
+
+    ReadOnly Property ActivityClasses As TActivityClasses
+        Get
+            Return New TActivityClasses(Me)
+        End Get
+    End Property
+
+    ReadOnly Property ActivityClassIds As TObjectIDs
+        Get
+            Return _activityClassIds
+        End Get
     End Property
 
     ReadOnly Property ObservationsCount As Integer
         Get
-            If _observations Is Nothing Then
-                _observations = New TObservations(Me)
-            End If
-
-            Return _observations.Count
+            Return New TObservations(Me).Count
         End Get
     End Property
 
     ReadOnly Property Observations As TObservations
         Get
-            If _observations Is Nothing Then
-                _observations = New TObservations(Me)
-            End If
-            Return _observations
+            Return New TObservations(Me)
         End Get
     End Property
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(_userId)
+            Return New TUser(CInt(_row.creator_id))
         End Get
     End Property
 
     Public Shadows Function Save() As Boolean
-        Dim rv As Boolean = False
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM activities where id = " + CStr(ID)
-
-                Dim adapter As New OleDb.OleDbDataAdapter
-                adapter.SelectCommand = New OleDbCommand(query, connection)
-
-                Dim acts As New ISAMSSds.activitiesDataTable
-                adapter.Fill(acts)
-                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-
-                If acts.Rows.Count = 1 Then
-                    builder.GetUpdateCommand()
-
-                    acts.Item(0).entry_date = _entryDate
-                    acts.Item(0).activity_date = _activityDate
-                    acts.Item(0).contract_id = _contractId
-                    acts.Item(0).creator_id = _userId
-                    adapter.Update(acts)
-                    DeleteActivityClasses()
-                    SaveActivityClasses()
-                    _observations.Save(Me)
-                ElseIf acts.Rows.Count = 0 Then
-                    builder.GetInsertCommand()
-
-                    Dim row As ISAMSSds.activitiesRow = acts.NewRow
-                    row.id = 0
-
-                    row.entry_date = _entryDate
-                    row.activity_date = _activityDate
-                    row.contract_id = _contractId
-                    row.creator_id = _userId
-
-                    acts.AddactivitiesRow(row)
-
-                    _cmdGetIdentity = New OleDbCommand()
-                    _cmdGetIdentity.CommandText = "SELECT @@IDENTITY"
-                    _cmdGetIdentity.Connection = connection
-
-                    AddHandler adapter.RowUpdated, AddressOf HandleRowUpdated
-                    adapter.Update(acts)
-                    DeleteActivityClasses()
-                    SaveActivityClasses()
-                    _observations.Save(Me)
-                End If
-            End Using
-        Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TActivity::Save, Exception, message: " & e.Message, EventLogEntryType.Error)
-        End Try
-
+        Dim rv As Boolean = MyBase.Save
+        RefreshActivityClasses()
+        '_observations.Save(Me)
         Return rv
     End Function
 
     Protected Overrides Sub AddNewRow()
         Try
-
             _table.AddactivitiesRow(_row)
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
@@ -2750,72 +2530,99 @@ Public Class TActivity
         End Try
     End Sub
 
-    Private Function DeleteActivityClasses() As Boolean
-        Dim rv As Boolean = False
+    Private Sub RefreshActivityClasses()
+        DeleteActivityClasses()
+        CreateActivityClasses()
+    End Sub
 
+    ' TODO: !!! Start Here - figure out why the records are getting created but no data being save to the db
+    Private Function CreateActivityClasses() As Boolean
+        Dim rv As Boolean = False
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim tbl As New ISAMSSds.activity_activity_classesDataTable
+                Dim query As String = "SELECT id from " & tbl.TableName & " WHERE activity_id = " & CStr(ID)
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 adapter.Fill(tbl)
                 Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-                builder.GetDeleteCommand()
+                builder.GetInsertCommand()
 
-                For Each r In tbl.Rows
-                    r.Delete()
+                For Each a In _activityClassIds
+                    Dim aac As ISAMSSds.activity_activity_classesRow = tbl.Newactivity_activity_classesRow
+                    aac.activity_id = ID
+                    aac.activity_class_id = a
+                    aac.creator_id = Application.CurrentUser.ID
+                    tbl.Addactivity_activity_classesRow(aac)
                 Next
 
                 adapter.Update(tbl)
+
                 rv = True
             End Using
         Catch ex As System.Exception
-            Application.WriteToEventLog("TActivity::DeleteActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TActivity::SaveActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
         End Try
 
         Return rv
     End Function
 
-    Private Function SaveActivityClasses() As Boolean
+    Private Function ReadActivityClasses() As Boolean
         Dim rv As Boolean = False
-        If _activityClasses IsNot Nothing Then
-            Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                    connection.Open()
-                    Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(ID)
-                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                    Dim tbl As New ISAMSSds.activity_activity_classesDataTable
-                    adapter.Fill(tbl)
-                    Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-                    builder.GetInsertCommand()
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim tbl As New ISAMSSds.activity_activity_classesDataTable
+                Dim query As String = "SELECT activity_class_id FROM " & tbl.TableName & " WHERE activity_id = " + CStr(ID)
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                adapter.Fill(tbl)
 
-                    For Each act In _activityClasses
-                        Dim row As ISAMSSds.activity_activity_classesRow = tbl.NewRow
-                        row.activity_id = ID
-                        row.activity_class_id = act.ID
-                        tbl.Addactivity_activity_classesRow(row)
-                    Next
+                For Each a In tbl
+                    _activityClassIds.Add(a.activity_class_id)
+                Next
+            End Using
 
-                    adapter.Update(tbl)
+            rv = True
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteActivityClasses, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
 
-                    rv = True
-                End Using
-            Catch ex As System.Exception
-                Application.WriteToEventLog("TActivity::SaveActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
-            End Try
-        End If
-
-        Return rv
         Return rv
     End Function
 
-    Private _entryDate As Date
-    Private _activityDate As Date
-    Private _activityClasses As TActivityClasses = Nothing
-    Private _userId As Integer = TObject.InvalidID
-    Private _contractId As Integer = TObject.InvalidID
-    Private _observations As TObservations = Nothing
+    Private Function DeleteActivityClasses() As Boolean
+        Dim rv As Boolean = False
+
+        Try
+            If _activityClassIds.Count > 0 Then
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                    connection.Open()
+                    Dim tbl As New ISAMSSds.activity_activity_classesDataTable
+                    Dim query As String = "SELECT id from " & tbl.TableName & " WHERE activity_id = " & CStr(ID)
+                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                    Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                    adapter.Fill(tbl)
+                    adapter.DeleteCommand = builder.GetDeleteCommand()
+
+                    For Each r In tbl.Rows
+                        r.Delete()
+                    Next
+
+                    adapter.Update(tbl)
+                    rv = True
+                End Using
+
+            End If
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteActivityClasses, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+
+        Return rv
+    End Function
+
+
+    Private _activityClassIds As TObjectIDs = New TObjectIDs
+    Private _observationIds As TObjectIDs = New TObjectIDs
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////

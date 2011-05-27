@@ -227,19 +227,6 @@ Public Class TTreeView
         survTvi.Tag = ct
         survTvi.TabIndex = BranchTabIndices.surveillanceTab
 
-        ' Iterate through each activity class that has been performed on this contract for by this user
-        For Each actclass In ct.ActivityClasses
-            ' Create a node for this activity class.
-            Dim ac As New TreeViewItem
-            'SetBranchForeground(ac, ct.HasUserActivities(u))
-            ac.Header = actclass.Title() & " (" & actclass.Activities.Count & ")"
-            ac.Tag = actclass
-            ac.TabIndex = BranchTabIndices.surveillanceTab
-
-            ' Add the activity class node to the tree.
-            survTvi.Items.Add(ac)
-        Next
-
         mySurveillanceMap.Add(ct.ID, survTvi)
 
         Return survTvi
