@@ -123,12 +123,12 @@ Public MustInherit Class TObject
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(ID)
                 _adapter.SelectCommand = New OleDbCommand(query, connection)
                 _cmdBuilder = New OleDbCommandBuilder(_adapter)
-                _cmdBuilder.GetDeleteCommand()
+                _adapter.Fill(_table)
 
                 If _table.Rows.Count = 1 Then
+                    _cmdBuilder.GetDeleteCommand()
                     _table.Rows(0).Delete()
                     _adapter.Update(_table)
-                    _row.id = INVALID_ID
                     _row.Setcreator_idNull()
                     _row.Setcreated_atNull()
                     _row.Setupdater_idNull()
@@ -2367,24 +2367,34 @@ End Class
 Public Class TActivity
     Inherits TObject
 
+    Private _aacOriginal As TActivityActivityClasses = Nothing
+    Private _aacDelta As TActivityActivityClasses = Nothing
+    Private _observationIds As TObjectIDs = New TObjectIDs
+
     Public Sub New()
         MyBase.New(New ISAMSSds.activitiesDataTable)
+        _aacOriginal = New TActivityActivityClasses
+        _aacDelta = New TActivityActivityClasses
     End Sub
 
     Public Sub New(ByVal id As Integer)
         MyBase.New(New ISAMSSds.activitiesDataTable, id)
-        ReadActivityClasses()
+        _aacOriginal = New TActivityActivityClasses(Me)
+        _aacDelta = New TActivityActivityClasses(_aacOriginal)
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.activitiesRow)
         MyBase.New(New ISAMSSds.activitiesDataTable)
         _row = row
-        ReadActivityClasses()
+        _aacOriginal = New TActivityActivityClasses(Me)
+        _aacDelta = New TActivityActivityClasses(_aacOriginal)
     End Sub
 
     Public Sub New(ByVal contract As TContract)
         MyBase.New(New ISAMSSds.activitiesDataTable)
         _row.contract_id = contract.ID
+        _aacOriginal = New TActivityActivityClasses
+        _aacDelta = New TActivityActivityClasses(_aacOriginal)
     End Sub
 
     Property EntryDate As Date
@@ -2466,26 +2476,28 @@ Public Class TActivity
     End Property
 
     Public Sub AddActivityClass(ByRef activityClass As TActivityClass)
-        If Not _activityClassIds.Contains(activityClass.ID) Then
-            _activityClassIds.Add(activityClass.ID)
-        End If
+        For Each ac In _aacDelta
+            If ac.ID <> activityClass.ID Then
+                _aacDelta.Add(activityClass)
+            End If
+
+            Exit For
+        Next
     End Sub
 
     Public Sub RemoveActivityClass(ByRef activityClass As TActivityClass)
-        If _activityClassIds.Contains(activityClass.ID) Then
-            _activityClassIds.Remove(activityClass.ID)
-        End If
+        For Each ac In _aacDelta
+            If ac.ID = activityClass.ID Then
+                _aacDelta.Remove(ac)
+            End If
+
+            Exit For
+        Next
     End Sub
 
     ReadOnly Property ActivityClasses As TActivityClasses
         Get
             Return New TActivityClasses(Me)
-        End Get
-    End Property
-
-    ReadOnly Property ActivityClassIds As TObjectIDs
-        Get
-            Return _activityClassIds
         End Get
     End Property
 
@@ -2509,8 +2521,13 @@ Public Class TActivity
 
     Public Shadows Function Save() As Boolean
         Dim rv As Boolean = MyBase.Save
-        RefreshActivityClasses()
-        '_observations.Save(Me)
+
+        If rv Then
+            _aacOriginal.Delete()
+            Dim ac As New TActivityActivityClasses(Me, _aacDelta)
+            ac.Save()
+        End If
+
         Return rv
     End Function
 
@@ -2530,99 +2547,134 @@ Public Class TActivity
         End Try
     End Sub
 
-    Private Sub RefreshActivityClasses()
-        DeleteActivityClasses()
-        CreateActivityClasses()
-    End Sub
+    Private Class TActivityActivityClasses
+        Inherits TObjects
 
-    ' TODO: !!! Start Here - figure out why the records are getting created but no data being save to the db
-    Private Function CreateActivityClasses() As Boolean
-        Dim rv As Boolean = False
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim tbl As New ISAMSSds.activity_activity_classesDataTable
-                Dim query As String = "SELECT id from " & tbl.TableName & " WHERE activity_id = " & CStr(ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                adapter.Fill(tbl)
-                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-                builder.GetInsertCommand()
+        Public Sub New()
+        End Sub
 
-                For Each a In _activityClassIds
-                    Dim aac As ISAMSSds.activity_activity_classesRow = tbl.Newactivity_activity_classesRow
-                    aac.activity_id = ID
-                    aac.activity_class_id = a
-                    aac.creator_id = Application.CurrentUser.ID
-                    tbl.Addactivity_activity_classesRow(aac)
-                Next
+        Public Sub New(ByRef aac As TActivityActivityClasses)
+            For Each a In aac
+                MyBase.Add(a)
+            Next
+        End Sub
 
-                adapter.Update(tbl)
-
-                rv = True
-            End Using
-        Catch ex As System.Exception
-            Application.WriteToEventLog("TActivity::SaveActivityClasses, Exception, message: " & ex.Message, EventLogEntryType.Error)
-        End Try
-
-        Return rv
-    End Function
-
-    Private Function ReadActivityClasses() As Boolean
-        Dim rv As Boolean = False
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim tbl As New ISAMSSds.activity_activity_classesDataTable
-                Dim query As String = "SELECT activity_class_id FROM " & tbl.TableName & " WHERE activity_id = " + CStr(ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                adapter.Fill(tbl)
-
-                For Each a In tbl
-                    _activityClassIds.Add(a.activity_class_id)
-                Next
-            End Using
-
-            rv = True
-        Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteActivityClasses, Exception: " & e.Message, EventLogEntryType.Error)
-        End Try
-
-        Return rv
-    End Function
-
-    Private Function DeleteActivityClasses() As Boolean
-        Dim rv As Boolean = False
-
-        Try
-            If _activityClassIds.Count > 0 Then
+        Public Sub New(ByRef activity As TActivity)
+            Try
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                     connection.Open()
                     Dim tbl As New ISAMSSds.activity_activity_classesDataTable
-                    Dim query As String = "SELECT id from " & tbl.TableName & " WHERE activity_id = " & CStr(ID)
+                    Dim query As String = "SELECT * FROM " & tbl.TableName & " WHERE activity_id = " + CStr(activity.ID)
                     Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                    Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
                     adapter.Fill(tbl)
-                    adapter.DeleteCommand = builder.GetDeleteCommand()
 
-                    For Each r In tbl.Rows
-                        r.Delete()
+                    For Each a In tbl
+                        Dim aac As New TActivityActivityClass(a)
+                        MyBase.Add(aac)
                     Next
-
-                    adapter.Update(tbl)
-                    rv = True
                 End Using
 
-            End If
-        Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteActivityClasses, Exception: " & e.Message, EventLogEntryType.Error)
-        End Try
+            Catch e As OleDb.OleDbException
+                Application.WriteToEventLog(MyBase.GetType.Name & "::New(activity), Exception: " & e.Message, EventLogEntryType.Error)
+            End Try
+        End Sub
 
-        Return rv
-    End Function
+        Public Sub New(ByRef activity As TActivity, ByRef aac As TActivityActivityClasses)
+            Try
+                For Each a In aac
+                    MyBase.Add(New TActivityActivityClass(activity, a))
+                Next
+            Catch e As OleDb.OleDbException
+                Application.WriteToEventLog(MyBase.GetType.Name & "::New(activity), Exception: " & e.Message, EventLogEntryType.Error)
+            End Try
+        End Sub
 
+        Public Sub Save()
+            For Each a In MyBase.Items
+                a.Save()
+            Next
+        End Sub
 
-    Private _activityClassIds As TObjectIDs = New TObjectIDs
-    Private _observationIds As TObjectIDs = New TObjectIDs
+        Public Sub Delete()
+            For Each a In MyBase.Items
+                a.Delete()
+            Next
+        End Sub
+
+    End Class
+
+    Private Class TActivityActivityClass
+        Inherits TObject
+
+        Public Sub New()
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
+        End Sub
+
+        Public Sub New(ByRef id As Integer)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable, id)
+        End Sub
+
+        Public Sub New(ByRef row As ISAMSSds.activity_activity_classesRow)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
+            _row = row
+        End Sub
+
+        Public Sub New(ByRef activity As TActivity, ByRef activityClass As TActivityActivityClass)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
+            _row.activity_id = activity.ID
+            _row.activity_class_id = activityClass.ActivityClassId
+        End Sub
+
+        Property ActivityId As Integer
+            Get
+                If _row.Isactivity_idNull Then
+                    Return INVALID_ID
+                Else
+                    Return _row.activity_id()
+                End If
+            End Get
+            Set(ByVal value As Integer)
+                _row.activity_id = value
+            End Set
+        End Property
+
+        Property ActivityClassId As Integer
+            Get
+                If _row.Isactivity_class_idNull Then
+                    Return INVALID_ID
+                Else
+                    Return _row.activity_class_id
+                End If
+            End Get
+            Set(ByVal value As Integer)
+                _row.activity_class_id = value
+            End Set
+        End Property
+
+        Protected Overrides Sub AddNewRow()
+            Try
+                _table.Addactivity_activity_classesRow(_row)
+            Catch e As OleDb.OleDbException
+                Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            End Try
+        End Sub
+
+        Protected Overrides Sub GetNewRow()
+            Try
+                _row = _table.Newactivity_activity_classesRow
+            Catch e As OleDb.OleDbException
+                Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            End Try
+        End Sub
+
+        Public Shadows Function Save() As Boolean
+            Return MyBase.Save
+        End Function
+
+        Public Shadows Sub Delete()
+            MyBase.Delete()
+        End Sub
+    End Class
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
