@@ -145,8 +145,6 @@ Class Application
         Try
             _appEventLog = New EventLog
 
-            Dim a As New TActivity(9)
-            a.Save()
             'Register the App as an Event Source
             If Not EventLog.SourceExists(Me.Info.Title) Then
                 EventLog.CreateEventSource(Me.Info.Title, "Application")

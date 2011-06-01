@@ -61,7 +61,7 @@
                 End If
             Next
         Else
-            _psspHist = New TPSSPHistory(_pssp.ID, Application.CurrentUser.ID)
+            _psspHist = New TPSSPHistory(_pssp, Application.CurrentUser)
         End If
 
         _formDirty = False
