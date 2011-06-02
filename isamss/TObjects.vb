@@ -15,14 +15,6 @@ Public MustInherit Class TObject
 
     ' Used as the invalid indentifier constant
     Protected Shared INVALID_ID As Integer = -1
-    ' Used to identify the creator of the object
-    Protected _creatorId = INVALID_ID
-    ' Used to timestamp the creation date/time
-    Protected _createdAt As Date
-    ' Used to identify the updater of the object
-    Protected _updaterId = INVALID_ID
-    ' Used to timestamp the last update date/time
-    Protected _updatedAt As Date
 
     '//////////////////////////////////////////////////////////////////////////
     ' Access:   Protected
@@ -70,13 +62,17 @@ Public MustInherit Class TObject
         End Try
     End Sub
 
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:       New
+    ' Purpose:      ctor for this class
+    ' Parameters:    
     Public Sub New(ByRef table As Object, ByRef id As Integer)
         Try
             _table = table
 
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(id)
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(id) & " AND deleted <> -1"
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
 
@@ -104,10 +100,10 @@ Public MustInherit Class TObject
         _isNewRow = rhs._isNewRow
         _cmdGetIdentity = rhs._cmdGetIdentity
         _cmdBuilder = rhs._cmdBuilder
-        _creatorId = rhs._creatorId
-        _createdAt = rhs._createdAt
-        _updaterId = rhs._updaterId
-        _updatedAt = rhs._updatedAt
+        _row.creator_id = rhs.CreatorId
+        _row.created_at = rhs.CreatedAt
+        _row.updater_id = rhs.UpdaterId
+        _row.updated_at = rhs.UpdatedAt
     End Sub
 
     '//////////////////////////////////////////////////////////////////////////
@@ -126,14 +122,10 @@ Public MustInherit Class TObject
                 _adapter.Fill(_table)
 
                 If _table.Rows.Count = 1 Then
-                    _cmdBuilder.GetDeleteCommand()
-                    _table.Rows(0).Delete()
+                    _cmdBuilder.GetUpdateCommand()
+                    _table.rows(0).deleted = True
                     _adapter.Update(_table)
-                    _row.Setcreator_idNull()
-                    _row.Setcreated_atNull()
-                    _row.Setupdater_idNull()
-                    _row.Setupdated_atNull()
-                    _row.ClearErrors()
+                    _row = _table.NewRow
                 End If
             End Using
 
@@ -202,83 +194,6 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    Shared ReadOnly Property InvalidID As Integer
-        Get
-            Return INVALID_ID
-        End Get
-    End Property
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
-    Protected Property Table
-        Get
-            Return _table
-        End Get
-        Set(ByVal value)
-            _table = value
-        End Set
-    End Property
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
-    ReadOnly Property ID As Integer
-        Get
-            If _row IsNot Nothing Then
-                Return _row.id
-            Else
-                Return INVALID_ID
-            End If
-        End Get
-    End Property
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
-    ReadOnly Property CreatorId As Integer
-        Get
-            Return _creatorId
-        End Get
-    End Property
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
-    ReadOnly Property CreatedAt As Date
-        Get
-            Return _createdAt
-        End Get
-    End Property
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
-    ReadOnly Property UpdaterId As Integer
-        Get
-            Return _updaterId
-        End Get
-    End Property
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
-    ReadOnly Property UpdatedAt As Date
-        Get
-            Return _updatedAt
-        End Get
-    End Property
-
-    '//////////////////////////////////////////////////////////////////////////
-    ' Method:   
-    ' Purpose:  
-    ' Parameters:    
     Protected MustOverride Sub AddNewRow()
 
     '//////////////////////////////////////////////////////////////////////////
@@ -305,6 +220,100 @@ Public MustInherit Class TObject
             Application.WriteToEventLog("TObject::HandleRowUpdated, exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:   
+    Public Function UserIsCreator(ByRef user As TUser)
+        Dim rv As Boolean = False
+
+        If CreatorId = user.ID Then
+            rv = True
+        End If
+
+        Return rv
+    End Function
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    Shared ReadOnly Property InvalidID As Integer
+        Get
+            Return INVALID_ID
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    ReadOnly Property ID As Integer
+        Get
+            If _row IsNot Nothing Then
+                Return _row.id
+            Else
+                Return INVALID_ID
+            End If
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    ReadOnly Property CreatorId As Integer
+        Get
+            If _row.Iscreator_idNull Then
+                Return INVALID_ID
+            Else
+                Return _row.creator_id
+            End If
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    ReadOnly Property CreatedAt As Date
+        Get
+            If _row.Iscreated_atNull Then
+                Return ""
+            Else
+                Return _row.created_at
+            End If
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    ReadOnly Property UpdaterId As Integer
+        Get
+            If _row.Isupdater_idNull Then
+                Return INVALID_ID
+            Else
+                Return _row.updater_id
+            End If
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    ReadOnly Property UpdatedAt As Date
+        Get
+            If _row.Isupdated_atNull Then
+                Return ""
+            Else
+                Return _row.updated_at
+            End If
+        End Get
+    End Property
 
 End Class
 
@@ -595,7 +604,7 @@ Public Class TContracts
                 Next
 
                 ' Enclose the query string parens.
-                inSelectFilter = inSelectFilter & "))"
+                inSelectFilter = inSelectFilter & ")) AND deleted <> -1"
                 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 ' Contatenate the entire query string
@@ -843,7 +852,6 @@ Public Class TContract
 
     Public Sub New(ByVal contractNumber As String, ByVal programName As String, ByVal subContract As Boolean)
         MyBase.New(New ISAMSSds.contractsDataTable)
-
         _row.contract_number = contractNumber
         _row.subcontract = subContract
         _row.program_name = programName
@@ -1821,7 +1829,7 @@ Public Class TLod
 
     Protected Overrides Sub AddNewRow()
         Try
-            Table.AddlodsRow(_row)
+            _table.AddlodsRow(_row)
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
@@ -4070,10 +4078,6 @@ Public Class TPSSPHistory
 
 End Class
 
-
-' TODO: START HERE
-
-
 '//////////////////////////////////////////////////////////////////////////////
 ' Class: 
 ' Purpose: 
@@ -4111,57 +4115,47 @@ Public Class THistoryActionClass
     End Sub
 
     Public Sub New(ByVal id As Integer)
-        MyBase.New(New ISAMSSds.history_action_classesDataTable)
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM history_action_classes WHERE id = " + CStr(id)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim hac As New ISAMSSds.history_action_classesDataTable
-                adapter.Fill(hac)
-
-                If hac.Rows.Count = 1 Then
-                    Dim row As ISAMSSds.history_action_classesRow = hac.Rows(0)
-                    myTitle = row.title
-                    myDescription = row.description
-                End If
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.history_action_classesDataTable, id)
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.history_action_classesRow)
         MyBase.New(New ISAMSSds.history_action_classesDataTable)
-
-        Try
-            _row.id = row.id
-            myTitle = row.title
-            myDescription = row.description
-        Catch e As OleDb.OleDbException
-        End Try
+        _row = row
     End Sub
 
     Property Title As String
         Get
-            Return myTitle
+            If _row.IstitleNull Then
+                Return ""
+            Else
+                Return _row.title
+            End If
         End Get
         Set(ByVal value As String)
-            myTitle = value
+            _row.title = value
         End Set
     End Property
 
     Property Description As String
         Get
-            Return myDescription
+            If _row.IsdescriptionNull Then
+                Return ""
+            Else
+                Return _row.description
+            End If
         End Get
         Set(ByVal value As String)
-            myDescription = value
+            _row.description = value
+
         End Set
     End Property
 
     Protected Overrides Sub AddNewRow()
-
+        Try
+            _table.Addhistory_action_classesRow(_row)
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+        End Try
     End Sub
 
     '//////////////////////////////////////////////////////////////////////////
@@ -4172,12 +4166,10 @@ Public Class THistoryActionClass
         Try
             _row = _table.Newhistory_action_classesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("THistoryActionClass::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
-    Private myTitle As String
-    Private myDescription As String
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////

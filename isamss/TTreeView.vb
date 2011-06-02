@@ -232,6 +232,12 @@ Public Class TTreeView
         Return survTvi
     End Function
 
+    Private Function BuildUsersBranch(ByVal ct As TContract) As TreeViewItem
+        Dim usersTvi As New TreeViewItem
+
+        Return usersTvi
+    End Function
+
     Private Function BuildContractBranch(ByVal ct As TContract, ByVal u As TUser) As TreeViewItem
         ' Create the contract branch TreeViewItem
         Dim ctTvi As New TreeViewItem
@@ -245,25 +251,25 @@ Public Class TTreeView
 
     Private Sub PopulateContractBranch(ByRef ctTvi As TreeViewItem, ByVal ct As TContract, ByVal u As TUser)
         SetBranchFontWeight(ctTvi, True)
-        'SetBranchForeground(ctTvi, ct.HasUserActivities(u))
+        SetBranchForeground(ctTvi, ct.UserIsCreator(Application.CurrentUser))
         ctTvi.Header = ct.ContractNumber() + ": " + ct.ProgramName()
         ctTvi.Tag = ct
         ctTvi.TabIndex = BranchTabIndices.crrTab
 
         ' Build the customer branch
-        ctTvi.Items().Add(BuildCustomerBranch(ct, u))
+        ' ctTvi.Items().Add(BuildCustomerBranch(ct, u))
 
         ' Build the supplier branch
-        ctTvi.Items().Add(BuildSupplierBranch(ct, u))
+        ' ctTvi.Items().Add(BuildSupplierBranch(ct, u))
 
         ' Build the CR&R branch
-        ctTvi.Items.Add(BuildCRRBranch(ct, u))
+        ' ctTvi.Items.Add(BuildCRRBranch(ct, u))
 
         ' Build the lod branch
-        ctTvi.Items.Add(BuildLODBranch(ct, u))
+        ' ctTvi.Items.Add(BuildLODBranch(ct, u))
 
         ' Build the surveillance branch
-        ctTvi.Items.Add(BuildSurveillanceBranch(ct, u))
+        ' ctTvi.Items.Add(BuildSurveillanceBranch(ct, u))
     End Sub
 
     Private Sub SetBranchForeground(ByRef branch As TreeViewItem, ByVal owner As Boolean)
