@@ -223,7 +223,7 @@ Public Class TTreeView
         Dim survTvi As New TreeViewItem
         SetBranchFontWeight(survTvi, False)
         'SetBranchForeground(survTvi, ct.HasUserActivities(u))
-        survTvi.Header = "Surveillance " & "(" & ct.ActivityClasses.Count & ")"
+        'survTvi.Header = "Surveillance " & "(" & ct.ActivityClasses.Count & ")"
         survTvi.Tag = ct
         survTvi.TabIndex = BranchTabIndices.surveillanceTab
 

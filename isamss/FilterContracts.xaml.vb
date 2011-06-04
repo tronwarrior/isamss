@@ -6,8 +6,9 @@
 
         ' Add any initialization after the InitializeComponent() call.
         myContractsFilter = filter
-        Dim tmp As TUsers = New TUsers(True)
-        myUsers = tmp - myContractsFilter.Users
+        Dim tmp As New TUsers
+        Dim tmp2 As TUsers = tmp - myContractsFilter.Users
+        myUsers = tmp2
         dtStart.SelectedDate = filter.StartDate
         dtEnd.SelectedDate = filter.EndDate
         LoadUsers()

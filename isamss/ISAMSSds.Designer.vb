@@ -81,21 +81,21 @@ Partial Public Class ISAMSSds
     
     Private relationFK_contracts_crrs As Global.System.Data.DataRelation
     
-    Private relationFK_suppliers_contracts As Global.System.Data.DataRelation
-    
     Private relationFK_customers_contracts As Global.System.Data.DataRelation
+    
+    Private relationFK_suppliers_contracts As Global.System.Data.DataRelation
     
     Private relationFK_contracts_activities As Global.System.Data.DataRelation
     
     Private relationFK_activities_observations As Global.System.Data.DataRelation
     
-    Private relationFK_observations_observation_cmmi_proc_areas As Global.System.Data.DataRelation
-    
     Private relationFK_cmmi_process_areas_observation_cmmi_proc_areas As Global.System.Data.DataRelation
     
-    Private relationFK_observations_dmars As Global.System.Data.DataRelation
+    Private relationFK_observations_observation_cmmi_proc_areas As Global.System.Data.DataRelation
     
     Private relationFK_dmas_dmars As Global.System.Data.DataRelation
+    
+    Private relationFK_observations_dmars As Global.System.Data.DataRelation
     
     Private relationcontract_sites_contracts As Global.System.Data.DataRelation
     
@@ -871,14 +871,14 @@ Partial Public Class ISAMSSds
             End If
         End If
         Me.relationFK_contracts_crrs = Me.Relations("FK_contracts_crrs")
-        Me.relationFK_suppliers_contracts = Me.Relations("FK_suppliers_contracts")
         Me.relationFK_customers_contracts = Me.Relations("FK_customers_contracts")
+        Me.relationFK_suppliers_contracts = Me.Relations("FK_suppliers_contracts")
         Me.relationFK_contracts_activities = Me.Relations("FK_contracts_activities")
         Me.relationFK_activities_observations = Me.Relations("FK_activities_observations")
-        Me.relationFK_observations_observation_cmmi_proc_areas = Me.Relations("FK_observations_observation_cmmi_proc_areas")
         Me.relationFK_cmmi_process_areas_observation_cmmi_proc_areas = Me.Relations("FK_cmmi_process_areas_observation_cmmi_proc_areas")
-        Me.relationFK_observations_dmars = Me.Relations("FK_observations_dmars")
+        Me.relationFK_observations_observation_cmmi_proc_areas = Me.Relations("FK_observations_observation_cmmi_proc_areas")
         Me.relationFK_dmas_dmars = Me.Relations("FK_dmas_dmars")
+        Me.relationFK_observations_dmars = Me.Relations("FK_observations_dmars")
         Me.relationcontract_sites_contracts = Me.Relations("contract_sites_contracts")
         Me.relationlods_contracts = Me.Relations("lods_contracts")
         Me.relationsami_activity_categories_sami_activities = Me.Relations("sami_activity_categories_sami_activities")
@@ -966,12 +966,12 @@ Partial Public Class ISAMSSds
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn})
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_customers_contracts", New Global.System.Data.DataColumn() {Me.tablecustomers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.customer_idColumn})
         Me.tablecontracts.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_customers_contracts", New Global.System.Data.DataColumn() {Me.tablecustomers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.customer_idColumn})
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn})
         Me.tablecontracts.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
@@ -986,18 +986,13 @@ Partial Public Class ISAMSSds
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn})
-        Me.tableobservation_cmmi_proc_areas.Constraints.Add(fkc)
-        fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
-        fkc.DeleteRule = Global.System.Data.Rule.Cascade
-        fkc.UpdateRule = Global.System.Data.Rule.Cascade
         fkc = New Global.System.Data.ForeignKeyConstraint("FK_cmmi_process_areas_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tablecmmi_process_areas.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.cmmi_process_areas_idColumn})
         Me.tableobservation_cmmi_proc_areas.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
-        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn})
-        Me.tabledmars.Constraints.Add(fkc)
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn})
+        Me.tableobservation_cmmi_proc_areas.Constraints.Add(fkc)
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
@@ -1006,24 +1001,29 @@ Partial Public Class ISAMSSds
         fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
         fkc.DeleteRule = Global.System.Data.Rule.Cascade
         fkc.UpdateRule = Global.System.Data.Rule.Cascade
+        fkc = New Global.System.Data.ForeignKeyConstraint("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn})
+        Me.tabledmars.Constraints.Add(fkc)
+        fkc.AcceptRejectRule = Global.System.Data.AcceptRejectRule.None
+        fkc.DeleteRule = Global.System.Data.Rule.Cascade
+        fkc.UpdateRule = Global.System.Data.Rule.Cascade
         Me.relationFK_contracts_crrs = New Global.System.Data.DataRelation("FK_contracts_crrs", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tablecrrs.contract_idColumn}, false)
         Me.Relations.Add(Me.relationFK_contracts_crrs)
-        Me.relationFK_suppliers_contracts = New Global.System.Data.DataRelation("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn}, false)
-        Me.Relations.Add(Me.relationFK_suppliers_contracts)
         Me.relationFK_customers_contracts = New Global.System.Data.DataRelation("FK_customers_contracts", New Global.System.Data.DataColumn() {Me.tablecustomers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.customer_idColumn}, false)
         Me.Relations.Add(Me.relationFK_customers_contracts)
+        Me.relationFK_suppliers_contracts = New Global.System.Data.DataRelation("FK_suppliers_contracts", New Global.System.Data.DataColumn() {Me.tablesuppliers.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontracts.supplier_idColumn}, false)
+        Me.Relations.Add(Me.relationFK_suppliers_contracts)
         Me.relationFK_contracts_activities = New Global.System.Data.DataRelation("FK_contracts_activities", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tableactivities.contract_idColumn}, false)
         Me.Relations.Add(Me.relationFK_contracts_activities)
         Me.relationFK_activities_observations = New Global.System.Data.DataRelation("FK_activities_observations", New Global.System.Data.DataColumn() {Me.tableactivities.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservations.activity_idColumn}, false)
         Me.Relations.Add(Me.relationFK_activities_observations)
-        Me.relationFK_observations_observation_cmmi_proc_areas = New Global.System.Data.DataRelation("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn}, false)
-        Me.Relations.Add(Me.relationFK_observations_observation_cmmi_proc_areas)
         Me.relationFK_cmmi_process_areas_observation_cmmi_proc_areas = New Global.System.Data.DataRelation("FK_cmmi_process_areas_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tablecmmi_process_areas.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.cmmi_process_areas_idColumn}, false)
         Me.Relations.Add(Me.relationFK_cmmi_process_areas_observation_cmmi_proc_areas)
-        Me.relationFK_observations_dmars = New Global.System.Data.DataRelation("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn}, false)
-        Me.Relations.Add(Me.relationFK_observations_dmars)
+        Me.relationFK_observations_observation_cmmi_proc_areas = New Global.System.Data.DataRelation("FK_observations_observation_cmmi_proc_areas", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tableobservation_cmmi_proc_areas.observation_idColumn}, false)
+        Me.Relations.Add(Me.relationFK_observations_observation_cmmi_proc_areas)
         Me.relationFK_dmas_dmars = New Global.System.Data.DataRelation("FK_dmas_dmars", New Global.System.Data.DataColumn() {Me.tabledmas.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.dmas_idColumn}, false)
         Me.Relations.Add(Me.relationFK_dmas_dmars)
+        Me.relationFK_observations_dmars = New Global.System.Data.DataRelation("FK_observations_dmars", New Global.System.Data.DataColumn() {Me.tableobservations.idColumn}, New Global.System.Data.DataColumn() {Me.tabledmars.observation_idColumn}, false)
+        Me.Relations.Add(Me.relationFK_observations_dmars)
         Me.relationcontract_sites_contracts = New Global.System.Data.DataRelation("contract_sites_contracts", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tablecontract_sites.contract_idColumn}, false)
         Me.Relations.Add(Me.relationcontract_sites_contracts)
         Me.relationlods_contracts = New Global.System.Data.DataRelation("lods_contracts", New Global.System.Data.DataColumn() {Me.tablecontracts.idColumn}, New Global.System.Data.DataColumn() {Me.tablelods.contract_idColumn}, false)
@@ -2223,8 +2223,6 @@ Partial Public Class ISAMSSds
         
         Private columnupdated_at As Global.System.Data.DataColumn
         
-        Private columnsubcontract1 As Global.System.Data.DataColumn
-        
         Private columndeleted As Global.System.Data.DataColumn
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -2344,14 +2342,6 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public ReadOnly Property subcontract1Column() As Global.System.Data.DataColumn
-            Get
-                Return Me.columnsubcontract1
-            End Get
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public ReadOnly Property deletedColumn() As Global.System.Data.DataColumn
             Get
                 Return Me.columndeleted
@@ -2395,9 +2385,9 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function AddcontractsRow(ByVal id As Integer, ByVal subcontract As Short, ByVal parentsuppliersRowByFK_suppliers_contracts As suppliersRow, ByVal parentcustomersRowByFK_customers_contracts As customersRow, ByVal program_name As String, ByVal contract_number As String, ByVal creator_id As Integer, ByVal created_at As Date, ByVal updater_id As Integer, ByVal updated_at As Date, ByVal subcontract1 As Boolean, ByVal deleted As Boolean) As contractsRow
+        Public Overloads Function AddcontractsRow(ByVal id As Integer, ByVal subcontract As Short, ByVal parentsuppliersRowByFK_suppliers_contracts As suppliersRow, ByVal parentcustomersRowByFK_customers_contracts As customersRow, ByVal program_name As String, ByVal contract_number As String, ByVal creator_id As Integer, ByVal created_at As Date, ByVal updater_id As Integer, ByVal updated_at As Date, ByVal deleted As Boolean) As contractsRow
             Dim rowcontractsRow As contractsRow = CType(Me.NewRow,contractsRow)
-            Dim columnValuesArray() As Object = New Object() {id, subcontract, Nothing, Nothing, program_name, contract_number, creator_id, created_at, updater_id, updated_at, subcontract1, deleted}
+            Dim columnValuesArray() As Object = New Object() {id, subcontract, Nothing, Nothing, program_name, contract_number, creator_id, created_at, updater_id, updated_at, deleted}
             If (Not (parentsuppliersRowByFK_suppliers_contracts) Is Nothing) Then
                 columnValuesArray(2) = parentsuppliersRowByFK_suppliers_contracts(0)
             End If
@@ -2442,7 +2432,6 @@ Partial Public Class ISAMSSds
             Me.columncreated_at = MyBase.Columns("created_at")
             Me.columnupdater_id = MyBase.Columns("updater_id")
             Me.columnupdated_at = MyBase.Columns("updated_at")
-            Me.columnsubcontract1 = MyBase.Columns("subcontract1")
             Me.columndeleted = MyBase.Columns("deleted")
         End Sub
         
@@ -2469,8 +2458,6 @@ Partial Public Class ISAMSSds
             MyBase.Columns.Add(Me.columnupdater_id)
             Me.columnupdated_at = New Global.System.Data.DataColumn("updated_at", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnupdated_at)
-            Me.columnsubcontract1 = New Global.System.Data.DataColumn("subcontract1", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
-            MyBase.Columns.Add(Me.columnsubcontract1)
             Me.columndeleted = New Global.System.Data.DataColumn("deleted", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columndeleted)
             Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnid}, true))
@@ -2478,7 +2465,6 @@ Partial Public Class ISAMSSds
             Me.columnid.Unique = true
             Me.columnprogram_name.MaxLength = 536870910
             Me.columncontract_number.MaxLength = 50
-            Me.columnsubcontract1.Caption = "subcontract"
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -11252,7 +11238,7 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Overloads Function Addhistory_action_classesRow(ByVal title As String, ByVal description As String, ByVal creator_id As Integer, ByVal created_at As Date, ByVal updater_id As Integer, ByVal updated_at As Date, ByVal deleted() As Byte) As history_action_classesRow
+        Public Overloads Function Addhistory_action_classesRow(ByVal title As String, ByVal description As String, ByVal creator_id As Integer, ByVal created_at As Date, ByVal updater_id As Integer, ByVal updated_at As Date, ByVal deleted As Boolean) As history_action_classesRow
             Dim rowhistory_action_classesRow As history_action_classesRow = CType(Me.NewRow,history_action_classesRow)
             Dim columnValuesArray() As Object = New Object() {Nothing, title, description, creator_id, created_at, updater_id, updated_at, deleted}
             rowhistory_action_classesRow.ItemArray = columnValuesArray
@@ -11310,7 +11296,7 @@ Partial Public Class ISAMSSds
             MyBase.Columns.Add(Me.columnupdater_id)
             Me.columnupdated_at = New Global.System.Data.DataColumn("updated_at", GetType(Date), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columnupdated_at)
-            Me.columndeleted = New Global.System.Data.DataColumn("deleted", GetType(Byte()), Nothing, Global.System.Data.MappingType.Element)
+            Me.columndeleted = New Global.System.Data.DataColumn("deleted", GetType(Boolean), Nothing, Global.System.Data.MappingType.Element)
             MyBase.Columns.Add(Me.columndeleted)
             Me.Constraints.Add(New Global.System.Data.UniqueConstraint("Constraint1", New Global.System.Data.DataColumn() {Me.columnid}, true))
             Me.columnid.AutoIncrement = true
@@ -12671,21 +12657,6 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property subcontract1() As Boolean
-            Get
-                Try 
-                    Return CType(Me(Me.tablecontracts.subcontract1Column),Boolean)
-                Catch e As Global.System.InvalidCastException
-                    Throw New Global.System.Data.StrongTypingException("The value for column 'subcontract1' in table 'contracts' is DBNull.", e)
-                End Try
-            End Get
-            Set
-                Me(Me.tablecontracts.subcontract1Column) = value
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property deleted() As Boolean
             Get
                 Try 
@@ -12701,23 +12672,23 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property suppliersRow() As suppliersRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_suppliers_contracts")),suppliersRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_suppliers_contracts"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property customersRow() As customersRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_customers_contracts")),customersRow)
             End Get
             Set
                 Me.SetParentRow(value, Me.Table.ParentRelations("FK_customers_contracts"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property suppliersRow() As suppliersRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_suppliers_contracts")),suppliersRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_suppliers_contracts"))
             End Set
         End Property
         
@@ -12827,18 +12798,6 @@ Partial Public Class ISAMSSds
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Sub Setupdated_atNull()
             Me(Me.tablecontracts.updated_atColumn) = Global.System.Convert.DBNull
-        End Sub
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Function Issubcontract1Null() As Boolean
-            Return Me.IsNull(Me.tablecontracts.subcontract1Column)
-        End Function
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Sub Setsubcontract1Null()
-            Me(Me.tablecontracts.subcontract1Column) = Global.System.Convert.DBNull
         End Sub
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
@@ -13901,23 +13860,23 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property observationsRow() As observationsRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas")),observationsRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property cmmi_process_areasRow() As cmmi_process_areasRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_cmmi_process_areas_observation_cmmi_proc_areas")),cmmi_process_areasRow)
             End Get
             Set
                 Me.SetParentRow(value, Me.Table.ParentRelations("FK_cmmi_process_areas_observation_cmmi_proc_areas"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property observationsRow() As observationsRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas")),observationsRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_observation_cmmi_proc_areas"))
             End Set
         End Property
         
@@ -15909,23 +15868,23 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property observationsRow() As observationsRow
-            Get
-                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_dmars")),observationsRow)
-            End Get
-            Set
-                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_dmars"))
-            End Set
-        End Property
-        
-        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
         Public Property dmasRow() As dmasRow
             Get
                 Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_dmas_dmars")),dmasRow)
             End Get
             Set
                 Me.SetParentRow(value, Me.Table.ParentRelations("FK_dmas_dmars"))
+            End Set
+        End Property
+        
+        <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
+        Public Property observationsRow() As observationsRow
+            Get
+                Return CType(Me.GetParentRow(Me.Table.ParentRelations("FK_observations_dmars")),observationsRow)
+            End Get
+            Set
+                Me.SetParentRow(value, Me.Table.ParentRelations("FK_observations_dmars"))
             End Set
         End Property
         
@@ -19409,10 +19368,10 @@ Partial Public Class ISAMSSds
         
         <Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")>  _
-        Public Property deleted() As Byte()
+        Public Property deleted() As Boolean
             Get
                 Try 
-                    Return CType(Me(Me.tablehistory_action_classes.deletedColumn),Byte())
+                    Return CType(Me(Me.tablehistory_action_classes.deletedColumn),Boolean)
                 Catch e As Global.System.InvalidCastException
                     Throw New Global.System.Data.StrongTypingException("The value for column 'deleted' in table 'history_action_classes' is DBNull.", e)
                 End Try
@@ -21908,25 +21867,21 @@ Namespace ISAMSSdsTableAdapters
             tableMapping.ColumnMappings.Add("created_at", "created_at")
             tableMapping.ColumnMappings.Add("updater_id", "updater_id")
             tableMapping.ColumnMappings.Add("updated_at", "updated_at")
-            tableMapping.ColumnMappings.Add("subcontract", "subcontract1")
             tableMapping.ColumnMappings.Add("deleted", "deleted")
             Me._adapter.TableMappings.Add(tableMapping)
             Me._adapter.DeleteCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.DeleteCommand.Connection = Me.Connection
             Me._adapter.DeleteCommand.CommandText = "DELETE FROM `contracts` WHERE ((`id` = ?) AND ((? = 1 AND `contract_number` IS NU"& _ 
-                "LL) OR (`contract_number` = ?)) AND ((? = 1 AND `subcontract` IS NULL) OR (`subc"& _ 
-                "ontract` = ?)) AND ((? = 1 AND `supplier_id` IS NULL) OR (`supplier_id` = ?)) AN"& _ 
-                "D ((? = 1 AND `customer_id` IS NULL) OR (`customer_id` = ?)) AND ((? = 1 AND `cr"& _ 
-                "eator_id` IS NULL) OR (`creator_id` = ?)) AND ((? = 1 AND `created_at` IS NULL) "& _ 
-                "OR (`created_at` = ?)) AND ((? = 1 AND `updater_id` IS NULL) OR (`updater_id` = "& _ 
-                "?)) AND ((? = 1 AND `updated_at` IS NULL) OR (`updated_at` = ?)) AND ((? = 1 AND"& _ 
-                " `deleted` IS NULL) OR (`deleted` = ?)))"
+                "LL) OR (`contract_number` = ?)) AND ((? = 1 AND `supplier_id` IS NULL) OR (`supp"& _ 
+                "lier_id` = ?)) AND ((? = 1 AND `customer_id` IS NULL) OR (`customer_id` = ?)) AN"& _ 
+                "D ((? = 1 AND `creator_id` IS NULL) OR (`creator_id` = ?)) AND ((? = 1 AND `crea"& _ 
+                "ted_at` IS NULL) OR (`created_at` = ?)) AND ((? = 1 AND `updater_id` IS NULL) OR"& _ 
+                " (`updater_id` = ?)) AND ((? = 1 AND `updated_at` IS NULL) OR (`updated_at` = ?)"& _ 
+                ") AND ((? = 1 AND `deleted` IS NULL) OR (`deleted` = ?)))"
             Me._adapter.DeleteCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_contract_number", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "contract_number", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_contract_number", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "contract_number", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_subcontract", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "subcontract", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_subcontract", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "subcontract", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_supplier_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "supplier_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_supplier_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "supplier_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.DeleteCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_customer_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "customer_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
@@ -21959,19 +21914,17 @@ Namespace ISAMSSdsTableAdapters
             Me._adapter.InsertCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("deleted", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "deleted", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand = New Global.System.Data.OleDb.OleDbCommand()
             Me._adapter.UpdateCommand.Connection = Me.Connection
-            Me._adapter.UpdateCommand.CommandText = "UPDATE `contracts` SET `contract_number` = ?, `subcontract` = ?, `supplier_id` = "& _ 
-                "?, `customer_id` = ?, `program_name` = ?, `creator_id` = ?, `created_at` = ?, `u"& _ 
-                "pdater_id` = ?, `updated_at` = ?, `deleted` = ? WHERE ((`id` = ?) AND ((? = 1 AN"& _ 
-                "D `contract_number` IS NULL) OR (`contract_number` = ?)) AND ((? = 1 AND `subcon"& _ 
-                "tract` IS NULL) OR (`subcontract` = ?)) AND ((? = 1 AND `supplier_id` IS NULL) O"& _ 
-                "R (`supplier_id` = ?)) AND ((? = 1 AND `customer_id` IS NULL) OR (`customer_id` "& _ 
-                "= ?)) AND ((? = 1 AND `creator_id` IS NULL) OR (`creator_id` = ?)) AND ((? = 1 A"& _ 
-                "ND `created_at` IS NULL) OR (`created_at` = ?)) AND ((? = 1 AND `updater_id` IS "& _ 
-                "NULL) OR (`updater_id` = ?)) AND ((? = 1 AND `updated_at` IS NULL) OR (`updated_"& _ 
-                "at` = ?)) AND ((? = 1 AND `deleted` IS NULL) OR (`deleted` = ?)))"
+            Me._adapter.UpdateCommand.CommandText = "UPDATE `contracts` SET `contract_number` = ?, `supplier_id` = ?, `customer_id` = "& _ 
+                "?, `program_name` = ?, `creator_id` = ?, `created_at` = ?, `updater_id` = ?, `up"& _ 
+                "dated_at` = ?, `deleted` = ? WHERE ((`id` = ?) AND ((? = 1 AND `contract_number`"& _ 
+                " IS NULL) OR (`contract_number` = ?)) AND ((? = 1 AND `supplier_id` IS NULL) OR "& _ 
+                "(`supplier_id` = ?)) AND ((? = 1 AND `customer_id` IS NULL) OR (`customer_id` = "& _ 
+                "?)) AND ((? = 1 AND `creator_id` IS NULL) OR (`creator_id` = ?)) AND ((? = 1 AND"& _ 
+                " `created_at` IS NULL) OR (`created_at` = ?)) AND ((? = 1 AND `updater_id` IS NU"& _ 
+                "LL) OR (`updater_id` = ?)) AND ((? = 1 AND `updated_at` IS NULL) OR (`updated_at"& _ 
+                "` = ?)) AND ((? = 1 AND `deleted` IS NULL) OR (`deleted` = ?)))"
             Me._adapter.UpdateCommand.CommandType = Global.System.Data.CommandType.Text
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("contract_number", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "contract_number", Global.System.Data.DataRowVersion.Current, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("subcontract", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "subcontract", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("supplier_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "supplier_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("customer_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "customer_id", Global.System.Data.DataRowVersion.Current, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("program_name", Global.System.Data.OleDb.OleDbType.LongVarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "program_name", Global.System.Data.DataRowVersion.Current, false, Nothing))
@@ -21983,8 +21936,6 @@ Namespace ISAMSSdsTableAdapters
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_contract_number", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "contract_number", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_contract_number", Global.System.Data.OleDb.OleDbType.VarWChar, 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "contract_number", Global.System.Data.DataRowVersion.Original, false, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_subcontract", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "subcontract", Global.System.Data.DataRowVersion.Original, true, Nothing))
-            Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_subcontract", Global.System.Data.OleDb.OleDbType.[Boolean], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "subcontract", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_supplier_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "supplier_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("Original_supplier_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "supplier_id", Global.System.Data.DataRowVersion.Original, false, Nothing))
             Me._adapter.UpdateCommand.Parameters.Add(New Global.System.Data.OleDb.OleDbParameter("IsNull_customer_id", Global.System.Data.OleDb.OleDbType.[Integer], 0, Global.System.Data.ParameterDirection.Input, CType(0,Byte), CType(0,Byte), "customer_id", Global.System.Data.DataRowVersion.Original, true, Nothing))
@@ -22014,8 +21965,8 @@ Namespace ISAMSSdsTableAdapters
             Me._commandCollection = New Global.System.Data.OleDb.OleDbCommand(0) {}
             Me._commandCollection(0) = New Global.System.Data.OleDb.OleDbCommand()
             Me._commandCollection(0).Connection = Me.Connection
-            Me._commandCollection(0).CommandText = "SELECT id, contract_number, subcontract, supplier_id, customer_id, program_name, "& _ 
-                "creator_id, created_at, updater_id, updated_at, deleted FROM contracts"
+            Me._commandCollection(0).CommandText = "SELECT id, contract_number, supplier_id, customer_id, program_name, creator_id, c"& _ 
+                "reated_at, updater_id, updated_at, deleted FROM contracts"
             Me._commandCollection(0).CommandType = Global.System.Data.CommandType.Text
         End Sub
         
@@ -22075,7 +22026,7 @@ Namespace ISAMSSdsTableAdapters
          Global.System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0"),  _
          Global.System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter"),  _
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Delete, true)>  _
-        Public Overloads Overridable Function Delete(ByVal Original_id As Integer, ByVal Original_contract_number As String, ByVal Original_subcontract As Boolean, ByVal Original_supplier_id As Integer, ByVal Original_customer_id As Global.System.Nullable(Of Integer), ByVal Original_creator_id As Global.System.Nullable(Of Integer), ByVal Original_created_at As Global.System.Nullable(Of Date), ByVal Original_updater_id As Global.System.Nullable(Of Integer), ByVal Original_updated_at As Global.System.Nullable(Of Date), ByVal Original_deleted As Boolean) As Integer
+        Public Overloads Overridable Function Delete(ByVal Original_id As Integer, ByVal Original_contract_number As String, ByVal Original_supplier_id As Integer, ByVal Original_customer_id As Global.System.Nullable(Of Integer), ByVal Original_creator_id As Global.System.Nullable(Of Integer), ByVal Original_created_at As Global.System.Nullable(Of Date), ByVal Original_updater_id As Global.System.Nullable(Of Integer), ByVal Original_updated_at As Global.System.Nullable(Of Date), ByVal Original_deleted As Boolean) As Integer
             Me.Adapter.DeleteCommand.Parameters(0).Value = CType(Original_id,Integer)
             If (Original_contract_number Is Nothing) Then
                 Throw New Global.System.ArgumentNullException("Original_contract_number")
@@ -22084,46 +22035,44 @@ Namespace ISAMSSdsTableAdapters
                 Me.Adapter.DeleteCommand.Parameters(2).Value = CType(Original_contract_number,String)
             End If
             Me.Adapter.DeleteCommand.Parameters(3).Value = CType(0,Object)
-            Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_subcontract,Boolean)
-            Me.Adapter.DeleteCommand.Parameters(5).Value = CType(0,Object)
-            Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_supplier_id,Integer)
+            Me.Adapter.DeleteCommand.Parameters(4).Value = CType(Original_supplier_id,Integer)
             If (Original_customer_id.HasValue = true) Then
+                Me.Adapter.DeleteCommand.Parameters(5).Value = CType(0,Object)
+                Me.Adapter.DeleteCommand.Parameters(6).Value = CType(Original_customer_id.Value,Integer)
+            Else
+                Me.Adapter.DeleteCommand.Parameters(5).Value = CType(1,Object)
+                Me.Adapter.DeleteCommand.Parameters(6).Value = Global.System.DBNull.Value
+            End If
+            If (Original_creator_id.HasValue = true) Then
                 Me.Adapter.DeleteCommand.Parameters(7).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(8).Value = CType(Original_customer_id.Value,Integer)
+                Me.Adapter.DeleteCommand.Parameters(8).Value = CType(Original_creator_id.Value,Integer)
             Else
                 Me.Adapter.DeleteCommand.Parameters(7).Value = CType(1,Object)
                 Me.Adapter.DeleteCommand.Parameters(8).Value = Global.System.DBNull.Value
             End If
-            If (Original_creator_id.HasValue = true) Then
+            If (Original_created_at.HasValue = true) Then
                 Me.Adapter.DeleteCommand.Parameters(9).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(10).Value = CType(Original_creator_id.Value,Integer)
+                Me.Adapter.DeleteCommand.Parameters(10).Value = CType(Original_created_at.Value,Date)
             Else
                 Me.Adapter.DeleteCommand.Parameters(9).Value = CType(1,Object)
                 Me.Adapter.DeleteCommand.Parameters(10).Value = Global.System.DBNull.Value
             End If
-            If (Original_created_at.HasValue = true) Then
+            If (Original_updater_id.HasValue = true) Then
                 Me.Adapter.DeleteCommand.Parameters(11).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(12).Value = CType(Original_created_at.Value,Date)
+                Me.Adapter.DeleteCommand.Parameters(12).Value = CType(Original_updater_id.Value,Integer)
             Else
                 Me.Adapter.DeleteCommand.Parameters(11).Value = CType(1,Object)
                 Me.Adapter.DeleteCommand.Parameters(12).Value = Global.System.DBNull.Value
             End If
-            If (Original_updater_id.HasValue = true) Then
+            If (Original_updated_at.HasValue = true) Then
                 Me.Adapter.DeleteCommand.Parameters(13).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(14).Value = CType(Original_updater_id.Value,Integer)
+                Me.Adapter.DeleteCommand.Parameters(14).Value = CType(Original_updated_at.Value,Date)
             Else
                 Me.Adapter.DeleteCommand.Parameters(13).Value = CType(1,Object)
                 Me.Adapter.DeleteCommand.Parameters(14).Value = Global.System.DBNull.Value
             End If
-            If (Original_updated_at.HasValue = true) Then
-                Me.Adapter.DeleteCommand.Parameters(15).Value = CType(0,Object)
-                Me.Adapter.DeleteCommand.Parameters(16).Value = CType(Original_updated_at.Value,Date)
-            Else
-                Me.Adapter.DeleteCommand.Parameters(15).Value = CType(1,Object)
-                Me.Adapter.DeleteCommand.Parameters(16).Value = Global.System.DBNull.Value
-            End If
-            Me.Adapter.DeleteCommand.Parameters(17).Value = CType(0,Object)
-            Me.Adapter.DeleteCommand.Parameters(18).Value = CType(Original_deleted,Boolean)
+            Me.Adapter.DeleteCommand.Parameters(15).Value = CType(0,Object)
+            Me.Adapter.DeleteCommand.Parameters(16).Value = CType(Original_deleted,Boolean)
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.DeleteCommand.Connection.State
             If ((Me.Adapter.DeleteCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
                         <> Global.System.Data.ConnectionState.Open) Then
@@ -22203,7 +22152,6 @@ Namespace ISAMSSdsTableAdapters
          Global.System.ComponentModel.DataObjectMethodAttribute(Global.System.ComponentModel.DataObjectMethodType.Update, true)>  _
         Public Overloads Overridable Function Update( _
                     ByVal contract_number As String,  _
-                    ByVal subcontract As Boolean,  _
                     ByVal supplier_id As Integer,  _
                     ByVal customer_id As Global.System.Nullable(Of Integer),  _
                     ByVal program_name As String,  _
@@ -22214,7 +22162,6 @@ Namespace ISAMSSdsTableAdapters
                     ByVal deleted As Boolean,  _
                     ByVal Original_id As Integer,  _
                     ByVal Original_contract_number As String,  _
-                    ByVal Original_subcontract As Boolean,  _
                     ByVal Original_supplier_id As Integer,  _
                     ByVal Original_customer_id As Global.System.Nullable(Of Integer),  _
                     ByVal Original_creator_id As Global.System.Nullable(Of Integer),  _
@@ -22227,87 +22174,84 @@ Namespace ISAMSSdsTableAdapters
             Else
                 Me.Adapter.UpdateCommand.Parameters(0).Value = CType(contract_number,String)
             End If
-            Me.Adapter.UpdateCommand.Parameters(1).Value = CType(subcontract,Boolean)
-            Me.Adapter.UpdateCommand.Parameters(2).Value = CType(supplier_id,Integer)
+            Me.Adapter.UpdateCommand.Parameters(1).Value = CType(supplier_id,Integer)
             If (customer_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(3).Value = CType(customer_id.Value,Integer)
+                Me.Adapter.UpdateCommand.Parameters(2).Value = CType(customer_id.Value,Integer)
             Else
-                Me.Adapter.UpdateCommand.Parameters(3).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(2).Value = Global.System.DBNull.Value
             End If
             If (program_name Is Nothing) Then
-                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(3).Value = Global.System.DBNull.Value
             Else
-                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(program_name,String)
+                Me.Adapter.UpdateCommand.Parameters(3).Value = CType(program_name,String)
             End If
             If (creator_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(creator_id.Value,Integer)
+                Me.Adapter.UpdateCommand.Parameters(4).Value = CType(creator_id.Value,Integer)
+            Else
+                Me.Adapter.UpdateCommand.Parameters(4).Value = Global.System.DBNull.Value
+            End If
+            If (created_at.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(5).Value = CType(created_at.Value,Date)
             Else
                 Me.Adapter.UpdateCommand.Parameters(5).Value = Global.System.DBNull.Value
             End If
-            If (created_at.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(created_at.Value,Date)
+            If (updater_id.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(6).Value = CType(updater_id.Value,Integer)
             Else
                 Me.Adapter.UpdateCommand.Parameters(6).Value = Global.System.DBNull.Value
             End If
-            If (updater_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(7).Value = CType(updater_id.Value,Integer)
+            If (updated_at.HasValue = true) Then
+                Me.Adapter.UpdateCommand.Parameters(7).Value = CType(updated_at.Value,Date)
             Else
                 Me.Adapter.UpdateCommand.Parameters(7).Value = Global.System.DBNull.Value
             End If
-            If (updated_at.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(8).Value = CType(updated_at.Value,Date)
-            Else
-                Me.Adapter.UpdateCommand.Parameters(8).Value = Global.System.DBNull.Value
-            End If
-            Me.Adapter.UpdateCommand.Parameters(9).Value = CType(deleted,Boolean)
-            Me.Adapter.UpdateCommand.Parameters(10).Value = CType(Original_id,Integer)
+            Me.Adapter.UpdateCommand.Parameters(8).Value = CType(deleted,Boolean)
+            Me.Adapter.UpdateCommand.Parameters(9).Value = CType(Original_id,Integer)
             If (Original_contract_number Is Nothing) Then
                 Throw New Global.System.ArgumentNullException("Original_contract_number")
             Else
-                Me.Adapter.UpdateCommand.Parameters(11).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(12).Value = CType(Original_contract_number,String)
+                Me.Adapter.UpdateCommand.Parameters(10).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(11).Value = CType(Original_contract_number,String)
             End If
-            Me.Adapter.UpdateCommand.Parameters(13).Value = CType(0,Object)
-            Me.Adapter.UpdateCommand.Parameters(14).Value = CType(Original_subcontract,Boolean)
-            Me.Adapter.UpdateCommand.Parameters(15).Value = CType(0,Object)
-            Me.Adapter.UpdateCommand.Parameters(16).Value = CType(Original_supplier_id,Integer)
+            Me.Adapter.UpdateCommand.Parameters(12).Value = CType(0,Object)
+            Me.Adapter.UpdateCommand.Parameters(13).Value = CType(Original_supplier_id,Integer)
             If (Original_customer_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(Original_customer_id.Value,Integer)
+                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(15).Value = CType(Original_customer_id.Value,Integer)
             Else
-                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(18).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(14).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(15).Value = Global.System.DBNull.Value
             End If
             If (Original_creator_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(Original_creator_id.Value,Integer)
+                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(17).Value = CType(Original_creator_id.Value,Integer)
             Else
-                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(20).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(16).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(17).Value = Global.System.DBNull.Value
             End If
             If (Original_created_at.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(21).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(22).Value = CType(Original_created_at.Value,Date)
+                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(19).Value = CType(Original_created_at.Value,Date)
             Else
-                Me.Adapter.UpdateCommand.Parameters(21).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(22).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(18).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(19).Value = Global.System.DBNull.Value
             End If
             If (Original_updater_id.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(23).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(24).Value = CType(Original_updater_id.Value,Integer)
+                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(21).Value = CType(Original_updater_id.Value,Integer)
             Else
-                Me.Adapter.UpdateCommand.Parameters(23).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(24).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(20).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(21).Value = Global.System.DBNull.Value
             End If
             If (Original_updated_at.HasValue = true) Then
-                Me.Adapter.UpdateCommand.Parameters(25).Value = CType(0,Object)
-                Me.Adapter.UpdateCommand.Parameters(26).Value = CType(Original_updated_at.Value,Date)
+                Me.Adapter.UpdateCommand.Parameters(22).Value = CType(0,Object)
+                Me.Adapter.UpdateCommand.Parameters(23).Value = CType(Original_updated_at.Value,Date)
             Else
-                Me.Adapter.UpdateCommand.Parameters(25).Value = CType(1,Object)
-                Me.Adapter.UpdateCommand.Parameters(26).Value = Global.System.DBNull.Value
+                Me.Adapter.UpdateCommand.Parameters(22).Value = CType(1,Object)
+                Me.Adapter.UpdateCommand.Parameters(23).Value = Global.System.DBNull.Value
             End If
-            Me.Adapter.UpdateCommand.Parameters(27).Value = CType(0,Object)
-            Me.Adapter.UpdateCommand.Parameters(28).Value = CType(Original_deleted,Boolean)
+            Me.Adapter.UpdateCommand.Parameters(24).Value = CType(0,Object)
+            Me.Adapter.UpdateCommand.Parameters(25).Value = CType(Original_deleted,Boolean)
             Dim previousConnectionState As Global.System.Data.ConnectionState = Me.Adapter.UpdateCommand.Connection.State
             If ((Me.Adapter.UpdateCommand.Connection.State And Global.System.Data.ConnectionState.Open)  _
                         <> Global.System.Data.ConnectionState.Open) Then

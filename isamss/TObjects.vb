@@ -58,7 +58,7 @@ Public MustInherit Class TObject
             _row.creator_id = INVALID_ID
             _row.updater_id = INVALID_ID
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TObject::New(table), Excpetion: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -79,7 +79,7 @@ Public MustInherit Class TObject
                 If _table.Rows.Count = 1 Then
                     _row = _table.Rows.Item(0)
                 Else
-                    Application.WriteToEventLog(Me.GetType.Name & "::New(id), Query for object unique key " & CStr(id) & " returned " & _table.Rows.Count & " objects", EventLogEntryType.Warning)
+                    Application.WriteToEventLog(Me.GetType.Name & "::New(id), Query for object unique key " & CStr(id) & " on table " & _table.TableNAme & " returned " & _table.Rows.Count & " objects", EventLogEntryType.Warning)
                 End If
             End Using
         Catch e As OleDb.OleDbException
@@ -326,35 +326,208 @@ End Class
 ' Purpose:  The base class for collections of classes derived from TObject
 Public MustInherit Class TObjects
     Inherits ObservableCollection(Of Object)
+
+    Protected _adapter As OleDb.OleDbDataAdapter = Nothing
+    ' Used to hold the table object
+    Protected _table As Object = Nothing
+    ' Used to get the appropriate commands for datastore CRUD
+    Private _cmdBuilder As OleDbCommandBuilder = Nothing
+
+    Public Sub New(ByVal table As Object)
+        _table = table
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE deleted <> -1"
+                _adapter = New OleDb.OleDbDataAdapter(query, connection)
+                _adapter.Fill(_table)
+                AddItems()
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal rhs As TObjects)
+        _table = table
+
+        For Each r In rhs
+            MyBase.Add(r)
+        Next
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal rhs As IList)
+        _table = table
+
+        For Each r In rhs
+            MyBase.Add(r)
+        Next
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal user As TUser)
+        _table = table
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE creator_id = " + CStr(user.ID) + " AND deleted <> -1"
+                _adapter = New OleDb.OleDbDataAdapter(query, connection)
+                _adapter.Fill(_table)
+                AddItems()
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal users As TUsers)
+        _table = table
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                ' Open the datastore connection.
+                connection.Open()
+
+                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                ' Build the query string.
+                Dim mainSelect As String = "SELECT * FROM contracts WHERE "
+
+                ' Selecting contracts associated with each user through the CR&R records.
+                For Each user In users
+                    mainSelect = mainSelect & "creator_id = " & CStr(user.ID)
+
+                    If (users.Count - 1) > users.IndexOf(user) Then
+                        mainSelect = mainSelect & " OR "
+                    End If
+                Next
+
+                mainSelect = mainSelect & " AND deleted <> -1"
+                '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+                ' Create the datastore adapter
+                _adapter = New OleDb.OleDbDataAdapter(mainSelect, connection)
+                ' Retrieve the requested records.
+                _adapter.Fill(_table)
+                AddItems()
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal startDate As Date, ByVal endDate As Date)
+        _table = table
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM contracts WHERE "
+                Dim dateFilter As String = " created_at BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startDate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, endDate).Date.ToString & "#"
+                query &= dateFilter & " AND deleted <> -1"
+                _adapter = New OleDb.OleDbDataAdapter(query, connection)
+                _adapter.Fill(_table)
+                AddItems()
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(startDate, endDate), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal users As TUsers, ByVal startDate As Date, ByVal endDate As Date)
+        _table = table
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM " & _table.TableName
+                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                ' Build the filter string.
+                Dim inSelectFilter As String = " WHERE "
+
+                ' Selecting contracts associated with each user through the CR&R records.
+                For Each user In users
+                    inSelectFilter = inSelectFilter & " creator_id = " & CStr(user.ID)
+
+                    If (users.Count - 1) > users.IndexOf(user) Then
+                        inSelectFilter = inSelectFilter & " OR "
+                    End If
+                Next
+
+                '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+                Dim dateFilter As String = " AND created_at BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startDate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, endDate).Date.ToString & "#"
+                query &= inSelectFilter & dateFilter & " AND deleted <> -1"
+                _adapter = New OleDb.OleDbDataAdapter(query, connection)
+                _adapter.Fill(_table)
+                AddItems()
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(users, startDate, endDate), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal filter As String)
+        _table = table
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE " & filter & " AND deleted <> -1"
+                _adapter = New OleDb.OleDbDataAdapter(query, connection)
+                _adapter.Fill(_table)
+                AddItems()
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Public Sub New(ByVal table As Object, ByVal query As TQuery)
+        _table = table
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                _adapter = New OleDb.OleDbDataAdapter(query.Query, connection)
+                _adapter.Fill(_table)
+                AddItems()
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
+    Protected MustOverride Sub AddItems()
+
+    Public Class TQuery
+        Private _query As String
+
+        Public Sub New(ByVal query As String)
+            _query = query
+        End Sub
+
+        ReadOnly Property Query As String
+            Get
+                Return _query
+            End Get
+        End Property
+    End Class
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
 ' Class: TUsers
 ' Purpose: Encapsulates the user data
 Public Class TUsers
-    Inherits ObservableCollection(Of TUser)
+    Inherits TObjects
 
     Public Sub New(Optional ByVal loadAll As Boolean = True)
-        If loadAll Then
-            Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                    connection.Open()
-                    Dim query As String = "SELECT * FROM users"
-                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                    Dim usrs As New ISAMSSds.usersDataTable
-                    adapter.Fill(usrs)
-
-                    For Each u In usrs
-                        Dim usr As New TUser(u)
-                        Add(usr)
-                    Next
-                End Using
-            Catch e As OleDb.OleDbException
-            End Try
-        End If
+        MyBase.New(New ISAMSSds.usersDataTable)
     End Sub
 
     Public Sub New(ByVal users As TUsers)
+        MyBase.New(New ISAMSSds.usersDataTable)
+        MyBase.Clear()
         For Each user In users
             MyBase.Add(user)
         Next
@@ -374,6 +547,7 @@ Public Class TUsers
 
     Public Shared Operator -(ByVal lhs As TUsers, ByVal rhs As TUsers) As TUsers
         Dim rv As New TUsers(lhs)
+
         For Each ls In lhs
             For Each rs In rhs
                 If ls.ID = rs.ID Then
@@ -381,9 +555,19 @@ Public Class TUsers
                 End If
             Next
         Next
+
         Return rv
     End Operator
 
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TUser(CType(row, ISAMSSds.usersRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -534,193 +718,56 @@ End Class
 ' Class: TContracts
 ' Purpose: TContract collection
 Public Class TContracts
-    Inherits ObservableCollection(Of TContract)
+    Inherits TObjects
+
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TContract(CType(row, ISAMSSds.contractsRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
 
     ' Create a TContract collection composed of all contracts
     Public Sub New()
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As System.Exception
-        End Try
+        MyBase.New(New ISAMSSds.contractsDataTable)
     End Sub
 
     ' Copy contructor
     Public Sub New(ByVal ctx As TContracts)
-        For Each c In ctx
-            MyBase.Add(c)
-        Next
+        MyBase.New(New ISAMSSds.contractsDataTable, ctx)
     End Sub
 
     ' Create a TContract collection associated with a specific user
-    Public Sub New(ByRef u As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts WHERE id IN (SELECT contract_id FROM crrs WHERE (creator_id = " + CStr(u.ID) + "))"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByRef user As TUser)
+        MyBase.New(New ISAMSSds.contractsDataTable, user)
     End Sub
 
     ' Create a TContract collection associated with a set of users
     Public Sub New(ByRef users As TUsers)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                ' Open the datastore connection.
-                connection.Open()
-
-                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                ' Build the query string.
-                Dim mainSelect As String = "SELECT * FROM contracts WHERE id IN "
-                Dim inSelect As String = "(SELECT contract_id FROM crrs WHERE "
-                Dim inSelectFilter As String = "("
-
-                ' Selecting contracts associated with each user through the CR&R records.
-                For Each user In users
-                    inSelectFilter = inSelectFilter & "creator_id = " & CStr(user.ID)
-
-                    If (users.Count - 1) > users.IndexOf(user) Then
-                        inSelectFilter = inSelectFilter & " OR "
-                    End If
-                Next
-
-                ' Enclose the query string parens.
-                inSelectFilter = inSelectFilter & ")) AND deleted <> -1"
-                '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-                ' Contatenate the entire query string
-                Dim finalQuery As String = mainSelect & inSelect & inSelectFilter
-                ' Create the datastore adapter
-                Dim adapter As New OleDb.OleDbDataAdapter(finalQuery, connection)
-                ' Declare the contracts data table object.
-                Dim ctx As New ISAMSSds.contractsDataTable
-                ' Retrieve the requested records.
-                adapter.Fill(ctx)
-
-                ' Create a TContract object for each record and put into the collection.
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.contractsDataTable, users)
     End Sub
 
     ' Create a TContract collection composed of elements that fall within a date range
     Public Sub New(ByVal startDate As Date, ByVal endDate As Date)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts WHERE id IN (SELECT contract_id FROM crrs WHERE (date_reviewed "
-                Dim dateFilter As String = "BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startDate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, endDate).Date.ToString & "#))"
-                query &= dateFilter
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.contractsDataTable, startDate, endDate)
     End Sub
 
     ' Create a TContract collection composed of elements that belong to a set of users and fall within a date range
     Public Sub New(ByVal users As TUsers, ByVal startDate As Date, ByVal endDate As Date)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts WHERE id IN "
-                ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                ' Build the query string.
-                Dim inSelect As String = "(SELECT contract_id FROM crrs WHERE "
-                Dim inSelectFilter As String = "("
-
-                ' Selecting contracts associated with each user through the CR&R records.
-                For Each user In users
-                    inSelectFilter = inSelectFilter & "creator_id = " & CStr(user.ID)
-
-                    If (users.Count - 1) > users.IndexOf(user) Then
-                        inSelectFilter = inSelectFilter & " OR "
-                    End If
-                Next
-
-                ' Enclose the query string parens.
-                inSelectFilter = inSelectFilter & ") AND "
-                '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-                Dim dateFilter As String = "date_reviewed BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startDate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, endDate).Date.ToString & "#)"
-                query &= inSelect & inSelectFilter & dateFilter
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.contractsDataTable, users, startDate, endDate)
     End Sub
 
     ' Create a TContract collection composed of elements that belong to a specific supplier
     Public Sub New(ByVal supplier As TSupplier)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts WHERE supplier_id = " & CStr(supplier.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.contractsDataTable, "supplier_id = " & CStr(supplier.ID))
     End Sub
 
     ' Create a TContract collection composed of elements that belong to a specific customer
     Public Sub New(ByVal customer As TCustomer)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts WHERE customer_id = " & CStr(customer.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.contractsDataTable, "customer_id = " & CStr(customer.ID))
     End Sub
 
     ' Create a TContract collection based on a program name.
@@ -729,42 +776,13 @@ Public Class TContracts
     ' upon complete or partial names; this allows for a simple object creation
     ' via the new operator to get the result set.
     Public Sub New(ByVal programName As TProgramName)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts WHERE program_name like '%" & programName.Name & "%'"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.contractsDataTable, "program_name like '%" & programName.Name & "%'")
     End Sub
 
     ' Create a TContract collection based on a contract number.
     ' (See note above for New(TProgramName))
     Public Sub New(ByVal contractNumber As TContractNumber)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contracts WHERE contract_number like '%" & contractNumber.Number & "%'"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim ctx As New ISAMSSds.contractsDataTable
-                adapter.Fill(ctx)
-
-                For Each c In ctx
-                    Dim tc As New TContract(c)
-                    MyBase.Add(tc)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-
+        MyBase.New(New ISAMSSds.contractsDataTable, "contract_number like '%" & contractNumber.Number & "%'")
     End Sub
 
     ' Operator + for composing a collection out of two existing collections
@@ -966,16 +984,6 @@ Public Class TContract
         End Get
     End Property
 
-    ReadOnly Property ActivityClasses As TActivityClasses
-        Get
-            If _activityClasses Is Nothing Then
-                _activityClasses = New TActivityClasses(Me)
-            End If
-
-            Return _activityClasses
-        End Get
-    End Property
-
     Public Shadows Sub Save()
         Try
             MyBase.Save()
@@ -1056,7 +1064,6 @@ Public Class TContract
         End If
     End Sub
 
-
     ' TODO: Optimize collections - hold just the object id's, not the objects;
     ' create the objects on demand.
     Private _crrIds As TObjectIDs = New TObjectIDs
@@ -1077,23 +1084,19 @@ End Class
 ' Class: TSuppliers
 ' Purpose: Collection class for TSupplier
 Public Class TSuppliers
-    Inherits ObservableCollection(Of TSupplier)
+    Inherits TObjects
 
     Public Sub New()
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM suppliers"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim supps As New ISAMSSds.suppliersDataTable
-                adapter.Fill(supps)
+        MyBase.New(New ISAMSSds.suppliersDataTable)
+    End Sub
 
-                For Each s In supps
-                    Dim supp As New TSupplier(s)
-                    MyBase.Add(supp)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TSupplier(CType(row, ISAMSSds.suppliersRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 End Class
@@ -1198,25 +1201,22 @@ End Class
 ' Class: TCustomers
 ' Purpose: Collection class for customers
 Public Class TCustomers
-    Inherits ObservableCollection(Of TCustomer)
+    Inherits TObjects
 
     Public Sub New()
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM customers"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim custs As New ISAMSSds.customersDataTable
-                adapter.Fill(custs)
+        MyBase.New(New ISAMSSds.customersDataTable)
+    End Sub
 
-                For Each c In custs
-                    Dim cust As New TCustomer(c)
-                    MyBase.Add(cust)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TCustomer(CType(row, ISAMSSds.customersRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1294,25 +1294,22 @@ End Class
 ' Class:    TCustomerJournalEntries
 ' Purpose:  
 Public Class TCustomerJournalEntries
-    Inherits ObservableCollection(Of TCustomerJournalEntry)
+    Inherits TObjects
 
     Public Sub New(ByVal contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM customer_journal_entries WHERE contract_id = " & CStr(contract.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim cust As New ISAMSSds.customer_journal_entriesDataTable
-                adapter.Fill(cust)
+        MyBase.New(New ISAMSSds.customer_journal_entriesDataTable, "contract_id = " & CStr(contract.ID))
+    End Sub
 
-                For Each c In cust
-                    Dim cje As New TCustomerJournalEntry(c)
-                    MyBase.Add(cje)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TCustomerJournalEntry(CType(row, ISAMSSds.customer_journal_entriesRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1454,38 +1451,20 @@ Public Class TCrrs
     Inherits TObjects
 
     Public Sub New(ByRef contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM crrs WHERE contract_id = " + CStr(contract.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim crrs As New ISAMSSds.crrsDataTable
-                adapter.Fill(crrs)
-
-                For Each crr In crrs
-                    Dim cr As New TCrr(crr)
-                    MyBase.Add(cr)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.crrsDataTable, "contract_id = " + CStr(contract.ID))
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByRef user As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM crrs WHERE contract_id = " + CStr(contract.ID) + " AND creator_id = " + CStr(user.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim crrs As New ISAMSSds.crrsDataTable
-                adapter.Fill(crrs)
+        MyBase.New(New ISAMSSds.crrsDataTable, "contract_id = " + CStr(contract.ID) + " AND creator_id = " + CStr(user.ID))
+    End Sub
 
-                For Each crr In crrs
-                    Dim c As New TCrr(crr)
-                    MyBase.Add(c)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TCrr(CType(row, ISAMSSds.crrsRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1686,23 +1665,22 @@ Public Class TLods
     Inherits TObjects
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.lodsDataTable)
+
     End Sub
 
     Public Sub New(ByRef contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM lods WHERE contract_id = " + CStr(contract.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim lods As New ISAMSSds.lodsDataTable
-                adapter.Fill(lods)
+        MyBase.New(New ISAMSSds.lodsDataTable, "contract_id = " + CStr(contract.ID))
+ 
+    End Sub
 
-                For Each lod In lods
-                    Dim l As New TLod(lod)
-                    MyBase.Add(l)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TLod(CType(row, ISAMSSds.lodsRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1857,64 +1835,34 @@ End Class
 ' Class: TAttachments
 ' Purpose: Collection class for TAttachment.
 Public Class TAttachments
-    Inherits ObservableCollection(Of TAttachment)
+    Inherits TObjects
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.attachmentsDataTable)
     End Sub
 
     Public Sub New(ByVal user As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM attachments WHERE creator_id = " + CStr(user.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim attachments As New ISAMSSds.attachmentsDataTable
-                adapter.Fill(attachments)
-
-                For Each att In attachments
-                    Dim a As New TAttachment(att)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.attachmentsDataTable, "creator_id = " + CStr(user.ID))
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM attachments WHERE contract_id = " + CStr(contract.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim attachments As New ISAMSSds.attachmentsDataTable
-                adapter.Fill(attachments)
-
-                For Each att In attachments
-                    Dim a As New TAttachment(att)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.attachmentsDataTable, "contract_id = " + CStr(contract.ID))
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM attachments WHERE contract_id = " + CStr(contract.ID) + " AND creator_id = " + CStr(user.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim attachments As New ISAMSSds.attachmentsDataTable
-                adapter.Fill(attachments)
+        MyBase.New(New ISAMSSds.attachmentsDataTable, "contract_id = " + CStr(contract.ID) + " AND creator_id = " + CStr(user.ID))
+    End Sub
 
-                For Each att In attachments
-                    Dim a As New TAttachment(att)
-                    MyBase.Add(a)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TAttachment(CType(row, ISAMSSds.attachmentsRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -1990,10 +1938,10 @@ Public Class TAttachment
 
     Property OriginalFilename As String
         Get
-            If _row.Isoriginal_filenameNull Then
+            If _row.Isorigin_filenameNull Then
                 Return ""
             Else
-                Return _row.original_filename
+                Return _row.origin_filename
             End If
         End Get
         Set(ByVal value As String)
@@ -2113,98 +2061,26 @@ End Class
 ' Class: TActivityClasses
 ' Purpose: Encapsulates the activity class data
 Public Class TActivityClasses
-    Inherits ObservableCollection(Of TActivityClass)
+    Inherits TObjects
 
-    Public Sub New(Optional ByVal loadAll As Boolean = True)
-        If loadAll = True Then
-            Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                    connection.Open()
-                    Dim query As String = "SELECT * FROM activity_classes"
-                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                    Dim act_classes As New ISAMSSds.activity_classesDataTable
-                    adapter.Fill(act_classes)
-
-                    For Each act_class In act_classes
-                        Dim a As New TActivityClass(act_class)
-                        MyBase.Add(a)
-                    Next
-                End Using
-            Catch e As OleDb.OleDbException
-            End Try
-        End If
+    Public Sub New()
+        MyBase.New(New ISAMSSds.activity_classesDataTable)
     End Sub
 
-    Public Sub New(ByRef contract As TContract, ByRef user As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
-                            "FROM (activity_classes " & _
-                            "INNER JOIN activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
-                            "WHERE (activity_activity_classes.activity_id IN " & _
-                            "(SELECT activities.id FROM(activities) WHERE (creator_id = " & CStr(user.ID) & ") AND (contract_id = " & _
-                            CStr(contract.ID) & ")))"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim act_classes As New ISAMSSds.activity_classesDataTable
-                adapter.Fill(act_classes)
-
-                For Each act_class In act_classes
-                    Dim a As New TActivityClass(act_class)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-    End Sub
-
-    Public Sub New(ByVal contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
-                        "FROM (activity_classes INNER JOIN " & _
-                        "activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
-                        "WHERE     (activity_activity_classes.activity_id IN " & _
-                        "(SELECT id FROM(activities) WHERE (contract_id = " & CStr(contract.ID) & ")))"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim act_classes As New ISAMSSds.activity_classesDataTable
-                adapter.Fill(act_classes)
-
-                For Each act_class In act_classes
-                    Dim a As New TActivityClass(act_class)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByVal loadAll As Boolean)
+        MyBase.New(New ISAMSSds.activity_classesDataTable)
+        MyBase.Items.Clear()
     End Sub
 
     Public Sub New(ByVal activity As TActivity)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
-                        "FROM (activity_classes INNER JOIN " & _
-                        "activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
-                        "WHERE(activity_activity_classes.activity_id = " + CStr(activity.ID) + ")"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim act_classes As New ISAMSSds.activity_classesDataTable
-                adapter.Fill(act_classes)
-
-                For Each act_class In act_classes
-                    Dim a As New TActivityClass(act_class)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.activity_classesDataTable, New TQuery("SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
+                "FROM (activity_classes INNER JOIN " & _
+                "activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
+                "WHERE(activity_activity_classes.activity_id = " + CStr(activity.ID) + ")"))
     End Sub
 
     Public Sub New(ByVal rhs As TActivityClasses)
-        For Each r In rhs
-            MyBase.Add(r)
-        Next
+        MyBase.New(New ISAMSSds.activity_classesDataTable, rhs)
     End Sub
 
     Public Shared Operator +(ByVal lhs As TActivityClasses, ByVal rhs As TActivityClasses) As TActivityClasses
@@ -2234,6 +2110,17 @@ Public Class TActivityClasses
 
         Return rv
     End Operator
+
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TActivityClass(CType(row, ISAMSSds.activity_classesRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2315,55 +2202,27 @@ End Class
 ' Class: TActivities
 ' Purpose: Collection class for TActivity
 Public Class TActivities
-    Inherits ObservableCollection(Of TActivity)
+    Inherits TObjects
 
     Public Sub New()
-    End Sub
-
-    Public Sub New(ByRef acts As ISAMSSds.activitiesDataTable)
-        For Each a In acts
-            Dim act As New TActivity(a)
-            MyBase.Add(act)
-        Next
+        MyBase.New(New ISAMSSds.activitiesDataTable)
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * " &
-                                        "FROM activities " &
-                                        "WHERE (activities.creator_id = " + CStr(user.ID) + ") AND (activities.contract_id = " + CStr(contract.ID) + ")"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim acts As New ISAMSSds.activitiesDataTable
-                adapter.Fill(acts)
-
-                For Each act In acts
-                    Dim a As New TActivity(act)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.activitiesDataTable, "activities.creator_id = " & CStr(user.ID) & " AND activities.contract_id = " & CStr(contract.ID))
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * " &
-                                        "FROM activities " &
-                                        "WHERE (activities.contract_id = " + CStr(contract.ID) + ")"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim acts As New ISAMSSds.activitiesDataTable
-                adapter.Fill(acts)
+        MyBase.New(New ISAMSSds.activitiesDataTable, "activities.contract_id = " & CStr(contract.ID))
+    End Sub
 
-                For Each act In acts
-                    Dim a As New TActivity(act)
-                    MyBase.Add(a)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TActivity(CType(row, ISAMSSds.activitiesRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2558,16 +2417,29 @@ Public Class TActivity
     Private Class TActivityActivityClasses
         Inherits TObjects
 
+        Protected Overrides Sub AddItems()
+            Try
+                For Each row In _table
+                    MyBase.Add(New TActivityActivityClass(CType(row, ISAMSSds.activity_activity_classesRow)))
+                Next
+            Catch e As OleDb.OleDbException
+                Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+            End Try
+        End Sub
+
         Public Sub New()
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
         End Sub
 
         Public Sub New(ByRef aac As TActivityActivityClasses)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
             For Each a In aac
                 MyBase.Add(a)
             Next
         End Sub
 
         Public Sub New(ByRef activity As TActivity)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
             Try
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                     connection.Open()
@@ -2588,6 +2460,7 @@ Public Class TActivity
         End Sub
 
         Public Sub New(ByRef activity As TActivity, ByRef aac As TActivityActivityClasses)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
             Try
                 For Each a In aac
                     MyBase.Add(New TActivityActivityClass(activity, a))
@@ -2689,42 +2562,10 @@ End Class
 ' Class: TObservations
 ' Purpose: The observations collection class
 Public Class TObservations
-    Inherits ObservableCollection(Of TObservation)
+    Inherits TObjects
 
-    Public Sub New(ByRef a As TActivity)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM observations WHERE activity_id = " + CStr(a.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim obs As New ISAMSSds.observationsDataTable
-                adapter.Fill(obs)
-
-                For Each ob In obs
-                    Dim o As New TObservation(ob)
-                    MyBase.Add(o)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-    End Sub
-
-    Public Sub New(ByVal id As Integer)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM observations WHERE activity_id = " + CStr(id)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim obs As New ISAMSSds.observationsDataTable
-                adapter.Fill(obs)
-
-                For Each ob In obs
-                    Dim o As New TObservation(ob)
-                    MyBase.Add(o)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByRef activity As TActivity)
+        MyBase.New(New ISAMSSds.observationsDataTable, "activity_id = " & CStr(activity.ID))
     End Sub
 
     Public Function Save(ByVal activity As TActivity) As Boolean
@@ -2738,6 +2579,15 @@ Public Class TObservations
         Return rv
     End Function
 
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TObservation(CType(row, ISAMSSds.observationsRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2757,12 +2607,12 @@ Public Class TObservation
     End Sub
 
     Public Sub New(ByVal activity As TActivity)
-        MyBase.New(New ISAMSSds.lodsDataTable)
+        MyBase.New(New ISAMSSds.observationsDataTable)
         _row.activity_id = activity.ID
     End Sub
 
     Public Sub New(ByRef row As ISAMSSds.observationsRow)
-        MyBase.New(New ISAMSSds.lodsDataTable)
+        MyBase.New(New ISAMSSds.observationsDataTable)
         _row = row
     End Sub
 
@@ -2963,22 +2813,16 @@ Public Class TSAMIActivityCategories
     Inherits TObjects
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+    End Sub
+
+    Protected Overrides Sub AddItems()
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM sami_activity_categories"
-
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim samiActs As New ISAMSSds.sami_activity_categoriesDataTable
-                adapter.Fill(samiActs)
-
-                For Each act In samiActs
-                    Dim a As New TSAMIActivityCategory(act)
-                    MyBase.Add(a)
-                Next
-            End Using
+            For Each row In _table
+                MyBase.Add(New TSAMIActivityCategory(CType(row, ISAMSSds.sami_activity_categoriesRow)))
+            Next
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TSAMIActivityCategories::New, Exception, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3065,125 +2909,37 @@ Public Class TSAMIActivities
     Inherits TObjects
 
     Public Enum ActivityCategories
-        tech
-        cost
-        sched
+        tech = 1
+        cost = 2
+        sched = 3
     End Enum
 
-    Public Sub New(Optional ByVal loadAll As Boolean = True)
-        If loadAll = True Then
-            Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                    connection.Open()
-                    Dim query As String = "SELECT * FROM sami_activities"
-                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                    Dim samiActs As New ISAMSSds.sami_activitiesDataTable
-                    adapter.Fill(samiActs)
-
-                    For Each act In samiActs
-                        Dim a As New TSAMIActivity(act)
-                        MyBase.Add(a)
-                    Next
-                End Using
-            Catch e As OleDb.OleDbException
-                Application.WriteToEventLog("TSAMIActivities::New, Exception, message: " & e.Message, EventLogEntryType.Error)
-            End Try
-        End If
+    Public Sub New()
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable)
     End Sub
 
     Public Sub New(ByVal category As ActivityCategories)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                ' TODO: FIX this big HACK! Should be doing a cross-query using the categories table, 
-                ' but, alas, we will leave that to another day when time is abundant and we care a little more...
-                Dim query As String = "SELECT * FROM sami_activities WHERE sami_activity_category_id = "
-
-                Select Case category
-                    Case ActivityCategories.tech
-                        query &= "1"
-                    Case ActivityCategories.cost
-                        query &= "2"
-                    Case ActivityCategories.sched
-                        query &= "3"
-                End Select
-
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim samiActs As New ISAMSSds.sami_activitiesDataTable
-                adapter.Fill(samiActs)
-
-                For Each act In samiActs
-                    Dim a As New TSAMIActivity(act)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TSAMIActivities::New, Exception, message: " & e.Message, EventLogEntryType.Error)
-        End Try
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable, "sami_activity_category_id = " & CStr(category))
     End Sub
 
     Public Sub New(ByVal rhs As TSAMIActivities)
-        For Each t In rhs
-            MyBase.Add(t)
-        Next
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable, rhs)
     End Sub
 
     Public Sub New(ByVal rhs As IList)
-        For Each t In rhs
-            MyBase.Add(t)
-        Next
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable, rhs)
     End Sub
 
     Public Sub New(ByVal obs As TObservation)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM sami_activities WHERE (id IN " & _
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
                             "(SELECT sami_activity_id FROM(observation_sami_activities) " & _
-                            "WHERE (observation_id = " & obs.ID & ")))"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim samiActs As New ISAMSSds.sami_activitiesDataTable
-                adapter.Fill(samiActs)
-
-                For Each act In samiActs
-                    Dim a As New TSAMIActivity(act)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TSAMIActivities::New(obs), Exception, message: " & e.Message, EventLogEntryType.Error)
-        End Try
+                            "WHERE (observation_id = " & obs.ID & ")))"))
     End Sub
 
     Public Sub New(ByVal obs As TObservation, ByVal category As TSAMIActivities.ActivityCategories)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM sami_activities WHERE (id IN " & _
+        MyBase.New(New ISAMSSds.sami_activitiesDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
                             "(SELECT sami_activity_id FROM observation_sami_activities " & _
-                            "WHERE (observation_id = " & obs.ID & "))) AND (sami_activity_category_id = "
-
-                Select Case category
-                    Case ActivityCategories.tech
-                        query &= "1)"
-                    Case ActivityCategories.cost
-                        query &= "2)"
-                    Case ActivityCategories.sched
-                        query &= "3)"
-                End Select
-
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim samiActs As New ISAMSSds.sami_activitiesDataTable
-                adapter.Fill(samiActs)
-
-                For Each act In samiActs
-                    Dim a As New TSAMIActivity(act)
-                    MyBase.Add(a)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TSAMIActivities::New(obs), Exception, message: " & e.Message, EventLogEntryType.Error)
-        End Try
+                            "WHERE (observation_id = " & obs.ID & "))) AND (sami_activity_category_id = " & CStr(category)))
     End Sub
 
     Public Shared Operator +(ByVal lhs As TSAMIActivities, ByVal rhs As TSAMIActivities) As TSAMIActivities
@@ -3224,6 +2980,16 @@ Public Class TSAMIActivities
 
         Return rv
     End Operator
+
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TSAMIActivity(CType(row, ISAMSSds.sami_activitiesRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
 
 End Class
 
@@ -3353,51 +3119,22 @@ End Class
 ' Class: TSites
 ' Purpose: Collection class for TSite objects
 Public Class TSites
-    Inherits ObservableCollection(Of TSite)
+    Inherits TObjects
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.supplier_sitesDataTable)
     End Sub
 
-    Public Sub New(ByVal sites As TSites)
-        For Each s In sites
-            MyBase.Add(s)
-        Next
+    Public Sub New(ByVal rhs As TSites)
+        MyBase.New(New ISAMSSds.supplier_sitesDataTable, rhs)
     End Sub
 
     Public Sub New(ByVal supplier As TSupplier)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM supplier_sites WHERE supplier_id = " + CStr(supplier.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim sites As New ISAMSSds.supplier_sitesDataTable
-                adapter.Fill(sites)
-
-                For Each s In sites
-                    Dim site As New TSite(s)
-                    MyBase.Add(site)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.supplier_sitesDataTable, "supplier_id = " & CStr(supplier.ID))
     End Sub
 
-    Public Sub New(ByRef contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contract_sites WHERE contract_id = " + CStr(contract.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim contractsites As New ISAMSSds.contract_sitesDataTable
-                adapter.Fill(contractsites)
-
-                For Each s In contractsites
-                    Dim site As New TSite(s.site_id)
-                    MyBase.Add(site)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+    Public Sub New(ByVal contract As TContract)
+        MyBase.New(New ISAMSSds.supplier_sitesDataTable, "contract_id = " & CStr(contract.ID))
     End Sub
 
     Property Sites As TSites
@@ -3440,6 +3177,15 @@ Public Class TSites
         Return rv
     End Operator
 
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TSite(CType(row, ISAMSSds.supplier_sitesRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -3489,7 +3235,7 @@ Public Class TSite
     ' Parameters:    
     Protected Overrides Sub GetNewRow()
         Try
-            _row = _table.NewsitesRow
+            _row = _table.Newsupplier_sitesRow
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
@@ -3540,9 +3286,11 @@ End Class
 ' Class: TContractSites
 ' Purpose: The TContractSite collection
 Public Class TContractSites
-    Inherits ObservableCollection(Of TContractSite)
+    Inherits TObjects
 
     Public Sub New(ByRef contract As TContract, ByRef sites As TSites)
+        MyBase.New(New ISAMSSds.contract_sitesDataTable)
+        MyBase.Items.Clear()
         For Each s In sites
             Dim contractsite As New TContractSite(contract, s)
             MyBase.Add(contractsite)
@@ -3550,21 +3298,7 @@ Public Class TContractSites
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM contract_sites WHERE contract_id = " + CStr(contract.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim contractsites As New ISAMSSds.contract_sitesDataTable
-                adapter.Fill(contractsites)
-
-                For Each s In contractsites
-                    Dim site As New TContractSite(s)
-                    MyBase.Add(site)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.contract_sitesDataTable, "contract_sites WHERE contract_id = " & CStr(contract.ID))
     End Sub
 
     Public Sub DeleteAll(ByRef contract As TContract)
@@ -3585,6 +3319,16 @@ Public Class TContractSites
                 adapter.Update(contractsites)
             End Using
         Catch e As OleDb.OleDbException
+        End Try
+    End Sub
+
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TContractSite(CType(row, ISAMSSds.contract_sitesRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 End Class
@@ -3671,104 +3415,42 @@ End Class
 ' Class: 
 ' Purpose: 
 Public Class TPSSPs
-    Inherits ObservableCollection(Of TPSSP)
+    Inherits TObjects
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.psspsDataTable)
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM pssps WHERE contract_id = " + CStr(contract.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim pssps As New ISAMSSds.psspsDataTable
-                adapter.Fill(pssps)
-
-                For Each p In pssps
-                    Dim pssp As New TPSSP(p)
-                    MyBase.Add(pssp)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
-
+        MyBase.New(New ISAMSSds.psspsDataTable, "contract_id = " & CStr(contract.ID))
     End Sub
 
     Public Sub New(ByVal user As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM pssps WHERE creator_id = " + CStr(user.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim pssps As New ISAMSSds.psspsDataTable
-                adapter.Fill(pssps)
-
-                For Each p In pssps
-                    Dim pssp As New TPSSP(p)
-                    MyBase.Add(pssp)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.psspsDataTable, "creator_id = " & CStr(user.ID))
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM pssps WHERE contract_id = " & CStr(contract.ID) & " AND creator_id " & CStr(user.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim pssps As New ISAMSSds.psspsDataTable
-                adapter.Fill(pssps)
-
-                For Each p In pssps
-                    Dim pssp As New TPSSP(p)
-                    MyBase.Add(pssp)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.psspsDataTable, "contract_id = " & CStr(contract.ID) & " AND creator_id " & CStr(user.ID))
     End Sub
 
     Public Sub New(ByVal startdate As Date, ByVal enddate As Date)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim dateFilter As String = "BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startdate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, enddate).Date.ToString & "#))"
-                Dim query As String = "SELECT * FROM pssps WHERE id IN (SELECT pssp_id FROM pssp_histories WHERE (action_date " & dateFilter
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim pssps As New ISAMSSds.psspsDataTable
-                adapter.Fill(pssps)
-
-                For Each p In pssps
-                    Dim pssp As New TPSSP(p)
-                    MyBase.Add(pssp)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.psspsDataTable, startdate, enddate)
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal startdate As Date, ByVal enddate As Date)
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim dateFilter As String = "BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startdate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, enddate).Date.ToString & "#))"
-                Dim query As String = "SELECT * FROM pssps WHERE contract_id = " & CStr(contract.ID) & " AND id IN (SELECT pssp_id FROM pssp_histories WHERE (action_date " & dateFilter
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim pssps As New ISAMSSds.psspsDataTable
-                adapter.Fill(pssps)
-
-                For Each p In pssps
-                    Dim pssp As New TPSSP(p)
-                    MyBase.Add(pssp)
-                Next
-            End Using
-        Catch e As OleDb.OleDbException
-        End Try
+        MyBase.New(New ISAMSSds.psspsDataTable, New TQuery("SELECT * FROM pssps WHERE contract_id = " & CStr(contract.ID) & " AND id IN (SELECT pssp_id FROM pssp_histories WHERE (action_date " & _
+                    "BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startdate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, enddate).Date.ToString & "#))"))
     End Sub
 
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New TPSSP(CType(row, ISAMSSds.psspsRow)))
+            Next
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -3901,26 +3583,22 @@ End Class
 ' Class: 
 ' Purpose: 
 Public Class TPSSPHistories
-    Inherits ObservableCollection(Of TPSSPHistory)
+    Inherits TObjects
 
     Public Sub New()
+        MyBase.New(New ISAMSSds.pssp_historiesDataTable)
     End Sub
 
     Public Sub New(ByVal pssp As TPSSP)
+        MyBase.New(New ISAMSSds.pssp_historiesDataTable, "pssp_id = " & CStr(pssp.ID))
+    End Sub
+    Protected Overrides Sub AddItems()
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM pssp_histories WHERE pssp_id = " + CStr(pssp.ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim psspHistory As New ISAMSSds.pssp_historiesDataTable
-                adapter.Fill(psspHistory)
-
-                For Each p In psspHistory
-                    Dim pssph As New TPSSPHistory(p)
-                    MyBase.Add(pssph)
-                Next
-            End Using
+            For Each row In _table
+                MyBase.Add(New TPSSPHistory(CType(row, ISAMSSds.pssp_historiesRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -4082,23 +3760,19 @@ End Class
 ' Class: 
 ' Purpose: 
 Public Class THistoryActionClasses
-    Inherits ObservableCollection(Of THistoryActionClass)
+    Inherits TObjects
 
     Public Sub New()
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM history_action_classes"
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim historyActionClasses As New ISAMSSds.history_action_classesDataTable
-                adapter.Fill(historyActionClasses)
+        MyBase.New(New ISAMSSds.history_action_classesDataTable)
+    End Sub
 
-                For Each has In historyActionClasses
-                    Dim h As New THistoryActionClass(has)
-                    MyBase.Add(h)
-                Next
-            End Using
+    Protected Overrides Sub AddItems()
+        Try
+            For Each row In _table
+                MyBase.Add(New THistoryActionClass(CType(row, ISAMSSds.history_action_classesRow)))
+            Next
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -4170,59 +3844,4 @@ Public Class THistoryActionClass
         End Try
     End Sub
 
-End Class
-
-'//////////////////////////////////////////////////////////////////////////////
-' Class: 
-' Purpose: 
-Public Class TContractsFilter
-
-    Public Sub New()
-        myUsers = New TUsers(False)
-        myUsers.Add(Application.CurrentUser)
-        myContracts = New TContracts(myUsers, myStartDate, myEndDate)
-    End Sub
-
-    ReadOnly Property Contracts
-        Get
-            myContracts = Nothing
-            myContracts = New TContracts(myUsers, myStartDate, myEndDate)
-            Return myContracts
-        End Get
-    End Property
-
-    Property Users As TUsers
-        Get
-            Return myUsers
-        End Get
-        Set(ByVal value As TUsers)
-            If myUsers IsNot Nothing Then
-                myUsers = Nothing
-            End If
-            myUsers = New TUsers(value)
-        End Set
-    End Property
-
-    Property StartDate As Date
-        Get
-            Return myStartDate
-        End Get
-        Set(ByVal value As Date)
-            myStartDate = value
-        End Set
-    End Property
-
-    Property EndDate As Date
-        Get
-            Return myEndDate
-        End Get
-        Set(ByVal value As Date)
-            myEndDate = value
-        End Set
-    End Property
-
-    Private myUsers As TUsers = Nothing
-    Private myStartDate As Date = "01/01/1980"
-    Private myEndDate As Date = DateAdd(DateInterval.Year, 1.0, Date.Now)
-    Private myContracts As TContracts = Nothing
 End Class

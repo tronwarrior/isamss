@@ -244,7 +244,6 @@ Class MainWindow
         SelectTab(CType(ttvContractsQuickview.SelectedItem, TreeViewItem))
     End Sub
 
-
     Private Sub MenuItemRefresh_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MenuItemRefresh.Click
         ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
     End Sub
@@ -336,7 +335,7 @@ Class MainWindow
     End Sub
 
 
-    Private Sub mainwindow_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
+    Private Sub Mainwindow_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
         myContractsFilter = New TContractsFilter
         ttvContractsQuickview.BuildContractsTree(myContractsFilter.Contracts)
         PopulateAllTabs()
@@ -419,4 +418,65 @@ Class MainWindow
         Return slist
     End Function
 
+End Class
+
+
+'//////////////////////////////////////////////////////////////////////////////
+' Class: 
+' Purpose: 
+Public Class TContractsFilter
+
+    Public Sub New()
+        myUsers = New TUsers(False)
+        myUsers.Clear()
+        myUsers.Add(Application.CurrentUser)
+        myContracts = New TContracts(myUsers, myStartDate, myEndDate)
+    End Sub
+
+    ReadOnly Property Contracts
+        Get
+            If myContracts IsNot Nothing Then
+                myContracts = Nothing
+            End If
+
+            myContracts = New TContracts(myUsers, myStartDate, myEndDate)
+
+            Return myContracts
+        End Get
+    End Property
+
+    Property Users As TUsers
+        Get
+            Return myUsers
+        End Get
+        Set(ByVal value As TUsers)
+            If myUsers IsNot Nothing Then
+                myUsers = Nothing
+            End If
+            myUsers = New TUsers(value)
+        End Set
+    End Property
+
+    Property StartDate As Date
+        Get
+            Return myStartDate
+        End Get
+        Set(ByVal value As Date)
+            myStartDate = value
+        End Set
+    End Property
+
+    Property EndDate As Date
+        Get
+            Return myEndDate
+        End Get
+        Set(ByVal value As Date)
+            myEndDate = value
+        End Set
+    End Property
+
+    Private myUsers As TUsers = Nothing
+    Private myStartDate As Date = "01/01/1980"
+    Private myEndDate As Date = DateAdd(DateInterval.Year, 1.0, Date.Now)
+    Private myContracts As TContracts = Nothing
 End Class
