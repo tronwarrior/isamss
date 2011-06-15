@@ -1,6 +1,12 @@
 ﻿Public Class NewContractForm
     Inherits DataInputFormBase
 
+    Private _parent As Object = Nothing
+    Private _contract As TContract = Nothing
+    Private _crr As TCrr = Nothing
+    Private _supplierSites As TSites = Nothing
+    Private _contractSites As TSites = Nothing
+
     Public Sub New(ByRef parent As Object)
         ' This call is required by the designer.
         InitializeComponent()
@@ -9,10 +15,14 @@
         LoadCustomers()
         LoadSuppliers()
 
-        mySupplierSites = New TSites
-        myContractSites = New TSites
+        _supplierSites = New TSites
 
-        myParent = parent
+        ' Since this is a new contract, there will be no sites associated yet,
+        ' so clear all the freshly loaded sites
+        _contractSites = New TSites
+        _contractSites.Clear()
+
+        _parent = parent
         _formDirty = False
     End Sub
 
@@ -53,7 +63,6 @@
         crr.TechnicalCriticality = cbo_techCriticality.SelectedItem.Content()
         crr.TechnicalCriticalityRationale = txt_techRationale.Text
         crr.AttachmentId = tspAttachment.Attachment.ID
-
         _contract.CRRs.Add(crr)
 
         For Each s In lstvwContractSites.ItemsSource
@@ -73,7 +82,6 @@
 
 
     Private Sub btn_cancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_cancel.Click
-        DialogResult = False
         MyBase.Close()
     End Sub
 
@@ -106,10 +114,10 @@
         If Not supplier Is Nothing Then
             If Not supplier.Tag Is Nothing Then
                 Dim s As TSupplier = supplier.Tag
-                mySupplierSites = Nothing
+                _supplierSites = Nothing
                 Dim tmp As New TSites(s)
-                mySupplierSites = New TSites(tmp - myContractSites)
-                lstvwSupplierSites.ItemsSource = mySupplierSites
+                _supplierSites = New TSites(tmp - _contractSites)
+                lstvwSupplierSites.ItemsSource = _supplierSites
             End If
         End If
     End Sub
@@ -175,7 +183,7 @@
 
     Private Sub NewContract_Closing(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
         If _contract IsNot Nothing Then
-            myParent.NewContractCreated(_contract)
+            _parent.NewContractCreated(_contract)
         End If
     End Sub
 
@@ -235,10 +243,10 @@
         Dim site As TSite = lstvwSupplierSites.SelectedItem
 
         If site IsNot Nothing Then
-            myContractSites.Add(site)
-            lstvwContractSites.ItemsSource = myContractSites
-            mySupplierSites.Remove(site)
-            lstvwSupplierSites.ItemsSource = mySupplierSites
+            _contractSites.Add(site)
+            lstvwContractSites.ItemsSource = _contractSites
+            _supplierSites.Remove(site)
+            lstvwSupplierSites.ItemsSource = _supplierSites
         End If
     End Sub
 
@@ -246,20 +254,13 @@
         Dim site As TSite = lstvwContractSites.SelectedItem
 
         If site IsNot Nothing Then
-            mySupplierSites.Add(site)
-            lstvwSupplierSites.ItemsSource = mySupplierSites
-            myContractSites.Remove(site)
-            lstvwContractSites.ItemsSource = myContractSites
+            _supplierSites.Add(site)
+            lstvwSupplierSites.ItemsSource = _supplierSites
+            _contractSites.Remove(site)
+            lstvwContractSites.ItemsSource = _contractSites
         End If
     End Sub
 
-    Private myParent As Object = Nothing
-    Private _contract As TContract = Nothing
-    Private _crr As TCrr = Nothing
-    Private mySupplierSites As TSites = Nothing
-    Private myContractSites As TSites = Nothing
-
-  
     Private Sub tspAttachment_AttachmentAdded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles tspAttachment.AttachmentAdded
         If _crr IsNot Nothing Then
             _crr.AttachmentId = tspAttachment.Attachment.ID

@@ -955,7 +955,11 @@ Public Class TContract
 
     ReadOnly Property CRRs As TCrrs
         Get
-            Return New TCrrs(Me)
+            If _crrs Is Nothing Then
+                _crrs = New TCrrs(Me)
+            End If
+
+            Return _crrs
         End Get
     End Property
 
@@ -968,7 +972,14 @@ Public Class TContract
     Property Sites As TSites
         Get
             If _sites Is Nothing Then
-                _sites = New TSites(Me)
+                _sites = New TSites()
+                _sites.Clear()
+
+                Dim cs As New TContractSites(Me)
+
+                For Each c In cs
+                    _sites.Add(New TSite(CInt(c.SiteID)))
+                Next
             End If
             Return _sites
         End Get
@@ -1945,7 +1956,7 @@ Public Class TAttachment
             End If
         End Get
         Set(ByVal value As String)
-            _row.original_filename = value
+            _row.origin_filename = value
         End Set
     End Property
 
@@ -2638,7 +2649,7 @@ Public Class TObservation
             End If
         End Get
         Set(ByVal value As String)
-            _row.activity_id = value
+            _row.description = value
         End Set
     End Property
 
@@ -3133,10 +3144,6 @@ Public Class TSites
         MyBase.New(New ISAMSSds.supplier_sitesDataTable, "supplier_id = " & CStr(supplier.ID))
     End Sub
 
-    Public Sub New(ByVal contract As TContract)
-        MyBase.New(New ISAMSSds.supplier_sitesDataTable, "contract_id = " & CStr(contract.ID))
-    End Sub
-
     Property Sites As TSites
         Get
             Return MyBase.Items
@@ -3298,7 +3305,7 @@ Public Class TContractSites
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        MyBase.New(New ISAMSSds.contract_sitesDataTable, "contract_sites WHERE contract_id = " & CStr(contract.ID))
+        MyBase.New(New ISAMSSds.contract_sitesDataTable, "contract_id = " & CStr(contract.ID))
     End Sub
 
     Public Sub DeleteAll(ByRef contract As TContract)

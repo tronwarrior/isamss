@@ -12,7 +12,10 @@
     End Sub
 
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSave.Click
-        DialogResult = Save()
+        Dim rv As Boolean = Save()
+        If rv Then
+            DialogResult = rv
+        End If
     End Sub
 
     Private Sub btnCancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnCancel.Click

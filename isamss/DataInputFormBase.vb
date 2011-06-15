@@ -11,7 +11,7 @@ Public MustInherit Class DataInputFormBase
     Public Shadows Sub Close()
         If _formDirty = True Then
             If MsgBox("Save changes first?", Microsoft.VisualBasic.MsgBoxStyle.YesNo, "ISAMMS") = MsgBoxResult.Yes Then
-                Me.Save()
+                DialogResult = Me.Save()
             End If
         End If
         MyBase.Close()

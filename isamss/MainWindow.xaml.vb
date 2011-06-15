@@ -169,7 +169,9 @@ Class MainWindow
             Dim newCRR As New CRRForm(Me, ttvContractsQuickview.CurrentContract)
             newCRR.ShowDialog()
             ttvContractsQuickview.CurrentContract.Refresh()
-            ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+            ' TODO: The following call in no longer needed
+            ' ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
+            PopulateCRRTab(ttvContractsQuickview.CurrentContract)
         End If
     End Sub
 
