@@ -157,7 +157,8 @@
     <Compile Include="Supplier.xaml.vb">
       <DependentUpon>Supplier.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TObjects.vb" />
+    <Compile Include="tobject.vb" />
+    <Compile Include="dataaccessobjects.vb" />
     <Compile Include="ISAMSSds.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
