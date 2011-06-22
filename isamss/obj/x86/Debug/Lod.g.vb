@@ -39,110 +39,110 @@ Imports System.Windows.Shapes
 '''<summary>
 '''LodForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
 Partial Public Class LodForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
-
-
+    
+    
     #ExternalSource("..\..\..\Lod.xaml",6)
     Friend WithEvents dtEffectiveDate As Microsoft.Windows.Controls.DatePicker
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Lod.xaml",7)
     Friend WithEvents Label5 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Lod.xaml",8)
     Friend WithEvents chkDelegator As System.Windows.Controls.CheckBox
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Lod.xaml",9)
     Friend WithEvents btnSave As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Lod.xaml",10)
     Friend WithEvents btnCancel As System.Windows.Controls.Button
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Lod.xaml",11)
     Friend WithEvents tspAttachment As isamss.TStackPanelAttachment
-
+    
     #End ExternalSource
-
-
+    
+    
     #ExternalSource("..\..\..\Lod.xaml",12)
     Friend WithEvents Label1 As System.Windows.Controls.Label
-
+    
     #End ExternalSource
-
+    
     Private _contentLoaded As Boolean
-
+    
     '''<summary>
     '''InitializeComponent
     '''</summary>
-    <System.Diagnostics.DebuggerNonUserCodeAttribute()> _
+    <System.Diagnostics.DebuggerNonUserCodeAttribute()>  _
     Public Sub InitializeComponent() Implements System.Windows.Markup.IComponentConnector.InitializeComponent
         If _contentLoaded Then
             Return
         End If
-        _contentLoaded = True
+        _contentLoaded = true
         Dim resourceLocater As System.Uri = New System.Uri("/isamss;component/lod.xaml", System.UriKind.Relative)
-
+        
         #ExternalSource("..\..\..\Lod.xaml",1)
         System.Windows.Application.LoadComponent(Me, resourceLocater)
-
+        
         #End ExternalSource
     End Sub
-
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")> _
+    
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")>  _
     Friend Function _CreateDelegate(ByVal delegateType As System.Type, ByVal handler As String) As System.[Delegate]
         Return System.[Delegate].CreateDelegate(delegateType, Me, handler)
     End Function
-
-    <System.Diagnostics.DebuggerNonUserCodeAttribute(), _
-     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never), _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")> _
+    
+    <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+     System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
-            Me.dtEffectiveDate = CType(target, Microsoft.Windows.Controls.DatePicker)
+            Me.dtEffectiveDate = CType(target,Microsoft.Windows.Controls.DatePicker)
             Return
         End If
         If (connectionId = 2) Then
-            Me.Label5 = CType(target, System.Windows.Controls.Label)
+            Me.Label5 = CType(target,System.Windows.Controls.Label)
             Return
         End If
         If (connectionId = 3) Then
-            Me.chkDelegator = CType(target, System.Windows.Controls.CheckBox)
+            Me.chkDelegator = CType(target,System.Windows.Controls.CheckBox)
             Return
         End If
         If (connectionId = 4) Then
-            Me.btnSave = CType(target, System.Windows.Controls.Button)
+            Me.btnSave = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 5) Then
-            Me.btnCancel = CType(target, System.Windows.Controls.Button)
+            Me.btnCancel = CType(target,System.Windows.Controls.Button)
             Return
         End If
         If (connectionId = 6) Then
-            Me.tspAttachment = CType(target, isamss.TStackPanelAttachment)
+            Me.tspAttachment = CType(target,isamss.TStackPanelAttachment)
             Return
         End If
         If (connectionId = 7) Then
-            Me.Label1 = CType(target, System.Windows.Controls.Label)
+            Me.Label1 = CType(target,System.Windows.Controls.Label)
             Return
         End If
-        Me._contentLoaded = True
+        Me._contentLoaded = true
     End Sub
 End Class

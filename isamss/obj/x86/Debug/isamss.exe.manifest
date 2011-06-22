@@ -53,14 +53,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="isamss.exe" size="1868800">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="isamss.exe" size="1878016">
       <assemblyIdentity name="isamss" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>bO5zE5Gb84ZMf9Veo6MQfRaaGtw=</dsig:DigestValue>
+        <dsig:DigestValue>A91DNw0wKDGmxQ6Z1HMwON+TWTQ=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>

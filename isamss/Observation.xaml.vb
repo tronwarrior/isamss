@@ -33,7 +33,6 @@
             _observation.AttachmentId = tspAttachment.Attachment.ID
             _observation.NonCompliance = chkNoncompliance.IsChecked
             _observation.Weakness = chkWeakness.IsChecked
-            _observation.SAMIActivities = _samiActivities
 
             If _newObservation Then
                 _activity.Observations.Add(_observation)

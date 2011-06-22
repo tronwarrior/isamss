@@ -4,7 +4,6 @@
     Private _activity As TActivity = Nothing
     Private _formDirty As Boolean = False
     Private _activityClasses As TActivityClasses = Nothing
-    Private _activityClassesForThis As TActivityClasses = Nothing
 
     Public Sub New(ByRef parent As Object, ByVal contract As TContract, ByVal activity As TActivity)
 
@@ -15,22 +14,34 @@
         _parent = parent
         _contract = contract
         _activity = activity
-
     End Sub
 
     Private Sub Window_Loaded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles MyBase.Loaded
+        _activityClasses = New TActivityClasses
+
+        For Each a In _activityClasses
+            Dim lvi As New ListViewItem
+            lvi.Tag = a
+            lvi.Content = a.Title
+            lstvwActivityClasses.Items.Add(lvi)
+        Next
+
         If _activity Is Nothing Then
             _activity = New TActivity(_contract)
-            _activityClasses = New TActivityClasses
-            _activityClassesForThis = New TActivityClasses(False)
         Else
-            dtActivityDate.SelectedDate = _activity.StartDate
-            _activityClassesForThis = New TActivityClasses(_activity)
-            _activityClasses = New TActivityClasses((New TActivityClasses) - _activityClassesForThis)
+            dtStartDate.SelectedDate = _activity.StartDate
+            dtEndDate.SelectedDate = _activity.EndDate
+            Dim ac As New TActivityClasses(_activity)
+
+            For Each a In ac
+                For Each i In lstvwActivityClasses.Items
+                    If i.Tag.ID = a.ID Then
+                        i.IsSelected = True
+                    End If
+                Next
+            Next
         End If
 
-        lstvwActivityClasses.ItemsSource = _activityClasses
-        lstvwThisActivityClasses.ItemsSource = _activityClassesForThis
         lstvwObservations.ItemsSource = _activity.Observations
 
         _formDirty = False
@@ -40,15 +51,15 @@
     Private Function Save() As Boolean
         Dim rv As Boolean = False
 
-        If dtActivityDate.SelectedDate.HasValue = False Or lstvwThisActivityClasses.Items.Count = 0 Or lstvwObservations.Items.Count = 0 Then
+        If dtStartDate.SelectedDate.HasValue = False Or lstvwObservations.Items.Count = 0 Then
             MsgBox("All entries must be complete.", MsgBoxStyle.OkOnly, "ISAMMS")
         Else
             _activity.EntryDate = Date.Now
-            _activity.StartDate = dtActivityDate.SelectedDate
+            _activity.StartDate = dtStartDate.SelectedDate
 
-            For Each a In _activityClassesForThis
-                _activity.AddActivityClass(a)
-            Next
+            'For Each a In _activityClassesForThis
+            '_activity.AddActivityClass(a)
+            'Next
             _activity.Save()
             rv = True
         End If
@@ -74,45 +85,24 @@
         DialogResult = dr
     End Sub
 
-    Private Sub dtActivityDate_SelectedDateChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles dtActivityDate.SelectedDateChanged
+    Private Sub dtActivityDate_SelectedDateChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles dtStartDate.SelectedDateChanged
         _formDirty = True
         btn_save.IsEnabled = True
     End Sub
 
-    Private Sub lstvwThisActivityClasses_SelectionChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles lstvwThisActivityClasses.SelectionChanged
+    Private Sub lstvwThisActivityClasses_SelectionChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs)
         _formDirty = True
         btn_save.IsEnabled = True
     End Sub
 
-    Private Sub lstvwObservations_SelectionChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles lstvwObservations.SelectionChanged
+    Private Sub lstvwObservations_SelectionChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs)
         _formDirty = True
         btn_save.IsEnabled = True
     End Sub
 
    
-    Private Sub lstvwActivityClasses_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwActivityClasses.MouseDoubleClick
-        Dim ac As TActivityClass = lstvwActivityClasses.SelectedItem
 
-        If ac IsNot Nothing Then
-            _activityClassesForThis.Add(ac)
-            lstvwThisActivityClasses.ItemsSource = _activityClassesForThis
-            _activityClasses.Remove(ac)
-            lstvwActivityClasses.ItemsSource = _activityClasses
-        End If
-    End Sub
-
-    Private Sub lstvwThisActivityClasses_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwThisActivityClasses.MouseDoubleClick
-        Dim ac As TActivityClass = lstvwThisActivityClasses.SelectedItem
-
-        If ac IsNot Nothing Then
-            _activityClasses.Add(ac)
-            lstvwActivityClasses.ItemsSource = _activityClasses
-            _activityClassesForThis.Remove(ac)
-            lstvwThisActivityClasses.ItemsSource = _activityClassesForThis
-        End If
-    End Sub
-
-    Private Sub btnNewObservation_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnNewObservation.Click
+    Private Sub btnNewObservation_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs)
         Dim obs As New ObservationForm(_activity, Nothing)
         obs.ShowDialog()
         lstvwObservations.ItemsSource = _activity.Observations
@@ -120,7 +110,7 @@
         btn_save.IsEnabled = True
     End Sub
 
-    Private Sub lstvwObservations_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwObservations.MouseDoubleClick
+    Private Sub lstvwObservations_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs)
         If lstvwObservations.SelectedItem IsNot Nothing Then
             Dim obsForm As New ObservationForm(_activity, lstvwObservations.SelectedItem)
             obsForm.ShowDialog()
@@ -128,6 +118,10 @@
             If obsForm.DialogResult = True Then
             End If
         End If
+
+    End Sub
+
+    Private Sub lstvwObservations_SelectionChanged_1(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs) Handles lstvwObservations.SelectionChanged
 
     End Sub
 End Class

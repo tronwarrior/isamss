@@ -1736,6 +1736,7 @@ Public Class TActivity
     Private _aacOriginal As TActivityActivityClasses = Nothing
     Private _aacDelta As TActivityActivityClasses = Nothing
     Private _observationIds As TObjectIDs = New TObjectIDs
+    Private _samiActivites As TSAMIActivities = Nothing
 
     Public Sub New()
         MyBase.New(New ISAMSSds.activitiesDataTable)
@@ -2055,6 +2056,68 @@ Public Class TActivity
             MyBase.Delete()
         End Sub
     End Class
+
+    Private Function DeleteAllSAMIActivities()
+        Dim rv As Boolean = False
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
+                adapter.Fill(tbl)
+                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                builder.GetDeleteCommand()
+
+                For Each r In tbl.Rows
+                    r.Delete()
+                Next
+
+                adapter.Update(tbl)
+
+                rv = True
+            End Using
+        Catch ex As System.Exception
+            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
+        End Try
+
+        Return rv
+    End Function
+
+    Private Function InsertAllSAMIActivities()
+        Dim rv As Boolean = False
+
+        If _samiActivites IsNot Nothing Then
+            Try
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                    connection.Open()
+                    Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
+                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                    Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
+                    adapter.Fill(tbl)
+                    Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                    builder.GetInsertCommand()
+
+                    For Each act In _samiActivites
+                        Dim row As ISAMSSds.activity_sami_elementsRow = tbl.NewRow
+                        row.activity_id = ID
+                        row.sami_element_id = act.ID
+                        tbl.Addactivity_sami_elementsRow(row)
+                    Next
+
+                    adapter.Update(tbl)
+
+                    rv = True
+                End Using
+            Catch ex As System.Exception
+                Application.WriteToEventLog(MyBase.GetType.Name & "::InsertAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
+            End Try
+        End If
+
+        Return rv
+    End Function
+
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2094,8 +2157,6 @@ End Class
 ' Purpose: Encapsulates observation data
 Public Class TObservation
     Inherits TObject
-
-    Private _samiActivites As TSAMIActivities = Nothing
 
     Public Sub New()
         MyBase.New(New ISAMSSds.observationsDataTable)
@@ -2141,6 +2202,22 @@ Public Class TObservation
         End Set
     End Property
 
+    ReadOnly Property ShortDescription As String
+        Get
+            Dim rv As String
+
+            If _row.IsdescriptionNull Then
+                rv = "<None>"
+            Else
+                Dim s As String = _row.description
+                rv = s.Substring(0, 30)
+                rv += "..."
+            End If
+
+            Return rv
+        End Get
+    End Property
+
     Property Weakness As Boolean
         Get
             If _row.IsweaknessNull Then
@@ -2152,6 +2229,20 @@ Public Class TObservation
         Set(ByVal value As Boolean)
             _row.weakness = value
         End Set
+    End Property
+
+    ReadOnly Property WeaknessText As String
+        Get
+            Dim rv As String = "No"
+
+            If Not _row.IsweaknessNull Then
+                If _row.weakness Then
+                    rv = "Yes"
+                End If
+            End If
+
+            Return rv
+        End Get
     End Property
 
     Property NonCompliance As Boolean
@@ -2167,18 +2258,18 @@ Public Class TObservation
         End Set
     End Property
 
-    Property SAMIActivities As TSAMIActivities
+    ReadOnly Property NonComplianceText As String
         Get
-            If _samiActivites Is Nothing Then
-                _samiActivites = New TSAMIActivities(Me)
+            Dim rv As String = "No"
+
+            If Not _row.IsnoncomplianceNull Then
+                If _row.noncompliance Then
+                    rv = "Yes"
+                End If
             End If
-            Return _samiActivites
+
+            Return rv
         End Get
-        Set(ByVal value As TSAMIActivities)
-            DeleteAllSAMIActivities()
-            _samiActivites = Nothing
-            _samiActivites = New TSAMIActivities(value)
-        End Set
     End Property
 
     Property AttachmentId As Integer
@@ -2202,12 +2293,6 @@ Public Class TObservation
 
     Public Shadows Function Save() As Boolean
         Dim rv As Boolean = MyBase.Save
-
-        If rv Then
-            DeleteAllSAMIActivities()
-            InsertAllSAMIActivities()
-        End If
-
         Return rv
     End Function
 
@@ -2235,73 +2320,11 @@ Public Class TObservation
         Try
             Dim attachment As New TAttachment(CInt(_row.attachment_id))
             attachment.Delete()
-            DeleteAllSAMIActivities()
             MyBase.Delete()
         Catch e As System.Exception
             Application.WriteToEventLog(MyBase.GetType.Name & "::Delete, Exception, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
-
-    Private Function DeleteAllSAMIActivities()
-        Dim rv As Boolean = False
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                connection.Open()
-                Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
-                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                Dim tbl As New ISAMSSds.observation_sami_activitiesDataTable
-                adapter.Fill(tbl)
-                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-                builder.GetDeleteCommand()
-
-                For Each r In tbl.Rows
-                    r.Delete()
-                Next
-
-                adapter.Update(tbl)
-
-                rv = True
-            End Using
-        Catch ex As System.Exception
-            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
-        End Try
-
-        Return rv
-    End Function
-
-    Private Function InsertAllSAMIActivities()
-        Dim rv As Boolean = False
-
-        If _samiActivites IsNot Nothing Then
-            Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
-                    connection.Open()
-                    Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
-                    Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
-                    Dim tbl As New ISAMSSds.observation_sami_activitiesDataTable
-                    adapter.Fill(tbl)
-                    Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
-                    builder.GetInsertCommand()
-
-                    For Each act In _samiActivites
-                        Dim row As ISAMSSds.observation_sami_activitiesRow = tbl.NewRow
-                        row.observation_id = ID
-                        row.sami_activity_id = act.ID
-                        tbl.Addobservation_sami_activitiesRow(row)
-                    Next
-
-                    adapter.Update(tbl)
-
-                    rv = True
-                End Using
-            Catch ex As System.Exception
-                Application.WriteToEventLog(MyBase.GetType.Name & "::InsertAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
-            End Try
-        End If
-
-        Return rv
-    End Function
 
 End Class
 
