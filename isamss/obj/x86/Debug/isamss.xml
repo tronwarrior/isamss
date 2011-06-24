@@ -268,14 +268,6 @@ Represents the strongly named DataTable class.
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.sami_activity_categoriesDataTable">
-	<summary>
-Represents the strongly named DataTable class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.sami_activitiesDataTable">
-	<summary>
-Represents the strongly named DataTable class.
-</summary>
 </member><member name="T:isamss.ISAMSSds.activity_activity_classesDataTable">
 	<summary>
 Represents the strongly named DataTable class.
@@ -309,6 +301,14 @@ Represents the strongly named DataTable class.
 Represents the strongly named DataTable class.
 </summary>
 </member><member name="T:isamss.ISAMSSds.activity_sami_elementsDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.sami_element_categoriesDataTable">
+	<summary>
+Represents the strongly named DataTable class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.sami_elementsDataTable">
 	<summary>
 Represents the strongly named DataTable class.
 </summary>
@@ -376,14 +376,6 @@ Represents strongly named DataRow class.
 	<summary>
 Represents strongly named DataRow class.
 </summary>
-</member><member name="T:isamss.ISAMSSds.sami_activity_categoriesRow">
-	<summary>
-Represents strongly named DataRow class.
-</summary>
-</member><member name="T:isamss.ISAMSSds.sami_activitiesRow">
-	<summary>
-Represents strongly named DataRow class.
-</summary>
 </member><member name="T:isamss.ISAMSSds.activity_activity_classesRow">
 	<summary>
 Represents strongly named DataRow class.
@@ -417,6 +409,14 @@ Represents strongly named DataRow class.
 Represents strongly named DataRow class.
 </summary>
 </member><member name="T:isamss.ISAMSSds.activity_sami_elementsRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.sami_element_categoriesRow">
+	<summary>
+Represents strongly named DataRow class.
+</summary>
+</member><member name="T:isamss.ISAMSSds.sami_elementsRow">
 	<summary>
 Represents strongly named DataRow class.
 </summary>
@@ -484,14 +484,6 @@ Row event argument class
 	<summary>
 Row event argument class
 </summary>
-</member><member name="T:isamss.ISAMSSds.sami_activity_categoriesRowChangeEvent">
-	<summary>
-Row event argument class
-</summary>
-</member><member name="T:isamss.ISAMSSds.sami_activitiesRowChangeEvent">
-	<summary>
-Row event argument class
-</summary>
 </member><member name="T:isamss.ISAMSSds.activity_activity_classesRowChangeEvent">
 	<summary>
 Row event argument class
@@ -525,6 +517,14 @@ Row event argument class
 Row event argument class
 </summary>
 </member><member name="T:isamss.ISAMSSds.activity_sami_elementsRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.sami_element_categoriesRowChangeEvent">
+	<summary>
+Row event argument class
+</summary>
+</member><member name="T:isamss.ISAMSSds.sami_elementsRowChangeEvent">
 	<summary>
 Row event argument class
 </summary>
@@ -596,14 +596,6 @@ Represents the connection and commands used to retrieve and save data.
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.sami_activity_categoriesTableAdapter">
-	<summary>
-Represents the connection and commands used to retrieve and save data.
-</summary>
-</member><member name="T:isamss.ISAMSSdsTableAdapters.sami_activitiesTableAdapter">
-	<summary>
-Represents the connection and commands used to retrieve and save data.
-</summary>
 </member><member name="T:isamss.ISAMSSdsTableAdapters.activity_activity_classesTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
@@ -637,6 +629,14 @@ Represents the connection and commands used to retrieve and save data.
 Represents the connection and commands used to retrieve and save data.
 </summary>
 </member><member name="T:isamss.ISAMSSdsTableAdapters.activity_sami_elementsTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.sami_element_categoriesTableAdapter">
+	<summary>
+Represents the connection and commands used to retrieve and save data.
+</summary>
+</member><member name="T:isamss.ISAMSSdsTableAdapters.sami_elementsTableAdapter">
 	<summary>
 Represents the connection and commands used to retrieve and save data.
 </summary>

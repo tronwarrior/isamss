@@ -1733,10 +1733,10 @@ End Class
 Public Class TActivity
     Inherits TObject
 
-    Private _aacOriginal As TActivityActivityClasses = Nothing
+    Private _activityClasses As TActivityClasses = Nothing
     Private _aacDelta As TActivityActivityClasses = Nothing
     Private _observationIds As TObjectIDs = New TObjectIDs
-    Private _samiActivites As TSAMIActivities = Nothing
+    Private _samiElements As TSAMIElements = Nothing
 
     Public Sub New()
         MyBase.New(New ISAMSSds.activitiesDataTable)
@@ -1803,16 +1803,29 @@ Public Class TActivity
         End Set
     End Property
 
-    Property Accepted As Boolean
+    Property Issues As Boolean
         Get
-            If _row.IsacceptedNull Then
-                Return ""
+            If _row.IsissuesNull Then
+                Return False
             Else
-                Return _row.accepted
+                Return _row.issues
             End If
         End Get
         Set(ByVal value As Boolean)
-            _row.accepted = value
+            _row.issues = value
+        End Set
+    End Property
+
+    Property Notes As String
+        Get
+            If _row.IsnotesNull Then
+                Return ""
+            Else
+                Return _row.notes
+            End If
+        End Get
+        Set(ByVal value As String)
+            _row.notes = value
         End Set
     End Property
 
@@ -1842,29 +1855,34 @@ Public Class TActivity
         End Set
     End Property
 
-    Public Sub AddActivityClass(ByRef activityClass As TActivityClass)
-        For Each ac In _aacDelta
-            If ac.ID <> activityClass.ID Then
-                _aacDelta.Add(activityClass)
-            End If
-
-            Exit For
-        Next
-    End Sub
-
-    Public Sub RemoveActivityClass(ByRef activityClass As TActivityClass)
-        For Each ac In _aacDelta
-            If ac.ID = activityClass.ID Then
-                _aacDelta.Remove(ac)
-            End If
-
-            Exit For
-        Next
-    End Sub
-
-    ReadOnly Property ActivityClasses As TActivityClasses
+    Property ActivityClasses As TActivityClasses
         Get
-            Return New TActivityClasses(Me)
+            If _activityClasses Is Nothing Then
+                _activityClasses = New TActivityClasses(Me)
+            End If
+            Return _activityClasses
+        End Get
+        Set(ByVal value As TActivityClasses)
+            _activityClasses = value
+        End Set
+    End Property
+
+    ReadOnly Property ActivityClassesText As String
+        Get
+            Dim rv As String = ""
+            Dim count As Integer = ActivityClasses.Count
+            Dim i As Integer = 0
+
+            For Each a In ActivityClasses
+                i += 1
+                rv += a.Title
+
+                If i < count Then
+                    rv += ", "
+                End If
+            Next
+
+            Return rv
         End Get
     End Property
 
@@ -1877,6 +1895,13 @@ Public Class TActivity
     ReadOnly Property Observations As TObservations
         Get
             Return New TObservations(Me)
+        End Get
+    End Property
+
+    ReadOnly Property SAMIElements As TSAMIElements
+        Get
+            LoadAllSAMIElements()
+            Return _samiElements
         End Get
     End Property
 
@@ -2057,13 +2082,13 @@ Public Class TActivity
         End Sub
     End Class
 
-    Private Function DeleteAllSAMIActivities()
+    Private Function DeleteSAMIElements()
         Dim rv As Boolean = False
 
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                 connection.Open()
-                Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
+                Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id = " + CStr(ID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
                 adapter.Fill(tbl)
@@ -2079,27 +2104,27 @@ Public Class TActivity
                 rv = True
             End Using
         Catch ex As System.Exception
-            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteSAMIElements, Exception, message: " & ex.Message, EventLogEntryType.Error)
         End Try
 
         Return rv
     End Function
 
-    Private Function InsertAllSAMIActivities()
+    Private Function InsertSAMIElements()
         Dim rv As Boolean = False
 
-        If _samiActivites IsNot Nothing Then
+        If _samiElements IsNot Nothing Then
             Try
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
                     connection.Open()
-                    Dim query As String = "SELECT * FROM observation_sami_activities WHERE observation_id = " + CStr(ID)
+                    Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id  = " + CStr(ID)
                     Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                     Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
                     adapter.Fill(tbl)
                     Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
                     builder.GetInsertCommand()
 
-                    For Each act In _samiActivites
+                    For Each act In _samiElements
                         Dim row As ISAMSSds.activity_sami_elementsRow = tbl.NewRow
                         row.activity_id = ID
                         row.sami_element_id = act.ID
@@ -2111,12 +2136,39 @@ Public Class TActivity
                     rv = True
                 End Using
             Catch ex As System.Exception
-                Application.WriteToEventLog(MyBase.GetType.Name & "::InsertAllSAMIActivities, Exception, message: " & ex.Message, EventLogEntryType.Error)
+                Application.WriteToEventLog(MyBase.GetType.Name & "::InsertSAMIElements, Exception, message: " & ex.Message, EventLogEntryType.Error)
             End Try
         End If
 
         Return rv
     End Function
+
+    Private Sub LoadAllSAMIElements()
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM sami_elements WHERE id in "
+                Dim inFilter As String = "(SELECT sami_element_id FROM activity_sami_elements WHERE activity_id = " & CStr(ID) & ")"
+                query &= inFilter & " AND deleted <> -1"
+
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim tbl As New ISAMSSds.sami_elementsDataTable
+
+                adapter.Fill(tbl)
+
+                Dim coll As New ObservableCollection(Of Object)
+
+                For Each row In tbl
+                    Dim s As New TSAMIElement(CType(row, ISAMSSds.sami_elementsRow))
+                    coll.Add(s)
+                Next
+
+                _samiElements = New TSAMIElements(coll)
+            End Using
+        Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(startDate, endDate), Exception: " & e.Message, EventLogEntryType.Error)
+        End Try
+    End Sub
 
 End Class
 
@@ -2210,7 +2262,7 @@ Public Class TObservation
                 rv = "<None>"
             Else
                 Dim s As String = _row.description
-                rv = s.Substring(0, 30)
+                rv = s.Substring(0, 32)
                 rv += "..."
             End If
 
@@ -2335,13 +2387,13 @@ Public Class TSAMIActivityCategories
     Inherits TObjects
 
     Public Sub New()
-        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+        MyBase.New(New ISAMSSds.sami_element_categoriesDataTable)
     End Sub
 
     Protected Overrides Sub AddItems()
         Try
             For Each row In _table
-                MyBase.Add(New TSAMIActivityCategory(CType(row, ISAMSSds.sami_activity_categoriesRow)))
+                MyBase.Add(New TSAMIActivityCategory(CType(row, ISAMSSds.sami_element_categoriesRow)))
             Next
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
@@ -2360,20 +2412,20 @@ Public Class TSAMIActivityCategory
     Private _description As String
 
     Public Sub New()
-        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+        MyBase.New(New ISAMSSds.sami_element_categoriesDataTable)
     End Sub
 
     Public Sub New(ByVal id As Integer)
-        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable, id)
+        MyBase.New(New ISAMSSds.sami_element_categoriesDataTable, id)
     End Sub
 
-    Public Sub New(ByVal row As ISAMSSds.sami_activity_categoriesRow)
-        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+    Public Sub New(ByVal row As ISAMSSds.sami_element_categoriesRow)
+        MyBase.New(New ISAMSSds.sami_element_categoriesDataTable)
         _row = row
     End Sub
 
     Public Sub New(ByVal rhs As TSAMIActivityCategory)
-        MyBase.New(New ISAMSSds.sami_activity_categoriesDataTable)
+        MyBase.New(New ISAMSSds.sami_element_categoriesDataTable)
         _row = rhs._row
     End Sub
 
@@ -2405,7 +2457,7 @@ Public Class TSAMIActivityCategory
 
     Protected Overrides Sub AddNewRow()
         Try
-            _table.Addsami_activity_categoriesRow(_row)
+            _table.Addsami_element_categoriesRow(_row)
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
@@ -2417,7 +2469,7 @@ Public Class TSAMIActivityCategory
     ' Parameters:    
     Protected Overrides Sub GetNewRow()
         Try
-            _row = _table.Newsami_activity_categoriesRow
+            _row = _table.Newsami_element_categoriesRow
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
@@ -2425,47 +2477,50 @@ Public Class TSAMIActivityCategory
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
-' Class: TSAMIActivities
+' Class: TSAMIElements
 ' Purpose: Collection class encapsulating a collection of TSAMIActivity objects
-Public Class TSAMIActivities
+Public Class TSAMIElements
     Inherits TObjects
 
     Public Enum ActivityCategories
         tech = 1
         cost = 2
         sched = 3
+        cmo_unique = 4
+        customer_plus = 5
+        program_measures = 6
     End Enum
 
     Public Sub New()
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable)
+    End Sub
+
+    Public Sub New(ByVal rhs As TSAMIElements)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable, rhs)
     End Sub
 
     Public Sub New(ByVal category As ActivityCategories)
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable, "sami_activity_category_id = " & CStr(category))
-    End Sub
-
-    Public Sub New(ByVal rhs As TSAMIActivities)
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable, rhs)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable, "sami_element_category_id = " & CStr(category))
     End Sub
 
     Public Sub New(ByVal rhs As IList)
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable, rhs)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable, rhs)
     End Sub
 
     Public Sub New(ByVal obs As TObservation)
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
+        MyBase.New(New ISAMSSds.sami_elementsDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
                             "(SELECT sami_activity_id FROM(observation_sami_activities) " & _
                             "WHERE (observation_id = " & obs.ID & ")))"))
     End Sub
 
-    Public Sub New(ByVal obs As TObservation, ByVal category As TSAMIActivities.ActivityCategories)
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
+    Public Sub New(ByVal obs As TObservation, ByVal category As TSAMIElements.ActivityCategories)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
                             "(SELECT sami_activity_id FROM observation_sami_activities " & _
                             "WHERE (observation_id = " & obs.ID & "))) AND (sami_activity_category_id = " & CStr(category)))
     End Sub
 
-    Public Shared Operator +(ByVal lhs As TSAMIActivities, ByVal rhs As TSAMIActivities) As TSAMIActivities
-        Dim rv As New TSAMIActivities(lhs)
+    Public Shared Operator +(ByVal lhs As TSAMIElements, ByVal rhs As TSAMIElements) As TSAMIElements
+        Dim rv As New TSAMIElements(lhs)
 
         If lhs.Items.Count = 0 Then
             For Each rs In rhs
@@ -2489,8 +2544,8 @@ Public Class TSAMIActivities
         Return rv
     End Operator
 
-    Public Shared Operator -(ByVal lhs As TSAMIActivities, ByVal rhs As TSAMIActivities) As TSAMIActivities
-        Dim rv As New TSAMIActivities(lhs)
+    Public Shared Operator -(ByVal lhs As TSAMIElements, ByVal rhs As TSAMIElements) As TSAMIElements
+        Dim rv As New TSAMIElements(lhs)
 
         For Each ls In lhs
             For Each rs In rhs
@@ -2506,11 +2561,28 @@ Public Class TSAMIActivities
     Protected Overrides Sub AddItems()
         Try
             For Each row In _table
-                MyBase.Add(New TSAMIActivity(CType(row, ISAMSSds.sami_activitiesRow)))
+                MyBase.Add(New TSAMIElement(CType(row, ISAMSSds.sami_elementsRow)))
             Next
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::AddItems, Exception: " & e.Message, EventLogEntryType.Error)
         End Try
+    End Sub
+
+    Public Sub SelectItems(ByVal rhs As TSAMIElements)
+        For Each r In rhs
+            Dim found As Boolean = False
+
+            For Each x In MyBase.Items
+                If x.ID = r.ID Then
+                    x.IsSelected = True
+                    found = True
+                End If
+
+                If found Then
+                    Exit For
+                End If
+            Next
+        Next
     End Sub
 
 End Class
@@ -2518,7 +2590,7 @@ End Class
 '//////////////////////////////////////////////////////////////////////////////
 ' Class: TSAMIActivity
 ' Purpose: Encapsulates SAMI Activity data
-Public Class TSAMIActivity
+Public Class TSAMIElement
     Inherits TObject
 
     Private _samiActivityCategoryId As Integer = TObject.InvalidID
@@ -2527,17 +2599,18 @@ Public Class TSAMIActivity
     Private _description As String
     Private _osi9001Id As Integer = TObject.InvalidID
     Private _as9100Id As Integer = TObject.InvalidID
+    Private _isSelected As Boolean = False
 
     Public Sub New()
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable)
     End Sub
 
     Public Sub New(ByRef id As Integer)
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable, id)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable, id)
     End Sub
 
-    Public Sub New(ByVal row As ISAMSSds.sami_activitiesRow)
-        MyBase.New(New ISAMSSds.sami_activitiesDataTable)
+    Public Sub New(ByVal row As ISAMSSds.sami_elementsRow)
+        MyBase.New(New ISAMSSds.sami_elementsDataTable)
         _row = row
     End Sub
 
@@ -2615,9 +2688,18 @@ Public Class TSAMIActivity
         End Set
     End Property
 
+    Property IsSelected As Boolean
+        Get
+            Return _isSelected
+        End Get
+        Set(ByVal value As Boolean)
+            _isSelected = value
+        End Set
+    End Property
+
     Protected Overrides Sub AddNewRow()
         Try
-            _table.Addsami_activitiesRow(_row)
+            _table.Addsami_elementsRow(_row)
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
@@ -2629,7 +2711,7 @@ Public Class TSAMIActivity
     ' Parameters:    
     Protected Overrides Sub GetNewRow()
         Try
-            _row = _table.Newsami_activitiesRow
+            _row = _table.Newsami_elementsRow
         Catch e As OleDb.OleDbException
             Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
