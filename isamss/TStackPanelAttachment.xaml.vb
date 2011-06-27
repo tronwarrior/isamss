@@ -51,6 +51,26 @@
         ConfigureButtonStates()
     End Sub
 
+    Property Enabled As Boolean
+        Get
+            Return _enabled
+        End Get
+        Set(ByVal value As Boolean)
+            _enabled = value
+            txtAttachment.IsEnabled = _enabled
+            btnAddAttachment.IsEnabled = _enabled
+            btnDeleteAttachment.IsEnabled = _enabled
+            btnViewAttachment.IsEnabled = _enabled
+        End Set
+    End Property
+
+    Public Sub Clear()
+        _hasAttachment = False
+        _dirty = False
+        txtAttachment.Text = ""
+        _fileUpload.Attachment = Nothing
+    End Sub
+
     Property Attachment As TAttachment
         Get
             Return _fileUpload.Attachment
@@ -119,4 +139,5 @@
     Protected _fileUpload As UploadFile = New UploadFile
     Protected _dirty As Boolean = False
     Protected _hasAttachment As Boolean = False
+    Protected _enabled As Boolean = True
 End Class

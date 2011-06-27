@@ -344,6 +344,24 @@ Public MustInherit Class TObjects
         End Try
     End Sub
 
+    Public Sub New(ByVal table As Object, ByVal load As Boolean)
+        _table = table
+
+        If load Then
+            Try
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                    connection.Open()
+                    Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE deleted <> -1"
+                    _adapter = New OleDb.OleDbDataAdapter(query, connection)
+                    _adapter.Fill(_table)
+                    AddItems()
+                End Using
+            Catch e As OleDb.OleDbException
+                Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
+            End Try
+        End If
+    End Sub
+
     Public Sub New(ByVal table As Object, ByVal rhs As TObjects)
         _table = table
 

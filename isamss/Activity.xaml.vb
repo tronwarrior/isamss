@@ -5,6 +5,7 @@
     Private _formDirty As Boolean = False
     Private _activityClasses As TActivityClasses = Nothing
     Private _samiElements As TSAMIElements = Nothing
+    Private _currentObservation As TObservation = New TObservation()
 
     Public Sub New(ByRef parent As Object, ByVal contract As TContract, ByVal activity As TActivity)
 
@@ -21,6 +22,8 @@
 
         If _activity Is Nothing Then
             _activity = New TActivity(_contract)
+            dtStartDate.SelectedDate = Date.Now
+            dtEndDate.SelectedDate = dtStartDate.SelectedDate
         Else
             dtStartDate.SelectedDate = _activity.StartDate
             dtEndDate.SelectedDate = _activity.EndDate
@@ -100,14 +103,44 @@
             _activity.EntryDate = Date.Now
             _activity.StartDate = dtStartDate.SelectedDate
             _activity.EndDate = dtEndDate.SelectedDate
+            _activity.Notes = txtNotes.Text
+            _activity.ActivityClasses.Clear()
 
+            For Each i In lstvwActivityClasses.SelectedItems
+                _activity.ActivityClasses.Add(i.Tag)
+            Next
+
+            _activity.SAMIElements.Clear()
+
+            For Each a In lstvwSamiElementsTech.SelectedItems
+                _activity.SAMIElements.Add(a)
+            Next
+
+            For Each b In lstvwSamiElementsCost.SelectedItems
+                _activity.SAMIElements.Add(b)
+            Next
+
+            For Each c In lstvwSamiElementsSched.SelectedItems
+                _activity.SAMIElements.Add(c)
+            Next
+
+            _activity.Observations.Clear()
+
+            For Each o In lstvwObservations.Items
+                _activity.Observations.Add(o)
+            Next
 
             _activity.Save()
+            _formDirty = False
             rv = True
         End If
         
         Return rv
     End Function
+
+    Private Sub UpdateSAMIElements()
+
+    End Sub
 
     Private Sub btn_save_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_save.Click
         If Save() = True Then
@@ -116,15 +149,7 @@
     End Sub
 
     Private Sub btn_cancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_cancel.Click
-        Dim dr As Boolean = False
-
-        If _formDirty = True Then
-            If MsgBox("Do you want to save changes?", MsgBoxStyle.YesNo, "ISAMSS") = MsgBoxResult.Yes Then
-                dr = Save()
-            End If
-        End If
-
-        DialogResult = dr
+        Me.Close()
     End Sub
 
     Private Sub dtActivityDate_SelectedDateChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.SelectionChangedEventArgs)
@@ -142,16 +167,35 @@
 
     Private Sub lstvwObservations_MouseDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Input.MouseButtonEventArgs) Handles lstvwObservations.MouseDoubleClick
         If lstvwObservations.SelectedItem IsNot Nothing Then
-            Dim obs As TObservation = lstvwObservations.SelectedItem
-            txtDescription.Text = obs.Description
-            chkNoncompliance.IsChecked = obs.NonCompliance
-            chkWeakness.IsChecked = obs.Weakness
-            tspAttachment.Attachment = obs.Attachment
+            _currentObservation = lstvwObservations.SelectedItem
+            txtDescription.Text = _currentObservation.Description
+            chkNoncompliance.IsChecked = _currentObservation.NonCompliance
+            chkWeakness.IsChecked = _currentObservation.Weakness
+            tspAttachment.Attachment = _currentObservation.Attachment
         End If
     End Sub
 
     Private Sub btnSaveObservation_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnSaveObservation.Click
+        If txtDescription.Text.Length > 0 Then
+            _currentObservation.Description = txtDescription.Text
+            _currentObservation.Weakness = chkWeakness.IsChecked
+            _currentObservation.NonCompliance = chkNoncompliance.IsChecked
+            _currentObservation.AttachmentId = tspAttachment.Attachment.ID
 
+            If _currentObservation.ID <> TObject.InvalidID Then
+                For Each o In lstvwObservations.Items
+                    If o.ID = _currentObservation.ID Then
+                        o = _currentObservation
+                    End If
+                Next
+            Else
+                lstvwObservations.Items.Add(_currentObservation)
+            End If
+
+            ClearObservationForm()
+        Else
+            MsgBox("All entries must be complete.", MsgBoxStyle.Critical, "ISAMMS")
+        End If
     End Sub
 
     Private Sub txtDescription_TextChanged(ByVal sender As System.Object, ByVal e As System.Windows.Controls.TextChangedEventArgs) Handles txtDescription.TextChanged
@@ -256,5 +300,16 @@
         End If
 
         DialogResult = dr
+    End Sub
+
+    Private Sub ClearObservationForm()
+        txtDescription.Text = ""
+        tspAttachment.Clear()
+        btnSaveObservation.IsEnabled = False
+        btnClear.IsEnabled = False
+    End Sub
+
+    Private Sub btnClear_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btnClear.Click
+        ClearObservationForm()
     End Sub
 End Class

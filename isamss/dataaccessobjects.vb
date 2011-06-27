@@ -1734,34 +1734,25 @@ Public Class TActivity
     Inherits TObject
 
     Private _activityClasses As TActivityClasses = Nothing
-    Private _aacDelta As TActivityActivityClasses = Nothing
-    Private _observationIds As TObjectIDs = New TObjectIDs
+    Private _observations As TObservations = Nothing
     Private _samiElements As TSAMIElements = Nothing
 
     Public Sub New()
         MyBase.New(New ISAMSSds.activitiesDataTable)
-        _aacOriginal = New TActivityActivityClasses
-        _aacDelta = New TActivityActivityClasses
     End Sub
 
     Public Sub New(ByVal id As Integer)
         MyBase.New(New ISAMSSds.activitiesDataTable, id)
-        _aacOriginal = New TActivityActivityClasses(Me)
-        _aacDelta = New TActivityActivityClasses(_aacOriginal)
     End Sub
 
     Public Sub New(ByVal row As ISAMSSds.activitiesRow)
         MyBase.New(New ISAMSSds.activitiesDataTable)
         _row = row
-        _aacOriginal = New TActivityActivityClasses(Me)
-        _aacDelta = New TActivityActivityClasses(_aacOriginal)
     End Sub
 
     Public Sub New(ByVal contract As TContract)
         MyBase.New(New ISAMSSds.activitiesDataTable)
         _row.contract_id = contract.ID
-        _aacOriginal = New TActivityActivityClasses
-        _aacDelta = New TActivityActivityClasses(_aacOriginal)
     End Sub
 
     Property EntryDate As Date
@@ -1894,13 +1885,18 @@ Public Class TActivity
 
     ReadOnly Property Observations As TObservations
         Get
-            Return New TObservations(Me)
+            If _observations Is Nothing Then
+                _observations = New TObservations(Me)
+            End If
+            Return _observations
         End Get
     End Property
 
     ReadOnly Property SAMIElements As TSAMIElements
         Get
-            LoadAllSAMIElements()
+            If _samiElements Is Nothing Then
+                LoadAllSAMIElements()
+            End If
             Return _samiElements
         End Get
     End Property
@@ -1915,9 +1911,13 @@ Public Class TActivity
         Dim rv As Boolean = MyBase.Save
 
         If rv Then
-            _aacOriginal.Delete()
-            Dim ac As New TActivityActivityClasses(Me, _aacDelta)
+            DeleteActivityClasses()
+            Dim ac As New TActivityActivityClasses(Me, _activityClasses)
             ac.Save()
+            DeleteSAMIElements()
+            InsertSAMIElements()
+            DeleteObservations()
+            InsertObservations()
         End If
 
         Return rv
@@ -1984,14 +1984,25 @@ Public Class TActivity
             End Try
         End Sub
 
-        Public Sub New(ByRef activity As TActivity, ByRef aac As TActivityActivityClasses)
+        Public Sub New(ByRef activity As TActivity, ByRef activityActivityClasses As TActivityActivityClasses)
             MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
             Try
-                For Each a In aac
-                    MyBase.Add(New TActivityActivityClass(activity, a))
+                For Each a In activityActivityClasses
+                    MyBase.Add(New TActivityActivityClass(activity, CType(a, TActivityActivityClass)))
                 Next
             Catch e As OleDb.OleDbException
-                Application.WriteToEventLog(MyBase.GetType.Name & "::New(activity), Exception: " & e.Message, EventLogEntryType.Error)
+                Application.WriteToEventLog(MyBase.GetType.Name & "::New(activity, activityActivityClasses), Exception: " & e.Message, EventLogEntryType.Error)
+            End Try
+        End Sub
+
+        Public Sub New(ByRef activity As TActivity, ByRef activityClasses As TActivityClasses)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable, False)
+            Try
+                For Each a In activityClasses
+                    MyBase.Add(New TActivityActivityClass(activity, CType(a, TActivityClass)))
+                Next
+            Catch e As OleDb.OleDbException
+                Application.WriteToEventLog(MyBase.GetType.Name & "::New(activity, activityClasses), Exception: " & e.Message, EventLogEntryType.Error)
             End Try
         End Sub
 
@@ -2029,6 +2040,12 @@ Public Class TActivity
             MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
             _row.activity_id = activity.ID
             _row.activity_class_id = activityClass.ActivityClassId
+        End Sub
+
+        Public Sub New(ByRef activity As TActivity, ByRef activityClass As TActivityClass)
+            MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
+            _row.activity_id = activity.ID
+            _row.activity_class_id = activityClass.ID
         End Sub
 
         Property ActivityId As Integer
@@ -2110,6 +2127,34 @@ Public Class TActivity
         Return rv
     End Function
 
+    Private Function DeleteActivityClasses()
+        Dim rv As Boolean = False
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(ID)
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
+                adapter.Fill(tbl)
+                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                builder.GetDeleteCommand()
+
+                For Each r In tbl.Rows
+                    r.Delete()
+                Next
+
+                adapter.Update(tbl)
+
+                rv = True
+            End Using
+        Catch ex As System.Exception
+            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteSAMIElements, Exception, message: " & ex.Message, EventLogEntryType.Error)
+        End Try
+
+        Return rv
+    End Function
+
     Private Function InsertSAMIElements()
         Dim rv As Boolean = False
 
@@ -2169,6 +2214,46 @@ Public Class TActivity
             Application.WriteToEventLog(MyBase.GetType.Name & "::New(startDate, endDate), Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
+
+    Private Function DeleteObservations()
+        Dim rv As Boolean = False
+
+        Try
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                connection.Open()
+                Dim query As String = "SELECT * FROM observations WHERE activity_id = " + CStr(ID)
+                Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
+                Dim tbl As New ISAMSSds.observationsDataTable
+                adapter.Fill(tbl)
+                Dim builder As OleDbCommandBuilder = New OleDbCommandBuilder(adapter)
+                builder.GetDeleteCommand()
+
+                For Each r In tbl.Rows
+                    r.Delete()
+                Next
+
+                adapter.Update(tbl)
+
+                rv = True
+            End Using
+        Catch ex As System.Exception
+            Application.WriteToEventLog(MyBase.GetType.Name & "::DeleteObservations, Exception, message: " & ex.Message, EventLogEntryType.Error)
+        End Try
+
+        Return rv
+    End Function
+
+    Private Function InsertObservations()
+        Dim rv As Boolean = False
+
+        For Each o In _observations
+            o.ActivityId = Me.ID
+            o.Save()
+        Next
+
+        Return rv
+    End Function
+
 
 End Class
 
@@ -2256,14 +2341,19 @@ Public Class TObservation
 
     ReadOnly Property ShortDescription As String
         Get
-            Dim rv As String
+            Dim rv As String = ""
 
             If _row.IsdescriptionNull Then
                 rv = "<None>"
             Else
                 Dim s As String = _row.description
-                rv = s.Substring(0, 32)
-                rv += "..."
+
+                If s.Length > 32 Then
+                    rv = s.Substring(0, 31)
+                    rv += "..."
+                Else
+                    rv = s
+                End If
             End If
 
             Return rv
