@@ -8,8 +8,8 @@
         <TextBox Height="23" HorizontalAlignment="Right" Margin="0,67,21,0" Name="lastName" VerticalAlignment="Top" Width="148" Grid.ColumnSpan="2" TabIndex="2" />
         <PasswordBox Height="23" HorizontalAlignment="Left" Margin="321,95,0,0" Name="txt_pwd" VerticalAlignment="Top" Width="148" TabIndex="3" Grid.ColumnSpan="2" />
         <Image Height="145" HorizontalAlignment="Left" Name="Image1" Stretch="Fill" VerticalAlignment="Top" Width="217" Source="/isamss;component/Images/dcma.gif" Margin="14,11,0,0" />
-        <Label Content="User ID" Height="22" HorizontalAlignment="Left" Margin="245,10,0,0" Name="Label1" VerticalAlignment="Top" Width="56" />
-        <Label Content="Password" Height="28" HorizontalAlignment="Left" Margin="245,95,0,0" Name="Label4" VerticalAlignment="Top" Width="57" />
+        <Label Content="User ID" Height="24" HorizontalAlignment="Left" Margin="245,10,0,0" Name="Label1" VerticalAlignment="Top" Width="56" />
+        <Label Content="Password" Height="28" HorizontalAlignment="Left" Margin="245,95,0,0" Name="Label4" VerticalAlignment="Top" Width="67" />
         <Label Content="First Name" Height="23" HorizontalAlignment="Left" Margin="245,39,0,0" Name="Label2" VerticalAlignment="Top" />
         <Label Content="Last Name" Height="23" HorizontalAlignment="Left" Margin="246,65,0,0" Name="Label3" VerticalAlignment="Top" />
         <Button Content="Register" Height="23" HorizontalAlignment="Left" Margin="321,127,0,0" Name="registerUser" VerticalAlignment="Top" Width="70" TabIndex="4" />

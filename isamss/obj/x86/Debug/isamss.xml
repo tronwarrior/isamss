@@ -6,13 +6,21 @@ isamss
 </name>
 </assembly>
 <members>
-<member name="M:isamss.SupplierForm.InitializeComponent">
+<member name="M:isamss.PSSPForm.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:isamss.SupplierForm">
+</member><member name="T:isamss.PSSPForm">
 	<summary>
-SupplierForm
+PSSPForm
+</summary>
+</member><member name="M:isamss.ActivityForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.ActivityForm">
+	<summary>
+ActivityForm
 </summary>
 </member><member name="M:isamss.PSSPActionForm.InitializeComponent">
 	<summary>
@@ -22,13 +30,13 @@ InitializeComponent
 	<summary>
 PSSPActionForm
 </summary>
-</member><member name="M:isamss.CRRForm.InitializeComponent">
+</member><member name="M:isamss.CustomerForm.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:isamss.CRRForm">
+</member><member name="T:isamss.CustomerForm">
 	<summary>
-CRRForm
+CustomerForm
 </summary>
 </member><member name="M:isamss.Application.InitializeComponent">
 	<summary>
@@ -42,21 +50,61 @@ Application Entry Point.
 	<summary>
 Application
 </summary>
-</member><member name="M:isamss.CustomerForm.InitializeComponent">
+</member><member name="M:isamss.ContractForm.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:isamss.CustomerForm">
+</member><member name="T:isamss.ContractForm">
 	<summary>
-CustomerForm
+ContractForm
 </summary>
-</member><member name="M:isamss.ActivityForm.InitializeComponent">
+</member><member name="M:isamss.LogonForm.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:isamss.ActivityForm">
+</member><member name="T:isamss.LogonForm">
 	<summary>
-ActivityForm
+LogonForm
+</summary>
+</member><member name="M:isamss.CRRForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.CRRForm">
+	<summary>
+CRRForm
+</summary>
+</member><member name="M:isamss.RegisterUserForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.RegisterUserForm">
+	<summary>
+RegisterUserForm
+</summary>
+</member><member name="M:isamss.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateInstance(System.Type,System.Globalization.CultureInfo)">
+	<summary>
+CreateInstance
+</summary>
+</member><member name="M:isamss.XamlGeneratedNamespace.GeneratedInternalTypeHelper.GetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Globalization.CultureInfo)">
+	<summary>
+GetPropertyValue
+</summary>
+</member><member name="M:isamss.XamlGeneratedNamespace.GeneratedInternalTypeHelper.SetPropertyValue(System.Reflection.PropertyInfo,System.Object,System.Object,System.Globalization.CultureInfo)">
+	<summary>
+SetPropertyValue
+</summary>
+</member><member name="M:isamss.XamlGeneratedNamespace.GeneratedInternalTypeHelper.CreateDelegate(System.Type,System.Object,System.String)">
+	<summary>
+CreateDelegate
+</summary>
+</member><member name="M:isamss.XamlGeneratedNamespace.GeneratedInternalTypeHelper.AddEventHandler(System.Reflection.EventInfo,System.Object,System.Delegate)">
+	<summary>
+AddEventHandler
+</summary>
+</member><member name="T:isamss.XamlGeneratedNamespace.GeneratedInternalTypeHelper">
+	<summary>
+GeneratedInternalTypeHelper
 </summary>
 </member><member name="M:isamss.CustomerJournal.InitializeComponent">
 	<summary>
@@ -66,22 +114,6 @@ InitializeComponent
 	<summary>
 CustomerJournal
 </summary>
-</member><member name="M:isamss.SiteForm.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:isamss.SiteForm">
-	<summary>
-SiteForm
-</summary>
-</member><member name="M:isamss.ContractForm.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:isamss.ContractForm">
-	<summary>
-ContractForm
-</summary>
 </member><member name="M:isamss.LodForm.InitializeComponent">
 	<summary>
 InitializeComponent
@@ -90,13 +122,21 @@ InitializeComponent
 	<summary>
 LodForm
 </summary>
-</member><member name="M:isamss.TStackPanelAttachment.InitializeComponent">
+</member><member name="M:isamss.SiteForm.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:isamss.TStackPanelAttachment">
+</member><member name="T:isamss.SiteForm">
 	<summary>
-TStackPanelAttachment
+SiteForm
+</summary>
+</member><member name="M:isamss.ObservationForm.InitializeComponent">
+	<summary>
+InitializeComponent
+</summary>
+</member><member name="T:isamss.ObservationForm">
+	<summary>
+ObservationForm
 </summary>
 </member><member name="M:isamss.FilterContractsForm.InitializeComponent">
 	<summary>
@@ -114,29 +154,13 @@ InitializeComponent
 	<summary>
 MainWindow
 </summary>
-</member><member name="M:isamss.ObservationForm.InitializeComponent">
+</member><member name="M:isamss.TStackPanelAttachment.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:isamss.ObservationForm">
+</member><member name="T:isamss.TStackPanelAttachment">
 	<summary>
-ObservationForm
-</summary>
-</member><member name="M:isamss.LogonForm.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:isamss.LogonForm">
-	<summary>
-LogonForm
-</summary>
-</member><member name="M:isamss.RegisterUserForm.InitializeComponent">
-	<summary>
-InitializeComponent
-</summary>
-</member><member name="T:isamss.RegisterUserForm">
-	<summary>
-RegisterUserForm
+TStackPanelAttachment
 </summary>
 </member><member name="M:isamss.NewContractForm.InitializeComponent">
 	<summary>
@@ -146,40 +170,27 @@ InitializeComponent
 	<summary>
 NewContractForm
 </summary>
-</member><member name="M:isamss.PSSPForm.InitializeComponent">
+</member><member name="M:isamss.SupplierForm.InitializeComponent">
 	<summary>
 InitializeComponent
 </summary>
-</member><member name="T:isamss.PSSPForm">
+</member><member name="T:isamss.SupplierForm">
 	<summary>
-PSSPForm
+SupplierForm
 </summary>
-</member><member name="P:isamss.My.MyWpfExtension.Application">
+</member><member name="P:isamss.My.Resources.Resources.ResourceManager">
 	<summary>
- Returns the application object for the running application
- </summary>
-</member><member name="P:isamss.My.MyWpfExtension.Computer">
+  Returns the cached ResourceManager instance used by this class.
+</summary>
+</member><member name="P:isamss.My.Resources.Resources.Culture">
 	<summary>
- Returns information about the host computer.
- </summary>
-</member><member name="P:isamss.My.MyWpfExtension.User">
+  Overrides the current thread's CurrentUICulture property for all
+  resource lookups using this strongly typed resource class.
+</summary>
+</member><member name="T:isamss.My.Resources.Resources">
 	<summary>
- Returns information for the current user.  If you wish to run the application with the current 
- Windows user credentials, call My.User.InitializeWithWindowsUser().
- </summary>
-</member><member name="P:isamss.My.MyWpfExtension.Log">
-	<summary>
- Returns the application log. The listeners can be configured by the application's configuration file.
- </summary>
-</member><member name="P:isamss.My.MyWpfExtension.Windows">
-	<summary>
- Returns the collection of Windows defined in the project.
- </summary>
-</member><member name="T:isamss.My.MyWpfExtension">
-	<summary>
- Module used to define the properties that are available in the My Namespace for WPF
- </summary>
-	<remarks></remarks>
+  A strongly-typed resource class, for looking up localized strings, etc.
+</summary>
 </member><member name="T:isamss.ISAMSSds.usersDataTable">
 	<summary>
 Represents the strongly named DataTable class.
@@ -648,19 +659,32 @@ Used to sort self-referenced table's rows
 	<summary>
 TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
 </summary>
-</member><member name="P:isamss.My.Resources.Resources.ResourceManager">
+</member><member name="P:isamss.My.MyWpfExtension.Application">
 	<summary>
-  Returns the cached ResourceManager instance used by this class.
-</summary>
-</member><member name="P:isamss.My.Resources.Resources.Culture">
+ Returns the application object for the running application
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Computer">
 	<summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
-</summary>
-</member><member name="T:isamss.My.Resources.Resources">
+ Returns information about the host computer.
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.User">
 	<summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
-</summary>
+ Returns information for the current user.  If you wish to run the application with the current 
+ Windows user credentials, call My.User.InitializeWithWindowsUser().
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Log">
+	<summary>
+ Returns the application log. The listeners can be configured by the application's configuration file.
+ </summary>
+</member><member name="P:isamss.My.MyWpfExtension.Windows">
+	<summary>
+ Returns the collection of Windows defined in the project.
+ </summary>
+</member><member name="T:isamss.My.MyWpfExtension">
+	<summary>
+ Module used to define the properties that are available in the My Namespace for WPF
+ </summary>
+	<remarks></remarks>
 </member>
 </members>
 </doc>
