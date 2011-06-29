@@ -65,14 +65,12 @@ Public Class LodForm
     Private Sub tspAttachment_AttachmentAdded(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles tspAttachment.AttachmentAdded
         If myLod IsNot Nothing Then
             myLod.AttachmentId = tspAttachment.Attachment.ID
-            myLod.Save()
         End If
     End Sub
 
     Private Sub tspAttachment_AttachmentDeleted(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles tspAttachment.AttachmentDeleted
         If myLod IsNot Nothing Then
             myLod.AttachmentId = TObject.InvalidID
-            myLod.Save()
         End If
     End Sub
 

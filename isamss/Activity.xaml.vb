@@ -104,6 +104,7 @@
             _activity.StartDate = dtStartDate.SelectedDate
             _activity.EndDate = dtEndDate.SelectedDate
             _activity.Notes = txtNotes.Text
+            _activity.Issues = chkIssues.IsChecked
             _activity.ActivityClasses.Clear()
 
             For Each i In lstvwActivityClasses.SelectedItems
@@ -143,9 +144,8 @@
     End Sub
 
     Private Sub btn_save_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_save.Click
-        If Save() = True Then
-            DialogResult = True
-        End If
+        Dim rv As Boolean = Save()
+        DialogResult = rv
     End Sub
 
     Private Sub btn_cancel_Click(ByVal sender As System.Object, ByVal e As System.Windows.RoutedEventArgs) Handles btn_cancel.Click
@@ -291,7 +291,7 @@
     End Sub
 
     Private Sub Window_Closing(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-        Dim dr As Boolean = False
+        Dim dr As Boolean = True
 
         If _formDirty = True Then
             If MsgBox("Do you want to save changes?", MsgBoxStyle.YesNo, "ISAMSS") = MsgBoxResult.Yes Then

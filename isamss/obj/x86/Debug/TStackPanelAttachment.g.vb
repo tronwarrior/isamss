@@ -32,42 +32,49 @@ Imports System.Windows.Media.Media3D
 Imports System.Windows.Media.TextFormatting
 Imports System.Windows.Navigation
 Imports System.Windows.Shapes
+Imports System.Windows.Shell
 
 
 '''<summary>
 '''TStackPanelAttachment
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated(),  _
+ System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
 Partial Public Class TStackPanelAttachment
     Inherits System.Windows.Controls.UserControl
     Implements System.Windows.Markup.IComponentConnector
     
     
     #ExternalSource("..\..\..\TStackPanelAttachment.xaml",9)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents StackPanel1 As System.Windows.Controls.StackPanel
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\TStackPanelAttachment.xaml",10)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txtAttachment As System.Windows.Controls.TextBlock
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\TStackPanelAttachment.xaml",11)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnAddAttachment As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\TStackPanelAttachment.xaml",14)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnDeleteAttachment As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\TStackPanelAttachment.xaml",17)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnViewAttachment As System.Windows.Controls.Button
     
     #End ExternalSource
@@ -93,7 +100,9 @@ Partial Public Class TStackPanelAttachment
     
     <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
             Me.StackPanel1 = CType(target,System.Windows.Controls.StackPanel)
@@ -118,3 +127,4 @@ Partial Public Class TStackPanelAttachment
         Me._contentLoaded = true
     End Sub
 End Class
+

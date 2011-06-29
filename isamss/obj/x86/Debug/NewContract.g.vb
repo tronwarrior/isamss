@@ -34,228 +34,266 @@ Imports System.Windows.Media.Media3D
 Imports System.Windows.Media.TextFormatting
 Imports System.Windows.Navigation
 Imports System.Windows.Shapes
+Imports System.Windows.Shell
 
 
 '''<summary>
 '''NewContractForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated(),  _
+ System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
 Partial Public Class NewContractForm
     Inherits isamss.DataInputFormBase
     Implements System.Windows.Markup.IComponentConnector
     
     
     #ExternalSource("..\..\..\NewContract.xaml",8)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btn_save As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",9)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btn_cancel As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",10)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox1 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",12)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txt_newContractNumber As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",13)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents label1 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",14)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents cbo_supplier As System.Windows.Controls.ComboBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",15)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents label2 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",16)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents label3 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",17)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents cbo_customer As System.Windows.Controls.ComboBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",18)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents chk_subcontract As System.Windows.Controls.CheckBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",19)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txtProgramName As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",20)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents label4 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",21)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnAddSupplier As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",22)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnAddCustomer As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",23)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents label12 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",24)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnAddSupplierSite As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",25)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSupplierSites As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",39)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwContractSites As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",55)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label13 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",58)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox2 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",60)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents dtpicker_reviewed As Microsoft.Windows.Controls.DatePicker
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",61)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label5 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",62)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label6 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",63)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents cbo_costCriticality As System.Windows.Controls.ComboBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",68)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txt_costRationale As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",69)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label7 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",70)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label8 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",71)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents cbo_schedCriticality As System.Windows.Controls.ComboBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",76)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txt_schedRationale As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",77)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label9 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",78)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label10 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",79)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents cbo_techCriticality As System.Windows.Controls.ComboBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",84)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txt_techRationale As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",85)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label11 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",86)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents tspAttachment As isamss.TStackPanelAttachment
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\NewContract.xaml",87)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label14 As System.Windows.Controls.Label
     
     #End ExternalSource
@@ -287,7 +325,9 @@ Partial Public Class NewContractForm
     
     <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
             Me.btn_save = CType(target,System.Windows.Controls.Button)
@@ -436,3 +476,4 @@ Partial Public Class NewContractForm
         Me._contentLoaded = true
     End Sub
 End Class
+

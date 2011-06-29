@@ -34,246 +34,287 @@ Imports System.Windows.Media.Media3D
 Imports System.Windows.Media.TextFormatting
 Imports System.Windows.Navigation
 Imports System.Windows.Shapes
+Imports System.Windows.Shell
 
 
 '''<summary>
 '''ActivityForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated(),  _
+ System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
 Partial Public Class ActivityForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
     
     
     #ExternalSource("..\..\..\Activity.xaml",6)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btn_save As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",7)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btn_cancel As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",8)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox3 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",10)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents dtStartDate As Microsoft.Windows.Controls.DatePicker
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",11)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label1 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",12)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents dtEndDate As Microsoft.Windows.Controls.DatePicker
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",13)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label3 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",14)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents chkIssues As System.Windows.Controls.CheckBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",15)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label2 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",16)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwActivityClasses As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",18)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txtNotes As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",19)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label4 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",22)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox5 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",23)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid1 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",24)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents tabSamiActivities As System.Windows.Controls.TabControl
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",25)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents TabItem1 As System.Windows.Controls.TabItem
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",26)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid4 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",27)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiElementsTech As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",44)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid2 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",45)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiElementsSched As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",57)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid3 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",58)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiElementsCost As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",70)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid5 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",71)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiElementsCMOUnique As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",83)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid6 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",84)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiElementsCustomerPLUS As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",96)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid7 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",97)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiElementsProgramMeasures As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",111)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox2 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",113)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents chkNoncompliance As System.Windows.Controls.CheckBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",114)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents chkWeakness As System.Windows.Controls.CheckBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",115)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txtDescription As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",116)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label5 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",117)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents tspAttachment As isamss.TStackPanelAttachment
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",118)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label6 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",119)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnSaveObservation As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",120)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnClear As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",123)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox4 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Activity.xaml",125)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwObservations As System.Windows.Controls.ListView
     
     #End ExternalSource
@@ -305,7 +346,9 @@ Partial Public Class ActivityForm
     
     <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
             Me.btn_save = CType(target,System.Windows.Controls.Button)
@@ -466,3 +509,4 @@ Partial Public Class ActivityForm
         Me._contentLoaded = true
     End Sub
 End Class
+

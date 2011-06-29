@@ -33,96 +33,112 @@ Imports System.Windows.Media.Media3D
 Imports System.Windows.Media.TextFormatting
 Imports System.Windows.Navigation
 Imports System.Windows.Shapes
+Imports System.Windows.Shell
 
 
 '''<summary>
 '''FilterContractsForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated(),  _
+ System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
 Partial Public Class FilterContractsForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",6)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox1 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",8)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label1 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",9)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstbxUsersFilter As System.Windows.Controls.ListBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",10)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstbxUsers As System.Windows.Controls.ListBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",11)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label2 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",12)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Image1 As System.Windows.Controls.Image
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",13)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Image2 As System.Windows.Controls.Image
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",16)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox2 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",18)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents dtStart As Microsoft.Windows.Controls.DatePicker
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",19)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label3 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",20)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label4 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",21)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents dtEnd As Microsoft.Windows.Controls.DatePicker
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",24)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnApply As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\FilterContracts.xaml",25)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnCancel As System.Windows.Controls.Button
     
     #End ExternalSource
@@ -148,7 +164,9 @@ Partial Public Class FilterContractsForm
     
     <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
             Me.GroupBox1 = CType(target,System.Windows.Controls.GroupBox)
@@ -209,3 +227,4 @@ Partial Public Class FilterContractsForm
         Me._contentLoaded = true
     End Sub
 End Class
+

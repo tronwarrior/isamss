@@ -31,84 +31,98 @@ Imports System.Windows.Media.Media3D
 Imports System.Windows.Media.TextFormatting
 Imports System.Windows.Navigation
 Imports System.Windows.Shapes
+Imports System.Windows.Shell
 
 
 '''<summary>
 '''RegisterUserForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated(),  _
+ System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
 Partial Public Class RegisterUserForm
     Inherits System.Windows.Window
     Implements System.Windows.Markup.IComponentConnector
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",4)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents register_user As RegisterUserForm
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",6)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txt_userid As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",7)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents firstName As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",8)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lastName As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",9)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txt_pwd As System.Windows.Controls.PasswordBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",10)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Image1 As System.Windows.Controls.Image
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",11)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label1 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",12)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label4 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",13)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label2 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",14)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Label3 As System.Windows.Controls.Label
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",15)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents registerUser As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\RegisterUser.xaml",16)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnCancel As System.Windows.Controls.Button
     
     #End ExternalSource
@@ -134,7 +148,9 @@ Partial Public Class RegisterUserForm
     
     <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
             Me.register_user = CType(target,RegisterUserForm)
@@ -187,3 +203,4 @@ Partial Public Class RegisterUserForm
         Me._contentLoaded = true
     End Sub
 End Class
+

@@ -32,186 +32,217 @@ Imports System.Windows.Media.Media3D
 Imports System.Windows.Media.TextFormatting
 Imports System.Windows.Navigation
 Imports System.Windows.Shapes
+Imports System.Windows.Shell
 
 
 '''<summary>
 '''ObservationForm
 '''</summary>
-<Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>  _
+<Microsoft.VisualBasic.CompilerServices.DesignerGenerated(),  _
+ System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
 Partial Public Class ObservationForm
     Inherits isamss.DataInputFormBase
     Implements System.Windows.Markup.IComponentConnector
     
     
     #ExternalSource("..\..\..\Observation.xaml",7)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox1 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",9)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents chkNoncompliance As System.Windows.Controls.CheckBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",10)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents chkWeakness As System.Windows.Controls.CheckBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",13)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox2 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",15)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents txtDescription As System.Windows.Controls.TextBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",18)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox3 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",19)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid1 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",20)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents tabSamiActivities As System.Windows.Controls.TabControl
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",21)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents TabItem1 As System.Windows.Controls.TabItem
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",22)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents grdTech As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",23)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents grdSamiActivities As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",24)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiTechActivities As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",40)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiTechActsForThisObs As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",58)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnAddTech As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",61)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnSubtractTech As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",68)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid2 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",69)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiSchedActivities As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",85)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiSchedActsForThisObs As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",103)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnAddSched As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",106)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnSubtractSched As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",112)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents Grid3 As System.Windows.Controls.Grid
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",113)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiCostActivities As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",129)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents lstvwSamiCostActsForThisObs As System.Windows.Controls.ListView
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",147)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnAddCost As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",150)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnSubtractCost As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",158)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnSave As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",159)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents btnCancel As System.Windows.Controls.Button
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",160)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents GroupBox4 As System.Windows.Controls.GroupBox
     
     #End ExternalSource
     
     
     #ExternalSource("..\..\..\Observation.xaml",162)
+    <System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1823:AvoidUnusedPrivateFields")>  _
     Friend WithEvents tspAttachment As isamss.TStackPanelAttachment
     
     #End ExternalSource
@@ -243,7 +274,9 @@ Partial Public Class ObservationForm
     
     <System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never),  _
-     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes")>  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Design", "CA1033:InterfaceMethodsShouldBeCallableByChildTypes"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity"),  _
+     System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1800:DoNotCastUnnecessarily")>  _
     Sub System_Windows_Markup_IComponentConnector_Connect(ByVal connectionId As Integer, ByVal target As Object) Implements System.Windows.Markup.IComponentConnector.Connect
         If (connectionId = 1) Then
             Me.GroupBox1 = CType(target,System.Windows.Controls.GroupBox)
@@ -364,3 +397,4 @@ Partial Public Class ObservationForm
         Me._contentLoaded = true
     End Sub
 End Class
+

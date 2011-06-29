@@ -147,7 +147,9 @@
                                     <ListView ItemsSource="{Binding}" Height="203" HorizontalAlignment="Left" Margin="6,6,0,0" Name="lstvwSurveillanceAll" VerticalAlignment="Top" Width="516" SelectionMode="Single" Visibility="Visible">
                                         <ListView.View>
                                             <GridView AllowsColumnReorder="False">
-                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ActivityClassesText, StringFormat=d}" Header="Type" />
+                                                <GridViewColumn DisplayMemberBinding="{Binding Path=ActivityClassesText}">
+                                                    <GridViewColumnHeader Content="Type" Click="GridViewColumnHeaderClickedHandler"/>
+                                                </GridViewColumn>
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=StartDate, StringFormat=d}" Header="Start Date" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=EndDate, StringFormat=d}" Header="End Date" />
                                                 <GridViewColumn DisplayMemberBinding="{Binding Path=EntryDate, StringFormat=d}" Header="Entry Date" />

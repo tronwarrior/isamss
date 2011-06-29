@@ -1,6 +1,7 @@
 ﻿Imports System.Threading
 Imports System.Collections.ObjectModel
 Imports System.Xml
+Imports System.ComponentModel
 
 Class MainWindow
     Private myContractsFilter As TContractsFilter
@@ -227,7 +228,6 @@ Class MainWindow
                 ttvContractsQuickview.CurrentContract.Refresh()
             End If
 
-            ttvContractsQuickview.RefreshContractBranch(Application.CurrentUser)
             PopulateSurveillanceTab(ttvContractsQuickview.CurrentContract)
         End If
     End Sub
@@ -419,6 +419,55 @@ Class MainWindow
 
         Return slist
     End Function
+
+    Private _lastHeaderClicked As GridViewColumnHeader = Nothing
+    Private _lastDirection As ListSortDirection = ListSortDirection.Ascending
+
+    Private Sub GridViewColumnHeaderClickedHandler(ByVal sender As Object, ByVal e As RoutedEventArgs)
+        Dim headerClicked As GridViewColumnHeader = TryCast(e.OriginalSource, GridViewColumnHeader)
+        Dim direction As ListSortDirection
+
+        If headerClicked IsNot Nothing Then
+            If headerClicked.Role <> GridViewColumnHeaderRole.Padding Then
+                If headerClicked IsNot _lastHeaderClicked Then
+                    direction = ListSortDirection.Ascending
+                Else
+                    If _lastDirection = ListSortDirection.Ascending Then
+                        direction = ListSortDirection.Descending
+                    Else
+                        direction = ListSortDirection.Ascending
+                    End If
+                End If
+
+                Dim header As String = TryCast(headerClicked.Column.Header, String)
+                Sort(lstvwSurveillanceAll, header, direction)
+
+                If direction = ListSortDirection.Ascending Then
+                    headerClicked.Column.HeaderTemplate = TryCast(Resources("HeaderTemplateArrowUp"), DataTemplate)
+                Else
+                    headerClicked.Column.HeaderTemplate = TryCast(Resources("HeaderTemplateArrowDown"), DataTemplate)
+                End If
+
+                ' Remove arrow from previously sorted header
+                If _lastHeaderClicked IsNot Nothing AndAlso _lastHeaderClicked IsNot headerClicked Then
+                    _lastHeaderClicked.Column.HeaderTemplate = Nothing
+                End If
+
+
+                _lastHeaderClicked = headerClicked
+                _lastDirection = direction
+            End If
+        End If
+    End Sub
+
+    Private Sub Sort(ByVal lv As ListView, ByVal sortBy As String, ByVal direction As ListSortDirection)
+        Dim dataView As ICollectionView = CollectionViewSource.GetDefaultView(lv.ItemsSource)
+
+        dataView.SortDescriptions.Clear()
+        Dim sd As New SortDescription(sortBy, direction)
+        dataView.SortDescriptions.Add(sd)
+        dataView.Refresh()
+    End Sub
 
 End Class
 

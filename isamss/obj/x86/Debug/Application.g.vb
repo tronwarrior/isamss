@@ -31,11 +31,13 @@ Imports System.Windows.Media.Media3D
 Imports System.Windows.Media.TextFormatting
 Imports System.Windows.Navigation
 Imports System.Windows.Shapes
+Imports System.Windows.Shell
 
 
 '''<summary>
 '''Application
 '''</summary>
+<System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")>  _
 Partial Public Class Application
     Inherits System.Windows.Application
     
@@ -74,3 +76,4 @@ Partial Public Class Application
         app.Run
     End Sub
 End Class
+

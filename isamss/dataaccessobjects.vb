@@ -1251,7 +1251,12 @@ Public Class TLod
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Return New TAttachment(CInt(_row.attachment_id))
+            Dim id As Integer = TObject.INVALID_ID
+
+            If Not _row.Isattachment_idNull Then
+                id = _row.attachment_id
+            End If
+            Return New TAttachment(CInt(id))
         End Get
     End Property
 

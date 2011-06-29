@@ -77,6 +77,7 @@ Public MustInherit Class TObject
                 If _table.Rows.Count = 1 Then
                     _row = _table.Rows.Item(0)
                 Else
+                    GetNewRow()
                     Application.WriteToEventLog(Me.GetType.Name & "::New(id), Query for object unique key " & CStr(id) & " on table " & _table.TableNAme & " returned " & _table.Rows.Count & " objects", EventLogEntryType.Warning)
                 End If
             End Using
@@ -156,6 +157,8 @@ Public MustInherit Class TObject
                     _cmdBuilder.GetInsertCommand()
                     _row.creator_id = Application.CurrentUser.ID
                     _row.created_at = Date.Now
+
+                    ' Add the newly created row to the table
                     AddNewRow()
 
                     ' This sets up a call method that will retrieve the record id after the newly
