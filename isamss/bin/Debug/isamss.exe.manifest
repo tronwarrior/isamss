@@ -43,14 +43,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="isamss.exe" size="1896960">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="isamss.exe" size="1895936">
       <assemblyIdentity name="isamss" version="1.0.0.0" language="neutral" processorArchitecture="x86" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <dsig:DigestValue>nqzVUK9pujN0RGfXSPM9TREcxn8=</dsig:DigestValue>
+        <dsig:DigestValue>FiZzFm6itrhol8KK8vhRMSpH4s4=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -75,13 +75,13 @@
       <dsig:DigestValue>tLJWyScGfiorkdg/LUOYpu2tT1s=</dsig:DigestValue>
     </hash>
   </file>
-  <file name="isamss.exe.config" size="3377">
+  <file name="isamss.exe.config" size="2639">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-      <dsig:DigestValue>u+hFcc8MRqVYAH5vOAbif7DQaxM=</dsig:DigestValue>
+      <dsig:DigestValue>PnXBnnZ3OTiFNzvNpc1qKak7upg=</dsig:DigestValue>
     </hash>
   </file>
   <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">

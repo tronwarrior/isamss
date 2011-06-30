@@ -50,18 +50,19 @@ Class Application
         Dim FORMAT_MESSAGE_FROM_SYSTEM As Integer = &H1000
 
         Dim msgSize As Integer = 255
-        Dim lpMsgBuf As String
-        lpMsgBuf = ""
+        Dim lpMsgBuf As String = ""
         Dim dwFlags As Integer = FORMAT_MESSAGE_ALLOCATE_BUFFER Or FORMAT_MESSAGE_FROM_SYSTEM Or FORMAT_MESSAGE_IGNORE_INSERTS
 
         Dim lpSource As IntPtr = IntPtr.Zero
         Dim lpArguments As IntPtr = IntPtr.Zero
+
         'Call the FormatMessage function to format the message.
-        Dim returnVal As Integer = FormatMessage(dwFlags, lpSource, errorCode, 0, lpMsgBuf, _
-                msgSize, lpArguments)
+        Dim returnVal As Integer = FormatMessage(dwFlags, lpSource, errorCode, 0, lpMsgBuf, msgSize, lpArguments)
+
         If returnVal = 0 Then
             Throw New System.Exception("Failed to format message for error code " + errorCode.ToString() + ". ")
         End If
+
         Return lpMsgBuf
     End Function
 
@@ -113,7 +114,7 @@ Class Application
 
     Public Shared Function CurrentUserName() As String
         Dim userName As String = ""
-        Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+        Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
             connection.Open()
             Dim query As String = "select * from users where logonid = '" + System.Environment.UserName + "'"
             Dim adapter As New OleDb.OleDbDataAdapter(query, connection)

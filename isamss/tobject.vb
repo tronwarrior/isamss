@@ -68,7 +68,7 @@ Public MustInherit Class TObject
         Try
             _table = table
 
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(id) & " AND deleted <> -1"
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
@@ -112,7 +112,7 @@ Public MustInherit Class TObject
         Dim rv As Boolean = False
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(ID)
                 _adapter.SelectCommand = New OleDbCommand(query, connection)
@@ -143,7 +143,7 @@ Public MustInherit Class TObject
         Dim rv As Boolean = False
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(ID)
                 _adapter.SelectCommand = New OleDbCommand(query, connection)
@@ -278,7 +278,7 @@ Public MustInherit Class TObject
     ReadOnly Property CreatedAt As Date
         Get
             If _row.Iscreated_atNull Then
-                Return ""
+                Return Date.MinValue
             Else
                 Return _row.created_at
             End If
@@ -335,7 +335,7 @@ Public MustInherit Class TObjects
         _table = table
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE deleted <> -1"
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
@@ -352,7 +352,7 @@ Public MustInherit Class TObjects
 
         If load Then
             Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                     connection.Open()
                     Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE deleted <> -1"
                     _adapter = New OleDb.OleDbDataAdapter(query, connection)
@@ -385,7 +385,7 @@ Public MustInherit Class TObjects
         _table = table
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE creator_id = " + CStr(user.ID) + " AND deleted <> -1"
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
@@ -401,7 +401,7 @@ Public MustInherit Class TObjects
         _table = table
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 ' Open the datastore connection.
                 connection.Open()
 
@@ -436,7 +436,7 @@ Public MustInherit Class TObjects
         _table = table
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM contracts WHERE "
                 Dim dateFilter As String = " created_at BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startDate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, endDate).Date.ToString & "#"
@@ -454,7 +454,7 @@ Public MustInherit Class TObjects
         _table = table
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName
                 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -486,7 +486,7 @@ Public MustInherit Class TObjects
         _table = table
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE " & filter & " AND deleted <> -1"
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
@@ -502,7 +502,7 @@ Public MustInherit Class TObjects
         _table = table
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 _adapter = New OleDb.OleDbDataAdapter(query.Query, connection)
                 _adapter.Fill(_table)

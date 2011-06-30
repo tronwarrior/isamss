@@ -54,8 +54,6 @@ Class MainWindow
     End Sub
 
     Private Sub ClearLodTab()
-        btnNewLod.IsEnabled = False
-        lstvwLods.ItemsSource = Nothing
     End Sub
 
     Private Sub SelectTab(ByVal tvi As TreeViewItem)
@@ -150,11 +148,15 @@ Class MainWindow
     End Sub
 
     Private Sub ClearSurveillanceTab()
-
+        lstvwPSSPs.ItemsSource = Nothing
+        lstvwSurveillanceAll.ItemsSource = Nothing
     End Sub
 
     Private Sub ClearCustomerInteractionTab()
-
+        btnNewLod.IsEnabled = False
+        lstvwLods.ItemsSource = Nothing
+        btnNewCustomerInteractionJournal.IsEnabled = False
+        lstvwCustomerJournal.ItemsSource = Nothing
     End Sub
 
     Private Sub ClearCARTab()
@@ -254,6 +256,7 @@ Class MainWindow
         Dim filterForm As New FilterContractsForm(myContractsFilter)
         If filterForm.ShowDialog() = True Then
             ttvContractsQuickview.BuildContractsTree(myContractsFilter.Contracts)
+            ClearAllTabs()
             PopulateAllTabs()
         End If
     End Sub

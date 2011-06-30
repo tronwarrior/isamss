@@ -142,6 +142,11 @@
     <Compile Include="FilterContracts.xaml.vb">
       <DependentUpon>FilterContracts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ISAMSSds.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ISAMSSds.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Lod.xaml.vb">
       <DependentUpon>Lod.xaml</DependentUpon>
     </Compile>
@@ -157,6 +162,7 @@
     <Compile Include="PSSPAction.xaml.vb">
       <DependentUpon>PSSPAction.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings.vb" />
     <Compile Include="Site.xaml.vb">
       <DependentUpon>Site.xaml</DependentUpon>
     </Compile>
@@ -165,11 +171,6 @@
     </Compile>
     <Compile Include="tobject.vb" />
     <Compile Include="dataaccessobjects.vb" />
-    <Compile Include="ISAMSSds.Designer.vb">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ISAMSSds.xsd</DependentUpon>
-    </Compile>
     <Compile Include="ISAMSSds.vb">
       <DependentUpon>ISAMSSds.xsd</DependentUpon>
     </Compile>

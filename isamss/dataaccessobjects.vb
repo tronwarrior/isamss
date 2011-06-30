@@ -72,7 +72,7 @@ Public Class TUser
         MyBase.New(New ISAMSSds.usersDataTable)
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE logonid = '" & logonId & "'"
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
@@ -86,6 +86,7 @@ Public Class TUser
                 End If
             End Using
         Catch e As OleDb.OleDbException
+            Application.WriteToEventLog(MyBase.GetType.Name & "::New(logonid), Exception: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -169,7 +170,11 @@ Public Class TUser
 
     Property LogonID() As String
         Get
-            Return _row.logonid
+            If _row.IslogonidNull Then
+                Return ""
+            Else
+                Return _row.logonid
+            End If
         End Get
         Set(ByVal value As String)
             _row.logonid = value
@@ -519,7 +524,7 @@ Public Class TContract
 
     Public Sub Refresh()
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(ID)
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
@@ -1170,7 +1175,7 @@ Public Class TLods
 
     Public Sub New(ByRef contract As TContract)
         MyBase.New(New ISAMSSds.lodsDataTable, "contract_id = " + CStr(contract.ID))
- 
+
     End Sub
 
     Protected Overrides Sub AddItems()
@@ -1971,7 +1976,7 @@ Public Class TActivity
         Public Sub New(ByRef activity As TActivity)
             MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
             Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                     connection.Open()
                     Dim tbl As New ISAMSSds.activity_activity_classesDataTable
                     Dim query As String = "SELECT * FROM " & tbl.TableName & " WHERE activity_id = " + CStr(activity.ID)
@@ -2108,7 +2113,7 @@ Public Class TActivity
         Dim rv As Boolean = False
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id = " + CStr(ID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
@@ -2136,7 +2141,7 @@ Public Class TActivity
         Dim rv As Boolean = False
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(ID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
@@ -2165,7 +2170,7 @@ Public Class TActivity
 
         If _samiElements IsNot Nothing Then
             Try
-                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+                Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                     connection.Open()
                     Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id  = " + CStr(ID)
                     Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
@@ -2195,7 +2200,7 @@ Public Class TActivity
 
     Private Sub LoadAllSAMIElements()
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM sami_elements WHERE id in "
                 Dim inFilter As String = "(SELECT sami_element_id FROM activity_sami_elements WHERE activity_id = " & CStr(ID) & ")"
@@ -2224,7 +2229,7 @@ Public Class TActivity
         Dim rv As Boolean = False
 
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM observations WHERE activity_id = " + CStr(ID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
@@ -2998,7 +3003,7 @@ Public Class TContractSites
 
     Public Sub DeleteAll(ByRef contract As TContract)
         Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString1)
+            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM contract_sites WHERE contract_id = " + CStr(contract.ID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)

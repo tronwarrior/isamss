@@ -56,44 +56,10 @@ Partial Friend NotInheritable Class MySettings
     <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
      Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Data Source=HXFBURG09W120\TEST_SERVER;Initial Catalog=ISAMSS;Integrated Security="& _ 
-        "True")>  _
-    Public ReadOnly Property ISAMSSConnectionString() As String
+     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=""..\..\data\isamss.mdb""")>  _
+    Public ReadOnly Property isamssConnectionString() As String
         Get
-            Return CType(Me("ISAMSSConnectionString"),String)
-        End Get
-    End Property
-    
-    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=""\\Dxiburg09w025\sqa$\SQA\ISAMSS\isa"& _ 
-        "mss.mdb""")>  _
-    Public ReadOnly Property isamssConnectionString1() As String
-        Get
-            Return CType(Me("isamssConnectionString1"),String)
-        End Get
-    End Property
-    
-    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=""C:\Documents and Settings\DC13516\M"& _ 
-        "y Documents\Brewer, Anthony C\new-sw-repos-project\isamss.mdb""")>  _
-    Public ReadOnly Property isamssConnectionString2() As String
-        Get
-            Return CType(Me("isamssConnectionString2"),String)
-        End Get
-    End Property
-    
-    <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-     Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.SpecialSettingAttribute(Global.System.Configuration.SpecialSetting.ConnectionString),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=""C:\Documents and Settings\DC13516\M"& _ 
-        "y Documents\Visual Studio 2010\Projects\isamss\isamss.mdb""")>  _
-    Public ReadOnly Property isamssConnectionString3() As String
-        Get
-            Return CType(Me("isamssConnectionString3"),String)
+            Return CType(Me("isamssConnectionString"),String)
         End Get
     End Property
 End Class

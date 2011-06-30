@@ -125,9 +125,7 @@ C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\
 C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\Themes\Generic.baml
 C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.g.resources
 C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.Resources.resources
-C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\GenerateResource-ResGen.read.1.tlog
 C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\GenerateResource.read.1.tlog
-C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\GenerateResource-ResGen.write.1.tlog
 C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\GenerateResource.write.1.tlog
 C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.exe.manifest
 C:\Users\Tony\Documents\Visual Studio 2010\Projects\isamss\isamss\obj\x86\Debug\isamss.application
