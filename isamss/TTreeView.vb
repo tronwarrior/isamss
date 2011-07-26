@@ -80,18 +80,22 @@ Public Class TTreeView
             Dim first As Boolean = True
 
             ' Load each contract into the treeview as a separate branch
-            For Each ct In contracts
-                Dim tvi As TreeViewItem = BuildContractBranch(ct, myUser)
+            If contracts.Count > 0 Then
+                For Each ct In contracts
+                    Dim tvi As TreeViewItem = BuildContractBranch(ct, myUser)
 
-                If first Then
-                    tvi.IsExpanded = True
-                    tvi.IsSelected = True
-                    myCurrentContract = ct
-                    first = False
-                End If
+                    If first Then
+                        tvi.IsExpanded = True
+                        tvi.IsSelected = True
+                        myCurrentContract = ct
+                        first = False
+                    End If
 
-                MyBase.Items.Add(tvi)
-            Next
+                    MyBase.Items.Add(tvi)
+                Next
+            Else
+                myCurrentContract = Nothing
+            End If
         Catch e As System.Exception
             Application.WriteToEventLog("TTreeView::BuildContractsTree, exception: " & e.Message, EventLogEntryType.Error)
         End Try

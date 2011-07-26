@@ -10,7 +10,7 @@ Public Class TUsers
     Inherits TObjects
 
     Public Sub New(Optional ByVal loadAll As Boolean = True)
-        MyBase.New(New ISAMSSds.usersDataTable)
+        MyBase.New(New ISAMSSds.usersDataTable, loadAll)
     End Sub
 
     Public Sub New(ByVal users As TUsers)
@@ -68,13 +68,13 @@ Public Class TUser
         MyBase.New(New ISAMSSds.usersDataTable)
     End Sub
 
-    Public Sub New(ByVal logonId As String)
+    Public Sub New(ByVal logonId As TLogonID)
         MyBase.New(New ISAMSSds.usersDataTable)
 
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE logonid = '" & logonId & "'"
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE logonid = '" & logonId.LogonID & "'"
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
 
@@ -122,7 +122,7 @@ Public Class TUser
         _row = row
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.usersDataTable, id)
     End Sub
 
@@ -132,12 +132,15 @@ Public Class TUser
             Dim sln As String = "<No Entry>"
 
             If _row IsNot Nothing Then
-                sfn = _row.fname
+                If Not _row.IsfnameNull Then
+                    sfn = _row.fname
+                End If
+
+                If Not _row.IslnameNull Then
+                    sln = _row.lname
+                End If
             End If
 
-            If _row IsNot Nothing Then
-                sln = _row.lname
-            End If
 
             Return sfn + " " + sln
         End Get
@@ -145,7 +148,14 @@ Public Class TUser
 
     Property FirstName As String
         Get
-            Return _row.fname
+            Dim s As String = ""
+            If _row IsNot Nothing Then
+                If Not _row.IsfnameNull Then
+                    s = _row.fname
+                End If
+            End If
+
+            Return s
         End Get
         Set(ByVal value As String)
             _row.fname = value
@@ -154,11 +164,13 @@ Public Class TUser
 
     Property LastName As String
         Get
+            Dim s As String = ""
             If _row IsNot Nothing Then
-                Return _row.lname
-            Else
-                Return ""
+                If Not _row.IsfnameNull Then
+                    s = _row.lname
+                End If
             End If
+            Return s
         End Get
         Set(ByVal value As String)
             If _row Is Nothing Then
@@ -185,7 +197,7 @@ Public Class TUser
         Try
             _table.AddusersRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -197,13 +209,31 @@ Public Class TUser
         Try
             _row = _table.NewRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::GetNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
     Public Shadows Function Save() As Boolean
         Return MyBase.Save
     End Function
+
+    Public Class TLogonID
+        Private _logonId As String = ""
+
+        Public Sub New(ByVal logonId As String)
+            _logonId = logonId
+        End Sub
+
+        Property LogonID As String
+            Get
+                Return _logonId
+            End Get
+            Set(ByVal value As String)
+                _logonId = value
+            End Set
+        End Property
+
+    End Class
 
 End Class
 
@@ -255,12 +285,12 @@ Public Class TContracts
 
     ' Create a TContract collection composed of elements that belong to a specific supplier
     Public Sub New(ByVal supplier As TSupplier)
-        MyBase.New(New ISAMSSds.contractsDataTable, "supplier_id = " & CStr(supplier.ID))
+        MyBase.New(New ISAMSSds.contractsDataTable, "supplier_id = " & supplier.SQLFormattedID)
     End Sub
 
     ' Create a TContract collection composed of elements that belong to a specific customer
     Public Sub New(ByVal customer As TCustomer)
-        MyBase.New(New ISAMSSds.contractsDataTable, "customer_id = " & CStr(customer.ID))
+        MyBase.New(New ISAMSSds.contractsDataTable, "customer_id = " & CStr(customer.SQLFormattedID))
     End Sub
 
     ' Create a TContract collection based on a program name.
@@ -357,7 +387,7 @@ Public Class TContract
         MyBase.New(New ISAMSSds.contractsDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.contractsDataTable, id)
     End Sub
 
@@ -377,7 +407,11 @@ Public Class TContract
 
     Property ContractNumber() As String
         Get
-            Return _row.contract_number
+            If _row.Iscontract_numberNull Then
+                Return ""
+            Else
+                Return _row.contract_number
+            End If
         End Get
         Set(ByVal value As String)
             _row.contract_number = value
@@ -386,7 +420,11 @@ Public Class TContract
 
     Property ProgramName() As String
         Get
-            Return _row.program_name
+            If _row.Isprogram_nameNull Then
+                Return ""
+            Else
+                Return _row.program_name
+            End If
         End Get
         Set(ByVal value As String)
             _row.program_name = value
@@ -395,7 +433,11 @@ Public Class TContract
 
     Property SubContract() As Boolean
         Get
-            Return _row.subcontract
+            If _row.IssubcontractNull Then
+                Return ""
+            Else
+                Return _row.subcontract
+            End If
         End Get
         Set(ByVal value As Boolean)
             _row.subcontract = value
@@ -404,14 +446,14 @@ Public Class TContract
 
     Property Supplier() As TSupplier
         Get
-            Return New TSupplier(CInt(_row.supplier_id))
+            Return New TSupplier(CStr(_row.supplier_id))
         End Get
         Set(ByVal value As TSupplier)
             _row.supplier_id = value.ID
         End Set
     End Property
 
-    Property SupplierID As Integer
+    Property SupplierID As String
         Get
             If _row.Issupplier_idNull Then
                 Return INVALID_ID
@@ -419,21 +461,21 @@ Public Class TContract
                 Return _row.supplier_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.supplier_id = value
         End Set
     End Property
 
     Property Customer() As TCustomer
         Get
-            Return New TCustomer(CInt(_row.customer_id))
+            Return New TCustomer(CStr(_row.customer_id))
         End Get
         Set(ByVal value As TCustomer)
             _row.customer_id = value.ID
         End Set
     End Property
 
-    Property CustomerID As Integer
+    Property CustomerID As String
         Get
             If _row.Iscustomer_idNull Then
                 Return INVALID_ID
@@ -441,7 +483,7 @@ Public Class TContract
                 Return _row.customer_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.customer_id = value
         End Set
     End Property
@@ -471,7 +513,7 @@ Public Class TContract
                 Dim cs As New TContractSites(Me)
 
                 For Each c In cs
-                    _sites.Add(New TSite(CInt(c.SiteID)))
+                    _sites.Add(New TSite(CStr(c.SiteID)))
                 Next
             End If
             Return _sites
@@ -494,7 +536,7 @@ Public Class TContract
             SaveCRRS()
             SaveSites()
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TContract::Save, Exception saving row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TContract::Save, Exception saving row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -506,7 +548,7 @@ Public Class TContract
         Try
             _table.AddcontractsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TContract::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TContract::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -518,7 +560,7 @@ Public Class TContract
         Try
             _row = _table.NewcontractsRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TContract::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TContract::GetNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -526,7 +568,7 @@ Public Class TContract
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(ID)
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(SQLFormattedID)
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
 
@@ -536,7 +578,7 @@ Public Class TContract
                     _sites = Nothing
                     _lods = Nothing
                 Else
-                    Application.WriteToEventLog("TContract::New(id), Query for object unique key " & CStr(ID) & " returned " & _table.Rows.Count & " objects", EventLogEntryType.FailureAudit)
+                    Application.WriteToEventLog("TContract::New(id), Query for object unique key " & CStr(SQLFormattedID) & " returned " & _table.Rows.Count & " objects", EventLogEntryType.FailureAudit)
                 End If
             End Using
         Catch e As OleDb.OleDbException
@@ -615,7 +657,7 @@ Public Class TSupplier
         MyBase.New(New ISAMSSds.suppliersDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.suppliersDataTable, id)
     End Sub
 
@@ -671,7 +713,7 @@ Public Class TSupplier
 
             rv = True
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TContract::Save, Exception saving row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TContract::Save, Exception saving row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
 
         Return rv
@@ -681,7 +723,7 @@ Public Class TSupplier
         Try
             _table.AddsuppliersRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -693,7 +735,7 @@ Public Class TSupplier
         Try
             _row = _table.NewsuppliersRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::GetNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -733,7 +775,7 @@ Public Class TCustomer
         MyBase.New(New ISAMSSds.customersDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.customersDataTable, id)
     End Sub
 
@@ -776,7 +818,7 @@ Public Class TCustomer
         Try
             _table.AddcustomersRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -788,7 +830,7 @@ Public Class TCustomer
         Try
             _row = _table.NewcustomersRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TCustomer::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TCustomer::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -801,7 +843,7 @@ Public Class TCustomerJournalEntries
     Inherits TObjects
 
     Public Sub New(ByVal contract As TContract)
-        MyBase.New(New ISAMSSds.customer_journal_entriesDataTable, "contract_id = " & CStr(contract.ID))
+        MyBase.New(New ISAMSSds.customer_journal_entriesDataTable, "contract_id = " & CStr(contract.SQLFormattedID))
     End Sub
 
     Protected Overrides Sub AddItems()
@@ -826,7 +868,7 @@ Public Class TCustomerJournalEntry
         MyBase.New(New ISAMSSds.customer_journal_entriesDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.customer_journal_entriesDataTable, id)
     End Sub
 
@@ -835,13 +877,13 @@ Public Class TCustomerJournalEntry
         _row = row
     End Sub
 
-    Public Sub New(ByVal customerId As Integer, ByVal contractId As Integer)
+    Public Sub New(ByVal customerId As String, ByVal contractId As String)
         MyBase.New(New ISAMSSds.customer_journal_entriesDataTable)
         _row.customer_id = customerId
         _row.contract_id = contractId
     End Sub
 
-    Property CustomerId As Integer
+    Property CustomerId As String
         Get
             If _row.Iscustomer_idNull Then
                 Return INVALID_ID
@@ -850,18 +892,18 @@ Public Class TCustomerJournalEntry
             End If
 
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.customer_id = value
         End Set
     End Property
 
     ReadOnly Property Customer As TCustomer
         Get
-            Return New TCustomer(CInt(_row.customer_id))
+            Return New TCustomer(CStr(_row.customer_id))
         End Get
     End Property
 
-    Property ContractId As Integer
+    Property ContractId As String
         Get
             If _row.Iscontract_idNull Then
                 Return INVALID_ID
@@ -869,14 +911,14 @@ Public Class TCustomerJournalEntry
                 Return _row.contract_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.contract_id = value
         End Set
     End Property
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(CInt(_row.creator_id))
+            Return New TUser(CStr(_row.creator_id))
         End Get
     End Property
 
@@ -893,7 +935,7 @@ Public Class TCustomerJournalEntry
         End Set
     End Property
 
-    Property AttachmentId As Integer
+    Property AttachmentId As String
         Get
             If _row.Isattachment_idNull Then
                 Return INVALID_ID
@@ -901,14 +943,14 @@ Public Class TCustomerJournalEntry
                 Return _row.attachment_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.attachment_id = value
         End Set
     End Property
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Return New TAttachment(CInt(_row.attachment_id))
+            Return New TAttachment(CStr(_row.attachment_id))
         End Get
     End Property
 
@@ -920,7 +962,7 @@ Public Class TCustomerJournalEntry
         Try
             _table.Addcustomer_journal_entriesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -932,7 +974,7 @@ Public Class TCustomerJournalEntry
         Try
             _row = _table.Newcustomer_journal_entriesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -955,11 +997,11 @@ Public Class TCrrs
     Inherits TObjects
 
     Public Sub New(ByRef contract As TContract)
-        MyBase.New(New ISAMSSds.crrsDataTable, "contract_id = " + CStr(contract.ID))
+        MyBase.New(New ISAMSSds.crrsDataTable, "contract_id = " + CStr(contract.SQLFormattedID))
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByRef user As TUser)
-        MyBase.New(New ISAMSSds.crrsDataTable, "contract_id = " + CStr(contract.ID) + " AND creator_id = " + CStr(user.ID))
+        MyBase.New(New ISAMSSds.crrsDataTable, "contract_id = " + CStr(contract.SQLFormattedID) + " AND creator_id = " + CStr(user.SQLFormattedID))
     End Sub
 
     Protected Overrides Sub AddItems()
@@ -994,7 +1036,7 @@ Public Class TCrr
         _row = row
     End Sub
 
-    Property ContractID As Integer
+    Property ContractID As String
         Get
             If _row.Iscontract_idNull Then
                 Return INVALID_ID
@@ -1002,7 +1044,7 @@ Public Class TCrr
                 Return _row.contract_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.contract_id = value
         End Set
     End Property
@@ -1010,7 +1052,7 @@ Public Class TCrr
     Property DateReviewed() As Date
         Get
             If _row.Isdate_reviewedNull Then
-                Return ""
+                Return Date.MinValue
             Else
                 Return _row.date_reviewed
             End If
@@ -1098,7 +1140,7 @@ Public Class TCrr
         End Set
     End Property
 
-    Property AttachmentId As Integer
+    Property AttachmentId As String
         Get
             If _row.Isattachment_idNull Then
                 Return INVALID_ID
@@ -1106,14 +1148,14 @@ Public Class TCrr
                 Return _row.attachment_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.attachment_id = value
         End Set
     End Property
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Return New TAttachment(CInt(_row.attachment_id))
+            Return New TAttachment(CStr(_row.attachment_id))
         End Get
     End Property
 
@@ -1122,7 +1164,7 @@ Public Class TCrr
             If _row.Iscreator_idNull Then
                 Return ""
             Else
-                Return New TUser(CInt(_row.creator_id)).FullName
+                Return New TUser(CStr(_row.creator_id)).FullName
             End If
         End Get
     End Property
@@ -1135,7 +1177,7 @@ Public Class TCrr
         Try
             _table.AddcrrsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1147,16 +1189,18 @@ Public Class TCrr
         Try
             _row = _table.NewcrrsRow()
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
     Public Shadows Sub Delete()
         MyBase.Delete()
 
-        If _row.attachment_id <> TObject.InvalidID Then
-            Dim a As New TAttachment(CInt(_row.attachment_id))
-            a.Delete()
+        If Not _row.Isattachment_idNull Then
+            If _row.attachment_id <> TObject.InvalidID Then
+                Dim a As New TAttachment(CStr(_row.attachment_id))
+                a.Delete()
+            End If
         End If
     End Sub
 
@@ -1170,11 +1214,10 @@ Public Class TLods
 
     Public Sub New()
         MyBase.New(New ISAMSSds.lodsDataTable)
-
     End Sub
 
     Public Sub New(ByRef contract As TContract)
-        MyBase.New(New ISAMSSds.lodsDataTable, "contract_id = " + CStr(contract.ID))
+        MyBase.New(New ISAMSSds.lodsDataTable, "contract_id = " + contract.SQLFormattedID)
 
     End Sub
 
@@ -1205,7 +1248,7 @@ Public Class TLod
         _row.contract_id = contract.ID
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.lodsDataTable, id)
     End Sub
 
@@ -1217,7 +1260,7 @@ Public Class TLod
     Property EffectiveDate() As Date
         Get
             If _row.Iseffective_dateNull Then
-                Return ""
+                Return Date.MinValue
             Else
                 Return _row.effective_date()
             End If
@@ -1242,30 +1285,29 @@ Public Class TLod
 
     ReadOnly Property IsDelegatorToString As String
         Get
+            Dim s As String = "No"
             If Not _row.IsdelegatingNull Then
                 If _row.delegating = True Then
-                    Return "Yes"
-                Else
-                    Return "No"
+                    s = "Yes"
                 End If
-            Else
-                Return "No"
             End If
+
+            Return s
         End Get
     End Property
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Dim id As Integer = TObject.INVALID_ID
+            Dim id As String = TObject.INVALID_ID
 
             If Not _row.Isattachment_idNull Then
                 id = _row.attachment_id
             End If
-            Return New TAttachment(CInt(id))
+            Return New TAttachment(id)
         End Get
     End Property
 
-    Property AttachmentId As Integer
+    Property AttachmentId As String
         Get
             If _row.Isattachment_idNull Then
                 Return INVALID_ID
@@ -1273,12 +1315,12 @@ Public Class TLod
                 Return _row.attachment_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.attachment_id = value
         End Set
     End Property
 
-    Property ContractId As Integer
+    Property ContractId As String
         Get
             If _row.Iscontract_idNull Then
                 Return INVALID_ID
@@ -1286,18 +1328,18 @@ Public Class TLod
                 Return _row.contract_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.contract_id = value
         End Set
     End Property
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(CInt(_row.creator_id))
+            Return New TUser(CStr(_row.creator_id))
         End Get
     End Property
 
-    Property UserId As Integer
+    Property UserId As String
         Get
             If _row.Iscreator_idNull Then
                 Return INVALID_ID
@@ -1305,7 +1347,7 @@ Public Class TLod
                 Return _row.creator_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.creator_id = value
         End Set
     End Property
@@ -1318,7 +1360,7 @@ Public Class TLod
         Try
             _table.AddlodsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1330,7 +1372,7 @@ Public Class TLod
         Try
             _row = _table.NewlodsRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1351,15 +1393,15 @@ Public Class TAttachments
     End Sub
 
     Public Sub New(ByVal user As TUser)
-        MyBase.New(New ISAMSSds.attachmentsDataTable, "creator_id = " + CStr(user.ID))
+        MyBase.New(New ISAMSSds.attachmentsDataTable, "creator_id = " & CStr(user.SQLFormattedID))
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        MyBase.New(New ISAMSSds.attachmentsDataTable, "contract_id = " + CStr(contract.ID))
+        MyBase.New(New ISAMSSds.attachmentsDataTable, "contract_id = " & CStr(contract.SQLFormattedID))
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
-        MyBase.New(New ISAMSSds.attachmentsDataTable, "contract_id = " + CStr(contract.ID) + " AND creator_id = " + CStr(user.ID))
+        MyBase.New(New ISAMSSds.attachmentsDataTable, "contract_id = " & CStr(contract.SQLFormattedID) + " AND creator_id = " + CStr(user.SQLFormattedID))
     End Sub
 
     Protected Overrides Sub AddItems()
@@ -1384,7 +1426,7 @@ Public Class TAttachment
         MyBase.New(New ISAMSSds.attachmentsDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.attachmentsDataTable, id)
     End Sub
 
@@ -1512,11 +1554,11 @@ Public Class TAttachment
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(CInt(_row.creator_id))
+            Return New TUser(CStr(_row.creator_id))
         End Get
     End Property
 
-    Property UserId As Integer
+    Property UserId As String
         Get
             If _row.Iscreator_idNull Then
                 Return ""
@@ -1524,7 +1566,7 @@ Public Class TAttachment
                 Return _row.creator_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.creator_id = value
         End Set
     End Property
@@ -1537,7 +1579,7 @@ Public Class TAttachment
         Try
             _table.AddattachmentsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1549,7 +1591,7 @@ Public Class TAttachment
         Try
             _row = _table.NewattachmentsRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1585,7 +1627,7 @@ Public Class TActivityClasses
         MyBase.New(New ISAMSSds.activity_classesDataTable, New TQuery("SELECT DISTINCT activity_classes.id, activity_classes.title, activity_classes.description " & _
                 "FROM (activity_classes INNER JOIN " & _
                 "activity_activity_classes ON activity_classes.id = activity_activity_classes.activity_class_id) " & _
-                "WHERE(activity_activity_classes.activity_id = " + CStr(activity.ID) + ")"))
+                "WHERE(activity_activity_classes.activity_id = " + CStr(activity.SQLFormattedID) + ")"))
     End Sub
 
     Public Sub New(ByVal rhs As TActivityClasses)
@@ -1642,7 +1684,7 @@ Public Class TActivityClass
         MyBase.New(New ISAMSSds.activity_classesDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.activity_classesDataTable, id)
     End Sub
 
@@ -1685,7 +1727,7 @@ Public Class TActivityClass
         Try
             _table.Addactivity_classesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1697,7 +1739,7 @@ Public Class TActivityClass
         Try
             _row = _table.Newactivity_classesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1718,11 +1760,11 @@ Public Class TActivities
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
-        MyBase.New(New ISAMSSds.activitiesDataTable, "activities.creator_id = " & CStr(user.ID) & " AND activities.contract_id = " & CStr(contract.ID))
+        MyBase.New(New ISAMSSds.activitiesDataTable, "activities.creator_id = " & CStr(user.SQLFormattedID) & " AND activities.contract_id = " & CStr(contract.SQLFormattedID))
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        MyBase.New(New ISAMSSds.activitiesDataTable, "activities.contract_id = " & CStr(contract.ID))
+        MyBase.New(New ISAMSSds.activitiesDataTable, "activities.contract_id = " & CStr(contract.SQLFormattedID))
     End Sub
 
     Protected Overrides Sub AddItems()
@@ -1751,7 +1793,7 @@ Public Class TActivity
         MyBase.New(New ISAMSSds.activitiesDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.activitiesDataTable, id)
     End Sub
 
@@ -1768,7 +1810,7 @@ Public Class TActivity
     Property EntryDate As Date
         Get
             If _row.Iscreated_atNull Then
-                Return ""
+                Return Date.MinValue
             Else
                 Return _row.created_at
             End If
@@ -1781,7 +1823,7 @@ Public Class TActivity
     Property StartDate As Date
         Get
             If _row.Isstart_dateNull Then
-                Return ""
+                Return Date.MinValue
             Else
                 Return _row.start_date
             End If
@@ -1794,7 +1836,7 @@ Public Class TActivity
     Property EndDate As Date
         Get
             If _row.Isend_dateNull Then
-                Return ""
+                Return Date.MinValue
             Else
                 Return _row.end_date
             End If
@@ -1830,15 +1872,15 @@ Public Class TActivity
         End Set
     End Property
 
-    Property ContractId As Integer
+    Property ContractId As String
         Get
             If _row.Iscontract_idNull Then
-                Return ""
+                Return INVALID_ID
             Else
                 Return _row.contract_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.contract_id = value
         End Set
     End Property
@@ -1913,7 +1955,7 @@ Public Class TActivity
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(CInt(_row.creator_id))
+            Return New TUser(CStr(_row.creator_id))
         End Get
     End Property
 
@@ -1937,7 +1979,7 @@ Public Class TActivity
         Try
             _table.AddactivitiesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TUser::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1945,7 +1987,7 @@ Public Class TActivity
         Try
             _row = _table.NewactivitiesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog("TActivities::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog("TActivities::GetNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -1979,7 +2021,7 @@ Public Class TActivity
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                     connection.Open()
                     Dim tbl As New ISAMSSds.activity_activity_classesDataTable
-                    Dim query As String = "SELECT * FROM " & tbl.TableName & " WHERE activity_id = " + CStr(activity.ID)
+                    Dim query As String = "SELECT * FROM " & tbl.TableName & " WHERE activity_id = " + CStr(activity.SQLFormattedID)
                     Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                     adapter.Fill(tbl)
 
@@ -2037,7 +2079,7 @@ Public Class TActivity
             MyBase.New(New ISAMSSds.activity_activity_classesDataTable)
         End Sub
 
-        Public Sub New(ByRef id As Integer)
+        Public Sub New(ByRef id As String)
             MyBase.New(New ISAMSSds.activity_activity_classesDataTable, id)
         End Sub
 
@@ -2058,7 +2100,7 @@ Public Class TActivity
             _row.activity_class_id = activityClass.ID
         End Sub
 
-        Property ActivityId As Integer
+        Property ActivityId As String
             Get
                 If _row.Isactivity_idNull Then
                     Return INVALID_ID
@@ -2066,12 +2108,12 @@ Public Class TActivity
                     Return _row.activity_id()
                 End If
             End Get
-            Set(ByVal value As Integer)
+            Set(ByVal value As String)
                 _row.activity_id = value
             End Set
         End Property
 
-        Property ActivityClassId As Integer
+        Property ActivityClassId As String
             Get
                 If _row.Isactivity_class_idNull Then
                     Return INVALID_ID
@@ -2079,7 +2121,7 @@ Public Class TActivity
                     Return _row.activity_class_id
                 End If
             End Get
-            Set(ByVal value As Integer)
+            Set(ByVal value As String)
                 _row.activity_class_id = value
             End Set
         End Property
@@ -2088,7 +2130,7 @@ Public Class TActivity
             Try
                 _table.Addactivity_activity_classesRow(_row)
             Catch e As OleDb.OleDbException
-                Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+                Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
             End Try
         End Sub
 
@@ -2096,7 +2138,7 @@ Public Class TActivity
             Try
                 _row = _table.Newactivity_activity_classesRow
             Catch e As OleDb.OleDbException
-                Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception adding row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+                Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception adding row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
             End Try
         End Sub
 
@@ -2115,7 +2157,7 @@ Public Class TActivity
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id = " + CStr(ID)
+                Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id = " + CStr(SQLFormattedID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
                 adapter.Fill(tbl)
@@ -2143,7 +2185,7 @@ Public Class TActivity
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(ID)
+                Dim query As String = "SELECT * FROM activity_activity_classes WHERE activity_id = " + CStr(SQLFormattedID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
                 adapter.Fill(tbl)
@@ -2172,7 +2214,7 @@ Public Class TActivity
             Try
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                     connection.Open()
-                    Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id  = " + CStr(ID)
+                    Dim query As String = "SELECT * FROM activity_sami_elements WHERE activity_id  = " + CStr(SQLFormattedID)
                     Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                     Dim tbl As New ISAMSSds.activity_sami_elementsDataTable
                     adapter.Fill(tbl)
@@ -2203,8 +2245,8 @@ Public Class TActivity
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
                 Dim query As String = "SELECT * FROM sami_elements WHERE id in "
-                Dim inFilter As String = "(SELECT sami_element_id FROM activity_sami_elements WHERE activity_id = " & CStr(ID) & ")"
-                query &= inFilter & " AND deleted <> -1"
+                Dim inFilter As String = "(SELECT sami_element_id FROM activity_sami_elements WHERE activity_id = " & CStr(SQLFormattedID) & ")"
+                query &= inFilter & " AND deleted <> " & CStr(TObject.Deleted)
 
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim tbl As New ISAMSSds.sami_elementsDataTable
@@ -2231,7 +2273,7 @@ Public Class TActivity
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM observations WHERE activity_id = " + CStr(ID)
+                Dim query As String = "SELECT * FROM observations WHERE activity_id = " + CStr(SQLFormattedID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim tbl As New ISAMSSds.observationsDataTable
                 adapter.Fill(tbl)
@@ -2264,7 +2306,6 @@ Public Class TActivity
         Return rv
     End Function
 
-
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -2274,7 +2315,7 @@ Public Class TObservations
     Inherits TObjects
 
     Public Sub New(ByRef activity As TActivity)
-        MyBase.New(New ISAMSSds.observationsDataTable, "activity_id = " & CStr(activity.ID))
+        MyBase.New(New ISAMSSds.observationsDataTable, "activity_id = " & CStr(activity.SQLFormattedID))
     End Sub
 
     Public Function Save(ByVal activity As TActivity) As Boolean
@@ -2309,7 +2350,7 @@ Public Class TObservation
         MyBase.New(New ISAMSSds.observationsDataTable)
     End Sub
 
-    Public Sub New(ByRef id As Integer)
+    Public Sub New(ByRef id As String)
         MyBase.New(New ISAMSSds.observationsDataTable, id)
     End Sub
 
@@ -2323,7 +2364,7 @@ Public Class TObservation
         _row = row
     End Sub
 
-    Property ActivityId As Integer
+    Property ActivityId As String
         Get
             If _row.Isactivity_idNull Then
                 Return INVALID_ID
@@ -2331,7 +2372,7 @@ Public Class TObservation
                 Return _row.activity_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.activity_id = value
         End Set
     End Property
@@ -2400,7 +2441,7 @@ Public Class TObservation
     Property NonCompliance As Boolean
         Get
             If _row.IsnoncomplianceNull Then
-                Return INVALID_ID
+                Return False
             Else
                 Return _row.noncompliance
             End If
@@ -2424,7 +2465,7 @@ Public Class TObservation
         End Get
     End Property
 
-    Property AttachmentId As Integer
+    Property AttachmentId As String
         Get
             If _row.Isattachment_idNull Then
                 Return INVALID_ID
@@ -2432,14 +2473,14 @@ Public Class TObservation
                 Return _row.attachment_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.attachment_id = value
         End Set
     End Property
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Return New TAttachment(CInt(_row.attachment_id))
+            Return New TAttachment(CStr(_row.attachment_id))
         End Get
     End Property
 
@@ -2452,7 +2493,7 @@ Public Class TObservation
         Try
             _table.AddobservationsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2464,7 +2505,7 @@ Public Class TObservation
         Try
             _row = _table.NewobservationsRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2515,7 +2556,7 @@ Public Class TSAMIActivityCategory
         MyBase.New(New ISAMSSds.sami_element_categoriesDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.sami_element_categoriesDataTable, id)
     End Sub
 
@@ -2559,7 +2600,7 @@ Public Class TSAMIActivityCategory
         Try
             _table.Addsami_element_categoriesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2571,7 +2612,7 @@ Public Class TSAMIActivityCategory
         Try
             _row = _table.Newsami_element_categoriesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 End Class
@@ -2600,7 +2641,7 @@ Public Class TSAMIElements
     End Sub
 
     Public Sub New(ByVal category As ActivityCategories)
-        MyBase.New(New ISAMSSds.sami_elementsDataTable, "sami_element_category_id = " & CStr(category))
+        MyBase.New(New ISAMSSds.sami_elementsDataTable, "sami_element_category_id = '" & CStr(category) & "'")
     End Sub
 
     Public Sub New(ByVal rhs As IList)
@@ -2610,13 +2651,13 @@ Public Class TSAMIElements
     Public Sub New(ByVal obs As TObservation)
         MyBase.New(New ISAMSSds.sami_elementsDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
                             "(SELECT sami_activity_id FROM(observation_sami_activities) " & _
-                            "WHERE (observation_id = " & obs.ID & ")))"))
+                            "WHERE (observation_id = " & obs.SQLFormattedID & ")))"))
     End Sub
 
     Public Sub New(ByVal obs As TObservation, ByVal category As TSAMIElements.ActivityCategories)
         MyBase.New(New ISAMSSds.sami_elementsDataTable, New TQuery("SELECT * FROM sami_activities WHERE (id IN " & _
                             "(SELECT sami_activity_id FROM observation_sami_activities " & _
-                            "WHERE (observation_id = " & obs.ID & "))) AND (sami_activity_category_id = " & CStr(category)))
+                            "WHERE (observation_id = " & obs.SQLFormattedID & "))) AND (sami_activity_category_id = " & CStr(category)))
     End Sub
 
     Public Shared Operator +(ByVal lhs As TSAMIElements, ByVal rhs As TSAMIElements) As TSAMIElements
@@ -2693,19 +2734,19 @@ End Class
 Public Class TSAMIElement
     Inherits TObject
 
-    Private _samiActivityCategoryId As Integer = TObject.InvalidID
+    Private _samiActivityCategoryId As String = TObject.InvalidID
     Private _code As String
     Private _title As String
     Private _description As String
-    Private _osi9001Id As Integer = TObject.InvalidID
-    Private _as9100Id As Integer = TObject.InvalidID
+    Private _osi9001Id As String = TObject.InvalidID
+    Private _as9100Id As String = TObject.InvalidID
     Private _isSelected As Boolean = False
 
     Public Sub New()
         MyBase.New(New ISAMSSds.sami_elementsDataTable)
     End Sub
 
-    Public Sub New(ByRef id As Integer)
+    Public Sub New(ByRef id As String)
         MyBase.New(New ISAMSSds.sami_elementsDataTable, id)
     End Sub
 
@@ -2762,7 +2803,7 @@ Public Class TSAMIElement
         End Set
     End Property
 
-    Property OSI9001Id As Integer
+    Property OSI9001Id As String
         Get
             If _row.Isosi_9001_idNull Then
                 Return INVALID_ID
@@ -2770,12 +2811,12 @@ Public Class TSAMIElement
                 Return _row.osi_9001_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.osi_9001_id = value
         End Set
     End Property
 
-    Property AS9100Id As Integer
+    Property AS9100Id As String
         Get
             If _row.Isas_9100_idNull Then
                 Return INVALID_ID
@@ -2783,7 +2824,7 @@ Public Class TSAMIElement
                 Return _row.as_9100_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.as_9100_id = value
         End Set
     End Property
@@ -2801,7 +2842,7 @@ Public Class TSAMIElement
         Try
             _table.Addsami_elementsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2813,7 +2854,7 @@ Public Class TSAMIElement
         Try
             _row = _table.Newsami_elementsRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2834,7 +2875,7 @@ Public Class TSites
     End Sub
 
     Public Sub New(ByVal supplier As TSupplier)
-        MyBase.New(New ISAMSSds.supplier_sitesDataTable, "supplier_id = " & CStr(supplier.ID))
+        MyBase.New(New ISAMSSds.supplier_sitesDataTable, "supplier_id = '" & supplier.SQLFormattedID)
     End Sub
 
     Property Sites As TSites
@@ -2898,7 +2939,7 @@ Public Class TSite
         MyBase.New(New ISAMSSds.supplier_sitesDataTable)
     End Sub
 
-    Public Sub New(ByRef id As Integer)
+    Public Sub New(ByRef id As String)
         MyBase.New(New ISAMSSds.supplier_sitesDataTable, id)
     End Sub
 
@@ -2925,7 +2966,7 @@ Public Class TSite
         Try
             _table.AddsitesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::AddNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2937,7 +2978,7 @@ Public Class TSite
         Try
             _row = _table.Newsupplier_sitesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -2967,7 +3008,7 @@ Public Class TSite
         End Set
     End Property
 
-    Property SupplierID As Integer
+    Property SupplierID As String
         Get
             If _row.Issupplier_idNull Then
                 Return INVALID_ID
@@ -2975,7 +3016,7 @@ Public Class TSite
                 Return _row.supplier_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.supplier_id = value
         End Set
     End Property
@@ -2998,14 +3039,14 @@ Public Class TContractSites
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        MyBase.New(New ISAMSSds.contract_sitesDataTable, "contract_id = " & CStr(contract.ID))
+        MyBase.New(New ISAMSSds.contract_sitesDataTable, "contract_id = " & CStr(contract.SQLFormattedID))
     End Sub
 
     Public Sub DeleteAll(ByRef contract As TContract)
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM contract_sites WHERE contract_id = " + CStr(contract.ID)
+                Dim query As String = "SELECT * FROM contract_sites WHERE contract_id = " + CStr(contract.SQLFormattedID)
                 Dim adapter As New OleDb.OleDbDataAdapter(query, connection)
                 Dim contractsites As New ISAMSSds.contract_sitesDataTable
                 adapter.Fill(contractsites)
@@ -3044,7 +3085,7 @@ Public Class TContractSite
         MyBase.New(New ISAMSSds.contract_sitesDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.contract_sitesDataTable, id)
     End Sub
 
@@ -3059,7 +3100,7 @@ Public Class TContractSite
         _row.site_id = site.ID
     End Sub
 
-    Property ContractID As Integer
+    Property ContractID As String
         Get
             If _row.Iscontract_idNull Then
                 Return INVALID_ID
@@ -3067,12 +3108,12 @@ Public Class TContractSite
                 Return _row.contract_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.contract_id = value
         End Set
     End Property
 
-    Property SiteID As Integer
+    Property SiteID As String
         Get
             If _row.Issite_idNull Then
                 Return INVALID_ID
@@ -3080,7 +3121,7 @@ Public Class TContractSite
                 Return _row.site_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.site_id = value
         End Set
     End Property
@@ -3093,7 +3134,7 @@ Public Class TContractSite
         Try
             _table.Addcontract_sitesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3105,7 +3146,7 @@ Public Class TContractSite
         Try
             _row = _table.Newcontract_sitesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3122,15 +3163,15 @@ Public Class TPSSPs
     End Sub
 
     Public Sub New(ByVal contract As TContract)
-        MyBase.New(New ISAMSSds.psspsDataTable, "contract_id = " & CStr(contract.ID))
+        MyBase.New(New ISAMSSds.psspsDataTable, "contract_id = " & CStr(contract.SQLFormattedID))
     End Sub
 
     Public Sub New(ByVal user As TUser)
-        MyBase.New(New ISAMSSds.psspsDataTable, "creator_id = " & CStr(user.ID))
+        MyBase.New(New ISAMSSds.psspsDataTable, "creator_id = " & CStr(user.SQLFormattedID))
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal user As TUser)
-        MyBase.New(New ISAMSSds.psspsDataTable, "contract_id = " & CStr(contract.ID) & " AND creator_id " & CStr(user.ID))
+        MyBase.New(New ISAMSSds.psspsDataTable, "contract_id = " & CStr(contract.SQLFormattedID) & " AND creator_id " & CStr(user.SQLFormattedID))
     End Sub
 
     Public Sub New(ByVal startdate As Date, ByVal enddate As Date)
@@ -3138,7 +3179,7 @@ Public Class TPSSPs
     End Sub
 
     Public Sub New(ByVal contract As TContract, ByVal startdate As Date, ByVal enddate As Date)
-        MyBase.New(New ISAMSSds.psspsDataTable, New TQuery("SELECT * FROM pssps WHERE contract_id = " & CStr(contract.ID) & " AND id IN (SELECT pssp_id FROM pssp_histories WHERE (action_date " & _
+        MyBase.New(New ISAMSSds.psspsDataTable, New TQuery("SELECT * FROM pssps WHERE contract_id = " & CStr(contract.SQLFormattedID) & " AND id IN (SELECT pssp_id FROM pssp_histories WHERE (action_date " & _
                     "BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startdate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, enddate).Date.ToString & "#))"))
     End Sub
 
@@ -3163,7 +3204,7 @@ Public Class TPSSP
         MyBase.New(New ISAMSSds.psspsDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.psspsDataTable, id)
     End Sub
 
@@ -3179,11 +3220,11 @@ Public Class TPSSP
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(CInt(_row.creator_id))
+            Return New TUser(CStr(_row.creator_id))
         End Get
     End Property
 
-    Property UserId As Integer
+    Property UserId As String
         Get
             If _row.Iscreator_idNull Then
                 Return INVALID_ID
@@ -3191,12 +3232,12 @@ Public Class TPSSP
                 Return _row.creator_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.creator_id = value
         End Set
     End Property
 
-    Property ContractId As Integer
+    Property ContractId As String
         Get
             If _row.Iscontract_idNull Then
                 Return INVALID_ID
@@ -3204,18 +3245,18 @@ Public Class TPSSP
                 Return _row.contract_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.contract_id = value
         End Set
     End Property
 
     ReadOnly Property Attachment As TAttachment
         Get
-            Return New TAttachment(CInt(_row.attachment_id))
+            Return New TAttachment(CStr(_row.attachment_id))
         End Get
     End Property
 
-    Property AttachmentId As Integer
+    Property AttachmentId As String
         Get
             If _row.Isattachment_idNull Then
                 Return INVALID_ID
@@ -3223,7 +3264,7 @@ Public Class TPSSP
                 Return _row.contract_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.contract_id = value
         End Set
     End Property
@@ -3231,7 +3272,7 @@ Public Class TPSSP
     Property Metadata As String
         Get
             If _row.IsmetadataNull Then
-                Return INVALID_ID
+                Return ""
             Else
                 Return _row.metadata
             End If
@@ -3255,7 +3296,7 @@ Public Class TPSSP
         Try
             _table.AddpsspsRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3267,7 +3308,7 @@ Public Class TPSSP
         Try
             _row = _table.NewpsspsRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3290,7 +3331,7 @@ Public Class TPSSPHistories
     End Sub
 
     Public Sub New(ByVal pssp As TPSSP)
-        MyBase.New(New ISAMSSds.pssp_historiesDataTable, "pssp_id = " & CStr(pssp.ID))
+        MyBase.New(New ISAMSSds.pssp_historiesDataTable, "pssp_id = " & CStr(pssp.SQLFormattedID))
     End Sub
     Protected Overrides Sub AddItems()
         Try
@@ -3314,7 +3355,7 @@ Public Class TPSSPHistory
         MyBase.New(New ISAMSSds.pssp_historiesDataTable)
     End Sub
 
-    Public Sub New(ByRef id As Integer)
+    Public Sub New(ByRef id As String)
         MyBase.New(New ISAMSSds.pssp_historiesDataTable, id)
     End Sub
 
@@ -3329,7 +3370,7 @@ Public Class TPSSPHistory
         _row = row
     End Sub
 
-    Property PSSPId As Integer
+    Property PSSPId As String
         Get
             If _row.Ispssp_idNull Then
                 Return INVALID_ID
@@ -3337,15 +3378,15 @@ Public Class TPSSPHistory
                 Return _row.pssp_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.pssp_id = value
         End Set
     End Property
 
     Property ActionDate As Date
         Get
-            If _row.Ispssp_idNull Then
-                Return ""
+            If _row.Isaction_dateNull Then
+                Return Date.MinValue
             Else
                 Return _row.action_date
             End If
@@ -3357,11 +3398,11 @@ Public Class TPSSPHistory
 
     ReadOnly Property User As TUser
         Get
-            Return New TUser(CInt(_row.creator_id))
+            Return New TUser(CStr(_row.creator_id))
         End Get
     End Property
 
-    Property UserId As Integer
+    Property UserId As String
         Get
             If _row.Iscreator_idNull Then
                 Return INVALID_ID
@@ -3369,18 +3410,18 @@ Public Class TPSSPHistory
                 Return _row.creator_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.creator_id = value
         End Set
     End Property
 
     ReadOnly Property HistoryActionClass As THistoryActionClass
         Get
-            Return New THistoryActionClass(CInt(_row.history_action_class_id))
+            Return New THistoryActionClass(CStr(_row.history_action_class_id))
         End Get
     End Property
 
-    Property HistoryActionClassId As Integer
+    Property HistoryActionClassId As String
         Get
             If _row.Ishistory_action_class_idNull Then
                 Return INVALID_ID
@@ -3388,7 +3429,7 @@ Public Class TPSSPHistory
                 Return _row.history_action_class_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.history_action_class_id = value
         End Set
     End Property
@@ -3406,7 +3447,7 @@ Public Class TPSSPHistory
         End Set
     End Property
 
-    Property AttachmentId As Integer
+    Property AttachmentId As String
         Get
             If _row.Isattachment_idNull Then
                 Return INVALID_ID
@@ -3414,7 +3455,7 @@ Public Class TPSSPHistory
                 Return _row.attachment_id
             End If
         End Get
-        Set(ByVal value As Integer)
+        Set(ByVal value As String)
             _row.attachment_id = value
         End Set
     End Property
@@ -3427,7 +3468,7 @@ Public Class TPSSPHistory
         Try
             _table.Addpssp_historiesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3439,7 +3480,7 @@ Public Class TPSSPHistory
         Try
             _row = _table.Newpssp_historiesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3488,7 +3529,7 @@ Public Class THistoryActionClass
         MyBase.New(New ISAMSSds.history_action_classesDataTable)
     End Sub
 
-    Public Sub New(ByVal id As Integer)
+    Public Sub New(ByVal id As String)
         MyBase.New(New ISAMSSds.history_action_classesDataTable, id)
     End Sub
 
@@ -3528,7 +3569,7 @@ Public Class THistoryActionClass
         Try
             _table.Addhistory_action_classesRow(_row)
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 
@@ -3540,7 +3581,7 @@ Public Class THistoryActionClass
         Try
             _row = _table.Newhistory_action_classesRow
         Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(ID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
+            Application.WriteToEventLog(MyBase.GetType.Name & "::GetNewRow, Exception getting new row " & CStr(SQLFormattedID) & " to table object, message: " & e.Message, EventLogEntryType.Error)
         End Try
     End Sub
 

@@ -28,7 +28,7 @@ Partial Public NotInheritable Class app
     
     <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("\\Dxiburg09w025\sqa$\SQA\ISAMSS\attachments")>  _
+     Global.System.Configuration.DefaultSettingValueAttribute("\isamss\attachments")>  _
     Public ReadOnly Property AttachmentPath() As String
         Get
             Return CType(Me("AttachmentPath"),String)

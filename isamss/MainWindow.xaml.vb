@@ -28,6 +28,14 @@ Class MainWindow
         End If
     End Sub
 
+    Private Sub PopulateCIOTab(ByRef contract As TContract)
+
+    End Sub
+
+    Private Sub PopulateCARTab(ByRef contract As TContract)
+
+    End Sub
+
     Private Sub PopulateSurveillanceTab(ByVal contract As TContract)
         If contract IsNot Nothing Then
             btnNewPSSP.IsEnabled = True
@@ -43,17 +51,6 @@ Class MainWindow
             btnNewCustomerInteractionJournal.IsEnabled = True
             lstvwCustomerJournal.ItemsSource = New TCustomerJournalEntries(ttvContractsQuickview.CurrentContract)
         End If
-    End Sub
-
-    Private Sub PopulateCIOTab(ByRef contract As TContract)
-
-    End Sub
-
-    Private Sub PopulateCARTab(ByRef contract As TContract)
-
-    End Sub
-
-    Private Sub ClearLodTab()
     End Sub
 
     Private Sub SelectTab(ByVal tvi As TreeViewItem)
@@ -156,6 +153,12 @@ Class MainWindow
         btnNewLod.IsEnabled = False
         lstvwLods.ItemsSource = Nothing
         btnNewCustomerInteractionJournal.IsEnabled = False
+        lstvwCustomerJournal.ItemsSource = Nothing
+    End Sub
+
+    Private Sub ClearLodTab()
+        lstvwLods.ItemsSource = Nothing
+        lstvwLods.ItemsSource = New TLods
         lstvwCustomerJournal.ItemsSource = Nothing
     End Sub
 

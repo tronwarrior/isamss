@@ -19,7 +19,7 @@ Class Application
         Try
             'WriteEntry is overloaded; this is one
             'of 10 ways to call it
-            _appEventLog.WriteEntry(entry, entryType)
+            '_appEventLog.WriteEntry(entry, entryType)
         Catch Ex As SystemException
         End Try
     End Sub
@@ -142,17 +142,21 @@ Class Application
         End Get
     End Property
 
+    Private Sub Application_DispatcherUnhandledException(ByVal sender As Object, ByVal e As System.Windows.Threading.DispatcherUnhandledExceptionEventArgs) Handles Me.DispatcherUnhandledException
+
+    End Sub
+
     Private Sub Application_Startup(ByVal sender As Object, ByVal eargs As System.Windows.StartupEventArgs) Handles Me.Startup
         Try
-            _appEventLog = New EventLog
+            '_appEventLog = New EventLog
 
             'Register the App as an Event Source
-            If Not EventLog.SourceExists(Me.Info.Title) Then
-                EventLog.CreateEventSource(Me.Info.Title, "Application")
-            End If
+            'If Not EventLog.SourceExists(Me.Info.Title) Then
+            'EventLog.CreateEventSource(Me.Info.Title, "Application")
+            'End If
 
-            _appEventLog.Source = Me.Info.ProductName
-            _currentUser = New TUser(System.Environment.UserName)
+            '_appEventLog.Source = Me.Info.ProductName
+            _currentUser = New TUser(New TUser.TLogonID(System.Environment.UserName))
 
             If _currentUser.ID = TObject.InvalidID Then
                 Dim registerUserForm As New RegisterUserForm(_currentUser)
@@ -161,14 +165,14 @@ Class Application
 
             If _currentUser.ID <> TObject.InvalidID Then
                 _isAuthenticated = True
-                _appEventLog.WriteEntry("ISAMSS::Application_Startup: User " & _currentUser.LogonID & " authenticated", EventLogEntryType.Information)
+                WriteToEventLog("ISAMSS::Application_Startup: User " & _currentUser.LogonID & " authenticated", EventLogEntryType.Information)
             Else
-                _appEventLog.WriteEntry("ISAMSS::Application_Startup: User " & _currentUser.LogonID & " not authenticated, application shutting down", EventLogEntryType.Warning)
+                WriteToEventLog("ISAMSS::Application_Startup: User " & _currentUser.LogonID & " not authenticated, application shutting down", EventLogEntryType.Warning)
                 _isAuthenticated = False
                 Me.Shutdown()
             End If
         Catch e As System.Exception
-            _appEventLog.WriteEntry("ISAMSS::Application_Startup exception: " & e.Message, EventLogEntryType.Error)
+            WriteToEventLog("ISAMSS::Application_Startup exception: " & e.Message, EventLogEntryType.Error)
         End Try
 
     End Sub

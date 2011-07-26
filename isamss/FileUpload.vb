@@ -67,7 +67,7 @@
             _attachment.Fullpath = isamss.app.Default.AttachmentPath
 
             ' Store the target computer name. 
-            _attachment.Computername = isamss.app.Default.TargetComputerName
+            _attachment.Computername = My.Computer.Name
         End Set
     End Property
 

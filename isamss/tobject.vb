@@ -14,7 +14,10 @@ Public MustInherit Class TObject
     '//////////////////////////////////////////////////////////////////////////
 
     ' Used as the invalid indentifier constant
-    Protected Shared INVALID_ID As Integer = -1
+    Protected Shared INVALID_ID As String = "00000000-0000-0000-0000-000000000000"
+
+    ' Used as the invalid indentifier constant
+    Protected Shared DELETED_VALUE As Integer = -1
 
     '//////////////////////////////////////////////////////////////////////////
     ' Access:   Protected
@@ -34,7 +37,6 @@ Public MustInherit Class TObject
     '//////////////////////////////////////////////////////////////////////////
 
     ' Used to obtain the object identifier after an initial database commit
-    ' !!! change this to private after conversion is complete !!!
     Private _cmdGetIdentity As OleDbCommand = Nothing
     ' Used to get the appropriate commands for datastore CRUD
     Private _cmdBuilder As OleDbCommandBuilder = Nothing
@@ -64,13 +66,13 @@ Public MustInherit Class TObject
     ' Method:       New
     ' Purpose:      ctor for this class
     ' Parameters:    
-    Public Sub New(ByRef table As Object, ByRef id As Integer)
+    Public Sub New(ByRef table As Object, ByRef id As String)
         Try
             _table = table
 
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(id) & " AND deleted <> -1"
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = '" & CStr(id) & "' AND deleted <> " & CStr(TObject.Deleted)
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
 
@@ -78,7 +80,10 @@ Public MustInherit Class TObject
                     _row = _table.Rows.Item(0)
                 Else
                     GetNewRow()
-                    Application.WriteToEventLog(Me.GetType.Name & "::New(id), Query for object unique key " & CStr(id) & " on table " & _table.TableNAme & " returned " & _table.Rows.Count & " objects", EventLogEntryType.Warning)
+                    _row.id = TObject.INVALID_ID
+                    _row.creator_id = TObject.INVALID_ID
+                    _row.updater_id = TObject.INVALID_ID
+                    Application.WriteToEventLog(Me.GetType.Name & "::New(id), Query for object unique key " & CStr(id) & " on table " & _table.TableName & " returned " & _table.Rows.Count & " objects", EventLogEntryType.Warning)
                 End If
             End Using
         Catch e As OleDb.OleDbException
@@ -114,7 +119,7 @@ Public MustInherit Class TObject
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(ID)
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & SQLFormattedID
                 _adapter.SelectCommand = New OleDbCommand(query, connection)
                 _cmdBuilder = New OleDbCommandBuilder(_adapter)
                 _adapter.Fill(_table)
@@ -145,7 +150,7 @@ Public MustInherit Class TObject
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & CStr(ID)
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE id = " & SQLFormattedID
                 _adapter.SelectCommand = New OleDbCommand(query, connection)
                 _cmdBuilder = New OleDbCommandBuilder(_adapter)
 
@@ -155,6 +160,7 @@ Public MustInherit Class TObject
                     _row.updated_at = Date.Now
                 Else
                     _cmdBuilder.GetInsertCommand()
+                    _row.id = System.Guid.NewGuid.ToString
                     _row.creator_id = Application.CurrentUser.ID
                     _row.created_at = Date.Now
 
@@ -237,7 +243,7 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    Shared ReadOnly Property InvalidID As Integer
+    Shared ReadOnly Property InvalidID As String
         Get
             Return INVALID_ID
         End Get
@@ -247,13 +253,9 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    ReadOnly Property ID As Integer
+    Shared ReadOnly Property Deleted As Integer
         Get
-            If _row IsNot Nothing Then
-                Return _row.id
-            Else
-                Return INVALID_ID
-            End If
+            Return DELETED_VALUE
         End Get
     End Property
 
@@ -261,7 +263,43 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    ReadOnly Property CreatorId As Integer
+    ReadOnly Property ID As String
+        Get
+            Dim s As String = INVALID_ID
+
+            If _row IsNot Nothing Then
+                If _row.id IsNot System.DBNull.Value Then
+                    s = _row.id
+                End If
+            End If
+
+            Return s
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    ReadOnly Property SQLFormattedID As String
+        Get
+            Dim s As String = "'" & INVALID_ID & "'"
+
+            If _row IsNot Nothing Then
+                If _row.id IsNot System.DBNull.Value Then
+                    s = "'" & _row.id & "'"
+                End If
+            End If
+
+            Return s
+        End Get
+    End Property
+
+    '//////////////////////////////////////////////////////////////////////////
+    ' Method:   
+    ' Purpose:  
+    ' Parameters:    
+    ReadOnly Property CreatorId As String
         Get
             If _row.Iscreator_idNull Then
                 Return INVALID_ID
@@ -289,9 +327,9 @@ Public MustInherit Class TObject
     ' Method:   
     ' Purpose:  
     ' Parameters:    
-    ReadOnly Property UpdaterId As Integer
+    ReadOnly Property UpdaterId As String
         Get
-            If _row.Isupdater_idNull Then
+            If _row.updater_id IsNot System.DBNull.Value Then
                 Return INVALID_ID
             Else
                 Return _row.updater_id
@@ -305,8 +343,8 @@ Public MustInherit Class TObject
     ' Parameters:    
     ReadOnly Property UpdatedAt As Date
         Get
-            If _row.Isupdated_atNull Then
-                Return ""
+            If _row.updated_at IsNot System.DBNull.Value Then
+                Return Date.MinValue
             Else
                 Return _row.updated_at
             End If
@@ -316,7 +354,7 @@ Public MustInherit Class TObject
 End Class
 
 Public Class TObjectIDs
-    Inherits Collection(Of Integer)
+    Inherits Collection(Of String)
 End Class
 
 '//////////////////////////////////////////////////////////////////////////////
@@ -333,18 +371,6 @@ Public MustInherit Class TObjects
 
     Public Sub New(ByVal table As Object)
         _table = table
-
-        Try
-            Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
-                connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE deleted <> -1"
-                _adapter = New OleDb.OleDbDataAdapter(query, connection)
-                _adapter.Fill(_table)
-                AddItems()
-            End Using
-        Catch e As OleDb.OleDbException
-            Application.WriteToEventLog(MyBase.GetType.Name & "::New(table), Exception: " & e.Message, EventLogEntryType.Error)
-        End Try
     End Sub
 
     Public Sub New(ByVal table As Object, ByVal load As Boolean)
@@ -354,7 +380,7 @@ Public MustInherit Class TObjects
             Try
                 Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                     connection.Open()
-                    Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE deleted <> -1"
+                    Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE deleted <> " & CStr(TObject.DELETED)
                     _adapter = New OleDb.OleDbDataAdapter(query, connection)
                     _adapter.Fill(_table)
                     AddItems()
@@ -387,7 +413,7 @@ Public MustInherit Class TObjects
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE creator_id = " + CStr(user.ID) + " AND deleted <> -1"
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE creator_id = " + CStr(user.SQLFormattedID) + " AND deleted <> " & CStr(TObject.Deleted)
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
                 AddItems()
@@ -411,14 +437,14 @@ Public MustInherit Class TObjects
 
                 ' Selecting contracts associated with each user through the CR&R records.
                 For Each user In users
-                    mainSelect = mainSelect & "creator_id = " & CStr(user.ID)
+                    mainSelect = mainSelect & "creator_id = " & CStr(user.SQLFormattedID)
 
                     If (users.Count - 1) > users.IndexOf(user) Then
                         mainSelect = mainSelect & " OR "
                     End If
                 Next
 
-                mainSelect = mainSelect & " AND deleted <> -1"
+                mainSelect = mainSelect & " AND deleted <> " & CStr(TObject.DELETED)
                 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 ' Create the datastore adapter
@@ -440,7 +466,7 @@ Public MustInherit Class TObjects
                 connection.Open()
                 Dim query As String = "SELECT * FROM contracts WHERE "
                 Dim dateFilter As String = " created_at BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startDate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, endDate).Date.ToString & "#"
-                query &= dateFilter & " AND deleted <> -1"
+                query &= dateFilter & " AND deleted <> " & CStr(TObject.DELETED)
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
                 AddItems()
@@ -463,7 +489,7 @@ Public MustInherit Class TObjects
 
                 ' Selecting contracts associated with each user through the CR&R records.
                 For Each user In users
-                    inSelectFilter = inSelectFilter & " creator_id = " & CStr(user.ID)
+                    inSelectFilter = inSelectFilter & " creator_id = " & CStr(user.SQLFormattedID)
 
                     If (users.Count - 1) > users.IndexOf(user) Then
                         inSelectFilter = inSelectFilter & " OR "
@@ -472,7 +498,7 @@ Public MustInherit Class TObjects
 
                 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 Dim dateFilter As String = " AND created_at BETWEEN #" & DateAdd(DateInterval.Day, -1.0, startDate).Date.ToString & "# AND #" & DateAdd(DateInterval.Day, 1.0, endDate).Date.ToString & "#"
-                query &= inSelectFilter & dateFilter & " AND deleted <> -1"
+                query &= inSelectFilter & dateFilter & " AND deleted <> " & CStr(TObject.DELETED)
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
                 AddItems()
@@ -488,7 +514,7 @@ Public MustInherit Class TObjects
         Try
             Using connection As New OleDb.OleDbConnection(My.Settings.isamssConnectionString)
                 connection.Open()
-                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE " & filter & " AND deleted <> -1"
+                Dim query As String = "SELECT * FROM " & _table.TableName & " WHERE " & filter & " AND deleted <> " & CStr(TObject.DELETED)
                 _adapter = New OleDb.OleDbDataAdapter(query, connection)
                 _adapter.Fill(_table)
                 AddItems()

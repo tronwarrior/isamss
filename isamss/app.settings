@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="AttachmentPath" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">\\Dxiburg09w025\sqa$\SQA\ISAMSS\attachments</Value>
+      <Value Profile="(Default)">\isamss\attachments</Value>
     </Setting>
     <Setting Name="TargetComputerName" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Dxiburg09w025</Value>
